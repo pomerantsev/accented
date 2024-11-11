@@ -12,26 +12,26 @@ export default class TaskQueue {
 
   // TODO: test all the asynchronicity
 
-  scheduleRun() {
+  #scheduleRun() {
     if (this.idleCallbackId !== null || this.items.size === 0) {
       return;
     }
 
-    this.idleCallbackId = requestIdleCallback(() => this.run());
+    this.idleCallbackId = requestIdleCallback(() => this.#run());
   }
 
-  async run() {
+  async #run() {
     this.items.clear();
 
     await this.asyncCallback();
 
     this.idleCallbackId = null;
 
-    this.scheduleRun();
+    this.#scheduleRun();
   }
 
   add(item) {
     this.items.add(item);
-    this.scheduleRun();
+    this.#scheduleRun();
   }
 }
