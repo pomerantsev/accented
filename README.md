@@ -1,6 +1,10 @@
-# a11y-hint
+# Accented
 
-Continuous axe-core accessibility testing for webapp developers
+Continuous accessibility testing for webapp developers
+
+## High-level
+
+* Uses axe-core.
 
 ## Running locally
 
