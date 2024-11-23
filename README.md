@@ -26,3 +26,5 @@ This is a work in progress.
 ## Development notes
 
 * Placeholder favicon generated with https://favicon.io/favicon-generator/. I immediately forgot what the font was, but I won't relese this like this anyway.
+* In the Contributing docs, mention that `pnpm` needs to be installed first.
+* For publishing, use `pnpm publish-lib`
