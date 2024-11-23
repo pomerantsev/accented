@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter accented-devapp dev"
+    "dev": "pnpm --filter accented-devapp dev",
+    "publish-lib": "pnpm --filter accented publish"
   },
   "workspaces": ["packages/*"]
 }
