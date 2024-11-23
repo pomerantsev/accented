@@ -1,3 +1,4 @@
+// Mostly https://www.totaltypescript.com/tsconfig-cheat-sheet
 {
   "compilerOptions": {
     "esModuleInterop": true,
