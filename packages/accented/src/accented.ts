@@ -1,8 +1,8 @@
 import axe from 'axe-core';
-import TaskQueue from './task-queue.js';
+import TaskQueue from './task-queue';
 
 export default function accented() {
-  const taskQueue = new TaskQueue(async () => {
+  const taskQueue = new TaskQueue<Node>(async () => {
     performance.mark('axe-start');
 
     const result = await axe.run();

@@ -3,8 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter accented-devapp dev",
+    "build": "pnpm --filter accented build",
+    "dev": "pnpm --filter accented watch & pnpm --filter accented-devapp dev",
     "publish-lib": "pnpm --filter accented publish"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
 }

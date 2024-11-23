@@ -2,9 +2,11 @@
   "name": "accented",
   "version": "0.0.1-dev.1",
   "description": "Continuous accessibility testing and issue highlighting for web development",
-  "main": "src/accented.js",
-  "files": ["src"],
+  "main": "dist/accented.js",
+  "files": ["dist"],
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
