@@ -1,5 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue';
+import DomUpdater from './dom-updater';
+import issuesToElements from './utils/issuesToElements';
 
 type AccentedProps = {
   outputToConsole?: boolean
@@ -11,12 +13,18 @@ const defaultProps: Required<AccentedProps> = {
 
 export default function accented(props: AccentedProps = {}) {
   const {outputToConsole} = {...defaultProps, ...props};
+
+  const domUpdater = new DomUpdater();
+
   const taskQueue = new TaskQueue<Node>(async () => {
     performance.mark('axe-start');
 
     const result = await axe.run();
 
     const axeMeasure = performance.measure('axe', 'axe-start');
+
+    const elements = issuesToElements(result.violations);
+    domUpdater.update(elements);
 
     if (outputToConsole) {
       console.log('Result:', result);
@@ -29,6 +37,9 @@ export default function accented(props: AccentedProps = {}) {
   const mutationObserver = new MutationObserver(mutationList => {
     // TODO: filter out irrelevant mutations
     for (const mutationRecord of mutationList) {
+      if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === 'data-accented') {
+        continue;
+      }
       taskQueue.add(mutationRecord.target);
     }
   });
