@@ -20,6 +20,7 @@ export default class DomUpdater {
   #addStylesheetToDocument() {
     // TODO: is this the preferred way of adding a stylesheet?
     const styleElement = document.createElement('style');
+    // FIX: looks like a bad idea, the stylesheet gets multiple <br> tags
     styleElement.innerText = `
       [${attrName}]:not(:focus-visible) {
         outline: 2px solid red !important;
