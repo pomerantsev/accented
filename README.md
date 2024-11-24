@@ -10,7 +10,7 @@ This is a work in progress.
 
 ## Running locally
 
-* `npx http-server`
+* `pnpm dev`
 
 ## Usage notes
 
