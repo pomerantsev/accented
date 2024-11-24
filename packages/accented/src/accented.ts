@@ -1,7 +1,16 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue';
 
-export default function accented() {
+type AccentedProps = {
+  outputToConsole?: boolean
+};
+
+const defaultProps: Required<AccentedProps> = {
+  outputToConsole: true
+};
+
+export default function accented(props: AccentedProps = {}) {
+  const {outputToConsole} = {...defaultProps, ...props};
   const taskQueue = new TaskQueue<Node>(async () => {
     performance.mark('axe-start');
 
@@ -9,7 +18,9 @@ export default function accented() {
 
     const axeMeasure = performance.measure('axe', 'axe-start');
 
-    console.log('Result:', result);
+    if (outputToConsole) {
+      console.log('Result:', result);
+    }
     console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
   });
 
