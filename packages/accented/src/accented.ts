@@ -14,6 +14,11 @@ const defaultProps: Required<AccentedProps> = {
 export default function accented(props: AccentedProps = {}) {
   const {outputToConsole} = {...defaultProps, ...props};
 
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    console.warn('Accented can only run in the browser. Exiting now.');
+    return;
+  }
+
   const domUpdater = new DomUpdater();
 
   const taskQueue = new TaskQueue<Node>(async () => {

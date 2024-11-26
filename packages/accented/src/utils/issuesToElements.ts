@@ -1,4 +1,4 @@
-import { AxeResults } from 'axe-core';
+import type { AxeResults } from 'axe-core';
 
 export default function issuesToElements(issues: typeof AxeResults.violations) {
   const elements: Set<Element> = new Set();
