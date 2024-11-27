@@ -4,18 +4,18 @@ import DomUpdater from './dom-updater';
 import issuesToElements from './utils/issuesToElements';
 
 type AccentedProps = {
-  outputToConsole?: boolean
+  outputToConsole: boolean
 };
 
-const defaultProps: Required<AccentedProps> = {
+const defaultProps: AccentedProps = {
   outputToConsole: true
 };
 
-export default function accented(props: AccentedProps = {}) {
+export default function accented(props: Partial<AccentedProps> = {}) {
   const {outputToConsole} = {...defaultProps, ...props};
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
-    console.warn('Accented can only run in the browser. Exiting now.');
+    console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
     return;
   }
 

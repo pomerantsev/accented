@@ -1,6 +1,5 @@
 type TaskCallback = () => void;
 
-// TODO: add generic typing
 export default class TaskQueue<T> {
   items = new Set<T>();
 
