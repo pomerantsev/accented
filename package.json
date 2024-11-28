@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "pnpm --filter accented build",
-    "dev": "pnpm --filter accented watch & pnpm --filter accented-devapp dev",
+    "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo",
+    "build": "pnpm clean-tsbuildinfo && pnpm --filter accented build",
+    "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
     "publish-lib": "pnpm --filter accented publish"
   },
   "workspaces": [
