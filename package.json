@@ -6,12 +6,15 @@
     "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo",
     "build": "pnpm clean-tsbuildinfo && pnpm --filter accented build",
     "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
+    "test": "pnpm --filter accented test",
     "publish-lib": "pnpm --filter accented publish"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
 }

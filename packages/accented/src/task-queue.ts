@@ -3,7 +3,10 @@ type TaskCallback = () => void;
 export default class TaskQueue<T> {
   items = new Set<T>();
 
-  idleCallbackId: number | null = null;
+  // I'm not sure why the editor needs NodeJS.Timeout here.
+  // tsconfig.json doesn't mention that the code needs to run in Node.
+  // Maybe it's somehow related to the fact that we're using the Node test runner.
+  timeoutId: number | NodeJS.Timeout | null = null;
 
   asyncCallback: TaskCallback | null = null;
 
@@ -14,21 +17,27 @@ export default class TaskQueue<T> {
   // TODO: test all the asynchronicity
 
   #scheduleRun() {
-    if (this.idleCallbackId !== null || this.items.size === 0) {
+    // TODO: remove log statement
+    console.log('Scheduling run', this.timeoutId, this.items.size);
+    if (this.timeoutId !== null || this.items.size === 0) {
       return;
     }
 
-    this.idleCallbackId = requestIdleCallback(() => this.#run());
+    // TODO: remove log statement
+    console.log('Setting timeout');
+    this.timeoutId = setTimeout(() => this.#run());
   }
 
   async #run() {
+    // TODO: remove log statement
+    console.log('Running');
     this.items.clear();
 
     if (this.asyncCallback) {
       await this.asyncCallback();
     }
 
-    this.idleCallbackId = null;
+    this.timeoutId = null;
 
     this.#scheduleRun();
   }
