@@ -1,51 +1,44 @@
 import assert from 'node:assert/strict';
-import {afterEach, beforeEach, mock, suite, test} from 'node:test';
+import {mock, suite, test} from 'node:test';
 
 import TaskQueue from './task-queue';
 
-const createAsyncCallback = (duration: number) => mock.fn(() => new Promise(resolve => setTimeout(resolve, duration)));
+const wait = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
+
+const createAsyncCallback = (duration: number) => mock.fn(() => new Promise(resolve => setTimeout(() => { console.log('Async callback done'); resolve(null); }, duration)));
 
 suite('TaskQueue', () => {
-  beforeEach(() => {
-    mock.timers.enable();
-  });
-
-  afterEach(() => {
-    mock.timers.reset();
-  });
-
-  test('callback is not called after a TaskQueue is created, even after a timeout', () => {
+  test('callback is not called after a TaskQueue is created, even after a timeout', async () => {
     const asyncCallback = createAsyncCallback(0);
     new TaskQueue(asyncCallback);
-    mock.timers.tick(100);
+    await wait(100);
     assert.equal(asyncCallback.mock.callCount(), 0);
   });
 
-  test('callback is called once if one item is added to the queue', () => {
+  test('callback is called once if one item is added to the queue', async () => {
     const asyncCallback = createAsyncCallback(0);
     const taskQueue = new TaskQueue<string>(asyncCallback);
     taskQueue.add('one');
-    mock.timers.tick(100);
+    await wait(100);
     assert.equal(asyncCallback.mock.callCount(), 1);
   });
 
-  test('callback is called once if two items are added one after the other', () => {
+  test('callback is called once if two items are added one after the other', async () => {
     const asyncCallback = createAsyncCallback(0);
     const taskQueue = new TaskQueue<string>(asyncCallback);
     taskQueue.add('one');
     taskQueue.add('two');
-    mock.timers.tick(100);
+    await wait(100);
     assert.equal(asyncCallback.mock.callCount(), 1);
   });
 
-  // TODO: this isn't working yet, fix
-  test('callback is called twice if the second item is added while the first callback is running', () => {
+  test('callback is called twice if the second item is added while the first callback is running', async () => {
     const asyncCallback = createAsyncCallback(100);
     const taskQueue = new TaskQueue<string>(asyncCallback);
     taskQueue.add('one');
-    mock.timers.tick(50);
+    await wait(50);
     taskQueue.add('two');
-    mock.timers.tick(500);
+    await wait(200);
     assert.equal(asyncCallback.mock.callCount(), 2);
   });
 });

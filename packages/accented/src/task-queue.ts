@@ -14,23 +14,15 @@ export default class TaskQueue<T> {
     this.asyncCallback = asyncCallback;
   }
 
-  // TODO: test all the asynchronicity
-
   #scheduleRun() {
-    // TODO: remove log statement
-    console.log('Scheduling run', this.timeoutId, this.items.size);
     if (this.timeoutId !== null || this.items.size === 0) {
       return;
     }
 
-    // TODO: remove log statement
-    console.log('Setting timeout');
     this.timeoutId = setTimeout(() => this.#run());
   }
 
   async #run() {
-    // TODO: remove log statement
-    console.log('Running');
     this.items.clear();
 
     if (this.asyncCallback) {
