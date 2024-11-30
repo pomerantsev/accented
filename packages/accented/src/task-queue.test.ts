@@ -5,7 +5,7 @@ import TaskQueue from './task-queue';
 
 const wait = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
 
-const createAsyncCallback = (duration: number) => mock.fn(() => new Promise(resolve => setTimeout(() => { console.log('Async callback done'); resolve(null); }, duration)));
+const createAsyncCallback = (duration: number) => mock.fn(() => new Promise(resolve => setTimeout(resolve, duration)));
 
 suite('TaskQueue', () => {
   test('callback is not called after a TaskQueue is created, even after a timeout', async () => {
