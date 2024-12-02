@@ -4,18 +4,23 @@ import DomUpdater from './dom-updater';
 import issuesToElements from './utils/issuesToElements';
 
 type AccentedProps = {
-  outputToConsole: boolean
+  outputToConsole: boolean,
+  initialDelay: number,
+  throttleDelay: number
 };
 
 const defaultProps: AccentedProps = {
-  outputToConsole: true
+  outputToConsole: true,
+  initialDelay: 0,
+  throttleDelay: 1000
 };
 
 export default function accented(props: Partial<AccentedProps> = {}) {
-  const {outputToConsole} = {...defaultProps, ...props};
+  const {outputToConsole, initialDelay, throttleDelay} = {...defaultProps, ...props};
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
+    console.trace();
     return;
   }
 
@@ -35,7 +40,7 @@ export default function accented(props: Partial<AccentedProps> = {}) {
       console.log('Result:', result);
     }
     console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
-  });
+  }, { initialDelay, throttleDelay });
 
   taskQueue.add(document);
 
