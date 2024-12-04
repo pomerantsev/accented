@@ -8,13 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const distDir = path.dirname(__filename) + '/../dist';
 
 async function processFile(filePath) {
-  // Read the file content
   const content = await fs.readFile(filePath, 'utf8');
-
-  // Replace import/export statements to add `.js` extension
+  // https://stackoverflow.com/a/73075563
   const updatedContent = content.replace(/(\bfrom\s+["']\..*)(["'])/g, '$1.js$2');
-
-  // Write the updated content back to the same file
   await fs.writeFile(filePath, updatedContent, 'utf8');
   console.log(`Updated: ${filePath}`);
 }
@@ -27,7 +23,6 @@ async function processDirectory(dirPath) {
     if (entry.isDirectory()) {
       await processDirectory(entryPath);
     } else if (entry.isFile() && entry.name.endsWith('.js')) {
-      // Process .js files
       await processFile(entryPath);
     }
   }
