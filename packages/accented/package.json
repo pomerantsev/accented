@@ -6,7 +6,7 @@
   "main": "dist/accented.js",
   "files": ["dist"],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && ./scripts/add-import-extensions.mjs",
     "watch": "tsc --watch",
     "test": "node --test --import tsx ./**/*.test.ts"
   },
