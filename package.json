@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo",
-    "build": "pnpm clean-tsbuildinfo && pnpm --filter accented build",
-    "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
-    "test": "pnpm --filter accented test",
-    "publish-lib": "pnpm --filter accented publish"
+    "build": "pnpm clean-tsbuildinfo && pnpm --filter accented-experimental build",
+    "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented-experimental watch & pnpm --filter accented-devapp dev)",
+    "test": "pnpm --filter accented-experimental test",
+    "publish-lib": "pnpm --filter accented-experimental publish"
   },
   "workspaces": [
     "packages/*"

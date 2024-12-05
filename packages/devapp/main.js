@@ -1,4 +1,4 @@
-import('accented').then(({default: accented}) => { accented(); });
+import('accented-experimental').then(({default: accented}) => { accented(); });
 
 document.getElementById('addOneMoreCSS').addEventListener('click', (event) => {
   const button = document.createElement('button');
