@@ -1,5 +1,13 @@
 const attrName = 'data-accented';
 
+const stylesheet = new CSSStyleSheet();
+await stylesheet.replace(`
+  [${attrName}]:not(:focus-visible) {
+    outline: 2px solid red !important;
+    outline-offset: -2px;
+  }
+`);
+
 export default class DomUpdater {
   elements: Array<Element> = [];
 
@@ -17,16 +25,7 @@ export default class DomUpdater {
     }
   }
 
-  #addStylesheetToDocument() {
-    // TODO: is this the preferred way of adding a stylesheet?
-    const styleElement = document.createElement('style');
-    // FIX: looks like a bad idea, the stylesheet gets multiple <br> tags
-    styleElement.innerText = `
-      [${attrName}]:not(:focus-visible) {
-        outline: 2px solid red !important;
-        outline-offset: -2px;
-      }
-    `;
-    document.head.appendChild(styleElement);
+  async #addStylesheetToDocument() {
+    document.adoptedStyleSheets.push(stylesheet);
   }
 }
