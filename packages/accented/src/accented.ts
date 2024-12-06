@@ -3,7 +3,13 @@ import TaskQueue from './task-queue';
 import DomUpdater from './dom-updater';
 import issuesToElements from './utils/issuesToElements';
 
-type AccentedProps = {
+declare global {
+  interface Window {
+    __ACCENTED_RUNNING__: boolean;
+  }
+}
+
+export type AccentedProps = {
   outputToConsole: boolean,
   initialDelay: number,
   throttleDelay: number
@@ -15,14 +21,30 @@ const defaultProps: AccentedProps = {
   throttleDelay: 1000
 };
 
-export default function accented(props: Partial<AccentedProps> = {}) {
+export type AccentedInstance = {
+  stop: () => void
+};
+
+export default function accented(props: Partial<AccentedProps> = {}): AccentedInstance {
   const {outputToConsole, initialDelay, throttleDelay} = {...defaultProps, ...props};
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
     console.trace();
-    return;
+    return {
+      stop: () => {}
+    };
   }
+
+  if (window.__ACCENTED_RUNNING__) {
+    console.warn(
+      'You are trying to run the Accented library more than once. ' +
+      'This will likely lead to errors.'
+    );
+    // TODO: add link to relevant docs
+  }
+
+  window.__ACCENTED_RUNNING__ = true;
 
   const domUpdater = new DomUpdater();
 
@@ -60,4 +82,11 @@ export default function accented(props: Partial<AccentedProps> = {}) {
     childList: true,
     attributes: true
   });
+
+  return {
+    stop: () => {
+      mutationObserver.disconnect();
+      window.__ACCENTED_RUNNING__ = false;
+    }
+  };
 }
