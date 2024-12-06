@@ -1,7 +1,7 @@
 import axe from 'axe-core';
-import TaskQueue from './task-queue';
-import DomUpdater from './dom-updater';
-import issuesToElements from './utils/issuesToElements';
+import TaskQueue from './task-queue.js';
+import DomUpdater from './dom-updater.js';
+import issuesToElements from './utils/issuesToElements.js';
 
 declare global {
   interface Window {
