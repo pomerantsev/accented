@@ -8,6 +8,7 @@ await stylesheet.replace(`
   }
 `);
 
+// TODO: make this work with Shadow DOM and iframes
 export default class DomUpdater {
   elements: Array<Element> = [];
 
