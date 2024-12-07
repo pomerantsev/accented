@@ -1,5 +1,5 @@
 import { effect } from '@preact/signals-core';
-import { enabled, elements } from './state.js';
+import { elements } from './state.js';
 
 const attrName = 'data-accented';
 
