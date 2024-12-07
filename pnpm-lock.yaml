@@ -20,6 +20,9 @@ importers:
 
   packages/accented:
     dependencies:
+      '@preact/signals-core':
+        specifier: ^1.8.0
+        version: 1.8.0
       axe-core:
         specifier: ^4.10.2
         version: 4.10.2
@@ -317,6 +320,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@preact/signals-core@1.8.0':
+    resolution: {integrity: sha512-OBvUsRZqNmjzCZXWLxkZfhcgT+Fk8DDcT/8vD6a1xhDemodyy87UJRJfASMuSD8FaAIeGgGm85ydXhm7lr4fyA==}
 
   '@rollup/rollup-android-arm-eabi@4.27.3':
     resolution: {integrity: sha512-EzxVSkIvCFxUd4Mgm4xR9YXrcp976qVaHnqom/Tgm+vU79k4vV4eYTjmRvGfeoW8m9LVcsAy/lGjcgVegKEhLQ==}
@@ -646,6 +652,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.23.1':
     optional: true
+
+  '@preact/signals-core@1.8.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.27.3':
     optional: true

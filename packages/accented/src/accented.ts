@@ -1,13 +1,9 @@
 import axe from 'axe-core';
+import { effect } from '@preact/signals-core';
 import TaskQueue from './task-queue.js';
 import DomUpdater from './dom-updater.js';
 import issuesToElements from './utils/issuesToElements.js';
-
-declare global {
-  interface Window {
-    __ACCENTED_RUNNING__: boolean;
-  }
-}
+import { enabled } from './state.js';
 
 export type AccentedProps = {
   outputToConsole: boolean,
@@ -36,15 +32,16 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
     };
   }
 
-  if (window.__ACCENTED_RUNNING__) {
+  if (enabled.value) {
+    // TODO: add link to relevant docs
     console.warn(
       'You are trying to run the Accented library more than once. ' +
       'This will likely lead to errors.'
     );
-    // TODO: add link to relevant docs
+    console.trace();
   }
 
-  window.__ACCENTED_RUNNING__ = true;
+  enabled.value = true;
 
   const domUpdater = new DomUpdater();
 
@@ -54,6 +51,10 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
     const result = await axe.run();
 
     const axeMeasure = performance.measure('axe', 'axe-start');
+
+    if (!enabled.value) {
+      return;
+    }
 
     const elements = issuesToElements(result.violations);
     domUpdater.update(elements);
@@ -76,17 +77,22 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
     }
   });
 
-  // TODO: read more about the params and decide which ones we need.
-  mutationObserver.observe(document, {
-    subtree: true,
-    childList: true,
-    attributes: true
+  effect(() => {
+    if (enabled.value) {
+      // TODO: read more about the params and decide which ones we need.
+      mutationObserver.observe(document, {
+        subtree: true,
+        childList: true,
+        attributes: true
+      });
+    } else {
+      mutationObserver.disconnect();
+    }
   });
 
   return {
     stop: () => {
-      mutationObserver.disconnect();
-      window.__ACCENTED_RUNNING__ = false;
+      enabled.value = false;
     }
   };
 }
