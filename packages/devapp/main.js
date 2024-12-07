@@ -1,4 +1,20 @@
-import('accented-experimental').then(({default: accented}) => { accented(); });
+import accented from'accented-experimental';
+
+let accentedInstance = null;
+function toggleAccented() {
+  if (accentedInstance) {
+    accentedInstance.stop();
+    accentedInstance = null;
+  } else {
+    accentedInstance = accented();
+  }
+}
+
+toggleAccented();
+
+document.getElementById('toggleAccented').addEventListener('click', () => {
+  toggleAccented();
+});
 
 document.getElementById('addOneMoreCSS').addEventListener('click', (event) => {
   const button = document.createElement('button');

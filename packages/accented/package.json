@@ -4,7 +4,9 @@
   "description": "Continuous accessibility testing and issue highlighting for web development",
   "type": "module",
   "main": "dist/accented.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
@@ -27,6 +29,7 @@
   },
   "homepage": "https://github.com/pomerantsev/accented#readme",
   "dependencies": {
+    "@preact/signals-core": "^1.8.0",
     "axe-core": "^4.10.2"
   }
 }
