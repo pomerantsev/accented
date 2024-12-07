@@ -1,3 +1,6 @@
+import { effect } from '@preact/signals-core';
+import { enabled, elements } from './state.js';
+
 const attrName = 'data-accented';
 
 const stylesheet = new CSSStyleSheet();
@@ -9,24 +12,34 @@ await stylesheet.replace(`
 `);
 
 // TODO: make this work with Shadow DOM and iframes
-export default class DomUpdater {
-  elements: Array<Element> = [];
+export default function createDomUpdater() {
+  let previousElements: Array<Element> = [];
+  const disposeOfStylesheetEffect = effect(() => {
+    if (enabled.value) {
+      document.adoptedStyleSheets.push(stylesheet);
+    } else {
+      if (document.adoptedStyleSheets.includes(stylesheet)) {
+        document.adoptedStyleSheets.splice(document.adoptedStyleSheets.indexOf(stylesheet), 1);
+      }
+    }
+  });
 
-  constructor() {
-    this.#addStylesheetToDocument();
-  }
-
-  update(newElements: Array<Element>) {
-    for (const element of this.elements) {
+  const disposeOfElementsEffect = effect(() => {
+    for (const element of previousElements) {
       element.removeAttribute(attrName);
     }
-    this.elements = [...newElements];
-    for (const element of this.elements) {
-      element.setAttribute(attrName, '');
+    if (enabled.peek()) {
+      for (const element of elements.value) {
+        element.setAttribute(attrName, '');
+      }
+      previousElements = [...elements.value];
+    } else {
+      previousElements = [];
     }
-  }
+  });
 
-  async #addStylesheetToDocument() {
-    document.adoptedStyleSheets.push(stylesheet);
-  }
+  return () => {
+    disposeOfStylesheetEffect();
+    disposeOfElementsEffect();
+  };
 }
