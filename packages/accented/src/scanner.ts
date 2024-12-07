@@ -1,7 +1,6 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import issuesToElements from './utils/issuesToElements.js';
-import { effect } from '@preact/signals-core';
 import { enabled, elements } from './state.js';
 
 export default function createScanner(initialDelay: number, throttleDelay: number) {
@@ -33,15 +32,13 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
     }
   });
 
-  return effect(() => {
-    // TODO: read more about the params and decide which ones we need.
-    mutationObserver.observe(document, {
-      subtree: true,
-      childList: true,
-      attributes: true
-    });
-    return () => {
-      mutationObserver.disconnect();
-    };
+  // TODO: read more about the params and decide which ones we need.
+  mutationObserver.observe(document, {
+    subtree: true,
+    childList: true,
+    attributes: true
   });
+  return () => {
+    mutationObserver.disconnect();
+  };
 }
