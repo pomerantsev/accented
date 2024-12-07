@@ -11,31 +11,37 @@ await stylesheet.replace(`
   }
 `);
 
+function setIssues (elements: Array<Element>) {
+  for (const element of elements) {
+    element.setAttribute(attrName, '');
+  }
+}
+
+function removeIssues (elements: Array<Element>) {
+  for (const element of elements) {
+    element.removeAttribute(attrName);
+  }
+}
+
 // TODO: make this work with Shadow DOM and iframes
 export default function createDomUpdater() {
   let previousElements: Array<Element> = [];
   const disposeOfStylesheetEffect = effect(() => {
-    if (enabled.value) {
-      document.adoptedStyleSheets.push(stylesheet);
-    } else {
+    document.adoptedStyleSheets.push(stylesheet);
+    return () => {
       if (document.adoptedStyleSheets.includes(stylesheet)) {
         document.adoptedStyleSheets.splice(document.adoptedStyleSheets.indexOf(stylesheet), 1);
       }
-    }
+    };
   });
 
   const disposeOfElementsEffect = effect(() => {
-    for (const element of previousElements) {
-      element.removeAttribute(attrName);
-    }
-    if (enabled.peek()) {
-      for (const element of elements.value) {
-        element.setAttribute(attrName, '');
-      }
-      previousElements = [...elements.value];
-    } else {
-      previousElements = [];
-    }
+    removeIssues(previousElements);
+    setIssues(elements.value);
+    previousElements = [...elements.value];
+    return () => {
+      removeIssues(previousElements);
+    };
   });
 
   return () => {
