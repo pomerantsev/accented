@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "node --test --import tsx ./**/*.test.ts"
+    "test": "node --test --import tsx \"./**/*.test.ts\""
   },
   "repository": {
     "type": "git",
