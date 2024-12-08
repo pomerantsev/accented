@@ -43,7 +43,7 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
   enabled.value = true;
   const cleanupScanner = createScanner(initialDelay, throttleDelay);
   const cleanupDomUpdater = createDomUpdater();
-  const cleanupLogger = createLogger(outputToConsole);
+  const cleanupLogger = outputToConsole ? createLogger() : () => {};
 
   return {
     stop: () => {
