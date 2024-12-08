@@ -26,14 +26,13 @@ function removeIssues (elements: Array<Element>) {
 // TODO: make this work with Shadow DOM and iframes
 export default function createDomUpdater() {
   let previousElements: Array<Element> = [];
-  const disposeOfStylesheetEffect = effect(() => {
-    document.adoptedStyleSheets.push(stylesheet);
-    return () => {
-      if (document.adoptedStyleSheets.includes(stylesheet)) {
-        document.adoptedStyleSheets.splice(document.adoptedStyleSheets.indexOf(stylesheet), 1);
-      }
-    };
-  });
+
+  document.adoptedStyleSheets.push(stylesheet);
+  const removeStylesheet = () => {
+    if (document.adoptedStyleSheets.includes(stylesheet)) {
+      document.adoptedStyleSheets.splice(document.adoptedStyleSheets.indexOf(stylesheet), 1);
+    }
+  };
 
   const disposeOfElementsEffect = effect(() => {
     removeIssues(previousElements);
@@ -45,7 +44,7 @@ export default function createDomUpdater() {
   });
 
   return () => {
-    disposeOfStylesheetEffect();
+    removeStylesheet();
     disposeOfElementsEffect();
   };
 }
