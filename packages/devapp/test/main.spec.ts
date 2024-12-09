@@ -4,5 +4,5 @@ const url = 'http://localhost:5173';
 
 test('has a primary heading', async ({ page }) => {
   await page.goto(url);
-  await expect(page.getByRole('heading', { name: 'Accented blah' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Accented test' })).toBeVisible();
 });
