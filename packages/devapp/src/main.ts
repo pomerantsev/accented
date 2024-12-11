@@ -3,13 +3,13 @@ import type { AccentedInstance } from 'accented-experimental';
 
 const isElement = (eventTarget: EventTarget): eventTarget is Element => 'tagName' in eventTarget;
 
-let accentedInstance: AccentedInstance | null = null;
+let stopAccented: AccentedInstance | null = null;
 function toggleAccented() {
-  if (accentedInstance) {
-    accentedInstance.stop();
-    accentedInstance = null;
+  if (stopAccented) {
+    stopAccented();
+    stopAccented = null;
   } else {
-    accentedInstance = accented();
+    stopAccented = accented();
   }
 }
 

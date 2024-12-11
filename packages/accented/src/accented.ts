@@ -16,9 +16,7 @@ const defaultProps: AccentedProps = {
   throttleDelay: 1000
 };
 
-export type AccentedInstance = {
-  stop: () => void
-};
+export type AccentedInstance = () => void;
 
 export default function accented(props: Partial<AccentedProps> = {}): AccentedInstance {
   const {outputToConsole, initialDelay, throttleDelay} = {...defaultProps, ...props};
@@ -26,9 +24,7 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
     console.trace();
-    return {
-      stop: () => {}
-    };
+    return () => {};
   }
 
   if (enabled.value) {
@@ -45,12 +41,10 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
   const cleanupDomUpdater = createDomUpdater();
   const cleanupLogger = outputToConsole ? createLogger() : () => {};
 
-  return {
-    stop: () => {
-      enabled.value = false;
-      cleanupScanner();
-      cleanupDomUpdater();
-      cleanupLogger();
-    }
+  return () => {
+    enabled.value = false;
+    cleanupScanner();
+    cleanupDomUpdater();
+    cleanupLogger();
   };
 }
