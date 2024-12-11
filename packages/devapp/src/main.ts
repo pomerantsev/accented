@@ -1,6 +1,9 @@
 import accented from'accented-experimental';
+import type { AccentedInstance } from 'accented-experimental';
 
-let accentedInstance = null;
+const isElement = (eventTarget: EventTarget): eventTarget is Element => 'tagName' in eventTarget;
+
+let accentedInstance: AccentedInstance | null = null;
 function toggleAccented() {
   if (accentedInstance) {
     accentedInstance.stop();
@@ -12,11 +15,11 @@ function toggleAccented() {
 
 toggleAccented();
 
-document.getElementById('toggleAccented').addEventListener('click', () => {
+document.getElementById('toggleAccented')?.addEventListener('click', () => {
   toggleAccented();
 });
 
-document.getElementById('addOneMoreCSS').addEventListener('click', (event) => {
+document.getElementById('addOneMoreCSS')?.addEventListener('click', (event) => {
   const button = document.createElement('button');
   button.style.width = '5rem';
   button.style.height = '5rem';
@@ -27,13 +30,15 @@ document.getElementById('addOneMoreCSS').addEventListener('click', (event) => {
   const div = document.createElement('div');
   div.appendChild(button);
 
-  event.target.insertAdjacentElement('afterend', div);
-  requestIdleCallback(() => {
-    button.style.transform = 'translateX(0)';
-  });
+  if (event.target && isElement(event.target)) {
+    event.target.insertAdjacentElement('afterend', div);
+    requestIdleCallback(() => {
+      button.style.transform = 'translateX(0)';
+    });
+  }
 });
 
-document.getElementById('addOneMoreJS').addEventListener('click', (event) => {
+document.getElementById('addOneMoreJS')?.addEventListener('click', (event) => {
   const button = document.createElement('button');
   button.style.width = '5rem';
   button.style.height = '5rem';
@@ -42,7 +47,9 @@ document.getElementById('addOneMoreJS').addEventListener('click', (event) => {
   const div = document.createElement('div');
   div.appendChild(button);
 
-  event.target.insertAdjacentElement('afterend', div);
+  if (event.target && isElement(event.target)) {
+    event.target.insertAdjacentElement('afterend', div);
+  }
 
   const DURATION = 1000;
   const beginning = Date.now();
@@ -59,7 +66,7 @@ document.getElementById('addOneMoreJS').addEventListener('click', (event) => {
   requestAnimationFrame(drawFrame);
 });
 
-document.getElementById('addManyMore').addEventListener('click', () => {
+document.getElementById('addManyMore')?.addEventListener('click', () => {
   const section = document.createElement('section');
 
   for (let i = 0; i < 1000; i++) {
