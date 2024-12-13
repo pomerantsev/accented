@@ -5,7 +5,8 @@
   "type": "module",
   "main": "dist/accented.js",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
     "build": "tsc",
