@@ -3,14 +3,6 @@ import { elements } from './state.js';
 
 const attrName = 'data-accented';
 
-const stylesheet = new CSSStyleSheet();
-await stylesheet.replace(`
-  [${attrName}]:not(:focus-visible) {
-    outline: 2px solid red !important;
-    outline-offset: -2px;
-  }
-`);
-
 function setIssues (elements: Array<Element>) {
   for (const element of elements) {
     element.setAttribute(attrName, '');
@@ -25,6 +17,14 @@ function removeIssues (elements: Array<Element>) {
 
 // TODO: make this work with Shadow DOM and iframes
 export default function createDomUpdater() {
+  const stylesheet = new CSSStyleSheet();
+  stylesheet.replaceSync(`
+    [${attrName}]:not(:focus-visible) {
+      outline: 2px solid red !important;
+      outline-offset: -2px;
+    }
+  `);
+
   let previousElements: Array<Element> = [];
 
   document.adoptedStyleSheets.push(stylesheet);
