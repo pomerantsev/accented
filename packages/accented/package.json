@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "checkBuiltFiles": "node --import tsx ./scripts/check-built-files.ts",
     "watch": "tsc --watch",
     "test": "node --test --import tsx \"./**/*.test.ts\""
   },
