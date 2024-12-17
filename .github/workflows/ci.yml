@@ -34,3 +34,12 @@ jobs:
 
       - name: Run end-to-end tests
         run: pnpm test:e2e
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Publish (provisional)
+        run: echo "Publish"
