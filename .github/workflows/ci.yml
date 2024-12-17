@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build-and-test:
+  build-test-publish:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
@@ -35,11 +35,6 @@ jobs:
       - name: Run end-to-end tests
         run: pnpm test:e2e
 
-  publish:
-    if: startsWith(github.ref, 'refs/tags/v')
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Publish (provisional)
+      - name: Publish
+        if: startsWith(github.ref, 'refs/tags/v')
         run: echo "Publish"
