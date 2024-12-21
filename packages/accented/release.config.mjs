@@ -1,4 +1,4 @@
 export default {
-  branches: ['main'],
+  branches: ['main', 'semantic-release'],
   dryRun: true
 };
