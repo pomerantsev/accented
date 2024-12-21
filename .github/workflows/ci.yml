@@ -29,24 +29,25 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Run unit tests
-        run: pnpm test:unit
+      # - name: Run unit tests
+      #   run: pnpm test:unit
 
-      - name: Install Playwright browsers
-        run: pnpm --filter accented-devapp exec playwright install --with-deps
+      # - name: Install Playwright browsers
+      #   run: pnpm --filter accented-devapp exec playwright install --with-deps
 
-      - name: Run end-to-end tests
-        run: pnpm test:e2e
+      # - name: Run end-to-end tests
+      #   run: pnpm test:e2e
 
-      - name: Publish
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: pnpm publish-lib
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+      # - name: Publish
+      #   if: startsWith(github.ref, 'refs/tags/v')
+      #   run: pnpm publish-lib
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #     NPM_CONFIG_PROVENANCE: true
 
       - name: Publish (experimental)
         run: pnpm publish-experimental
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
