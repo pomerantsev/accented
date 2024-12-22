@@ -18,6 +18,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@semantic-release/exec": "^6.0.3",
     "@types/node": "^22.10.1",
     "semantic-release": "^24.2.0",
     "tsx": "^4.19.2",
