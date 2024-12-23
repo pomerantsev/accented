@@ -12,7 +12,8 @@
     "test:unit": "pnpm --filter accented-experimental test",
     "test:e2e": "pnpm --filter accented-devapp test",
     "publish-lib": "pnpm --filter accented-experimental publish --no-git-checks",
-    "changeset": "changeset"
+    "changeset-add": "changeset",
+    "changeset-version": "changeset version"
   },
   "workspaces": [
     "packages/*"
