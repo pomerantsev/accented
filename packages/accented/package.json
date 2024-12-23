@@ -1,6 +1,6 @@
 {
   "name": "accented-experimental",
-  "version": "0.0.0-semantically-released",
+  "version": "0.0.1-dev.14",
   "description": "Continuous accessibility testing and issue highlighting for web development",
   "type": "module",
   "main": "dist/accented.js",
@@ -13,8 +13,7 @@
     "checkBuiltFiles": "node --import tsx ./scripts/check-built-files.ts",
     "checkImportsInBuiltFiles": "node ./dist/accented.js",
     "watch": "tsc --watch",
-    "test": "node --test --import tsx \"./**/*.test.ts\"",
-    "release": "semantic-release"
+    "test": "node --test --import tsx \"./**/*.test.ts\""
   },
   "repository": {
     "type": "git",

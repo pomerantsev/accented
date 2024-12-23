@@ -11,16 +11,13 @@
     "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented-experimental watch & pnpm --filter accented-devapp dev)",
     "test:unit": "pnpm --filter accented-experimental test",
     "test:e2e": "pnpm --filter accented-devapp test",
-    "publish-lib": "pnpm --filter accented-experimental publish --no-git-checks",
-    "publish-experimental": "pnpm --filter accented-experimental release"
+    "publish-lib": "pnpm --filter accented-experimental publish --no-git-checks"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "@semantic-release/exec": "^6.0.3",
     "@types/node": "^22.10.1",
-    "semantic-release": "^24.2.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
