@@ -1,5 +1,11 @@
 # accented-experimental
 
+## 0.1.2
+
+### Patch Changes
+
+- 4406564: Test
+
 ## 0.1.1
 
 ### Patch Changes

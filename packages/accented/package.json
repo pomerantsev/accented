@@ -1,6 +1,6 @@
 {
   "name": "accented-experimental",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Continuous accessibility testing and issue highlighting for web development",
   "type": "module",
   "main": "dist/accented.js",
