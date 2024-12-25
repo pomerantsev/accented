@@ -1,5 +1,12 @@
 # accented-devapp
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [9173747]
+  - accented-experimental@0.1.1
+
 ## 0.0.2
 
 ### Patch Changes
