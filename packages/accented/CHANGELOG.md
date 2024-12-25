@@ -1,5 +1,11 @@
 # accented-experimental
 
+## 0.1.1
+
+### Patch Changes
+
+- 9173747: Another test feature
+
 ## 0.1.0
 
 ### Minor Changes
