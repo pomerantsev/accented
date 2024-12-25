@@ -47,11 +47,14 @@ jobs:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       #     NPM_CONFIG_PROVENANCE: true
 
+      # https://pnpm.io/using-changesets
+      - name: Setup npmrc
+        if: github.ref == 'refs/heads/dev'
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: Create Release Pull Request
         if: github.ref == 'refs/heads/dev'
         uses: changesets/action@v1
         with:
-          publish: pnpm changeset-publish
+          publish: pnpm publish:ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
