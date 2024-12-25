@@ -14,7 +14,7 @@
     "publish-lib": "pnpm --filter accented-experimental publish --no-git-checks",
     "changeset-add": "changeset",
     "changeset-version": "changeset version",
-    "publish:ci": "pnpm publish -r"
+    "publish:ci": "pnpm publish -r --publish-branch dev"
   },
   "workspaces": [
     "packages/*"
