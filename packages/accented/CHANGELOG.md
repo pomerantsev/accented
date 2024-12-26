@@ -1,5 +1,11 @@
 # accented-experimental
 
+## 0.2.0
+
+### Minor Changes
+
+- 4e2f3a1: Ignore devapp in changesets
+
 ## 0.1.4
 
 ### Patch Changes
