@@ -49,10 +49,10 @@ jobs:
 
       # https://pnpm.io/using-changesets
       - name: Setup npmrc
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/main'
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: Create Release Pull Request
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/main'
         uses: changesets/action@v1
         with:
           publish: pnpm publish:ci
