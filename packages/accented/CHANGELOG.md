@@ -1,5 +1,11 @@
 # accented-experimental
 
+## 0.1.4
+
+### Patch Changes
+
+- 05d5f1c: Release with provenance
+
 ## 0.1.3
 
 ### Patch Changes
