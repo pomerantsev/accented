@@ -11,9 +11,6 @@
     "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented-experimental watch & pnpm --filter accented-devapp dev)",
     "test:unit": "pnpm --filter accented-experimental test",
     "test:e2e": "pnpm --filter accented-devapp test",
-    "publish-lib": "pnpm --filter accented-experimental publish --no-git-checks",
-    "changeset-add": "changeset",
-    "changeset-version": "changeset version",
     "publish:ci": "pnpm publish -r"
   },
   "workspaces": [
