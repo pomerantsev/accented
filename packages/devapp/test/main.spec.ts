@@ -49,6 +49,12 @@ test.describe('Accented', () => {
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
       });
+
+      test('can be successfully re-enabled', async ({ page }) => {
+        await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        const count = await page.locator(accentedSelector).count();
+        await expect(count).toBeGreaterThan(0);
+      });
     });
   });
 });
