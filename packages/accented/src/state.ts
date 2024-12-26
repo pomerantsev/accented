@@ -1,5 +1,13 @@
-import { signal } from '@preact/signals-core';
+type State = {
+  enabled: boolean,
+  abortController: AbortController,
+  elements: Array<Element>
+};
 
-export const enabled = signal(false);
+const state: State = {
+  enabled: false,
+  abortController: new AbortController(),
+  elements: []
+};
 
-export const elements = signal<Array<Element>>([]);
+export default state;

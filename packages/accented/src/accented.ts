@@ -2,7 +2,7 @@
 import createDomUpdater from './dom-updater.js';
 import createLogger from './logger.js';
 import createScanner from './scanner.js';
-import { enabled } from './state.js';
+import state from './state.js';
 
 export type AccentedProps = {
   outputToConsole: boolean,
@@ -27,7 +27,7 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
     return () => {};
   }
 
-  if (enabled.value) {
+  if (state.enabled) {
     // TODO: add link to relevant docs
     console.warn(
       'You are trying to run the Accented library more than once. ' +
@@ -36,13 +36,16 @@ export default function accented(props: Partial<AccentedProps> = {}): AccentedIn
     console.trace();
   }
 
-  enabled.value = true;
+  state.enabled = true;
   const cleanupScanner = createScanner(initialDelay, throttleDelay);
   const cleanupDomUpdater = createDomUpdater();
   const cleanupLogger = outputToConsole ? createLogger() : () => {};
 
   return () => {
-    enabled.value = false;
+    state.abortController.abort();
+    // TODO: going back to the initial state should probably happen in a more consolidated way
+    state.enabled = false;
+    state.abortController = new AbortController();
     cleanupScanner();
     cleanupDomUpdater();
     cleanupLogger();

@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import issuesToElements from './utils/issuesToElements.js';
-import { enabled, elements } from './state.js';
+import state from './state.js';
 
 export default function createScanner(initialDelay: number, throttleDelay: number) {
   const taskQueue = new TaskQueue<Node>(async () => {
@@ -11,11 +11,12 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
 
     const axeMeasure = performance.measure('axe', 'axe-start');
 
-    if (!enabled.value) {
+    if (!state.enabled) {
       return;
     }
 
-    elements.value = issuesToElements(result.violations);
+    state.elements = issuesToElements(result.violations);
+    document.dispatchEvent(new Event('accentedUpdate'));
 
     console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
   }, { initialDelay, throttleDelay });

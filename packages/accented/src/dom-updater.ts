@@ -1,5 +1,4 @@
-import { effect } from '@preact/signals-core';
-import { elements } from './state.js';
+import state from './state.js';
 
 const attrName = 'data-accented';
 
@@ -34,17 +33,16 @@ export default function createDomUpdater() {
     }
   };
 
-  const disposeOfElementsEffect = effect(() => {
+  document.addEventListener('accentedUpdate', () => {
     removeIssues(previousElements);
-    setIssues(elements.value);
-    previousElements = [...elements.value];
-    return () => {
-      removeIssues(previousElements);
-    };
+    setIssues(state.elements);
+    previousElements = [...state.elements];
+  }, {signal: state.abortController.signal});
+  state.abortController.signal.addEventListener('abort', () => {
+    removeIssues(previousElements);
   });
 
   return () => {
     removeStylesheet();
-    disposeOfElementsEffect();
   };
 }
