@@ -60,4 +60,5 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/snapshot')
         run: pnpm changeset version --snapshot && pnpm changeset publish --no-git-tag --snapshot
         env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
