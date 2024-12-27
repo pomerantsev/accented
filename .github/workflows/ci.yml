@@ -58,7 +58,7 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
       - name: Snapshot release
         if: startsWith(github.ref, 'refs/heads/snapshot')
-        run: pnpm changeset version --snapshot && pnpm changeset publish --no-git-tag --snapshot
+        run: pnpm changeset version --snapshot && pnpm --filter accented-experimental publish --tag snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
