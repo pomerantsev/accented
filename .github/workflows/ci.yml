@@ -42,7 +42,7 @@ jobs:
 
       # https://pnpm.io/using-changesets
       - name: Setup npmrc
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/snapshot')
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: Create release PR or publish
         if: github.ref == 'refs/heads/main'
@@ -54,5 +54,11 @@ jobs:
           # can't generate other workflows:
           # https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#triggering-a-workflow-from-a-workflow
           # Using a personal access token is one of the recommended workarounds.
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+      - name: Snapshot release
+        if: startsWith(github.ref, 'refs/heads/snapshot')
+        run: pnpm changeset version --snapshot && pnpm --filter accented-experimental publish --no-git-checks --tag snapshot
+        env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
