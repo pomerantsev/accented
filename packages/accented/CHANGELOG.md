@@ -1,5 +1,13 @@
 # accented-experimental
 
+## 0.2.1
+
+### Patch Changes
+
+- [#15](https://github.com/pomerantsev/accented/pull/15) [`5781459`](https://github.com/pomerantsev/accented/commit/578145935cbe504ac48bda1796de85b4156e88f6) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Test feature
+
+- [#19](https://github.com/pomerantsev/accented/pull/19) [`1852e49`](https://github.com/pomerantsev/accented/commit/1852e493a341642b6679d299344341117ffaa67b) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Change changelog format
+
 ## 0.2.0
 
 ### Minor Changes
