@@ -31,19 +31,20 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # - name: Run unit tests
-      #   run: pnpm test:unit
+      - name: Run unit tests
+        run: pnpm test:unit
 
-      # - name: Install Playwright browsers
-      #   run: pnpm --filter accented-devapp exec playwright install --with-deps
+      - name: Install Playwright browsers
+        run: pnpm --filter accented-devapp exec playwright install --with-deps
 
-      # - name: Run end-to-end tests
-      #   run: pnpm test:e2e
+      - name: Run end-to-end tests
+        run: pnpm test:e2e
 
       # https://pnpm.io/using-changesets
       - name: Setup npmrc
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/snapshot')
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+
       - name: Create release PR or publish
         if: github.ref == 'refs/heads/main'
         uses: changesets/action@v1
@@ -56,6 +57,7 @@ jobs:
           # Using a personal access token is one of the recommended workarounds.
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
       - name: Snapshot release
         if: startsWith(github.ref, 'refs/heads/snapshot')
         run: pnpm changeset version --snapshot && pnpm --filter accented-experimental publish --no-git-checks --tag snapshot
