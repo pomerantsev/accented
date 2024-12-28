@@ -1,5 +1,5 @@
 {
-  "name": "accented-experimental",
+  "name": "accented",
   "version": "0.2.0",
   "description": "Continuous accessibility testing and issue highlighting for web development",
   "type": "module",

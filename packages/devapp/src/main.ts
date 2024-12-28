@@ -1,5 +1,5 @@
-import accented from'accented-experimental';
-import type { AccentedInstance } from 'accented-experimental';
+import accented from'accented';
+import type { AccentedInstance } from 'accented';
 
 const isElement = (eventTarget: EventTarget): eventTarget is Element => 'tagName' in eventTarget;
 

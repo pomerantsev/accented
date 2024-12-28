@@ -7,9 +7,9 @@
   },
   "scripts": {
     "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo",
-    "build": "pnpm clean-tsbuildinfo && pnpm --filter accented-experimental build && pnpm --filter accented-devapp typecheck && pnpm --filter accented-experimental checkBuiltFiles && pnpm --filter accented-experimental checkImportsInBuiltFiles",
-    "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented-experimental watch & pnpm --filter accented-devapp dev)",
-    "test:unit": "pnpm --filter accented-experimental test",
+    "build": "pnpm clean-tsbuildinfo && pnpm --filter accented build && pnpm --filter accented-devapp typecheck && pnpm --filter accented checkBuiltFiles && pnpm --filter accented checkImportsInBuiltFiles",
+    "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
+    "test:unit": "pnpm --filter accented test",
     "test:e2e": "pnpm --filter accented-devapp test"
   },
   "workspaces": [
