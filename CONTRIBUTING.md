@@ -49,6 +49,10 @@ and a human’s only job is to merge it when the time comes to release the next 
 * Publishing the new version to NPM.
 * Creating a tag and a release in Github that duplicates the changelog entry contents.
 
+**Note:** Before merging, consider reformatting the changelog entries.
+We’re using a default format provided by [@changesets/changelog-github](https://www.npmjs.com/package/@changesets/changelog-github),
+however that’s not very flexible, and we’d like to replace it with a custom format moving forward.
+
 ### Releasing a snapshot version
 
 We may choose to release a snapshot version for testing at any time.
