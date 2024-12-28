@@ -35,7 +35,7 @@ importers:
 
   packages/devapp:
     dependencies:
-      accented-experimental:
+      accented:
         specifier: workspace:*
         version: link:../accented
     devDependencies:
