@@ -22,6 +22,13 @@ TODO: example screenshots, without Accented / with Accented.
 
 ### API
 
+### Iframes
+
+Although axe-core is capable of scanning iframes, Accented doesn’t provide that as a special capability.
+
+Instead, if you wish to scan the document in an iframe, initialize Accented inside the iframed document.
+There should be no interference between the instances of Accented running in the parent and child documents.
+
 ## Frequently asked questions
 
 <!-- TODO: how can this section be better formatted? This probably should be regular sections rather than a Q&A. -->
