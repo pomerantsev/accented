@@ -1,13 +1,15 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
-import issuesToElements from './utils/issuesToElements.js';
+import issuesToElements from './utils/issues-to-elements.js';
 import { enabled, elements } from './state.js';
 
 export default function createScanner(initialDelay: number, throttleDelay: number) {
   const taskQueue = new TaskQueue<Node>(async () => {
     performance.mark('axe-start');
 
-    const result = await axe.run();
+    const result = await axe.run({
+      elementRef: true
+    });
 
     const axeMeasure = performance.measure('axe', 'axe-start');
 
