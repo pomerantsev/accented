@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import issuesToElements from './utils/issues-to-elements.js';
-import { enabled, elements } from './state.js';
+import { enabled, elementsWithIssues } from './state.js';
 
 export default function createScanner(initialDelay: number, throttleDelay: number) {
   const taskQueue = new TaskQueue<Node>(async () => {
@@ -24,7 +24,9 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
       return;
     }
 
-    elements.value = issuesToElements(result.violations);
+    // TODO: rename file and function name
+    elementsWithIssues.value = issuesToElements(result.violations);
+    console.log('Elements with issues:', elementsWithIssues.value);
 
     console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
   }, { initialDelay, throttleDelay });

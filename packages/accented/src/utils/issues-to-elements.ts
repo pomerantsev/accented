@@ -1,10 +1,11 @@
 import type { AxeResults } from 'axe-core';
+import type { Issue, ElementWithIssues } from '../types';
 
-export default function issuesToElements(issues: typeof AxeResults.violations) {
-  const elements: Set<HTMLElement> = new Set();
+export default function transformViolations(violations: typeof AxeResults.violations) {
+  const elementsWithIssues: Array<ElementWithIssues> = [];
 
-  for (const issue of issues) {
-    for (const node of issue.nodes) {
+  for (const violation of violations) {
+    for (const node of violation.nodes) {
       const { element, target } = node;
 
       // Although axe-core can perform iframe scanning, I haven't succeeded in it,
@@ -20,10 +21,28 @@ export default function issuesToElements(issues: typeof AxeResults.violations) {
       const isInShadowDOM = Array.isArray(target[0]);
 
       if (element && !isInIframe && !isInShadowDOM) {
-        elements.add(element);
+        // TODO: this logic may need to live in a separate file
+        const issue: Issue = {
+          id: violation.id,
+          title: violation.help,
+          // TODO: why may failureSummary be empty?
+          description: node.failureSummary ?? violation.description,
+          url: violation.helpUrl,
+          // TODO: why may impact be empty?
+          impact: violation.impact ?? null
+        };
+        const existingElementIndex = elementsWithIssues.findIndex(elementWithIssues => elementWithIssues.element === element);
+        if (existingElementIndex === -1) {
+          elementsWithIssues.push({
+            element,
+            issues: [issue]
+          });
+        } else {
+          elementsWithIssues[existingElementIndex]!.issues.push(issue);
+        }
       }
     }
   }
 
-  return [...elements];
+  return elementsWithIssues;
 }

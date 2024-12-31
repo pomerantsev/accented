@@ -1,21 +1,21 @@
 import { effect } from '@preact/signals-core';
-import { elements } from './state.js';
+import { elementsWithIssues } from './state.js';
+import type { ElementWithIssues } from './types';
 
 const attrName = 'data-accented';
 
-function setIssues (elements: Array<Element>) {
-  for (const element of elements) {
-    element.setAttribute(attrName, '');
+function setIssues (elementsWithIssues: Array<ElementWithIssues>) {
+  for (const elementWithIssues of elementsWithIssues) {
+    elementWithIssues.element.setAttribute(attrName, '');
   }
 }
 
-function removeIssues (elements: Array<Element>) {
-  for (const element of elements) {
-    element.removeAttribute(attrName);
+function removeIssues (elementsWithIssues: Array<ElementWithIssues>) {
+  for (const elementWithIssues of elementsWithIssues) {
+    elementWithIssues.element.removeAttribute(attrName);
   }
 }
 
-// TODO: make this work with Shadow DOM and iframes
 export default function createDomUpdater() {
   const stylesheet = new CSSStyleSheet();
   stylesheet.replaceSync(`
@@ -25,7 +25,7 @@ export default function createDomUpdater() {
     }
   `);
 
-  let previousElements: Array<Element> = [];
+  let previousElementsWithIssues: Array<ElementWithIssues> = [];
 
   document.adoptedStyleSheets.push(stylesheet);
   const removeStylesheet = () => {
@@ -35,11 +35,11 @@ export default function createDomUpdater() {
   };
 
   const disposeOfElementsEffect = effect(() => {
-    removeIssues(previousElements);
-    setIssues(elements.value);
-    previousElements = [...elements.value];
+    removeIssues(previousElementsWithIssues);
+    setIssues(elementsWithIssues.value);
+    previousElementsWithIssues = [...elementsWithIssues.value];
     return () => {
-      removeIssues(previousElements);
+      removeIssues(previousElementsWithIssues);
     };
   });
 
