@@ -22,12 +22,18 @@ TODO: example screenshots, without Accented / with Accented.
 
 ### API
 
+### Shadow DOM
+
+Highlighting elements inside shadow DOM is not supported yet, see [#25](https://github.com/pomerantsev/accented/issues/25).
+
 ### Iframes
 
 Although axe-core is capable of scanning iframes, Accented doesn’t provide that as a special capability.
 
 Instead, if you wish to scan the document in an iframe, initialize Accented inside the iframed document.
 There should be no interference between the instances of Accented running in the parent and child documents.
+
+TODO: expand this section and better explain the concepts.
 
 ## Frequently asked questions
 
