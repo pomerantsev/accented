@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {suite, test} from 'node:test';
-import areSetsEqual from './are-sets-equal.js';
+import areSetsEqual from './are-elements-with-issues-equal.js';
 
 suite('areSetsEqual', () => {
   test('returns true when both sets are empty', () => {

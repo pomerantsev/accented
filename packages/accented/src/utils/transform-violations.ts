@@ -21,14 +21,11 @@ export default function transformViolations(violations: typeof AxeResults.violat
       const isInShadowDOM = Array.isArray(target[0]);
 
       if (element && !isInIframe && !isInShadowDOM) {
-        // TODO: this logic may need to live in a separate file
         const issue: Issue = {
           id: violation.id,
           title: violation.help,
-          // TODO: why may failureSummary be empty?
           description: node.failureSummary ?? violation.description,
           url: violation.helpUrl,
-          // TODO: why may impact be empty?
           impact: violation.impact ?? null
         };
         const existingElementIndex = elementsWithIssues.findIndex(elementWithIssues => elementWithIssues.element === element);

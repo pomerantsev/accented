@@ -1,6 +1,6 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
-import issuesToElements from './utils/issues-to-elements.js';
+import transformViolations from './utils/transform-violations.js';
 import { enabled, elementsWithIssues } from './state.js';
 
 export default function createScanner(initialDelay: number, throttleDelay: number) {
@@ -24,9 +24,8 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
       return;
     }
 
-    // TODO: rename file and function name
-    elementsWithIssues.value = issuesToElements(result.violations);
-    console.log('Elements with issues:', elementsWithIssues.value);
+    elementsWithIssues.value = transformViolations(result.violations);
+    console.log(result.violations);
 
     console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
   }, { initialDelay, throttleDelay });
