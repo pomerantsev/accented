@@ -25,7 +25,6 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
     }
 
     elementsWithIssues.value = transformViolations(result.violations);
-    console.log(result.violations);
 
     console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
   }, { initialDelay, throttleDelay });
