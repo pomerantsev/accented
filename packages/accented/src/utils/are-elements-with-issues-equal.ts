@@ -1,6 +1,6 @@
-import type { ElementWithIssues, Issue } from '../types';
+import type { ElementWithIssues } from '../types';
 
-const issueProps: Array<keyof Issue> = ['id', 'title', 'description', 'url', 'impact'];
+import areIssueSetsEqual from './are-issue-sets-equal.js';
 
 export default function areElementsWithIssuesEqual(elementsWithIssues1: Array<ElementWithIssues>, elementsWithIssues2: Array<ElementWithIssues>) {
   const sameSize = elementsWithIssues1.length === elementsWithIssues2.length;
@@ -11,9 +11,7 @@ export default function areElementsWithIssuesEqual(elementsWithIssues1: Array<El
   for (const elementWithIssues of elementsWithIssues1) {
     const sameElementWithIssues = elementsWithIssues2.find(ewi2 =>
       ewi2.element === elementWithIssues.element &&
-        ewi2.issues.every(issue2 => Boolean(elementWithIssues.issues.find(issue1 =>
-          issueProps.every(prop => issue2[prop] === issue1[prop])
-        )))
+        areIssueSetsEqual(ewi2.issues, elementWithIssues.issues)
     );
 
     if (!sameElementWithIssues) {
