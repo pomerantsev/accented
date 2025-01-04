@@ -69,8 +69,8 @@ test.describe('Accented', () => {
     });
 
     test('does not cause long tasks with few elements', async ({ page }) => {
-      const longTasks = await countLongTasks(page);
-      if (!longTasks) {
+      const longTasks = countLongTasks(page);
+      if (!(await longTasks.supported())) {
         return;
       }
       await longTasks.start();
@@ -80,8 +80,8 @@ test.describe('Accented', () => {
     });
 
     test('causes long tasks with many elements', async ({ page }) => {
-      const longTasks = await countLongTasks(page);
-      if (!longTasks) {
+      const longTasks = countLongTasks(page);
+      if (!(await longTasks.supported())) {
         return;
       }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
@@ -93,8 +93,8 @@ test.describe('Accented', () => {
 
     // This behavior should eventually be fixed, but for now, it's a known issue.
     test('causes long tasks when one element is added to many', async ({ page }) => {
-      const longTasks = await countLongTasks(page);
-      if (!longTasks) {
+      const longTasks = countLongTasks(page);
+      if (!(await longTasks.supported())) {
         return;
       }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();

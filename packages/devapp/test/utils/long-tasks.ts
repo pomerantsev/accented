@@ -6,12 +6,11 @@ declare global {
   }
 }
 
-export async function countLongTasks(page: Page) {
-  const supported = await page.evaluate(() => PerformanceObserver.supportedEntryTypes.includes('longtask'));
-  if (!supported) {
-    return false;
-  }
+export function countLongTasks(page: Page) {
   return {
+    async supported() {
+      return await page.evaluate(() => PerformanceObserver.supportedEntryTypes.includes('longtask'));
+    },
     async start() {
       return await page.evaluate(async () => {
         window.longTaskCount = 0;
