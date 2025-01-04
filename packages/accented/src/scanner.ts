@@ -5,8 +5,6 @@ import { enabled, elementsWithIssues } from './state.js';
 
 export default function createScanner(initialDelay: number, throttleDelay: number) {
   const taskQueue = new TaskQueue<Node>(async () => {
-    performance.mark('axe-start');
-
     const result = await axe.run({
       elementRef: true,
       // Although axe-core can perform iframe scanning, I haven't succeeded in it,
@@ -18,15 +16,11 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
       iframes: false
     });
 
-    const axeMeasure = performance.measure('axe', 'axe-start');
-
     if (!enabled.value) {
       return;
     }
 
     elementsWithIssues.value = transformViolations(result.violations);
-
-    console.log('Axe run duration:', Math.round(axeMeasure.duration), 'ms');
   }, { initialDelay, throttleDelay });
 
   taskQueue.add(document);
