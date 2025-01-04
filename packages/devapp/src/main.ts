@@ -13,7 +13,9 @@ function toggleAccented() {
   }
 }
 
-toggleAccented();
+if (location.search !== '?disable') {
+  toggleAccented();
+}
 
 document.getElementById('toggleAccented')?.addEventListener('click', () => {
   toggleAccented();
