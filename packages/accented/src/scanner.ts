@@ -2,8 +2,9 @@ import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import transformViolations from './utils/transform-violations.js';
 import { enabled, elementsWithIssues } from './state.js';
+import type { Throttle } from './types';
 
-export default function createScanner(initialDelay: number, throttleDelay: number) {
+export default function createScanner(throttle: Required<Throttle>) {
   const taskQueue = new TaskQueue<Node>(async () => {
     const result = await axe.run({
       elementRef: true,
@@ -21,7 +22,7 @@ export default function createScanner(initialDelay: number, throttleDelay: numbe
     }
 
     elementsWithIssues.value = transformViolations(result.violations);
-  }, { initialDelay, throttleDelay });
+  }, throttle);
 
   taskQueue.add(document);
 

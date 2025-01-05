@@ -40,9 +40,7 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  * });
  */
 export default function accented(options: AccentedOptions = {}): DisableAccented {
-  const {outputToConsole, throttle: { wait, leading }} = deepMerge(defaultOptions, options);
-  const initialDelay = leading ? 0 : wait;
-  const throttleDelay = wait;
+  const {outputToConsole, throttle} = deepMerge(defaultOptions, options);
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
@@ -60,7 +58,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   }
 
   enabled.value = true;
-  const cleanupScanner = createScanner(initialDelay, throttleDelay);
+  const cleanupScanner = createScanner(throttle);
   const cleanupDomUpdater = createDomUpdater();
   const cleanupLogger = outputToConsole ? createLogger() : () => {};
 

@@ -10,14 +10,14 @@ const createAsyncCallback = (duration: number) => mock.fn(() => new Promise(reso
 suite('TaskQueue', () => {
   test('callback is not called after a TaskQueue is created, even after a timeout', async () => {
     const asyncCallback = createAsyncCallback(0);
-    new TaskQueue(asyncCallback);
+    new TaskQueue(asyncCallback, { wait: 50, leading: true });
     await wait(100);
     assert.equal(asyncCallback.mock.callCount(), 0);
   });
 
-  test('callback is called once if multiple items are added before the initial delay has elapsed', async () => {
+  test('callback is called once if multiple items are added before the first delay has elapsed', async () => {
     const asyncCallback = createAsyncCallback(0);
-    const taskQueue = new TaskQueue<string>(asyncCallback, {initialDelay: 100});
+    const taskQueue = new TaskQueue<string>(asyncCallback, { wait: 100, leading: false });
     taskQueue.add('one');
     // Adding the second item synchronously
     taskQueue.add('two');
@@ -29,9 +29,9 @@ suite('TaskQueue', () => {
     assert.equal(asyncCallback.mock.callCount(), 1);
   });
 
-  test('callback is called according to expected schedule without throttling', async () => {
+  test('callback is called according to expected schedule', async () => {
     const asyncCallback = createAsyncCallback(100);
-    const taskQueue = new TaskQueue<string>(asyncCallback, {initialDelay: 100, throttleDelay: 200});
+    const taskQueue = new TaskQueue<string>(asyncCallback, { wait: 100, leading: false });
 
     // 0 ms: Add "one"
     taskQueue.add('one');
@@ -60,9 +60,9 @@ suite('TaskQueue', () => {
     assert.equal(asyncCallback.mock.callCount(), 2);
   });
 
-  test('callback is called according to expected schedule with throttling', async () => {
+  test('callback is called according to expected schedule when second task is added before the first callback completes', async () => {
     const asyncCallback = createAsyncCallback(100);
-    const taskQueue = new TaskQueue<string>(asyncCallback, {initialDelay: 100, throttleDelay: 200});
+    const taskQueue = new TaskQueue<string>(asyncCallback, { wait: 100, leading: false });
 
     // 0 ms: Add "one"
     taskQueue.add('one');
@@ -84,16 +84,16 @@ suite('TaskQueue', () => {
 
     // 200 ms: First callback completes
 
-    await wait(150);
+    await wait(100);
 
-    // 300 ms: Third measurement, callback still called only once
+    // 250 ms: Third measurement, callback still called only once
     assert.equal(asyncCallback.mock.callCount(), 1);
 
-    // 400 ms: Callback called for the second time
+    // 300 ms: Callback called for the second time
 
-    await wait(150);
+    await wait(100);
 
-    // 450 ms: Fourth measurement, callback called twice
+    // 350 ms: Fourth measurement, callback called twice
     assert.equal(asyncCallback.mock.callCount(), 2);
   });
 });
