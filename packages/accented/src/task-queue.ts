@@ -1,10 +1,11 @@
+import type { Throttle } from './types';
+
 type TaskCallback = () => void;
 
 export default class TaskQueue<T> {
   #items = new Set<T>();
   #runningOrScheduled = false;
-  #initialDelay: number;
-  #throttleDelay: number;
+  #throttle: Throttle;
 
   // I'm not sure why the editor needs NodeJS.Timeout here.
   // tsconfig.json doesn't mention that the code needs to run in Node.
@@ -13,10 +14,9 @@ export default class TaskQueue<T> {
 
   #asyncCallback: TaskCallback | null = null;
 
-  constructor(asyncCallback: TaskCallback, {initialDelay, throttleDelay}: {initialDelay?: number, throttleDelay?: number} = {}) {
+  constructor(asyncCallback: TaskCallback, throttle: Required<Throttle>) {
     this.#asyncCallback = asyncCallback;
-    this.#initialDelay = initialDelay ?? 0;
-    this.#throttleDelay = throttleDelay ?? 1000;
+    this.#throttle = throttle;
   }
 
   #scheduleRun() {
@@ -27,7 +27,9 @@ export default class TaskQueue<T> {
       return;
     }
 
-    const delay = this.#runningOrScheduled ? this.#throttleDelay : this.#initialDelay;
+    const delay = this.#runningOrScheduled ?
+      this.#throttle.wait :
+      this.#throttle.leading ? 0 : this.#throttle.wait;
     this.#runningOrScheduled = true;
     this.#timeoutId = setTimeout(() => this.#run(), delay);
   }
