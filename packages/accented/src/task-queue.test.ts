@@ -96,4 +96,32 @@ suite('TaskQueue', () => {
     // 350 ms: Fourth measurement, callback called twice
     assert.equal(asyncCallback.mock.callCount(), 2);
   });
+
+  test('callback is called according to expected schedule with leading: true', async () => {
+    const asyncCallback = createAsyncCallback(100);
+    const taskQueue = new TaskQueue<string>(asyncCallback, { wait: 100, leading: true });
+
+    // 0 ms: Add "one"
+    taskQueue.add('one');
+
+    await wait(50);
+
+    // 50 ms: Add "two"
+    taskQueue.add('two');
+
+    // 50 ms: First measurement, callback called
+    assert.equal(asyncCallback.mock.callCount(), 1);
+
+    // 100 ms: First callback completes
+
+    await wait(100);
+
+    // 150 ms: Second measurement, callback still called once
+    assert.equal(asyncCallback.mock.callCount(), 1);
+
+    await wait(100);
+
+    // 250 ms: Third measurement, callback called twice
+    assert.equal(asyncCallback.mock.callCount(), 2);
+  });
 });
