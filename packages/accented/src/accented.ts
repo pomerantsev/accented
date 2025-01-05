@@ -3,23 +3,61 @@ import createDomUpdater from './dom-updater.js';
 import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import { enabled } from './state.js';
+import deepMerge from './utils/deep-merge.js';
 
-export type AccentedProps = {
+type DeepPartial<T> = T extends object ? {
+  [P in keyof T]? : DeepPartial<T[P]>
+} : T;
+
+type Throttle = {
+  /** The time to wait between scans. */
+  wait: number,
+
+  /** Whether to run the scan immediately on Accented initialization or on a mutation. */
+  leading: boolean
+}
+
+export type Options = {
+  /** Whether to output the issues to the console. */
   outputToConsole: boolean,
-  initialDelay: number,
-  throttleDelay: number
+
+  /** Scan throttling options. */
+  throttle: Throttle
 };
 
-const defaultProps: AccentedProps = {
+const defaultOptions: Options = {
   outputToConsole: true,
-  initialDelay: 0,
-  throttleDelay: 1000
+  throttle: {
+    wait: 1000,
+    leading: true
+  }
 };
 
 export type AccentedInstance = () => void;
 
-export default function accented(props: Partial<AccentedProps> = {}): AccentedInstance {
-  const {outputToConsole, initialDelay, throttleDelay} = {...defaultProps, ...props};
+/**
+ * Enables highlighting of elements with accessibility issues.
+ *
+ * @param {Options} options - The options object.
+ *
+ * @returns A `disable` function that can be called to stop the scanning and highlighting.
+ *
+ * @example
+ * accented();
+ *
+ * @example
+ * const disableAccented = accented({
+ *   outputToConsole: false,
+ *   throttle: {
+ *     wait: 500,
+ *     leading: false
+ *   }
+ * });
+ */
+export default function accented(options: DeepPartial<Options> = {}): AccentedInstance {
+  const {outputToConsole, throttle: { wait, leading }} = deepMerge(defaultOptions, options);
+  const initialDelay = leading ? 0 : wait;
+  const throttleDelay = wait;
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
