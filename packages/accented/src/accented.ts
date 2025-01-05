@@ -4,46 +4,15 @@ import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import { enabled } from './state.js';
 import deepMerge from './utils/deep-merge.js';
+import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 
-type DeepRequired<T> = T extends object ? {
-  [P in keyof T]-? : DeepRequired<T[P]>
-} : T;
+export type { AccentedOptions, DisableAccented };
 
-type Throttle = {
-  /**
-   * The minimal time between scans.
-   *
-   * Default: 1000.
-   * */
-  wait?: number,
-
-  /**
-   * When to run the scan on Accented initialization or on a mutation.
-   *
-   * If true, the scan will run immediately. If false, the scan will run after the first throttle delay.
-   *
-   * Default: true.
-   * */
-  leading?: boolean
-}
-
-export type Options = {
-  /**
-   * Whether to output the issues to the console.
-   *
-   * Default: true.
-   * */
-  outputToConsole?: boolean,
-
-  /**
-   * Scan throttling options object.
-   * */
-  throttle?: Throttle
-};
-
-// IMPORTANT: when changing any of the values,
-// update the default value in the type documentation accordingly.
-const defaultOptions: DeepRequired<Options> = {
+// IMPORTANT: when changing any of the properties or values, also do the following:
+// * update the default value in the type documentation accordingly;
+// * update examples in the accented() function JSDoc;
+// * update examples in the Readme.
+const defaultOptions: DeepRequired<AccentedOptions> = {
   outputToConsole: true,
   throttle: {
     wait: 1000,
@@ -51,12 +20,10 @@ const defaultOptions: DeepRequired<Options> = {
   }
 };
 
-export type AccentedInstance = () => void;
-
 /**
  * Enables highlighting of elements with accessibility issues.
  *
- * @param {Options} options - The options object.
+ * @param {AccentedOptions} options - The options object.
  *
  * @returns A `disable` function that can be called to stop the scanning and highlighting.
  *
@@ -72,7 +39,7 @@ export type AccentedInstance = () => void;
  *   }
  * });
  */
-export default function accented(options: Options = {}): AccentedInstance {
+export default function accented(options: AccentedOptions = {}): DisableAccented {
   const {outputToConsole, throttle: { wait, leading }} = deepMerge(defaultOptions, options);
   const initialDelay = leading ? 0 : wait;
   const throttleDelay = wait;

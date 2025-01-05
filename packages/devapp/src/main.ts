@@ -1,9 +1,9 @@
 import accented from'accented';
-import type { AccentedInstance } from 'accented';
+import type { DisableAccented } from 'accented';
 
 const isElement = (eventTarget: EventTarget): eventTarget is Element => 'tagName' in eventTarget;
 
-let stopAccented: AccentedInstance | null = null;
+let stopAccented: DisableAccented | null = null;
 function toggleAccented() {
   if (stopAccented) {
     stopAccented();
