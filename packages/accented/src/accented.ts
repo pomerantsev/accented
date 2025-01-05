@@ -5,27 +5,45 @@ import createScanner from './scanner.js';
 import { enabled } from './state.js';
 import deepMerge from './utils/deep-merge.js';
 
-type DeepPartial<T> = T extends object ? {
-  [P in keyof T]? : DeepPartial<T[P]>
+type DeepRequired<T> = T extends object ? {
+  [P in keyof T]-? : DeepRequired<T[P]>
 } : T;
 
 type Throttle = {
-  /** The time to wait between scans. */
-  wait: number,
+  /**
+   * The minimal time between scans.
+   *
+   * Default: 1000.
+   * */
+  wait?: number,
 
-  /** Whether to run the scan immediately on Accented initialization or on a mutation. */
-  leading: boolean
+  /**
+   * When to run the scan on Accented initialization or on a mutation.
+   *
+   * If true, the scan will run immediately. If false, the scan will run after the first throttle delay.
+   *
+   * Default: true.
+   * */
+  leading?: boolean
 }
 
 export type Options = {
-  /** Whether to output the issues to the console. */
-  outputToConsole: boolean,
+  /**
+   * Whether to output the issues to the console.
+   *
+   * Default: true.
+   * */
+  outputToConsole?: boolean,
 
-  /** Scan throttling options. */
-  throttle: Throttle
+  /**
+   * Scan throttling options object.
+   * */
+  throttle?: Throttle
 };
 
-const defaultOptions: Options = {
+// IMPORTANT: when changing any of the values,
+// update the default value in the type documentation accordingly.
+const defaultOptions: DeepRequired<Options> = {
   outputToConsole: true,
   throttle: {
     wait: 1000,
@@ -54,7 +72,7 @@ export type AccentedInstance = () => void;
  *   }
  * });
  */
-export default function accented(options: DeepPartial<Options> = {}): AccentedInstance {
+export default function accented(options: Options = {}): AccentedInstance {
   const {outputToConsole, throttle: { wait, leading }} = deepMerge(defaultOptions, options);
   const initialDelay = leading ? 0 : wait;
   const throttleDelay = wait;
