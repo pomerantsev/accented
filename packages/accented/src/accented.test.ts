@@ -12,4 +12,13 @@ suite('Accented', () => {
     assert.equal((console.warn as Mock<() => void>).mock.callCount(), 1);
     assert.equal((console.trace as Mock<() => void>).mock.callCount(), 1);
   });
+
+  suite('argument validation', () => {
+    // @ts-expect-error
+    assert.throws(() => accented({ throttle: null }));
+    // @ts-expect-error
+    assert.throws(() => accented({ throttle: 1000 }));
+
+    assert.throws(() => accented({ throttle: { wait: -1 } }));
+  });
 });

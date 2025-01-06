@@ -10,6 +10,7 @@ export type { AccentedOptions, DisableAccented };
 
 // IMPORTANT: when changing any of the properties or values, also do the following:
 // * update the default value in the type documentation accordingly;
+// * update validations and validation tests if necessary;
 // * update examples in the accented() function JSDoc;
 // * update examples in the Readme.
 const defaultOptions: DeepRequired<AccentedOptions> = {
@@ -40,13 +41,24 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  * });
  */
 export default function accented(options: AccentedOptions = {}): DisableAccented {
-  const {outputToConsole, throttle} = deepMerge(defaultOptions, options);
+
+  // Argument validation
+  if (options.throttle !== undefined) {
+    if (typeof options.throttle !== 'object' || options.throttle === null) {
+      throw new TypeError(`Invalid argument: \`throttle\` option must be an object if provided. It’s currently set to ${options.throttle}.`);
+    }
+    if (options.throttle.wait !== undefined && (typeof options.throttle.wait !== 'number' || options.throttle.wait < 0)) {
+      throw new TypeError(`Invalid argument: \`throttle.wait\` option must be a non-negative number if provided. It’s currently set to ${options.throttle.wait}.`);
+    }
+  }
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
     console.trace();
     return () => {};
   }
+
+  const {outputToConsole, throttle} = deepMerge(defaultOptions, options);
 
   if (enabled.value) {
     // TODO: add link to relevant docs

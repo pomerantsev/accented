@@ -17,4 +17,11 @@ suite('deepMerge', () => {
     const result = deepMerge(target, source);
     assert.deepEqual(result, { a: 1, b: { x: 1, y: 3, z: 4 }, c: 5 });
   });
+
+  test('handles null values in a logical way', () => {
+    const target = { a: 1 };
+    const source = { a: null };
+    const result = deepMerge(target, source);
+    assert.deepEqual(result, { a: null });
+  });
 });
