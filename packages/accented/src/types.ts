@@ -22,6 +22,20 @@ export type Throttle = {
   leading?: boolean
 }
 
+type CallbackParams = {
+  /**
+   * The most current array of elements with issues.
+   * */
+  elementsWithIssues: Array<ElementWithIssues>,
+
+  /**
+   * How long the scan took in milliseconds.
+   * */
+  scanDuration: number
+}
+
+export type Callback = (params: CallbackParams) => void;
+
 export type AccentedOptions = {
   /**
    * Whether to output the issues to the console.
@@ -33,7 +47,14 @@ export type AccentedOptions = {
   /**
    * Scan throttling options object.
    * */
-  throttle?: Throttle
+  throttle?: Throttle,
+
+  /**
+   * A callback that will be called after each scan.
+   *
+   * Default: () => {}.
+   * */
+  callback?: Callback
 };
 
 /**

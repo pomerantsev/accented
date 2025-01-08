@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Accented development</title>
     <link rel="icon" href="favicon.ico"/>
+    <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    <h1>Accented test</h1>
+    <main>
+      <h1>Accented development</h1>
 
-    <div style="margin-block-start: 1rem;">
-      <button id="toggleAccented">Toggle Accented</button>
-    </div>
+      <section>
+        <button id="toggleAccented">Toggle Accented</button>
+      </section>
 
-    <div style="margin-block-start: 1rem;">
-      <button style="width: 5rem; height: 5rem;"></button>
-    </div>
+      <section>
+        <h2>An element with a single issue</h2>
+        <button class="test-button"></button>
+      </section>
 
-    <div style="margin-block-start: 1rem;">
-      <button id="addManyMore">Add many more</button>
-    </div>
+      <section>
+        <h2>An element with multiple (> 2) issues</h2>
+        <button class="test-button" aria-checked="true" role="directory"></button>
+      </section>
 
-    <div style="margin-block-start: 1rem;">
-      <button id="addOneMoreCSS">Add one more (CSS-animated)</button>
-    </div>
-
-    <div style="margin-block-start: 1rem;">
-      <button id="addOneMoreJS">Add one more (JS-animated)</button>
-    </div>
+      <section>
+        <h2>Performance testing</h2>
+        <button id="add-one">Add one element with an issue</button>
+        <button id="add-many-with-issues">Add many elements with issues</button>
+        <button id="add-many-no-issues">Add many elements with no issues</button>
+        <div id="many-elements"></div>
+      </section>
+    </main>
 
     <script type="module" src="/main.ts"></script>
   </body>

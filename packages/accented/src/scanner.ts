@@ -2,10 +2,11 @@ import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import transformViolations from './utils/transform-violations.js';
 import { enabled, elementsWithIssues } from './state.js';
-import type { Throttle } from './types';
+import type { Throttle, Callback } from './types';
 
-export default function createScanner(throttle: Required<Throttle>) {
+export default function createScanner(throttle: Required<Throttle>, callback: Callback) {
   const taskQueue = new TaskQueue<Node>(async () => {
+    performance.mark('axe-start');
     const result = await axe.run({
       elementRef: true,
       // Although axe-core can perform iframe scanning, I haven't succeeded in it,
@@ -17,11 +18,18 @@ export default function createScanner(throttle: Required<Throttle>) {
       iframes: false
     });
 
+    const axeMeasure = performance.measure('axe', 'axe-start');
+
     if (!enabled.value) {
       return;
     }
 
     elementsWithIssues.value = transformViolations(result.violations);
+
+    callback({
+      elementsWithIssues: elementsWithIssues.value,
+      scanDuration: Math.round(axeMeasure.duration)
+    });
   }, throttle);
 
   taskQueue.add(document);
