@@ -18,7 +18,8 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
   throttle: {
     wait: 1000,
     leading: true
-  }
+  },
+  callback: () => {}
 };
 
 /**
@@ -37,6 +38,10 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  *   throttle: {
  *     wait: 500,
  *     leading: false
+ *   },
+ *   callback: ({ elementsWithIssues, scanDuration }) => {
+ *    console.log('Elements with issues:', elementsWithIssues);
+ *    console.log('Scan duration:', scanDuration);
  *   }
  * });
  */
@@ -50,6 +55,9 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     if (options.throttle.wait !== undefined && (typeof options.throttle.wait !== 'number' || options.throttle.wait < 0)) {
       throw new TypeError(`Invalid argument: \`throttle.wait\` option must be a non-negative number if provided. It’s currently set to ${options.throttle.wait}.`);
     }
+    if (options.callback !== undefined && typeof options.callback !== 'function') {
+      throw new TypeError(`Invalid argument: \`callback\` option must be a function if provided. It’s currently set to ${options.callback}.`);
+    }
   }
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
@@ -58,7 +66,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     return () => {};
   }
 
-  const {outputToConsole, throttle} = deepMerge(defaultOptions, options);
+  const {outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
 
   if (enabled.value) {
     // TODO: add link to relevant docs
@@ -70,7 +78,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   }
 
   enabled.value = true;
-  const cleanupScanner = createScanner(throttle);
+  const cleanupScanner = createScanner(throttle, callback);
   const cleanupDomUpdater = createDomUpdater();
   const cleanupLogger = outputToConsole ? createLogger() : () => {};
 

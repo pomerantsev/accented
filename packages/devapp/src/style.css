@@ -1,0 +1,16 @@
+section {
+  margin-block-start: 1rem;
+}
+
+.test-button {
+  width: 5rem;
+  height: 3rem;
+}
+
+button:not(.test-button) + button:not(.test-button) {
+  margin-inline-start: 1rem;
+}
+
+#many-elements {
+  margin-block-start: 1rem;
+}

@@ -79,28 +79,66 @@ test.describe('Accented', () => {
       await expect(longTaskCount).toBe(0);
     });
 
-    test('causes long tasks with many elements', async ({ page }) => {
+    test('does not cause a long task when one element with an issue is added', async ({ page }) => {
       const longTasks = countLongTasks(page);
       if (!(await longTasks.supported())) {
         return;
       }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await longTasks.start();
-      await page.getByRole('button', { name: 'Add many more' }).click();
+      await page.getByRole('button', { name: 'Add one element with an issue' }).click();
+      const longTaskCount = await longTasks.getCount();
+      await expect(longTaskCount).toBe(0);
+    });
+
+    test('causes long tasks with many elements with issues', async ({ page }) => {
+      const longTasks = countLongTasks(page);
+      if (!(await longTasks.supported())) {
+        return;
+      }
+      await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      await longTasks.start();
+      await page.getByRole('button', { name: 'Add many elements with issues' }).click();
       const longTaskCount = await longTasks.getCount();
       await expect(longTaskCount).toBeGreaterThan(0);
     });
 
     // This behavior should eventually be fixed, but for now, it's a known issue.
-    test('causes long tasks when one element is added to many', async ({ page }) => {
+    test('causes long tasks when one element is added to many elements with issues', async ({ page }) => {
       const longTasks = countLongTasks(page);
       if (!(await longTasks.supported())) {
         return;
       }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      await page.getByRole('button', { name: 'Add many more' }).click();
+      await page.getByRole('button', { name: 'Add many elements with issues' }).click();
       await longTasks.start();
-      await page.getByRole('button', { name: 'Add one more (CSS-animated)' }).click();
+      await page.getByRole('button', { name: 'Add one element with an issue' }).click();
+      const longTaskCount = await longTasks.getCount();
+      await expect(longTaskCount).toBeGreaterThan(0);
+    });
+
+    test('causes long tasks with many elements with no issues', async ({ page }) => {
+      const longTasks = countLongTasks(page);
+      if (!(await longTasks.supported())) {
+        return;
+      }
+      await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      await longTasks.start();
+      await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
+      const longTaskCount = await longTasks.getCount();
+      await expect(longTaskCount).toBeGreaterThan(0);
+    });
+
+    // This behavior should eventually be fixed, but for now, it's a known issue.
+    test('causes long tasks when one element is added to many elements with no issues', async ({ page }) => {
+      const longTasks = countLongTasks(page);
+      if (!(await longTasks.supported())) {
+        return;
+      }
+      await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
+      await longTasks.start();
+      await page.getByRole('button', { name: 'Add one element with an issue' }).click();
       const longTaskCount = await longTasks.getCount();
       await expect(longTaskCount).toBeGreaterThan(0);
     });
