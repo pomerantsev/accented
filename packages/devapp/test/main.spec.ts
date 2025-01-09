@@ -59,6 +59,15 @@ test.describe('Accented', () => {
     });
   });
 
+  test.describe('API', () => {
+    test('callback', async ({ page }) => {
+      await page.goto(`${url}?callback`);
+      const consoleMessage = await page.waitForEvent('console');
+      const arg1 = await consoleMessage.args()[0]?.jsonValue();
+      await expect(arg1).toEqual('Elements from callback:');
+    });
+  });
+
   // 2025.01.04: these tests will currently not do anything in Safari and Firefox
   // because they don't support the longtask PerformanceObserver entry type.
   // We could potentially use mark and measure that work in all browsers,

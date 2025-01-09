@@ -1,21 +1,4 @@
-import accented from'accented';
-import type { DisableAccented } from 'accented';
-
-let stopAccented: DisableAccented | null = null;
-function toggleAccented() {
-  if (stopAccented) {
-    stopAccented();
-    stopAccented = null;
-  } else {
-    stopAccented = accented({callback: ({scanDuration}) => {
-      console.log('Scan duration:', scanDuration);
-    }});
-  }
-}
-
-if (location.search !== '?disable') {
-  toggleAccented();
-}
+import toggleAccented from './toggle-accented';
 
 document.getElementById('toggleAccented')?.addEventListener('click', () => {
   toggleAccented();
