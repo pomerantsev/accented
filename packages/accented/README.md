@@ -10,9 +10,7 @@ Accented uses the [axe-core](https://github.com/dequelabs/axe-core) testing engi
 
 TODO: example screenshots, without Accented / with Accented.
 
-## Usage
-
-### Installation and setup
+## Basic usage
 
 * The library can be used in three ways:
   * NPM (with a bundler)
@@ -20,7 +18,91 @@ TODO: example screenshots, without Accented / with Accented.
   * `import('https://cdn.jsdelivr.net/npm/accented@0.0.1-dev.0/+esm').then(({default: accented}) => { accented(); });` (this version will work in the console, unless it violates the content security policy, which shouldn't be the case locally).
     * For example, this works on medium.com
 
-### API
+## API
+
+### Exports
+
+* `accented`: the default library export. It’s the function that enables the continuous scanning and highlighting
+  on the page in whose context in was called. Example: `const disable = accented(options)`.
+  * Parameters: the only parameter is `options`. See [Options](#options).
+  * Returns: a `disable` function that takes no parameters. When called, disables the scanning and highlighting,
+    and cleans up any changes that Accented has made to the page.
+
+#### Type exports
+
+The following types are exported for TypeScript consumers:
+
+* `AccentedOptions`: the `options` parameter (see [Options](#options)).
+* `DisableAccented`: the type of the function returned by `accented`.
+
+### Options
+
+#### `outputToConsole`
+
+**Type:** boolean.
+
+**Default:** `true`.
+
+Whether the list of elements with issues should be printed to the browser console whenever issues are added, removed, or changed.
+
+#### `callback`
+
+**Type:** function.
+
+**Default:** no-op (`() => {}`).
+
+A function that Accented will call after every scan.
+It accepts a single `params` object with the following properties:
+
+* `elementsWithIssues`: the most up-to-date array of all elements with accessibility issues.
+* `scanDuration`: how long the last scan took, in milliseconds (may be useful for performance tracking).
+
+**Example:**
+
+```
+accented({
+  callback: ({ elementsWithIssues, scanDuration }) => {
+    console.log('Elements with issues:', elementsWithIssues);
+    console.log('Scan duration:', scanDuration);
+  }
+});
+```
+
+#### `throttle`
+
+An object controlling when Accented will run its scans.
+
+#### `throttle.wait`
+
+**Type:** number.
+
+**Default:** 1000.
+
+The delay (in milliseconds) after a mutation or after the last Accented scan.
+
+If the page you’re scanning has a lot of nodes,
+scanning may take a noticeable time (~ a few hundred milliseconds),
+during which time the main thread will be blocked most of the time.
+
+You may want to experiment with this value if your page contents change frequently
+or if it has JavaScript-based animations running on the main thread.
+
+#### `throttle.leading`
+
+**Type:** boolean.
+
+**Default:** `true`.
+
+If set to true, the scan runs immediately after a mutation.
+In this case, `wait` only applies to subsequent scans,
+giving the page at least `wait` milliseconds between the end of the previous scan
+and the beginning of the next one.
+
+If set to false, the wait applies to mutations as well,
+delaying the output.
+This may be useful if you’re expecting bursts of mutations on your page.
+
+## Miscellaneous
 
 ### Shadow DOM
 
