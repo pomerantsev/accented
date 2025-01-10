@@ -3,51 +3,49 @@ import type { Throttle } from './types';
 type TaskCallback = () => void;
 
 export default class TaskQueue<T> {
-  #items = new Set<T>();
-  #runningOrScheduled = false;
   #throttle: Throttle;
-
-  // I'm not sure why the editor needs NodeJS.Timeout here.
-  // tsconfig.json doesn't mention that the code needs to run in Node.
-  // Maybe it's somehow related to the fact that we're using the Node test runner.
-  #timeoutId: number | NodeJS.Timeout | null = null;
-
   #asyncCallback: TaskCallback | null = null;
+
+  #items = new Set<T>();
+  #inRunLoop = false;
 
   constructor(asyncCallback: TaskCallback, throttle: Required<Throttle>) {
     this.#asyncCallback = asyncCallback;
     this.#throttle = throttle;
   }
 
-  #scheduleRun() {
-    if (this.#items.size === 0) {
-      this.#runningOrScheduled = false;
-    }
-    if (this.#timeoutId !== null || this.#items.size === 0) {
+  async #preRun() {
+    if (this.#inRunLoop) {
       return;
     }
+    this.#inRunLoop = true;
 
-    const delay = this.#runningOrScheduled ?
-      this.#throttle.wait :
-      this.#throttle.leading ? 0 : this.#throttle.wait;
-    this.#runningOrScheduled = true;
-    this.#timeoutId = setTimeout(() => this.#run(), delay);
+    if (!this.#throttle.leading) {
+      await new Promise((resolve) => setTimeout(resolve, this.#throttle.wait));
+    }
+
+    await this.#run();
   }
 
   async #run() {
+    if (this.#items.size === 0) {
+      this.#inRunLoop = false;
+      return;
+    }
+
     this.#items.clear();
 
     if (this.#asyncCallback) {
       await this.#asyncCallback();
     }
 
-    this.#timeoutId = null;
+    await new Promise((resolve) => setTimeout(resolve, this.#throttle.wait));
 
-    this.#scheduleRun();
+    await this.#run();
   }
 
   add(item: T) {
     this.#items.add(item);
-    this.#scheduleRun();
+    this.#preRun();
   }
 }
