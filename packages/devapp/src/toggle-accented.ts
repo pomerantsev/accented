@@ -29,6 +29,19 @@ if (searchParams.has('duration') && !searchParams.has('callback')) {
   };
 }
 
+if (searchParams.has('throttle-wait')) {
+  options.throttle = {
+    wait: parseInt(searchParams.get('throttle-wait')!, 10) ?? 1000,
+    leading: !searchParams.has('no-leading')
+  };
+}
+
+if (searchParams.has('no-leading') && !searchParams.has('throttle-wait')) {
+  options.throttle = {
+    leading: false
+  };
+}
+
 if (!searchParams.has('disable')) {
   toggleAccented(options);
 }

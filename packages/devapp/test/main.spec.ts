@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { countLongTasks } from './utils/long-tasks';
 
-const accentedSelector = '[data-accented]';
+const accentedDataAttr = 'data-accented';
+const accentedSelector = `[${accentedDataAttr}]`;
 
 test.describe('Accented', () => {
   test.describe('basic functionality', () => {
@@ -63,6 +64,47 @@ test.describe('Accented', () => {
       const consoleMessage = await page.waitForEvent('console');
       const arg1 = await consoleMessage.args()[0]?.jsonValue();
       await expect(arg1).toEqual('Elements from callback:');
+    });
+
+    test.describe('throttle', () => {
+      test('leading: false', async ({ page }) => {
+        await page.goto(`?throttle-wait=100&no-leading`);
+        const count = await page.locator(accentedSelector).count();
+        await expect(count).toBe(0);
+        await page.waitForTimeout(150);
+        const countAfter = await page.locator(accentedSelector).count();
+        await expect(countAfter).toBeGreaterThan(0);
+      });
+
+      test('adding new elements with leading: true', async ({ page }) => {
+        await page.goto(`?throttle-wait=300`);
+        await page.waitForTimeout(350);
+        const button = await page.getByRole('button', { name: 'Add one element with an issue' });
+        await button.click();
+        await button.click();
+        const newButton1 = await page.getByRole('button', { name: 'Button 1' });
+        const newButton2 = await page.getByRole('button', { name: 'Button 2' });
+        await expect(newButton1).toHaveAttribute(accentedDataAttr);
+        await expect(newButton2).not.toHaveAttribute(accentedDataAttr, { timeout: 50 });
+        await page.waitForTimeout(350);
+        await expect(newButton1).toHaveAttribute(accentedDataAttr);
+        await expect(newButton2).toHaveAttribute(accentedDataAttr);
+      });
+
+      test('adding new elements with leading: false', async ({ page }) => {
+        await page.goto(`?throttle-wait=300&no-leading`);
+        await page.waitForTimeout(350);
+        const button = await page.getByRole('button', { name: 'Add one element with an issue' });
+        await button.click();
+        await button.click();
+        const newButton1 = await page.getByRole('button', { name: 'Button 1' });
+        const newButton2 = await page.getByRole('button', { name: 'Button 2' });
+        await expect(newButton1).not.toHaveAttribute(accentedDataAttr, { timeout: 50 });
+        await expect(newButton2).not.toHaveAttribute(accentedDataAttr, { timeout: 50 });
+        await page.waitForTimeout(350);
+        await expect(newButton1).toHaveAttribute(accentedDataAttr);
+        await expect(newButton2).toHaveAttribute(accentedDataAttr);
+      });
     });
   });
 
