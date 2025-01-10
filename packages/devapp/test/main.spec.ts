@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { countLongTasks } from './utils/long-tasks';
+import { test, expect, type Page } from '@playwright/test';
 
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
@@ -60,7 +59,7 @@ test.describe('Accented', () => {
 
   test.describe('API', () => {
     test('callback', async ({ page }) => {
-      await page.goto(`?callback`);
+      await page.goto(`?callback&no-console`);
       const consoleMessage = await page.waitForEvent('console');
       const arg1 = await consoleMessage.args()[0]?.jsonValue();
       await expect(arg1).toEqual('Elements from callback:');
@@ -114,82 +113,65 @@ test.describe('Accented', () => {
   // but testing this only in Chromium is probably good enough for now.
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`?disable`);
+      await page.goto(`?disable&no-console&duration&throttle-wait=100&no-leading`);
     });
 
-    test('does not cause long tasks with few elements', async ({ page }) => {
-      const longTasks = countLongTasks(page);
-      if (!(await longTasks.supported())) {
-        return;
-      }
-      await longTasks.start();
+    async function expectShortScan(page: Page) {
+      const consoleMessage = await page.waitForEvent('console');
+      const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
+      await expect(duration).toBeLessThan(100);
+    }
+
+    async function expectLongScan(page: Page) {
+      const consoleMessage = await page.waitForEvent('console');
+      const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
+      await expect(duration).toBeGreaterThan(100);
+    }
+
+    test('does not take long to run with few elements', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      const longTaskCount = await longTasks.getCount();
-      await expect(longTaskCount).toBe(0);
+      await expectShortScan(page);
     });
 
-    test('does not cause a long task when one element with an issue is added', async ({ page }) => {
-      const longTasks = countLongTasks(page);
-      if (!(await longTasks.supported())) {
-        return;
-      }
+    test('does not take long to run when one element with an issue is added', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      await longTasks.start();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      const longTaskCount = await longTasks.getCount();
-      await expect(longTaskCount).toBe(0);
+      await expectShortScan(page);
     });
 
-    test('causes long tasks with many elements with issues', async ({ page }) => {
-      const longTasks = countLongTasks(page);
-      if (!(await longTasks.supported())) {
-        return;
-      }
+    test('takes long to run with many elements with issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      await longTasks.start();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
-      const longTaskCount = await longTasks.getCount();
-      await expect(longTaskCount).toBeGreaterThan(0);
+      await expectLongScan(page);
     });
 
     // This behavior should eventually be fixed, but for now, it's a known issue.
     test('causes long tasks when one element is added to many elements with issues', async ({ page }) => {
-      const longTasks = countLongTasks(page);
-      if (!(await longTasks.supported())) {
-        return;
-      }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
-      await longTasks.start();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      const longTaskCount = await longTasks.getCount();
-      await expect(longTaskCount).toBeGreaterThan(0);
+      await expectLongScan(page);
     });
 
     test('causes long tasks with many elements with no issues', async ({ page }) => {
-      const longTasks = countLongTasks(page);
-      if (!(await longTasks.supported())) {
-        return;
-      }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      await longTasks.start();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
-      const longTaskCount = await longTasks.getCount();
-      await expect(longTaskCount).toBeGreaterThan(0);
+      await expectLongScan(page);
     });
 
     // This behavior should eventually be fixed, but for now, it's a known issue.
     test('causes long tasks when one element is added to many elements with no issues', async ({ page }) => {
-      const longTasks = countLongTasks(page);
-      if (!(await longTasks.supported())) {
-        return;
-      }
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
-      await longTasks.start();
+      await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      const longTaskCount = await longTasks.getCount();
-      await expect(longTaskCount).toBeGreaterThan(0);
+      await expectLongScan(page);
     });
   });
 });
