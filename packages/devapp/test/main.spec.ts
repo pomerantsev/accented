@@ -1,14 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { countLongTasks } from './utils/long-tasks';
 
-const url = 'http://localhost:5173';
-
 const accentedSelector = '[data-accented]';
 
 test.describe('Accented', () => {
   test.describe('basic functionality', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(url);
+      await page.goto('/');
     });
 
     test.describe('when enabled', () => {
@@ -61,7 +59,7 @@ test.describe('Accented', () => {
 
   test.describe('API', () => {
     test('callback', async ({ page }) => {
-      await page.goto(`${url}?callback`);
+      await page.goto(`?callback`);
       const consoleMessage = await page.waitForEvent('console');
       const arg1 = await consoleMessage.args()[0]?.jsonValue();
       await expect(arg1).toEqual('Elements from callback:');
@@ -74,7 +72,7 @@ test.describe('Accented', () => {
   // but testing this only in Chromium is probably good enough for now.
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`${url}?disable`);
+      await page.goto(`?disable`);
     });
 
     test('does not cause long tasks with few elements', async ({ page }) => {
