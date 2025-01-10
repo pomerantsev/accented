@@ -4,10 +4,15 @@ document.getElementById('toggleAccented')?.addEventListener('click', () => {
   toggleAccented();
 });
 
+let buttonCount = 0;
+
 document.getElementById('add-one')?.addEventListener('click', () => {
   const container = document.getElementById('many-elements');
   const button = document.createElement('button');
   button.className = 'test-button';
+  buttonCount++;
+  button.textContent = `Button ${buttonCount}`;
+  button.setAttribute('aria-hidden', 'both');
   container?.appendChild(button);
 });
 
