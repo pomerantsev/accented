@@ -42,6 +42,10 @@ if (searchParams.has('no-leading') && !searchParams.has('throttle-wait')) {
   };
 }
 
+if (searchParams.has('no-console')) {
+  options.outputToConsole = false;
+}
+
 if (!searchParams.has('disable')) {
   toggleAccented(options);
 }
