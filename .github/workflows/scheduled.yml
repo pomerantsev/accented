@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build
+        run: pnpm build
+
       - name: Install Playwright browsers
         run: pnpm --filter accented-devapp exec playwright install --with-deps
 
