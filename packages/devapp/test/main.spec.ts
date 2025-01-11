@@ -1,4 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
