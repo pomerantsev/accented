@@ -68,6 +68,29 @@ accented({
 });
 ```
 
+#### `name`
+
+**Type:** string.
+
+**Default:** `"accented"`.
+
+The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
+
+You shouldn’t have to use this attribute unless some of the names on your page conflict with what Accented provides by default.
+
+* The data attribute that’s added to elements with issues (default: `data-accented`).
+* The custom element that encapsulates the button and dialog attached to each element with issues (default: `accented-container`).
+* The CSS cascade layer containing page-wide Accented-specific styles (default: `accented`).
+
+**Example:**
+
+```
+accented({name: 'my-name'});
+```
+
+With the above option provided, the attribute set on elements with issues will be `data-my-name`,
+the custom element will be called `my-name-container`, and so on.
+
 #### `throttle`
 
 An object controlling when Accented will run its scans.

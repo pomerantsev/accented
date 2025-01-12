@@ -46,6 +46,10 @@ if (searchParams.has('no-console')) {
   options.outputToConsole = false;
 }
 
+if (searchParams.has('name')) {
+  options.name = searchParams.get('name')!;
+}
+
 if (!searchParams.has('disable')) {
   toggleAccented(options);
 }

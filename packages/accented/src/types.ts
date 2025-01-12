@@ -37,6 +37,17 @@ type CallbackParams = {
 export type Callback = (params: CallbackParams) => void;
 
 export type AccentedOptions = {
+
+  /**
+   * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
+   * * The data attribute that’s added to elements with issues (default: "data-accented").
+   * * The custom element that encapsulates the button and dialog attached to each element with issues (default: "accented-container").
+   * * The CSS cascade layer containing page-wide Accented-specific styles (default: "accented").
+   *
+   * Default: "accented".
+   */
+  name?: string,
+
   /**
    * Whether to output the issues to the console.
    *
