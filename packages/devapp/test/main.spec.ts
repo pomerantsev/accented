@@ -82,6 +82,12 @@ test.describe('Accented', () => {
       await expect(arg1).toEqual('Elements from callback:');
     });
 
+    test('name', async ({ page }) => {
+      await page.goto(`?name=my-name`);
+      const count = await page.locator('[data-my-name]').count();
+      await expect(count).toBeGreaterThan(0);
+    });
+
     test.describe('throttle', () => {
       test('leading: false', async ({ page }) => {
         await page.goto(`?throttle-wait=100&no-leading`);

@@ -4,7 +4,7 @@ import transformViolations from './utils/transform-violations.js';
 import { enabled, elementsWithIssues } from './state.js';
 import type { Throttle, Callback } from './types';
 
-export default function createScanner(throttle: Required<Throttle>, callback: Callback) {
+export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
   const taskQueue = new TaskQueue<Node>(async () => {
     performance.mark('axe-start');
     const result = await axe.run({
@@ -36,7 +36,7 @@ export default function createScanner(throttle: Required<Throttle>, callback: Ca
 
   const mutationObserver = new MutationObserver(mutationList => {
     const filteredMutationList = mutationList.filter(mutationRecord => {
-      return !(mutationRecord.type === 'attributes' && mutationRecord.attributeName === 'data-accented');
+      return !(mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`);
     });
     taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
   });

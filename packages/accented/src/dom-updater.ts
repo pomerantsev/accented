@@ -2,21 +2,21 @@ import { effect } from '@preact/signals-core';
 import { elementsWithIssues } from './state.js';
 import type { ElementWithIssues } from './types';
 
-const attrName = 'data-accented';
+export default function createDomUpdater(name: string) {
+  const attrName = `data-${name}`;
 
-function setIssues (elementsWithIssues: Array<ElementWithIssues>) {
-  for (const elementWithIssues of elementsWithIssues) {
-    elementWithIssues.element.setAttribute(attrName, '');
+  function setIssues (elementsWithIssues: Array<ElementWithIssues>) {
+    for (const elementWithIssues of elementsWithIssues) {
+      elementWithIssues.element.setAttribute(attrName, '');
+    }
   }
-}
 
-function removeIssues (elementsWithIssues: Array<ElementWithIssues>) {
-  for (const elementWithIssues of elementsWithIssues) {
-    elementWithIssues.element.removeAttribute(attrName);
+  function removeIssues (elementsWithIssues: Array<ElementWithIssues>) {
+    for (const elementWithIssues of elementsWithIssues) {
+      elementWithIssues.element.removeAttribute(attrName);
+    }
   }
-}
 
-export default function createDomUpdater() {
   const stylesheet = new CSSStyleSheet();
   stylesheet.replaceSync(`
     [${attrName}]:not(:focus-visible) {

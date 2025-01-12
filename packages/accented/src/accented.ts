@@ -14,6 +14,7 @@ export type { AccentedOptions, DisableAccented };
 // * update examples in the accented() function JSDoc;
 // * update examples in the Readme.
 const defaultOptions: DeepRequired<AccentedOptions> = {
+  name: 'accented',
   outputToConsole: true,
   throttle: {
     wait: 1000,
@@ -66,7 +67,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     return () => {};
   }
 
-  const {outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
+  const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
 
   if (enabled.value) {
     // TODO: add link to relevant docs
@@ -78,8 +79,8 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   }
 
   enabled.value = true;
-  const cleanupScanner = createScanner(throttle, callback);
-  const cleanupDomUpdater = createDomUpdater();
+  const cleanupScanner = createScanner(name, throttle, callback);
+  const cleanupDomUpdater = createDomUpdater(name);
   const cleanupLogger = outputToConsole ? createLogger() : () => {};
 
   return () => {
