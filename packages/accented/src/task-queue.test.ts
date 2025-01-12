@@ -15,6 +15,14 @@ suite('TaskQueue', () => {
     assert.equal(asyncCallback.mock.callCount(), 0);
   });
 
+  test('callback is not called if addMultiple is called with an empty array', async () => {
+    const asyncCallback = createAsyncCallback(0);
+    const taskQueue = new TaskQueue(asyncCallback, { wait: 50, leading: true });
+    taskQueue.addMultiple([]);
+    await wait(100);
+    assert.equal(asyncCallback.mock.callCount(), 0);
+  });
+
   test('callback is called once if multiple items are added before the first delay has elapsed', async () => {
     const asyncCallback = createAsyncCallback(0);
     const taskQueue = new TaskQueue<string>(asyncCallback, { wait: 100, leading: false });
