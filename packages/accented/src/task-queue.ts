@@ -44,8 +44,16 @@ export default class TaskQueue<T> {
     await this.#run();
   }
 
+  addMultiple(items: Array<T>) {
+    for (const item of items) {
+      this.#items.add(item);
+    }
+    if (this.#items.size > 0) {
+      this.#preRun();
+    }
+  }
+
   add(item: T) {
-    this.#items.add(item);
-    this.#preRun();
+    this.addMultiple([item]);
   }
 }
