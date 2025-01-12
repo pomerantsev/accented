@@ -41,11 +41,11 @@ export default function createScanner(throttle: Required<Throttle>, callback: Ca
     taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
   });
 
-  // TODO: read more about the params and decide which ones we need.
   mutationObserver.observe(document, {
     subtree: true,
     childList: true,
-    attributes: true
+    attributes: true,
+    characterData: true
   });
   return () => {
     mutationObserver.disconnect();
