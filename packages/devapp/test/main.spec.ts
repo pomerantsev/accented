@@ -58,6 +58,22 @@ test.describe('Accented', () => {
     });
   });
 
+  test.describe('mutation observer', () => {
+    test('causes a single scan when the mutation list consists of more than one event', async ({ page }) => {
+      await page.goto(`?no-console&callback&throttle-wait=0`);
+      // Wait for the first console message
+      await page.waitForEvent('console');
+
+      let messageCount = 0;
+      page.on('console', () => {
+        messageCount++;
+      });
+      await page.getByRole('button', { name: 'Add two elements with issues' }).click();
+      await page.waitForTimeout(200);
+      await expect(messageCount).toBe(1);
+    });
+  });
+
   test.describe('API', () => {
     test('callback', async ({ page }) => {
       await page.goto(`?callback&no-console`);

@@ -35,13 +35,10 @@ export default function createScanner(throttle: Required<Throttle>, callback: Ca
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
-    // TODO: filter out irrelevant mutations
-    for (const mutationRecord of mutationList) {
-      if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === 'data-accented') {
-        continue;
-      }
-      taskQueue.add(mutationRecord.target);
-    }
+    const filteredMutationList = mutationList.filter(mutationRecord => {
+      return !(mutationRecord.type === 'attributes' && mutationRecord.attributeName === 'data-accented');
+    });
+    taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
   });
 
   // TODO: read more about the params and decide which ones we need.

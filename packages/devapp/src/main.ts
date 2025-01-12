@@ -16,6 +16,18 @@ document.getElementById('add-one')?.addEventListener('click', () => {
   container?.appendChild(button);
 });
 
+document.getElementById('add-two')?.addEventListener('click', () => {
+  const container = document.getElementById('many-elements');
+  for (let i = 0; i < 2; i++) {
+    const button = document.createElement('button');
+    button.className = 'test-button';
+    buttonCount++;
+    button.textContent = `Button ${buttonCount}`;
+    button.setAttribute('aria-hidden', 'both');
+    container?.appendChild(button);
+  }
+});
+
 document.getElementById('add-many-with-issues')?.addEventListener('click', () => {
   const container = document.getElementById('many-elements');
   for (let i = 0; i < 1000; i++) {
