@@ -81,6 +81,7 @@ You shouldn’t have to use this attribute unless some of the names on your page
 * The data attribute that’s added to elements with issues (default: `data-accented`).
 * The custom element that encapsulates the button and dialog attached to each element with issues (default: `accented-container`).
 * The CSS cascade layer containing page-wide Accented-specific styles (default: `accented`).
+* The prefix for some of the CSS custom properties used by Accented (default: `--accented-`).
 
 **Example:**
 
@@ -124,6 +125,10 @@ and the beginning of the next one.
 If set to false, the wait applies to mutations as well,
 delaying the output.
 This may be useful if you’re expecting bursts of mutations on your page.
+
+### Styling
+
+TODO: Create a separate doc with info on using `:root` and CSS layers to control some aspects of styling.
 
 ## Miscellaneous
 
