@@ -19,9 +19,19 @@ export default function createDomUpdater(name: string) {
 
   const stylesheet = new CSSStyleSheet();
   stylesheet.replaceSync(`
-    [${attrName}]:not(:focus-visible) {
-      outline: 2px solid red !important;
-      outline-offset: -2px;
+    @layer ${name} {
+      :root {
+        --${name}-primary-color: red;
+        --${name}-outline-width: 2px;
+        --${name}-outline-style: solid;
+      }
+
+      [${attrName}]:not(:focus-visible) {
+        outline-width: var(--${name}-outline-width) !important;
+        outline-offset: calc(-1 * var(--${name}-outline-width)) !important;
+        outline-color: var(--${name}-primary-color) !important;
+        outline-style: var(--${name}-outline-style) !important;
+      }
     }
   `);
 

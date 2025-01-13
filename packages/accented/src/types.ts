@@ -43,6 +43,7 @@ export type AccentedOptions = {
    * * The data attribute that’s added to elements with issues (default: "data-accented").
    * * The custom element that encapsulates the button and dialog attached to each element with issues (default: "accented-container").
    * * The CSS cascade layer containing page-wide Accented-specific styles (default: "accented").
+   * * The prefix for some of the CSS custom properties used by Accented (default: "--accented-").
    *
    * Default: "accented".
    */
