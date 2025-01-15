@@ -1,5 +1,5 @@
 import { effect } from '@preact/signals-core';
-import { elementsWithIssues } from './state.js';
+import { computedElementsWithIssues } from './state.js';
 import type { ElementWithIssues } from './types';
 
 export default function createDomUpdater(name: string) {
@@ -35,6 +35,7 @@ export default function createDomUpdater(name: string) {
     }
   `);
 
+  // TODO: can we get access to the previous value in a different fashion?
   let previousElementsWithIssues: Array<ElementWithIssues> = [];
 
   document.adoptedStyleSheets.push(stylesheet);
@@ -45,10 +46,12 @@ export default function createDomUpdater(name: string) {
   };
 
   const disposeOfElementsEffect = effect(() => {
-    removeIssues(previousElementsWithIssues);
-    setIssues(elementsWithIssues.value);
-    previousElementsWithIssues = [...elementsWithIssues.value];
+    // console.log('Calling the effect');
+    // removeIssues(previousElementsWithIssues);
+    setIssues(computedElementsWithIssues.value);
+    previousElementsWithIssues = [...computedElementsWithIssues.value];
     return () => {
+      // console.log('Value in the return function:', computedElementsWithIssues.value.length);
       removeIssues(previousElementsWithIssues);
     };
   });

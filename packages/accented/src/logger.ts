@@ -1,16 +1,25 @@
 import { effect } from '@preact/signals-core';
-import { elementsWithIssues } from './state.js';
-import areElementsWithIssuesEqual from './utils/are-elements-with-issues-equal.js';
-import type { ElementWithIssues } from './types.js';
+import { computedElementsWithIssues } from './state.js';
 
 const accentedUrl = 'https://www.npmjs.com/package/accented';
 
 export default function createLogger() {
-  let previousElementsWithIssues: Array<ElementWithIssues> = [];
+
+  let firstRun = true;
+
   return effect(() => {
-    if (!areElementsWithIssuesEqual(previousElementsWithIssues, elementsWithIssues.value)) {
-      console.log(`Elements with accessibility issues, identified by Accented (${accentedUrl}):\n`, elementsWithIssues.value);
+    if (computedElementsWithIssues.value.length > 0) {
+      if (firstRun) {
+        firstRun = false;
+      } else {
+        console.log(`Elements with accessibility issues, identified by Accented (${accentedUrl}):\n`, computedElementsWithIssues.value);
+      }
+    } else {
+      if (firstRun) {
+        firstRun = false;
+      } else {
+        console.log(`No elements with accessibility issues identified by Accented (${accentedUrl}).`);
+      }
     }
-    previousElementsWithIssues = [...elementsWithIssues.value];
   });
 }

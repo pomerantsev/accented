@@ -16,6 +16,14 @@ document.getElementById('add-one')?.addEventListener('click', () => {
   container?.appendChild(button);
 });
 
+document.getElementById('add-issue')?.addEventListener('click', () => {
+  document.getElementById('button-with-single-issue')?.setAttribute('aria-checked', 'true');
+});
+
+document.getElementById('remove-button')?.addEventListener('click', () => {
+  document.getElementById('button-with-single-issue')?.remove();
+});
+
 document.getElementById('add-two')?.addEventListener('click', () => {
   const container = document.getElementById('many-elements');
   for (let i = 0; i < 2; i++) {
