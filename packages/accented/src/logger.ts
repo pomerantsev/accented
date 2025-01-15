@@ -9,11 +9,7 @@ export default function createLogger() {
 
   return effect(() => {
     if (computedElementsWithIssues.value.length > 0) {
-      if (firstRun) {
-        firstRun = false;
-      } else {
-        console.log(`Elements with accessibility issues, identified by Accented (${accentedUrl}):\n`, computedElementsWithIssues.value);
-      }
+      console.log(`Elements with accessibility issues, identified by Accented (${accentedUrl}):\n`, computedElementsWithIssues.value);
     } else {
       if (firstRun) {
         firstRun = false;
