@@ -2,8 +2,8 @@ import type { AxeResults } from 'axe-core';
 import type { Signal } from '@preact/signals-core';
 import { batch, signal } from '@preact/signals-core';
 import type { ExtendedElementWithIssues } from '../types';
-import transformViolations from './transform-violations';
-import areIssueSetsEqual from './are-issue-sets-equal';
+import transformViolations from './transform-violations.js';
+import areIssueSetsEqual from './are-issue-sets-equal.js';
 
 export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations) {
   const updatedElementsWithIssues = transformViolations(violations);
