@@ -1,5 +1,5 @@
 import { effect } from '@preact/signals-core';
-import { computedElementsWithIssues } from './state.js';
+import { elementsWithIssues } from './state.js';
 
 const accentedUrl = 'https://www.npmjs.com/package/accented';
 
@@ -8,8 +8,8 @@ export default function createLogger() {
   let firstRun = true;
 
   return effect(() => {
-    if (computedElementsWithIssues.value.length > 0) {
-      console.log(`Elements with accessibility issues, identified by Accented (${accentedUrl}):\n`, computedElementsWithIssues.value);
+    if (elementsWithIssues.value.length > 0) {
+      console.log(`Elements with accessibility issues, identified by Accented (${accentedUrl}):\n`, elementsWithIssues.value);
     } else {
       if (firstRun) {
         firstRun = false;

@@ -1,5 +1,5 @@
 import { effect } from '@preact/signals-core';
-import { computedElementsWithIssues } from './state.js';
+import { elementsWithIssues } from './state.js';
 import type { ElementWithIssues } from './types';
 
 export default function createDomUpdater(name: string) {
@@ -45,15 +45,15 @@ export default function createDomUpdater(name: string) {
   };
 
   function update() {
-    const addedElementsWithIssues = computedElementsWithIssues.value.filter(elementWithIssues => {
+    const addedElementsWithIssues = elementsWithIssues.value.filter(elementWithIssues => {
       return !previousElementsWithIssues.some(previousElementWithIssues => previousElementWithIssues.element === elementWithIssues.element);
     });
     const removedElementsWithIssues = previousElementsWithIssues.filter(previousElementWithIssues => {
-      return !computedElementsWithIssues.value.some(elementWithIssues => elementWithIssues.element === previousElementWithIssues.element);
+      return !elementsWithIssues.value.some(elementWithIssues => elementWithIssues.element === previousElementWithIssues.element);
     });
     removeIssues(removedElementsWithIssues);
     setIssues(addedElementsWithIssues);
-    previousElementsWithIssues = [...computedElementsWithIssues.value];
+    previousElementsWithIssues = [...elementsWithIssues.value];
   }
 
   // Running update twice to ensure that it's run on disposal as well.
