@@ -35,7 +35,6 @@ export default function createDomUpdater(name: string) {
     }
   `);
 
-  // TODO: can we get access to the previous value in a different fashion?
   let previousElementsWithIssues: Array<ElementWithIssues> = [];
 
   document.adoptedStyleSheets.push(stylesheet);
@@ -45,14 +44,23 @@ export default function createDomUpdater(name: string) {
     }
   };
 
-  const disposeOfElementsEffect = effect(() => {
-    // console.log('Calling the effect');
-    // removeIssues(previousElementsWithIssues);
-    setIssues(computedElementsWithIssues.value);
+  function update() {
+    const addedElementsWithIssues = computedElementsWithIssues.value.filter(elementWithIssues => {
+      return !previousElementsWithIssues.some(previousElementWithIssues => previousElementWithIssues.element === elementWithIssues.element);
+    });
+    const removedElementsWithIssues = previousElementsWithIssues.filter(previousElementWithIssues => {
+      return !computedElementsWithIssues.value.some(elementWithIssues => elementWithIssues.element === previousElementWithIssues.element);
+    });
+    removeIssues(removedElementsWithIssues);
+    setIssues(addedElementsWithIssues);
     previousElementsWithIssues = [...computedElementsWithIssues.value];
+  }
+
+  // Running update twice to ensure that it's run on disposal as well.
+  const disposeOfElementsEffect = effect(() => {
+    update();
     return () => {
-      // console.log('Value in the return function:', computedElementsWithIssues.value.length);
-      removeIssues(previousElementsWithIssues);
+      update();
     };
   });
 
