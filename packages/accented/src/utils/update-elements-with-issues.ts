@@ -13,9 +13,6 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
       const existingElementIndex = extendedElementsWithIssues.value.findIndex(extendedElementWithIssues => extendedElementWithIssues.element === updatedElementWithIssues.element);
       if (existingElementIndex > -1 && extendedElementsWithIssues.value[existingElementIndex] && !areIssueSetsEqual(extendedElementsWithIssues.value[existingElementIndex].issues.value, updatedElementWithIssues.issues)) {
         extendedElementsWithIssues.value[existingElementIndex].issues.value = updatedElementWithIssues.issues;
-
-        // console.log('Updated issues for', extendedElementsWithIssues.value[existingElementIndex].element, ':',
-        //   extendedElementsWithIssues.value[existingElementIndex].issues.value);
       }
     }
 
@@ -26,9 +23,6 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
     const removedElementsWithIssues = extendedElementsWithIssues.value.filter(extendedElementWithIssues => {
       return !updatedElementsWithIssues.some(updatedElementWithIssues => updatedElementWithIssues.element === extendedElementWithIssues.element);
     });
-
-    // console.log('Added:', addedElementsWithIssues);
-    // console.log('Removed:', removedElementsWithIssues);
 
     if (addedElementsWithIssues.length > 0 || removedElementsWithIssues.length > 0) {
       extendedElementsWithIssues.value = [...extendedElementsWithIssues.value]
@@ -41,7 +35,6 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             issues: signal(addedElementWithIssues.issues)
           };
         }));
-      // console.log('Updated value:', extendedElementsWithIssues.value);
     }
   });
 }

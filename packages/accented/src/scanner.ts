@@ -1,6 +1,5 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
-// import transformViolations from './utils/transform-violations.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import type { Throttle, Callback } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
@@ -24,10 +23,6 @@ export default function createScanner(name: string, throttle: Required<Throttle>
     if (!enabled.value) {
       return;
     }
-
-    // console.log('Before updating');
-    // elementsWithIssues.value = transformViolations(result.violations);
-    // console.log('After updating');
 
     updateElementsWithIssues(extendedElementsWithIssues, result.violations);
 
