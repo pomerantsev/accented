@@ -58,6 +58,38 @@ test.describe('Accented', () => {
     });
   });
 
+  test.describe('mutations', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('?no-console&callback&throttle-wait=0');
+    });
+
+    test('adding an element with an issue results in one more element with issues displayed', async ({ page }) => {
+      const initialCount = await page.locator(accentedSelector).count();
+      const button = await page.getByRole('button', { name: 'Add one element with an issue' });
+      await button.click();
+      const newButton1 = await page.getByRole('button', { name: 'Button 1' });
+      await expect(newButton1).toHaveAttribute(accentedDataAttr);
+      const finalCount = await page.locator(accentedSelector).count();
+      expect(finalCount).toBe(initialCount + 1);
+    });
+
+    test('removing an element with an issue results in one fewer elements with issues displayed', async ({ page }) => {
+      const initialCount = await page.locator(accentedSelector).count();
+      const button = await page.getByRole('button', { name: 'Remove button' });
+      await button.click();
+      const finalCount = await page.locator(accentedSelector).count();
+      expect(finalCount).toBe(initialCount - 1);
+    });
+
+    test('removing an issue from an element with one issue results in one fewer elements with issues displayed', async ({ page }) => {
+      const initialCount = await page.locator(accentedSelector).count();
+      const button = await page.getByRole('button', { name: 'Add text to button' });
+      await button.click();
+      const finalCount = await page.locator(accentedSelector).count();
+      expect(finalCount).toBe(initialCount - 1);
+    });
+  });
+
   test.describe('mutation observer', () => {
     test('causes a single scan when the mutation list consists of more than one event', async ({ page }) => {
       await page.goto(`?no-console&callback&throttle-wait=0`);
