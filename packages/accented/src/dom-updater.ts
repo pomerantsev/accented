@@ -44,7 +44,7 @@ export default function createDomUpdater(name: string) {
     }
   };
 
-  function update() {
+  const disposeOfElementsEffect = effect(() => {
     const addedElementsWithIssues = elementsWithIssues.value.filter(elementWithIssues => {
       return !previousElementsWithIssues.some(previousElementWithIssues => previousElementWithIssues.element === elementWithIssues.element);
     });
@@ -54,14 +54,6 @@ export default function createDomUpdater(name: string) {
     removeIssues(removedElementsWithIssues);
     setIssues(addedElementsWithIssues);
     previousElementsWithIssues = [...elementsWithIssues.value];
-  }
-
-  // Running update twice to ensure that it's run on disposal as well.
-  const disposeOfElementsEffect = effect(() => {
-    update();
-    return () => {
-      update();
-    };
   });
 
   return () => {

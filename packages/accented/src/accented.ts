@@ -2,7 +2,7 @@
 import createDomUpdater from './dom-updater.js';
 import createLogger from './logger.js';
 import createScanner from './scanner.js';
-import { enabled } from './state.js';
+import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 
@@ -85,6 +85,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
 
   return () => {
     enabled.value = false;
+    extendedElementsWithIssues.value = [];
     cleanupScanner();
     cleanupDomUpdater();
     cleanupLogger();
