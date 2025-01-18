@@ -3,8 +3,8 @@ section {
 }
 
 .test-button {
-  width: 5rem;
-  height: 3rem;
+  inline-size: 5rem;
+  block-size: 3rem;
 }
 
 button:not(.test-button) + button:not(.test-button) {
