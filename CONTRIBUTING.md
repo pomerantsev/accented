@@ -1,5 +1,15 @@
 # Contributing
 
+## Testing
+
+### Running unit tests
+
+TODO
+
+### Runnint end-to-end tests
+
+TODO
+
 ## Versioning and releasing
 
 We’re using [Changesets](https://github.com/changesets/changesets) to automate the version and release process of Accented as much as possible.
