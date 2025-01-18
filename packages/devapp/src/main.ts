@@ -16,6 +16,21 @@ document.getElementById('add-one')?.addEventListener('click', () => {
   container?.appendChild(button);
 });
 
+document.getElementById('add-issue')?.addEventListener('click', () => {
+  document.getElementById('button-with-single-issue')?.setAttribute('aria-checked', 'true');
+});
+
+document.getElementById('add-text')?.addEventListener('click', () => {
+  const button = document.getElementById('button-with-single-issue');
+  if (button) {
+    button.textContent = 'Click me';
+  }
+});
+
+document.getElementById('remove-button')?.addEventListener('click', () => {
+  document.getElementById('button-with-single-issue')?.remove();
+});
+
 document.getElementById('add-two')?.addEventListener('click', () => {
   const container = document.getElementById('many-elements');
   for (let i = 0; i < 2; i++) {

@@ -45,12 +45,15 @@ export default function createDomUpdater(name: string) {
   };
 
   const disposeOfElementsEffect = effect(() => {
-    removeIssues(previousElementsWithIssues);
-    setIssues(elementsWithIssues.value);
+    const addedElementsWithIssues = elementsWithIssues.value.filter(elementWithIssues => {
+      return !previousElementsWithIssues.some(previousElementWithIssues => previousElementWithIssues.element === elementWithIssues.element);
+    });
+    const removedElementsWithIssues = previousElementsWithIssues.filter(previousElementWithIssues => {
+      return !elementsWithIssues.value.some(elementWithIssues => elementWithIssues.element === previousElementWithIssues.element);
+    });
+    removeIssues(removedElementsWithIssues);
+    setIssues(addedElementsWithIssues);
     previousElementsWithIssues = [...elementsWithIssues.value];
-    return () => {
-      removeIssues(previousElementsWithIssues);
-    };
   });
 
   return () => {

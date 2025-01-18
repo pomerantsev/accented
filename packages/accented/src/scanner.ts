@@ -1,8 +1,8 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
-import transformViolations from './utils/transform-violations.js';
-import { enabled, elementsWithIssues } from './state.js';
+import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import type { Throttle, Callback } from './types';
+import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 
 export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
   const taskQueue = new TaskQueue<Node>(async () => {
@@ -24,7 +24,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       return;
     }
 
-    elementsWithIssues.value = transformViolations(result.violations);
+    updateElementsWithIssues(extendedElementsWithIssues, result.violations);
 
     callback({
       elementsWithIssues: elementsWithIssues.value,

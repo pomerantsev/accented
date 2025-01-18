@@ -1,4 +1,5 @@
 import type axe from 'axe-core';
+import type { Signal } from '@preact/signals-core';
 
 export type DeepRequired<T> = T extends object ? {
   [P in keyof T]-? : DeepRequired<T[P]>
@@ -87,3 +88,7 @@ export type ElementWithIssues = {
   element: HTMLElement,
   issues: Array<Issue>
 }
+
+export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
+  issues: Signal<ElementWithIssues['issues']>
+};
