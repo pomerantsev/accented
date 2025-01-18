@@ -1,19 +1,21 @@
 import { effect } from '@preact/signals-core';
-import { elementsWithIssues } from './state.js';
-import type { ElementWithIssues } from './types';
+import { extendedElementsWithIssues } from './state.js';
+import type { ExtendedElementWithIssues } from './types';
 
 export default function createDomUpdater(name: string) {
   const attrName = `data-${name}`;
 
-  function setIssues (elementsWithIssues: Array<ElementWithIssues>) {
-    for (const elementWithIssues of elementsWithIssues) {
+  function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
+    for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, '');
+      document.body.appendChild(elementWithIssues.accentedContainer);
     }
   }
 
-  function removeIssues (elementsWithIssues: Array<ElementWithIssues>) {
-    for (const elementWithIssues of elementsWithIssues) {
+  function removeIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
+    for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
+      elementWithIssues.accentedContainer.remove();
     }
   }
 
@@ -22,6 +24,7 @@ export default function createDomUpdater(name: string) {
     @layer ${name} {
       :root {
         --${name}-primary-color: red;
+        --${name}-secondary-color: white;
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;
       }
@@ -35,7 +38,7 @@ export default function createDomUpdater(name: string) {
     }
   `);
 
-  let previousElementsWithIssues: Array<ElementWithIssues> = [];
+  let previousExtendedElementsWithIssues: Array<ExtendedElementWithIssues> = [];
 
   document.adoptedStyleSheets.push(stylesheet);
   const removeStylesheet = () => {
@@ -45,15 +48,15 @@ export default function createDomUpdater(name: string) {
   };
 
   const disposeOfElementsEffect = effect(() => {
-    const addedElementsWithIssues = elementsWithIssues.value.filter(elementWithIssues => {
-      return !previousElementsWithIssues.some(previousElementWithIssues => previousElementWithIssues.element === elementWithIssues.element);
+    const added = extendedElementsWithIssues.value.filter(elementWithIssues => {
+      return !previousExtendedElementsWithIssues.some(previousElementWithIssues => previousElementWithIssues.element === elementWithIssues.element);
     });
-    const removedElementsWithIssues = previousElementsWithIssues.filter(previousElementWithIssues => {
-      return !elementsWithIssues.value.some(elementWithIssues => elementWithIssues.element === previousElementWithIssues.element);
+    const removed = previousExtendedElementsWithIssues.filter(previousElementWithIssues => {
+      return !extendedElementsWithIssues.value.some(elementWithIssues => elementWithIssues.element === previousElementWithIssues.element);
     });
-    removeIssues(removedElementsWithIssues);
-    setIssues(addedElementsWithIssues);
-    previousElementsWithIssues = [...elementsWithIssues.value];
+    removeIssues(removed);
+    setIssues(added);
+    previousExtendedElementsWithIssues = [...extendedElementsWithIssues.value];
   });
 
   return () => {

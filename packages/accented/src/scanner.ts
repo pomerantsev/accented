@@ -24,7 +24,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       return;
     }
 
-    updateElementsWithIssues(extendedElementsWithIssues, result.violations);
+    updateElementsWithIssues(extendedElementsWithIssues, result.violations, document, name);
 
     callback({
       elementsWithIssues: elementsWithIssues.value,
@@ -36,7 +36,11 @@ export default function createScanner(name: string, throttle: Required<Throttle>
 
   const mutationObserver = new MutationObserver(mutationList => {
     const filteredMutationList = mutationList.filter(mutationRecord => {
-      return !(mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`);
+      const accentedDataAttributeChanged = mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`;
+      const onlyAccentedContainersAddedOrRemoved = mutationRecord.type === 'childList' &&
+        [...mutationRecord.addedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase()) &&
+        [...mutationRecord.removedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase());
+      return !(accentedDataAttributeChanged || onlyAccentedContainersAddedOrRemoved);
     });
     taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
   });

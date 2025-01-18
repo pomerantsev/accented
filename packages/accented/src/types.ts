@@ -1,5 +1,6 @@
 import type axe from 'axe-core';
 import type { Signal } from '@preact/signals-core';
+import type AccentedContainer from './elements/accented-container';
 
 export type DeepRequired<T> = T extends object ? {
   [P in keyof T]-? : DeepRequired<T[P]>
@@ -90,5 +91,6 @@ export type ElementWithIssues = {
 }
 
 export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
-  issues: Signal<ElementWithIssues['issues']>
+  issues: Signal<ElementWithIssues['issues']>,
+  accentedContainer: AccentedContainer
 };

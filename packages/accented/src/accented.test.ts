@@ -15,10 +15,10 @@ suite('Accented', () => {
 
   suite('argument validation', () => {
     // @ts-expect-error
-    assert.throws(() => accented({ throttle: null }));
+    assert.rejects(async () => await accented({ throttle: null }));
     // @ts-expect-error
-    assert.throws(() => accented({ throttle: 1000 }));
+    assert.rejects(async () => await accented({ throttle: 1000 }));
 
-    assert.throws(() => accented({ throttle: { wait: -1 } }));
+    assert.rejects(async () => await accented({ throttle: { wait: -1 } }));
   });
 });

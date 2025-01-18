@@ -6,13 +6,21 @@ import type { ExtendedElementWithIssues, Issue } from '../types';
 import updateElementsWithIssues from './update-elements-with-issues';
 
 import type { AxeResults, ImpactValue } from 'axe-core';
+import type AccentedContainer from '../elements/accented-container';
 type Violation = AxeResults['violations'][number];
 type Node = Violation['nodes'][number];
+
+const doc: Document = {
+  // @ts-expect-error the return value is of incorrect type.
+  createElement: () => ({})
+}
 
 // @ts-expect-error element is not HTMLElement
 const element1: HTMLElement = {};
 // @ts-expect-error element is not HTMLElement
 const element2: HTMLElement = {};
+
+const accentedContainer = doc.createElement('accented-container') as AccentedContainer;
 
 const commonNodeProps = {
   html: '<div></div>',
@@ -85,14 +93,16 @@ suite('updateElementsWithIssues', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
         element: element1,
+        accentedContainer,
         issues: signal([issue1])
       },
       {
         element: element2,
+        accentedContainer,
         issues: signal([issue2])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2]);
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], doc, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -104,14 +114,16 @@ suite('updateElementsWithIssues', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
         element: element1,
+        accentedContainer,
         issues: signal([issue1])
       },
       {
         element: element2,
+        accentedContainer,
         issues: signal([issue2])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2, violation3]);
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2, violation3], doc, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -123,14 +135,16 @@ suite('updateElementsWithIssues', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
         element: element1,
+        accentedContainer,
         issues: signal([issue1])
       },
       {
         element: element2,
+        accentedContainer,
         issues: signal([issue2, issue3])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2]);
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], doc, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -142,10 +156,11 @@ suite('updateElementsWithIssues', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
         element: element1,
+        accentedContainer,
         issues: signal([issue1])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2]);
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], doc, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -157,14 +172,16 @@ suite('updateElementsWithIssues', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
         element: element1,
+        accentedContainer,
         issues: signal([issue1])
       },
       {
         element: element2,
+        accentedContainer,
         issues: signal([issue2])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1]);
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1], doc, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);

@@ -4,8 +4,9 @@ import { batch, signal } from '@preact/signals-core';
 import type { ExtendedElementWithIssues } from '../types';
 import transformViolations from './transform-violations.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
+import type AccentedContainer from '../elements/accented-container';
 
-export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations) {
+export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, doc: Document, name: string) {
   const updatedElementsWithIssues = transformViolations(violations);
 
   batch(() => {
@@ -30,9 +31,13 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           return !removedElementsWithIssues.some(removedElementWithIssues => removedElementWithIssues.element === extendedElementWithIssues.element);
         })
         .concat(addedElementsWithIssues.map(addedElementWithIssues => {
+          const accentedContainer = doc.createElement(`${name}-container`) as AccentedContainer;
+          const issues = signal(addedElementWithIssues.issues);
+          accentedContainer.issues = issues;
           return {
             element: addedElementWithIssues.element,
-            issues: signal(addedElementWithIssues.issues)
+            accentedContainer,
+            issues
           };
         }));
     }

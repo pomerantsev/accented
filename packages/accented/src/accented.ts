@@ -46,7 +46,7 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  *   }
  * });
  */
-export default function accented(options: AccentedOptions = {}): DisableAccented {
+export default async function accented(options: AccentedOptions = {}): Promise<DisableAccented> {
 
   // Argument validation
   if (options.throttle !== undefined) {
@@ -68,6 +68,13 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   }
 
   const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
+
+  if (!customElements.get(`${name}-container`)) {
+    const { default: AccentedContainer, getStylesheetContent } = await import('./elements/accented-container.js');
+    const stylesheetContent = getStylesheetContent(name);
+    await AccentedContainer.stylesheet.replace(stylesheetContent);
+    customElements.define(`${name}-container`, AccentedContainer);
+  }
 
   if (enabled.value) {
     // TODO: add link to relevant docs
