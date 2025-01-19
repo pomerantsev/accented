@@ -69,10 +69,10 @@ export default async function accented(options: AccentedOptions = {}): Promise<D
 
   const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
 
+  const { default: AccentedContainer, getStylesheetContent } = await import('./elements/accented-container.js');
+  const stylesheetContent = getStylesheetContent(name);
+  await AccentedContainer.stylesheet.replace(stylesheetContent);
   if (!customElements.get(`${name}-container`)) {
-    const { default: AccentedContainer, getStylesheetContent } = await import('./elements/accented-container.js');
-    const stylesheetContent = getStylesheetContent(name);
-    await AccentedContainer.stylesheet.replace(stylesheetContent);
     customElements.define(`${name}-container`, AccentedContainer);
   }
 
