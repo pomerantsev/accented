@@ -2,13 +2,27 @@ import type { Issue } from '../types';
 import type { Signal } from '@preact/signals-core';
 import { effect } from '@preact/signals-core';
 
-const template = document.createElement('template');
-template.innerHTML = `
+const containerTemplate = document.createElement('template');
+containerTemplate.innerHTML = `
   <button id="trigger">⚠</button>
   <dialog>
     <h2>Issues</h2>
     <ul id="issues"></ul>
   </dialog>
+`;
+
+const issueTemplate = document.createElement('template');
+issueTemplate.innerHTML = `
+  <li>
+    <a></a>
+    <div></div>
+  </li>
+`;
+
+const descriptionTemplate = document.createElement('template');
+descriptionTemplate.innerHTML = `
+  <span></span>
+  <ul></ul>
 `;
 
 export const getStylesheetContent = (name: string) => `
@@ -34,7 +48,7 @@ export default class AccentedContainer extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    const content = template.content.cloneNode(true);
+    const content = containerTemplate.content.cloneNode(true);
     if (this.shadowRoot) {
       this.shadowRoot.adoptedStyleSheets.push(AccentedContainer.stylesheet);
       this.shadowRoot.append(content);
@@ -58,9 +72,27 @@ export default class AccentedContainer extends HTMLElement {
           if (issuesList) {
             issuesList.innerHTML = '';
             for (const issue of issues) {
-              const li = document.createElement('li');
-              li.textContent = issue.title;
-              issuesList.appendChild(li);
+              const issueContent = issueTemplate.content.cloneNode(true) as Element;
+              const a = issueContent.querySelector('a');
+              const div = issueContent.querySelector('div');
+              if (a && div) {
+                a.textContent = issue.title;
+                a.href = issue.url;
+                const descriptionItems = issue.description.split(/\n\s*/);
+                const descriptionContent = descriptionTemplate.content.cloneNode(true) as Element;
+                const descriptionTitle = descriptionContent.querySelector('span');
+                const descriptionList = descriptionContent.querySelector('ul');
+                if (descriptionTitle && descriptionList && descriptionItems.length > 1) {
+                  descriptionTitle.textContent = descriptionItems[0]!;
+                  for (const descriptionItem of descriptionItems.slice(1)) {
+                    const li = document.createElement('li');
+                    li.textContent = descriptionItem;
+                    descriptionList.appendChild(li);
+                  }
+                  div.appendChild(descriptionContent);
+                }
+              }
+              issuesList.appendChild(issueContent);
             }
           }
         }
