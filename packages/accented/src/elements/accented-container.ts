@@ -33,6 +33,19 @@ export const getStylesheetContent = (name: string) => `
     border: none;
     background-color: var(--${name}-primary-color);
     color: var(--${name}-secondary-color);
+
+    outline-offset: -4px;
+    outline-color: var(--${name}-secondary-color);
+
+    &:focus-visible {
+      outline-width: 2px;
+      outline-style: solid;
+    }
+
+    &:hover:not(:focus-visible) {
+      outline-width: 2px;
+      outline-style: dashed;
+    }
   }
 `;
 
