@@ -61,6 +61,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
     attributes: true,
     characterData: true
   });
+
   return () => {
     mutationObserver.disconnect();
   };

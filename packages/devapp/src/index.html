@@ -29,6 +29,32 @@
       </section>
 
       <section>
+        <h2>Top layer testing</h2>
+        <div>
+          <button class="test-button" id="open-dialog">Open dialog</button>
+          <dialog id="dialog">
+            <button class="test-button"></button>
+          </dialog>
+        </div>
+        <div>
+          <button class="test-button" id="open-popover" popovertarget="popover">Open popover</button>
+          <div id="popover" popover>
+            <button class="test-button"></button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Details</h2>
+        <div>
+          <details>
+            <summary>Summary</summary>
+            <button class="test-button"></button>
+          </details>
+        </div>
+      </section>
+
+      <section>
         <h2>Performance testing</h2>
         <button id="add-one">Add one element with an issue</button>
         <button id="add-two">Add two elements with issues</button>

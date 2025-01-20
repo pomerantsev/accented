@@ -61,3 +61,7 @@ document.getElementById('add-many-no-issues')?.addEventListener('click', () => {
     container?.appendChild(button);
   }
 });
+
+document.getElementById('open-dialog')?.addEventListener('click', () => {
+  (document.getElementById('dialog') as HTMLDialogElement)?.showModal();
+});
