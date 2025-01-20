@@ -8,6 +8,9 @@ export default function createDomUpdater(name: string) {
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, '');
+      // TODO: this is only a prototype. We need to make this more robust by ensuring we don't break any existing functionality
+      // (in case anchor-name is already set on the element, either in a stylesheet or inline).
+      elementWithIssues.element.style.setProperty('anchor-name', `--${name}-anchor-${elementWithIssues.id}`);
       document.body.appendChild(elementWithIssues.accentedContainer);
     }
   }
@@ -15,6 +18,7 @@ export default function createDomUpdater(name: string) {
   function removeIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
+      elementWithIssues.element.style.removeProperty('anchor-name');
       elementWithIssues.accentedContainer.remove();
     }
   }

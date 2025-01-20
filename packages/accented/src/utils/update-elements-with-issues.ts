@@ -6,6 +6,8 @@ import transformViolations from './transform-violations.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
 import type AccentedContainer from '../elements/accented-container';
 
+let count = 0;
+
 export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, doc: Document, name: string) {
   const updatedElementsWithIssues = transformViolations(violations);
 
@@ -31,10 +33,13 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           return !removedElementsWithIssues.some(removedElementWithIssues => removedElementWithIssues.element === extendedElementWithIssues.element);
         })
         .concat(addedElementsWithIssues.map(addedElementWithIssues => {
+          const id = count++;
           const accentedContainer = doc.createElement(`${name}-container`) as AccentedContainer;
+          accentedContainer.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
           const issues = signal(addedElementWithIssues.issues);
           accentedContainer.issues = issues;
           return {
+            id,
             element: addedElementWithIssues.element,
             accentedContainer,
             issues

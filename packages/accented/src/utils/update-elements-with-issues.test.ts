@@ -92,11 +92,13 @@ suite('updateElementsWithIssues', () => {
   test('no changes', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
+        id: 1,
         element: element1,
         accentedContainer,
         issues: signal([issue1])
       },
       {
+        id: 2,
         element: element2,
         accentedContainer,
         issues: signal([issue2])
@@ -113,11 +115,13 @@ suite('updateElementsWithIssues', () => {
   test('one issue added', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
+        id: 1,
         element: element1,
         accentedContainer,
         issues: signal([issue1])
       },
       {
+        id: 2,
         element: element2,
         accentedContainer,
         issues: signal([issue2])
@@ -134,11 +138,13 @@ suite('updateElementsWithIssues', () => {
   test('one issue removed', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
+        id: 1,
         element: element1,
         accentedContainer,
         issues: signal([issue1])
       },
       {
+        id: 2,
         element: element2,
         accentedContainer,
         issues: signal([issue2, issue3])
@@ -155,6 +161,7 @@ suite('updateElementsWithIssues', () => {
   test('one element added', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
+        id: 1,
         element: element1,
         accentedContainer,
         issues: signal([issue1])
@@ -171,11 +178,13 @@ suite('updateElementsWithIssues', () => {
   test('one element removed', () => {
     const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
       {
+        id: 1,
         element: element1,
         accentedContainer,
         issues: signal([issue1])
       },
       {
+        id: 2,
         element: element2,
         accentedContainer,
         issues: signal([issue2])

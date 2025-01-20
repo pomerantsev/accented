@@ -4,8 +4,8 @@ import { effect } from '@preact/signals-core';
 
 const containerTemplate = document.createElement('template');
 containerTemplate.innerHTML = `
-  <button id="trigger">⚠</button>
-  <dialog>
+  <button id="trigger" popover="manual">⚠</button>
+  <dialog dir="ltr">
     <h2>Issues</h2>
     <ul id="issues"></ul>
   </dialog>
@@ -26,7 +26,16 @@ descriptionTemplate.innerHTML = `
 `;
 
 export const getStylesheetContent = (name: string) => `
+  :host {
+    position: absolute;
+    inset-inline-end: anchor(end);
+    inset-block-end: anchor(end);
+  }
+
   #trigger {
+    /* Reset popover props */
+    inset: inherit;
+
     font-size: 1rem;
     inline-size: min(32px, 2rem);
     block-size: min(32px, 2rem);
@@ -72,6 +81,7 @@ export default class AccentedContainer extends HTMLElement {
     if (this.shadowRoot) {
       const { shadowRoot } = this;
       const trigger = shadowRoot.getElementById('trigger');
+      trigger?.showPopover();
       const dialog = shadowRoot.querySelector('dialog');
       this.#abortController = new AbortController();
       trigger?.addEventListener('click', () => {

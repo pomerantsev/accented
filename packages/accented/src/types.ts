@@ -92,5 +92,6 @@ export type ElementWithIssues = {
 
 export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
   issues: Signal<ElementWithIssues['issues']>,
-  accentedContainer: AccentedContainer
+  accentedContainer: AccentedContainer,
+  id: number
 };
