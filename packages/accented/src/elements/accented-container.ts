@@ -37,8 +37,8 @@ export const getStylesheetContent = (name: string) => `
     inset: inherit;
 
     font-size: 1rem;
-    inline-size: min(32px, 2rem);
-    block-size: min(32px, 2rem);
+    inline-size: max(32px, 2rem);
+    block-size: max(32px, 2rem);
     border: none;
     background-color: var(--${name}-primary-color);
     color: var(--${name}-secondary-color);
