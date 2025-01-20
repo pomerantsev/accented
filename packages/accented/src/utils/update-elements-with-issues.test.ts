@@ -12,7 +12,11 @@ type Node = Violation['nodes'][number];
 
 const doc: Document = {
   // @ts-expect-error the return value is of incorrect type.
-  createElement: () => ({})
+  createElement: () => ({
+    style: {
+      setProperty: () => {}
+    }
+  })
 }
 
 // @ts-expect-error element is not HTMLElement
