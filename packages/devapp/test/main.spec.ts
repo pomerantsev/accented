@@ -22,7 +22,7 @@ test.describe('Accented', () => {
       });
 
       test('adds outlines with certain properties to elements', async ({ page }) => {
-        const buttonWithIssue = page.getByRole('button').and(page.locator(accentedSelector));
+        const buttonWithIssue = await page.getByRole('button').and(page.locator(accentedSelector)).first();
         const [outlineWidth, outlineOffset] = await buttonWithIssue.evaluate(buttonElement => {
           const computedStyle = window.getComputedStyle(buttonElement)
           return [
