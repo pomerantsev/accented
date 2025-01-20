@@ -65,3 +65,7 @@ document.getElementById('add-many-no-issues')?.addEventListener('click', () => {
 document.getElementById('open-dialog')?.addEventListener('click', () => {
   (document.getElementById('dialog') as HTMLDialogElement)?.showModal();
 });
+
+document.getElementById('enter-fullscreen')?.addEventListener('click', () => {
+  document.getElementById('fullscreen-container')?.requestFullscreen();
+});
