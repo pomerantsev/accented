@@ -35,13 +35,23 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
-    const filteredMutationList = mutationList.filter(mutationRecord => {
-      const accentedDataAttributeChanged = mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`;
-      const onlyAccentedContainersAddedOrRemoved = mutationRecord.type === 'childList' &&
+    const listWithoutAccentedContainers = mutationList.filter(mutationRecord => {
+      return !(mutationRecord.type === 'childList' &&
         [...mutationRecord.addedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase()) &&
-        [...mutationRecord.removedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase());
-      return !(accentedDataAttributeChanged || onlyAccentedContainersAddedOrRemoved);
+        [...mutationRecord.removedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase()));
     });
+
+    const elementsWithAccentedAttributeChanges = listWithoutAccentedContainers.reduce((nodes, mutationRecord) => {
+      if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`) {
+        nodes.add(mutationRecord.target);
+      }
+      return nodes;
+    }, new Set<Node>());
+
+    const filteredMutationList = listWithoutAccentedContainers.filter(mutationRecord => {
+      return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
+    });
+
     taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
   });
 
