@@ -1,3 +1,7 @@
+:root {
+  --green-accented-primary-color: green;
+}
+
 section {
   margin-block-start: 1rem;
 }
