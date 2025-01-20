@@ -5,16 +5,23 @@ import type { ExtendedElementWithIssues } from './types';
 export default function createDomUpdater(name: string) {
   const attrName = `data-${name}`;
 
+  function supportsAnchorPositioning () {
+    return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
+  }
+
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
+    const displayAccentedContainers = supportsAnchorPositioning();
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, '');
-      // TODO: this is only a prototype. We need to make this more robust by ensuring we don't break any existing functionality
-      // (in case anchor-name is already set on the element, either in a stylesheet or inline).
-      elementWithIssues.element.style.setProperty('anchor-name', `--${name}-anchor-${elementWithIssues.id}`);
-      if (elementWithIssues.element.parentElement) {
-        elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.accentedContainer);
-      } else {
-        elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.accentedContainer);
+      if (displayAccentedContainers) {
+        // TODO: this is only a prototype. We need to make this more robust by ensuring we don't break any existing functionality
+        // (in case anchor-name is already set on the element, either in a stylesheet or inline).
+        elementWithIssues.element.style.setProperty('anchor-name', `--${name}-anchor-${elementWithIssues.id}`);
+        if (elementWithIssues.element.parentElement) {
+          elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.accentedContainer);
+        } else {
+          elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.accentedContainer);
+        }
       }
     }
   }
