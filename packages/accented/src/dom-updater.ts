@@ -9,14 +9,37 @@ export default function createDomUpdater(name: string) {
     return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
   }
 
+  function setAnchorName (element: HTMLElement, id: number) {
+    const anchorNameValue = element.style.getPropertyValue('anchor-name') || window.getComputedStyle(element).getPropertyValue('anchor-name');
+    const anchorNames = anchorNameValue
+      .split(/,\s*/)
+      .filter(anchorName => anchorName.startsWith('--'));
+    if (anchorNames.length > 0) {
+      element.style.setProperty('anchor-name', `${anchorNameValue}, --${name}-anchor-${id}`);
+    } else {
+      element.style.setProperty('anchor-name', `--${name}-anchor-${id}`);
+    }
+  }
+
+  function removeAnchorName (element: HTMLElement, id: number) {
+    const anchorNameValue = element.style.getPropertyValue('anchor-name');
+    const anchorNames = anchorNameValue
+      .split(/,\s*/)
+      .filter(anchorName => anchorName.startsWith('--'));
+    const index = anchorNames.indexOf(`--${name}-anchor-${id}`);
+    if (anchorNames.length === 1 && index === 0) {
+      element.style.removeProperty('anchor-name');
+    } else if (anchorNames.length > 1 && index > -1) {
+      element.style.setProperty('anchor-name', anchorNames.filter((_, i) => i !== index).join(', '));
+    }
+  }
+
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     const displayAccentedContainers = supportsAnchorPositioning();
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, '');
       if (displayAccentedContainers) {
-        // TODO: this is only a prototype. We need to make this more robust by ensuring we don't break any existing functionality
-        // (in case anchor-name is already set on the element, either in a stylesheet or inline).
-        elementWithIssues.element.style.setProperty('anchor-name', `--${name}-anchor-${elementWithIssues.id}`);
+        setAnchorName(elementWithIssues.element, elementWithIssues.id);
         if (elementWithIssues.element.parentElement) {
           elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.accentedContainer);
         } else {
@@ -29,7 +52,7 @@ export default function createDomUpdater(name: string) {
   function removeIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
-      elementWithIssues.element.style.removeProperty('anchor-name');
+      removeAnchorName(elementWithIssues.element, elementWithIssues.id);
       elementWithIssues.accentedContainer.remove();
     }
   }
