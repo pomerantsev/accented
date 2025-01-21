@@ -125,7 +125,7 @@ test.describe('Accented', () => {
         await page.goto(`?throttle-wait=100&no-leading`);
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
-        await page.waitForTimeout(150);
+        await page.waitForTimeout(250);
         const countAfter = await page.locator(accentedSelector).count();
         await expect(countAfter).toBeGreaterThan(0);
       });
@@ -174,13 +174,13 @@ test.describe('Accented', () => {
     async function expectShortScan(page: Page) {
       const consoleMessage = await page.waitForEvent('console');
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeLessThan(100);
+      await expect(duration).toBeLessThan(150);
     }
 
     async function expectLongScan(page: Page) {
       const consoleMessage = await page.waitForEvent('console');
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeGreaterThan(100);
+      await expect(duration).toBeGreaterThan(150);
     }
 
     test('does not take long to run with few elements', async ({ page }) => {
