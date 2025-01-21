@@ -3,6 +3,10 @@ import type { Page } from '@playwright/test';
 
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
+const accentedContainerElementName = 'accented-container';
+
+const supportsAnchorPositioning = async (page: Page) =>
+  await page.evaluate(() => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'));
 
 test.describe('Accented', () => {
   test.describe('basic functionality', () => {
@@ -16,9 +20,16 @@ test.describe('Accented', () => {
         await expect(adoptedStyleSheets).toHaveLength(1);
       });
 
-      test('adds its attributes to elements', async ({ page }) => {
+      test('adds its attributes to elements, and triggers in supporting browsers', async ({ page }) => {
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
+
+        const triggerCount = await page.locator(accentedContainerElementName).count();
+        if (await supportsAnchorPositioning(page)) {
+          await expect(triggerCount).toBe(count);
+        } else {
+          await expect(triggerCount).toBe(0);
+        }
       });
 
       test('adds outlines with certain properties to elements', async ({ page }) => {
