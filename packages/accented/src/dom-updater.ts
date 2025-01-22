@@ -37,7 +37,7 @@ export default function createDomUpdater(name: string) {
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     const displayAccentedContainers = supportsAnchorPositioning();
     for (const elementWithIssues of extendedElementsWithIssues) {
-      elementWithIssues.element.setAttribute(attrName, '');
+      elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
       if (displayAccentedContainers) {
         setAnchorName(elementWithIssues.element, elementWithIssues.id);
         if (elementWithIssues.element.parentElement) {
