@@ -5,12 +5,12 @@ const searchParams = new URLSearchParams(location.search);
 
 let stopAccented: DisableAccented | null = null;
 
-async function toggleAccented(opts: AccentedOptions = {}) {
+function toggleAccented(opts: AccentedOptions = {}) {
   if (stopAccented) {
     stopAccented();
     stopAccented = null;
   } else {
-    stopAccented = await accented(opts);
+    stopAccented = accented(opts);
   }
 }
 

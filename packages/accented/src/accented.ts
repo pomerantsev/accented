@@ -4,6 +4,7 @@ import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
+import getAccentedContainer, { getStylesheetContent } from './elements/accented-container.js'
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 
 export type { AccentedOptions, DisableAccented };
@@ -46,7 +47,7 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  *   }
  * });
  */
-export default async function accented(options: AccentedOptions = {}): Promise<DisableAccented> {
+export default function accented(options: AccentedOptions = {}): DisableAccented {
 
   // Argument validation
   if (options.throttle !== undefined) {
@@ -69,9 +70,9 @@ export default async function accented(options: AccentedOptions = {}): Promise<D
 
   const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
 
-  const { default: AccentedContainer, getStylesheetContent } = await import('./elements/accented-container.js');
+  const AccentedContainer = getAccentedContainer();
   const stylesheetContent = getStylesheetContent(name);
-  await AccentedContainer.stylesheet.replace(stylesheetContent);
+  AccentedContainer.stylesheet.replaceSync(stylesheetContent);
   if (!customElements.get(`${name}-container`)) {
     customElements.define(`${name}-container`, AccentedContainer);
   }

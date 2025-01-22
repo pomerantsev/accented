@@ -4,7 +4,7 @@ import { batch, signal } from '@preact/signals-core';
 import type { ExtendedElementWithIssues } from '../types';
 import transformViolations from './transform-violations.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
-import type AccentedContainer from '../elements/accented-container';
+import type { AccentedContainer } from '../elements/accented-container';
 
 let count = 0;
 
