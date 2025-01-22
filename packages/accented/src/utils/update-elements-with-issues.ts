@@ -37,6 +37,7 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           const accentedContainer = doc.createElement(`${name}-container`) as AccentedContainer;
           accentedContainer.popover = 'manual';
           accentedContainer.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
+          accentedContainer.dataset.id = id.toString();
           const issues = signal(addedElementWithIssues.issues);
           accentedContainer.issues = issues;
           return {

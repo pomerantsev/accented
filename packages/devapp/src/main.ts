@@ -4,6 +4,10 @@ document.getElementById('toggleAccented')?.addEventListener('click', () => {
   toggleAccented();
 });
 
+document.getElementById('toggle-text-direction')?.addEventListener('click', () => {
+  document.documentElement.dir = document.documentElement.dir === 'ltr' ? 'rtl' : 'ltr';
+});
+
 let buttonCount = 0;
 
 document.getElementById('add-one')?.addEventListener('click', () => {

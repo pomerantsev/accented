@@ -20,7 +20,7 @@ test.describe('Accented', () => {
         await expect(adoptedStyleSheets).toHaveLength(1);
       });
 
-      test('adds its attributes to elements, and triggers in supporting browsers', async ({ page }) => {
+      test('adds its attributes to elements, and adds triggers in supporting browsers', async ({ page }) => {
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
 
@@ -30,19 +30,6 @@ test.describe('Accented', () => {
         } else {
           await expect(triggerCount).toBe(0);
         }
-      });
-
-      test('adds outlines with certain properties to elements', async ({ page }) => {
-        const buttonWithIssue = await page.getByRole('button').and(page.locator(accentedSelector)).first();
-        const [outlineWidth, outlineOffset] = await buttonWithIssue.evaluate(buttonElement => {
-          const computedStyle = window.getComputedStyle(buttonElement)
-          return [
-            computedStyle.getPropertyValue('outline-width'),
-            computedStyle.getPropertyValue('outline-offset')
-          ];
-        });
-        await expect(outlineWidth).toBe('2px');
-        await expect(outlineOffset).toBe('-2px');
       });
     });
 
@@ -56,9 +43,12 @@ test.describe('Accented', () => {
         await expect(adoptedStyleSheets).toHaveLength(0);
       });
 
-      test('Accented-specific attributes are removed', async ({ page }) => {
+      test('Accented-specific attributes and triggers are removed', async ({ page }) => {
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
+
+        const triggerCount = await page.locator(accentedContainerElementName).count();
+        expect(triggerCount).toBe(0);
       });
 
       test('can be successfully re-enabled', async ({ page }) => {
@@ -81,7 +71,13 @@ test.describe('Accented', () => {
       const newButton1 = await page.getByRole('button', { name: 'Button 1' });
       await expect(newButton1).toHaveAttribute(accentedDataAttr);
       const finalCount = await page.locator(accentedSelector).count();
+      const finalTriggerCount = await page.locator(accentedContainerElementName).count();
       expect(finalCount).toBe(initialCount + 1);
+      if (await supportsAnchorPositioning(page)) {
+        expect(finalTriggerCount).toBe(finalCount);
+      } else {
+        expect(finalTriggerCount).toBe(0);
+      }
     });
 
     test('removing an element with an issue results in one fewer elements with issues displayed', async ({ page }) => {
@@ -89,7 +85,13 @@ test.describe('Accented', () => {
       const button = await page.getByRole('button', { name: 'Remove button' });
       await button.click();
       const finalCount = await page.locator(accentedSelector).count();
+      const finalTriggerCount = await page.locator(accentedContainerElementName).count();
       expect(finalCount).toBe(initialCount - 1);
+      if (await supportsAnchorPositioning(page)) {
+        expect(finalTriggerCount).toBe(finalCount);
+      } else {
+        expect(finalTriggerCount).toBe(0);
+      }
     });
 
     test('removing an issue from an element with one issue results in one fewer elements with issues displayed', async ({ page }) => {
@@ -97,7 +99,87 @@ test.describe('Accented', () => {
       const button = await page.getByRole('button', { name: 'Add text to button' });
       await button.click();
       const finalCount = await page.locator(accentedSelector).count();
+      const finalTriggerCount = await page.locator(accentedContainerElementName).count();
       expect(finalCount).toBe(initialCount - 1);
+      if (await supportsAnchorPositioning(page)) {
+        expect(finalTriggerCount).toBe(finalCount);
+      } else {
+        expect(finalTriggerCount).toBe(0);
+      }
+    });
+  });
+
+  test.describe('rendering', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/');
+    });
+
+    test('triggers are rendered in the correct positions', async ({ page }) => {
+      if (!(await supportsAnchorPositioning(page))) {
+        return;
+      }
+      const nodes = await page.locator(accentedSelector).elementHandles();
+      for (const node of nodes) {
+        const elementPosition = await node.evaluate(n => {
+          const rect = (n as Element).getBoundingClientRect();
+          return { bottom: rect.bottom, right: rect.right };
+        });
+        const id = await node.getAttribute(accentedDataAttr);
+        const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+        const triggerPosition = await trigger.evaluate(el => {
+          const rect = el.getBoundingClientRect();
+          return { bottom: rect.bottom, right: rect.right };
+        });
+        expect(elementPosition.right).toBe(triggerPosition.right);
+        expect(elementPosition.bottom).toBe(triggerPosition.bottom);
+      }
+    });
+
+    test('triggers are rendered in the correct positions for right-to-left writing mode', async ({ page }) => {
+      if (!(await supportsAnchorPositioning(page))) {
+        return;
+      }
+      await page.getByRole('button', { name: 'Toggle text direction' }).click();
+      const nodes = await page.locator(accentedSelector).elementHandles();
+      for (const node of nodes) {
+        const elementPosition = await node.evaluate(n => {
+          const rect = (n as Element).getBoundingClientRect();
+          return { bottom: rect.bottom, left: rect.left };
+        });
+        const id = await node.getAttribute(accentedDataAttr);
+        const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+        const triggerPosition = await trigger.evaluate(el => {
+          const rect = el.getBoundingClientRect();
+          return { bottom: rect.bottom, left: rect.left };
+        });
+        expect(elementPosition.left).toBe(triggerPosition.left);
+        expect(elementPosition.bottom).toBe(triggerPosition.bottom);
+      }
+    });
+
+    test('outlines with certain properties are added to elements', async ({ page }) => {
+      const buttonWithIssue = await page.getByRole('button').and(page.locator(accentedSelector)).first();
+      const [outlineColor, outlineWidth, outlineOffset] = await buttonWithIssue.evaluate(buttonElement => {
+        const computedStyle = window.getComputedStyle(buttonElement)
+        return [
+          computedStyle.getPropertyValue('outline-color'),
+          computedStyle.getPropertyValue('outline-width'),
+          computedStyle.getPropertyValue('outline-offset')
+        ];
+      });
+      await expect(outlineColor).toBe('rgb(255, 0, 0)');
+      await expect(outlineWidth).toBe('2px');
+      await expect(outlineOffset).toBe('-2px');
+    });
+
+    test('outlines change color if certain CSS props are set', async ({ page }) => {
+      await page.goto('?name=green-accented');
+      const buttonWithIssue = await page.getByRole('button').and(page.locator('[data-green-accented]')).first();
+      const outlineColor = await buttonWithIssue.evaluate(buttonElement => {
+        const computedStyle = window.getComputedStyle(buttonElement)
+        return computedStyle.getPropertyValue('outline-color');
+      });
+      await expect(outlineColor).toBe('rgb(0, 128, 0)');
     });
   });
 
