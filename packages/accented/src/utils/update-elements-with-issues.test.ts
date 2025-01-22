@@ -6,7 +6,7 @@ import type { ExtendedElementWithIssues, Issue } from '../types';
 import updateElementsWithIssues from './update-elements-with-issues';
 
 import type { AxeResults, ImpactValue } from 'axe-core';
-import type AccentedContainer from '../elements/accented-container';
+import type { AccentedContainer } from '../elements/accented-container';
 type Violation = AxeResults['violations'][number];
 type Node = Violation['nodes'][number];
 
@@ -15,7 +15,8 @@ const doc: Document = {
   createElement: () => ({
     style: {
       setProperty: () => {}
-    }
+    },
+    dataset: {}
   })
 }
 
