@@ -5,7 +5,7 @@ const accentedSelector = `[${accentedDataAttr}]`;
 
 // This test suite runs both on pushes and on a schedule
 test.describe('Bundlerless importing of Accented', () => {
-  test('adds its attributes to elements and doesn’t produce any console errors', async ({ page, browserName }) => {
+  test('adds its attributes to elements and doesn’t produce any console errors', async ({ page }) => {
     const allMessages = [];
     const errors = [];
     page.on('console', message => {
