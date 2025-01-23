@@ -7,7 +7,7 @@
     "dev": "vite",
     "typecheck": "tsc",
     "test": "playwright test",
-    "test-jsdelivr": "playwright test test/jsdelivr.spec.ts"
+    "test-bundlerless": "playwright test test/bundlerless.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
