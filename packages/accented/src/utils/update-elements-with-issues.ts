@@ -35,7 +35,10 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
         .concat(addedElementsWithIssues.map(addedElementWithIssues => {
           const id = count++;
           const accentedContainer = doc.createElement(`${name}-container`) as AccentedContainer;
-          accentedContainer.popover = 'manual';
+          const elementZIndex = parseInt(window.getComputedStyle(addedElementWithIssues.element).zIndex, 10);
+          if (!isNaN(elementZIndex)) {
+            accentedContainer.style.setProperty('z-index', (elementZIndex + 1).toString());
+          }
           accentedContainer.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
           accentedContainer.dataset.id = id.toString();
           const issues = signal(addedElementWithIssues.issues);
