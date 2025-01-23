@@ -192,6 +192,17 @@ test.describe('Accented', () => {
         await expect(trigger).not.toBeAttached();
       }
     });
+
+    test('a trigger is added for issues in the <html> element', async ({ page }) => {
+      const html = await page.locator('html');
+      const id = await html.getAttribute(accentedDataAttr);
+      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      if ((await supportsAnchorPositioning(page))) {
+        await expect(trigger).toBeVisible();
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
   });
 
   test.describe('mutation observer', () => {
