@@ -5,7 +5,7 @@ on:
     - cron: '0 0 * * *' # Runs at 00:00 UTC every day
 
 jobs:
-  test-jsdelivr:
+  test-bundlerless:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
@@ -32,4 +32,4 @@ jobs:
         run: pnpm --filter accented-devapp exec playwright install --with-deps
 
       - name: Run end-to-end tests
-        run: pnpm --filter accented-devapp test-jsdelivr
+        run: pnpm --filter accented-devapp test-bundlerless

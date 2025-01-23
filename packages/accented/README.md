@@ -14,8 +14,8 @@ TODO: example screenshots, without Accented / with Accented.
 
 * The library can be used in three ways:
   * NPM (with a bundler)
-  * `import accented from 'https://cdn.jsdelivr.net/npm/accented@0.0.1-dev.0/+esm';`.
-  * `import('https://cdn.jsdelivr.net/npm/accented@0.0.1-dev.0/+esm').then(({default: accented}) => { accented(); });` (this version will work in the console, unless it violates the content security policy, which shouldn't be the case locally).
+  * `import accented from 'https://esm.sh/accented';`.
+  * `import('https://esm.sh/accented').then(({default: accented}) => { accented(); });` (this version will work in the console, unless it violates the content security policy, which shouldn't be the case locally).
     * For example, this works on medium.com
 
 ## API
