@@ -24,7 +24,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       return;
     }
 
-    updateElementsWithIssues(extendedElementsWithIssues, result.violations, document, name);
+    updateElementsWithIssues(extendedElementsWithIssues, result.violations, window, name);
 
     callback({
       elementsWithIssues: elementsWithIssues.value,
