@@ -8,7 +8,7 @@ import type { AccentedContainer } from '../elements/accented-container';
 
 let count = 0;
 
-export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, doc: Document, name: string) {
+export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, win: Window, name: string) {
   const updatedElementsWithIssues = transformViolations(violations);
 
   batch(() => {
@@ -34,8 +34,8 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
         })
         .concat(addedElementsWithIssues.map(addedElementWithIssues => {
           const id = count++;
-          const accentedContainer = doc.createElement(`${name}-container`) as AccentedContainer;
-          const elementZIndex = parseInt(window.getComputedStyle(addedElementWithIssues.element).zIndex, 10);
+          const accentedContainer = win.document.createElement(`${name}-container`) as AccentedContainer;
+          const elementZIndex = parseInt(win.getComputedStyle(addedElementWithIssues.element).zIndex, 10);
           if (!isNaN(elementZIndex)) {
             accentedContainer.style.setProperty('z-index', (elementZIndex + 1).toString());
           }

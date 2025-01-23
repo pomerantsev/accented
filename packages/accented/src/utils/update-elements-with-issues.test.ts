@@ -10,13 +10,19 @@ import type { AccentedContainer } from '../elements/accented-container';
 type Violation = AxeResults['violations'][number];
 type Node = Violation['nodes'][number];
 
-const doc: Document = {
-  // @ts-expect-error the return value is of incorrect type.
-  createElement: () => ({
-    style: {
-      setProperty: () => {}
-    },
-    dataset: {}
+const win: Window = {
+  document: {
+    // @ts-expect-error the return value is of incorrect type.
+    createElement: () => ({
+      style: {
+        setProperty: () => {}
+      },
+      dataset: {}
+    })
+  },
+  // @ts-expect-error we're missing a lot of properties
+  getComputedStyle: () => ({
+    zIndex: ''
   })
 }
 
@@ -25,7 +31,7 @@ const element1: HTMLElement = {};
 // @ts-expect-error element is not HTMLElement
 const element2: HTMLElement = {};
 
-const accentedContainer = doc.createElement('accented-container') as AccentedContainer;
+const accentedContainer = win.document.createElement('accented-container') as AccentedContainer;
 
 const commonNodeProps = {
   html: '<div></div>',
@@ -109,7 +115,7 @@ suite('updateElementsWithIssues', () => {
         issues: signal([issue2])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], doc, 'accented');
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], win, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -132,7 +138,7 @@ suite('updateElementsWithIssues', () => {
         issues: signal([issue2])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2, violation3], doc, 'accented');
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2, violation3], win, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -155,7 +161,7 @@ suite('updateElementsWithIssues', () => {
         issues: signal([issue2, issue3])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], doc, 'accented');
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], win, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -172,7 +178,7 @@ suite('updateElementsWithIssues', () => {
         issues: signal([issue1])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], doc, 'accented');
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation2], win, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
@@ -195,7 +201,7 @@ suite('updateElementsWithIssues', () => {
         issues: signal([issue2])
       }
     ]);
-    updateElementsWithIssues(extendedElementsWithIssues, [violation1], doc, 'accented');
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1], win, 'accented');
     assert.equal(extendedElementsWithIssues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
