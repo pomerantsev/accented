@@ -4,6 +4,7 @@ import { effect } from '@preact/signals-core';
 
 export const getStylesheetContent = (name: string) => `
   :host {
+    position: absolute;
     inset-inline-end: anchor(end);
     inset-block-end: anchor(end);
 
@@ -87,7 +88,6 @@ export default () => {
     }
 
     connectedCallback() {
-      this.showPopover();
       if (this.shadowRoot) {
         const { shadowRoot } = this;
         const trigger = shadowRoot.getElementById('trigger');

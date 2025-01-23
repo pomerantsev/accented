@@ -181,6 +181,17 @@ test.describe('Accented', () => {
       });
       await expect(outlineColor).toBe('rgb(0, 128, 0)');
     });
+
+    test('trigger is interactable if the element with issues has a z-index', async ({ page }) => {
+      const buttonWithIssue = await page.locator('#z-index-button');
+      const id = await buttonWithIssue.getAttribute(accentedDataAttr);
+      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      if ((await supportsAnchorPositioning(page))) {
+        await trigger.click();
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
   });
 
   test.describe('mutation observer', () => {
