@@ -33,6 +33,6 @@
   "homepage": "https://github.com/pomerantsev/accented#readme",
   "dependencies": {
     "@preact/signals-core": "^1.8.0",
-    "axe-core": "^4.10.2"
+    "axe-core": "workspace:*"
   }
 }
