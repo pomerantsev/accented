@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
+import axe from 'axe-core';
+
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
 const accentedContainerElementName = 'accented-container';
@@ -237,6 +239,20 @@ test.describe('Accented', () => {
         await statusElement.waitFor();
         const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
         expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
+
+    test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
+      const buttonWithIssues = await page.locator('#over-2-issues');
+      const id = await buttonWithIssues.getAttribute(accentedDataAttr);
+      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      if ((await supportsAnchorPositioning(page))) {
+        await trigger.click();
+        const dialog = await page.getByRole('dialog', { name: 'Issues' });
+        const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
+        expect(violations).toHaveLength(0);
       } else {
         await expect(trigger).not.toBeAttached();
       }
