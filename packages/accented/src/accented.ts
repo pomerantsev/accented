@@ -4,7 +4,7 @@ import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
-import getAccentedContainer, { getStylesheetContent } from './elements/accented-container.js'
+import getAccentedContainer from './elements/accented-container.js'
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 
 export type { AccentedOptions, DisableAccented };
@@ -70,9 +70,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
 
   const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
 
-  const AccentedContainer = getAccentedContainer();
-  const stylesheetContent = getStylesheetContent(name);
-  AccentedContainer.stylesheet.replaceSync(stylesheetContent);
+  const AccentedContainer = getAccentedContainer(name);
   if (!customElements.get(`${name}-container`)) {
     customElements.define(`${name}-container`, AccentedContainer);
   }

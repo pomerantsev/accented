@@ -205,6 +205,44 @@ test.describe('Accented', () => {
     });
   });
 
+  test.describe('issue dialogs', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/');
+    });
+
+    test('dialog is displayed and contains the expected number of issue descriptions', async ({ page }) => {
+      const buttonWithIssues = await page.locator('#over-2-issues');
+      const id = await buttonWithIssues.getAttribute(accentedDataAttr);
+      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      if ((await supportsAnchorPositioning(page))) {
+        await trigger.click();
+        const dialog = await page.getByRole('dialog', { name: 'Issues' });
+        await expect(dialog).toBeVisible();
+        const issueDescriptions = await dialog.locator('#issues > li');
+        expect(await issueDescriptions.count()).toBeGreaterThan(2);
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
+
+    test('issue descriptions are updated if the element is updated', async ({ page }) => {
+      const buttonWithIssues = await page.locator('#over-2-issues');
+      const id = await buttonWithIssues.getAttribute(accentedDataAttr);
+      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      if ((await supportsAnchorPositioning(page))) {
+        await trigger.click();
+        const dialog = await page.getByRole('dialog', { name: 'Issues' });
+        const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
+        const statusElement = page.locator('#issues-updated-status');
+        await statusElement.waitFor();
+        const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
+        expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
+  });
+
   test.describe('mutation observer', () => {
     test('causes a single scan when the mutation list consists of more than one event', async ({ page }) => {
       await page.goto(`?no-console&callback&throttle-wait=0`);

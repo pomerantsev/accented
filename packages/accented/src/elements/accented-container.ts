@@ -2,54 +2,18 @@ import type { Issue } from '../types';
 import type { Signal } from '@preact/signals-core';
 import { effect } from '@preact/signals-core';
 
-export const getStylesheetContent = (name: string) => `
-  :host {
-    position: absolute;
-    inset-inline-end: anchor(end);
-    inset-block-end: anchor(end);
-
-    /* Popover-specific stuff */
-    border: none;
-    padding: 0;
-    margin-inline-end: 0;
-    margin-block-end: 0;
-  }
-
-  #trigger {
-    font-size: 1rem;
-    inline-size: max(32px, 2rem);
-    block-size: max(32px, 2rem);
-    border: none;
-    background-color: var(--${name}-primary-color);
-    color: var(--${name}-secondary-color);
-
-    outline-offset: -4px;
-    outline-color: var(--${name}-secondary-color);
-
-    &:focus-visible {
-      outline-width: 2px;
-      outline-style: solid;
-    }
-
-    &:hover:not(:focus-visible) {
-      outline-width: 2px;
-      outline-style: dashed;
-    }
-  }
-`;
-
 export interface AccentedContainer extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;
 }
 
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
-export default () => {
+export default (name: string) => {
   const containerTemplate = document.createElement('template');
   containerTemplate.innerHTML = `
     <button id="trigger">⚠</button>
-    <dialog dir="ltr">
-      <h2>Issues</h2>
+    <dialog dir="ltr" aria-labelledby="title">
+      <h2 id="title">Issues</h2>
       <ul id="issues"></ul>
     </dialog>
   `;
@@ -68,9 +32,48 @@ export default () => {
     <ul></ul>
   `;
 
-  return class AccentedContainerLocal extends HTMLElement implements AccentedContainer {
-    static stylesheet = new CSSStyleSheet();
+  const stylesheet = new CSSStyleSheet();
+  stylesheet.replaceSync(`
+    :host {
+      position: absolute;
+      inset-inline-end: anchor(end);
+      inset-block-end: anchor(end);
 
+      /* Popover-specific stuff */
+      border: none;
+      padding: 0;
+      margin-inline-end: 0;
+      margin-block-end: 0;
+    }
+
+    #trigger {
+      box-sizing: border-box;
+      font-size: 1rem;
+      inline-size: max(32px, 2rem);
+      block-size: max(32px, 2rem);
+
+      /* Make it look better in forced-colors mode, */
+      border: 2px solid transparent;
+
+      background-color: var(--${name}-primary-color);
+      color: var(--${name}-secondary-color);
+
+      outline-offset: -4px;
+      outline-color: var(--${name}-secondary-color);
+
+      &:focus-visible {
+        outline-width: 2px;
+        outline-style: solid;
+      }
+
+      &:hover:not(:focus-visible) {
+        outline-width: 2px;
+        outline-style: dashed;
+      }
+    }
+  `);
+
+  return class AccentedContainerLocal extends HTMLElement implements AccentedContainer {
     #abortController: AbortController | undefined;
 
     #disposeOfEffect: (() => void) | undefined;
@@ -82,7 +85,7 @@ export default () => {
       this.attachShadow({ mode: 'open' });
       const content = containerTemplate.content.cloneNode(true);
       if (this.shadowRoot) {
-        this.shadowRoot.adoptedStyleSheets.push(AccentedContainerLocal.stylesheet);
+        this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
     }
