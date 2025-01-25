@@ -205,6 +205,24 @@ test.describe('Accented', () => {
         await expect(trigger).not.toBeAttached();
       }
     });
+
+    test('a trigger is positioned correctly on a fixed-positioned element', async ({ page }) => {
+      const fixedPositionSection = await page.locator('section#fixed-position');
+      const id = await fixedPositionSection.getAttribute(accentedDataAttr);
+      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      if ((await supportsAnchorPositioning(page))) {
+        await page.mouse.wheel(0, 10);
+        const sectionTop = await fixedPositionSection.evaluate(node => {
+          return (node as Element).getBoundingClientRect().top;
+        });
+        const triggerTop = await trigger.evaluate(node => {
+          return (node as Element).getBoundingClientRect().top;
+        });
+        expect(triggerTop).toBe(sectionTop);
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
   });
 
   test.describe('issue dialogs', () => {
