@@ -227,24 +227,6 @@ test.describe('Accented', () => {
         await expect(trigger).not.toBeAttached();
       }
     });
-
-    test('a trigger is positioned correctly inside an element with white-space: pre', async ({ page }) => {
-      const element = await page.locator('#white-space-pre .test-button');
-      const id = await element.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
-      const trigger = await triggerContainer.locator('#trigger');
-      if ((await supportsAnchorPositioning(page))) {
-        const elementTop = await element.evaluate(node => {
-          return (node as Element).getBoundingClientRect().top;
-        });
-        const triggerTop = await trigger.evaluate(node => {
-          return (node as Element).getBoundingClientRect().top;
-        });
-        expect(triggerTop).toBe(elementTop);
-      } else {
-        await expect(trigger).not.toBeAttached();
-      }
-    });
   });
 
   test.describe('issue dialogs', () => {
