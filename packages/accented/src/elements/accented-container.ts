@@ -1,9 +1,7 @@
-import type { Issue } from '../types';
-import type { Signal } from '@preact/signals-core';
-import { effect } from '@preact/signals-core';
+import type { AccentedDialog } from './accented-dialog';
 
 export interface AccentedContainer extends HTMLElement {
-  issues: Signal<Array<Issue>> | undefined;
+  dialog: AccentedDialog | undefined;
 }
 
 // We want Accented to not throw an error in Node, and use static imports,
@@ -12,24 +10,6 @@ export default (name: string) => {
   const containerTemplate = document.createElement('template');
   containerTemplate.innerHTML = `
     <button id="trigger">⚠</button>
-    <dialog dir="ltr" aria-labelledby="title">
-      <h2 id="title">Issues</h2>
-      <ul id="issues"></ul>
-    </dialog>
-  `;
-
-  const issueTemplate = document.createElement('template');
-  issueTemplate.innerHTML = `
-    <li>
-      <a></a>
-      <div></div>
-    </li>
-  `;
-
-  const descriptionTemplate = document.createElement('template');
-  descriptionTemplate.innerHTML = `
-    <span></span>
-    <ul></ul>
   `;
 
   const stylesheet = new CSSStyleSheet();
@@ -77,9 +57,7 @@ export default (name: string) => {
   return class AccentedContainerLocal extends HTMLElement implements AccentedContainer {
     #abortController: AbortController | undefined;
 
-    #disposeOfEffect: (() => void) | undefined;
-
-    issues: Signal<Array<Issue>> | undefined;
+    dialog: AccentedDialog | undefined;
 
     constructor() {
       super();
@@ -95,53 +73,17 @@ export default (name: string) => {
       if (this.shadowRoot) {
         const { shadowRoot } = this;
         const trigger = shadowRoot.getElementById('trigger');
-        const dialog = shadowRoot.querySelector('dialog');
         this.#abortController = new AbortController();
-        trigger?.addEventListener('click', () => {
-          dialog?.showModal();
+        trigger?.addEventListener('click', (event) => {
+          event.preventDefault();
+          this.dialog?.showModal();
         }, { signal: this.#abortController.signal });
-
-        this.#disposeOfEffect = effect(() => {
-          if (this.issues) {
-            const issues = this.issues.value;
-            const issuesList = shadowRoot.getElementById('issues');
-            if (issuesList) {
-              issuesList.innerHTML = '';
-              for (const issue of issues) {
-                const issueContent = issueTemplate.content.cloneNode(true) as Element;
-                const a = issueContent.querySelector('a');
-                const div = issueContent.querySelector('div');
-                if (a && div) {
-                  a.textContent = issue.title;
-                  a.href = issue.url;
-                  const descriptionItems = issue.description.split(/\n\s*/);
-                  const descriptionContent = descriptionTemplate.content.cloneNode(true) as Element;
-                  const descriptionTitle = descriptionContent.querySelector('span');
-                  const descriptionList = descriptionContent.querySelector('ul');
-                  if (descriptionTitle && descriptionList && descriptionItems.length > 1) {
-                    descriptionTitle.textContent = descriptionItems[0]!;
-                    for (const descriptionItem of descriptionItems.slice(1)) {
-                      const li = document.createElement('li');
-                      li.textContent = descriptionItem;
-                      descriptionList.appendChild(li);
-                    }
-                    div.appendChild(descriptionContent);
-                  }
-                }
-                issuesList.appendChild(issueContent);
-              }
-            }
-          }
-        });
       }
     }
 
     disconnectedCallback() {
       if (this.#abortController) {
         this.#abortController.abort();
-      }
-      if (this.#disposeOfEffect) {
-        this.#disposeOfEffect();
       }
     }
   };

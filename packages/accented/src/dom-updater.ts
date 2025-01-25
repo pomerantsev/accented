@@ -45,6 +45,9 @@ export default function createDomUpdater(name: string) {
         } else {
           elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.accentedContainer);
         }
+        if (elementWithIssues.accentedContainer.dialog) {
+          document.body.append(elementWithIssues.accentedContainer.dialog);
+        }
       }
     }
   }
@@ -54,6 +57,9 @@ export default function createDomUpdater(name: string) {
       elementWithIssues.element.removeAttribute(attrName);
       removeAnchorName(elementWithIssues.element, elementWithIssues.id);
       elementWithIssues.accentedContainer.remove();
+      if (elementWithIssues.accentedContainer.dialog) {
+        elementWithIssues.accentedContainer.dialog.remove();
+      }
     }
   }
 
