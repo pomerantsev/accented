@@ -40,7 +40,7 @@ export default (name: string) => {
     }
   `);
 
-  return class AccentedDialogLocal extends HTMLElement implements AccentedDialog {
+  return class extends HTMLElement implements AccentedDialog {
     #disposeOfEffect: (() => void) | undefined;
 
     #abortController: AbortController | undefined;

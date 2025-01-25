@@ -4,7 +4,7 @@ import { batch, signal } from '@preact/signals-core';
 import type { ExtendedElementWithIssues } from '../types';
 import transformViolations from './transform-violations.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
-import type { AccentedContainer } from '../elements/accented-container';
+import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { AccentedDialog } from '../elements/accented-dialog';
 
 let count = 0;
@@ -35,21 +35,21 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
         })
         .concat(addedElementsWithIssues.map(addedElementWithIssues => {
           const id = count++;
-          const accentedContainer = win.document.createElement(`${name}-container`) as AccentedContainer;
+          const trigger = win.document.createElement(`${name}-trigger`) as AccentedTrigger;
           const elementZIndex = parseInt(win.getComputedStyle(addedElementWithIssues.element).zIndex, 10);
           if (!isNaN(elementZIndex)) {
-            accentedContainer.style.setProperty('z-index', (elementZIndex + 1).toString());
+            trigger.style.setProperty('z-index', (elementZIndex + 1).toString());
           }
-          accentedContainer.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
-          accentedContainer.dataset.id = id.toString();
+          trigger.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
+          trigger.dataset.id = id.toString();
           const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
-          accentedContainer.dialog = accentedDialog;
+          trigger.dialog = accentedDialog;
           const issues = signal(addedElementWithIssues.issues);
           accentedDialog.issues = issues;
           return {
             id,
             element: addedElementWithIssues.element,
-            accentedContainer,
+            trigger,
             issues
           };
         }));
