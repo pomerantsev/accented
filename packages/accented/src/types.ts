@@ -1,7 +1,6 @@
 import type axe from 'axe-core';
 import type { Signal } from '@preact/signals-core';
-import type { AccentedContainer } from './elements/accented-container';
-import type { AccentedDialog } from './elements/accented-dialog';
+import type { AccentedTrigger } from './elements/accented-trigger';
 
 export type DeepRequired<T> = T extends object ? {
   [P in keyof T]-? : DeepRequired<T[P]>
@@ -44,7 +43,8 @@ export type AccentedOptions = {
   /**
    * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
    * * The data attribute that’s added to elements with issues (default: "data-accented").
-   * * The custom element that encapsulates the button and dialog attached to each element with issues (default: "accented-container").
+   * * The custom elements for the button and the dialog that get created for each element with issues
+   *   (default: "accented-trigger", "accented-dialog").
    * * The CSS cascade layer containing page-wide Accented-specific styles (default: "accented").
    * * The prefix for some of the CSS custom properties used by Accented (default: "--accented-").
    *
@@ -93,6 +93,6 @@ export type ElementWithIssues = {
 
 export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
   issues: Signal<ElementWithIssues['issues']>,
-  accentedContainer: AccentedContainer,
+  trigger: AccentedTrigger,
   id: number
 };

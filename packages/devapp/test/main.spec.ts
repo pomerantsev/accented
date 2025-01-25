@@ -5,7 +5,7 @@ import axe from 'axe-core';
 
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
-const accentedContainerElementName = 'accented-container';
+const accentedTriggerElementName = 'accented-trigger';
 
 const supportsAnchorPositioning = async (page: Page) =>
   await page.evaluate(() => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'));
@@ -26,7 +26,7 @@ test.describe('Accented', () => {
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
 
-        const triggerCount = await page.locator(accentedContainerElementName).count();
+        const triggerCount = await page.locator(accentedTriggerElementName).count();
         if (await supportsAnchorPositioning(page)) {
           await expect(triggerCount).toBe(count);
         } else {
@@ -49,7 +49,7 @@ test.describe('Accented', () => {
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
 
-        const triggerCount = await page.locator(accentedContainerElementName).count();
+        const triggerCount = await page.locator(accentedTriggerElementName).count();
         expect(triggerCount).toBe(0);
       });
 
@@ -73,7 +73,7 @@ test.describe('Accented', () => {
       const newButton1 = await page.getByRole('button', { name: 'Button 1' });
       await expect(newButton1).toHaveAttribute(accentedDataAttr);
       const finalCount = await page.locator(accentedSelector).count();
-      const finalTriggerCount = await page.locator(accentedContainerElementName).count();
+      const finalTriggerCount = await page.locator(accentedTriggerElementName).count();
       expect(finalCount).toBe(initialCount + 1);
       if (await supportsAnchorPositioning(page)) {
         expect(finalTriggerCount).toBe(finalCount);
@@ -87,7 +87,7 @@ test.describe('Accented', () => {
       const button = await page.getByRole('button', { name: 'Remove button' });
       await button.click();
       const finalCount = await page.locator(accentedSelector).count();
-      const finalTriggerCount = await page.locator(accentedContainerElementName).count();
+      const finalTriggerCount = await page.locator(accentedTriggerElementName).count();
       expect(finalCount).toBe(initialCount - 1);
       if (await supportsAnchorPositioning(page)) {
         expect(finalTriggerCount).toBe(finalCount);
@@ -101,7 +101,7 @@ test.describe('Accented', () => {
       const button = await page.getByRole('button', { name: 'Add text to button' });
       await button.click();
       const finalCount = await page.locator(accentedSelector).count();
-      const finalTriggerCount = await page.locator(accentedContainerElementName).count();
+      const finalTriggerCount = await page.locator(accentedTriggerElementName).count();
       expect(finalCount).toBe(initialCount - 1);
       if (await supportsAnchorPositioning(page)) {
         expect(finalTriggerCount).toBe(finalCount);
@@ -127,7 +127,7 @@ test.describe('Accented', () => {
           return { top: rect.top, right: rect.right };
         });
         const id = await node.getAttribute(accentedDataAttr);
-        const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+        const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
         const trigger = await triggerContainer.locator('#trigger');
         const triggerPosition = await trigger.evaluate(el => {
           const rect = el.getBoundingClientRect();
@@ -150,7 +150,7 @@ test.describe('Accented', () => {
           return { top: rect.top, left: rect.left };
         });
         const id = await node.getAttribute(accentedDataAttr);
-        const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+        const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
         const trigger = await triggerContainer.locator('#trigger');
         const triggerPosition = await trigger.evaluate(el => {
           const rect = el.getBoundingClientRect();
@@ -189,7 +189,7 @@ test.describe('Accented', () => {
     test('trigger is interactable if the element with issues has a z-index', async ({ page }) => {
       const buttonWithIssue = await page.locator('#z-index-button');
       const id = await buttonWithIssue.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
       const trigger = await triggerContainer.locator('#trigger');
       if ((await supportsAnchorPositioning(page))) {
         await trigger.click();
@@ -201,7 +201,7 @@ test.describe('Accented', () => {
     test('a trigger is added for issues in the <html> element', async ({ page }) => {
       const html = await page.locator('html');
       const id = await html.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
       if ((await supportsAnchorPositioning(page))) {
         await expect(trigger).toBeVisible();
       } else {
@@ -212,7 +212,7 @@ test.describe('Accented', () => {
     test('a trigger is positioned correctly on a fixed-positioned element', async ({ page }) => {
       const fixedPositionSection = await page.locator('section#fixed-position');
       const id = await fixedPositionSection.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
       const trigger = await triggerContainer.locator('#trigger');
       if ((await supportsAnchorPositioning(page))) {
         await page.mouse.wheel(0, 10);
@@ -233,7 +233,7 @@ test.describe('Accented', () => {
     await page.goto('/');
     const elementWithIssue = await page.locator('#issue-in-a-link-issue');
     const id = await elementWithIssue.getAttribute(accentedDataAttr);
-    const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+    const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
     const trigger = await triggerContainer.locator('#trigger');
     elementWithIssue.scrollIntoViewIfNeeded();
     if ((await supportsAnchorPositioning(page))) {
@@ -255,7 +255,7 @@ test.describe('Accented', () => {
     test('dialog is displayed and contains the expected number of issue descriptions', async ({ page }) => {
       const buttonWithIssues = await page.locator('#over-2-issues');
       const id = await buttonWithIssues.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
       if ((await supportsAnchorPositioning(page))) {
         await trigger.click();
         const dialog = await page.getByRole('dialog', { name: 'Issues' });
@@ -270,7 +270,7 @@ test.describe('Accented', () => {
     test('issue descriptions are updated if the element is updated', async ({ page }) => {
       const buttonWithIssues = await page.locator('#over-2-issues');
       const id = await buttonWithIssues.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
       if ((await supportsAnchorPositioning(page))) {
         await trigger.click();
         const dialog = await page.getByRole('dialog', { name: 'Issues' });
@@ -287,7 +287,7 @@ test.describe('Accented', () => {
     test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
       const buttonWithIssues = await page.locator('#over-2-issues');
       const id = await buttonWithIssues.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
       if ((await supportsAnchorPositioning(page))) {
         await trigger.click();
         const dialog = await page.getByRole('dialog', { name: 'Issues' });

@@ -6,7 +6,7 @@ import type { ExtendedElementWithIssues, Issue } from '../types';
 import updateElementsWithIssues from './update-elements-with-issues';
 
 import type { AxeResults, ImpactValue } from 'axe-core';
-import type { AccentedContainer } from '../elements/accented-container';
+import type { AccentedTrigger } from '../elements/accented-trigger';
 type Violation = AxeResults['violations'][number];
 type Node = Violation['nodes'][number];
 
@@ -31,7 +31,7 @@ const element1: HTMLElement = {};
 // @ts-expect-error element is not HTMLElement
 const element2: HTMLElement = {};
 
-const accentedContainer = win.document.createElement('accented-container') as AccentedContainer;
+const trigger = win.document.createElement('accented-trigger') as AccentedTrigger;
 
 const commonNodeProps = {
   html: '<div></div>',
@@ -105,13 +105,13 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
-        accentedContainer,
+        trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
-        accentedContainer,
+        trigger,
         issues: signal([issue2])
       }
     ]);
@@ -128,13 +128,13 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
-        accentedContainer,
+        trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
-        accentedContainer,
+        trigger,
         issues: signal([issue2])
       }
     ]);
@@ -151,13 +151,13 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
-        accentedContainer,
+        trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
-        accentedContainer,
+        trigger,
         issues: signal([issue2, issue3])
       }
     ]);
@@ -174,7 +174,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
-        accentedContainer,
+        trigger,
         issues: signal([issue1])
       }
     ]);
@@ -191,13 +191,13 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
-        accentedContainer,
+        trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
-        accentedContainer,
+        trigger,
         issues: signal([issue2])
       }
     ]);

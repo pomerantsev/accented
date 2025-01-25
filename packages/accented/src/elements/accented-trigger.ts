@@ -1,14 +1,14 @@
 import type { AccentedDialog } from './accented-dialog';
 
-export interface AccentedContainer extends HTMLElement {
+export interface AccentedTrigger extends HTMLElement {
   dialog: AccentedDialog | undefined;
 }
 
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
 export default (name: string) => {
-  const containerTemplate = document.createElement('template');
-  containerTemplate.innerHTML = `
+  const template = document.createElement('template');
+  template.innerHTML = `
     <button id="trigger">⚠</button>
   `;
 
@@ -54,7 +54,7 @@ export default (name: string) => {
     }
   `);
 
-  return class AccentedContainerLocal extends HTMLElement implements AccentedContainer {
+  return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
 
     dialog: AccentedDialog | undefined;
@@ -62,7 +62,7 @@ export default (name: string) => {
     constructor() {
       super();
       this.attachShadow({ mode: 'open' });
-      const content = containerTemplate.content.cloneNode(true);
+      const content = template.content.cloneNode(true);
       if (this.shadowRoot) {
         this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);

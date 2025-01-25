@@ -35,20 +35,20 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
-    const listWithoutAccentedContainers = mutationList.filter(mutationRecord => {
+    const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
       return !(mutationRecord.type === 'childList' &&
-        [...mutationRecord.addedNodes].every(node => [`${name}-container`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&
-        [...mutationRecord.removedNodes].every(node => [`${name}-container`, `${name}-dialog`].includes(node.nodeName.toLowerCase())));
+        [...mutationRecord.addedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&
+        [...mutationRecord.removedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())));
     });
 
-    const elementsWithAccentedAttributeChanges = listWithoutAccentedContainers.reduce((nodes, mutationRecord) => {
+    const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce((nodes, mutationRecord) => {
       if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`) {
         nodes.add(mutationRecord.target);
       }
       return nodes;
     }, new Set<Node>());
 
-    const filteredMutationList = listWithoutAccentedContainers.filter(mutationRecord => {
+    const filteredMutationList = listWithoutAccentedElements.filter(mutationRecord => {
       return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
     });
 

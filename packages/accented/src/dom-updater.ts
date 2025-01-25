@@ -35,18 +35,18 @@ export default function createDomUpdater(name: string) {
   }
 
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
-    const displayAccentedContainers = supportsAnchorPositioning();
+    const displayAccentedElements = supportsAnchorPositioning();
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
-      if (displayAccentedContainers) {
+      if (displayAccentedElements) {
         setAnchorName(elementWithIssues.element, elementWithIssues.id);
         if (elementWithIssues.element.parentElement) {
-          elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.accentedContainer);
+          elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
         } else {
-          elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.accentedContainer);
+          elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
         }
-        if (elementWithIssues.accentedContainer.dialog) {
-          document.body.append(elementWithIssues.accentedContainer.dialog);
+        if (elementWithIssues.trigger.dialog) {
+          document.body.append(elementWithIssues.trigger.dialog);
         }
       }
     }
@@ -56,9 +56,9 @@ export default function createDomUpdater(name: string) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
       removeAnchorName(elementWithIssues.element, elementWithIssues.id);
-      elementWithIssues.accentedContainer.remove();
-      if (elementWithIssues.accentedContainer.dialog) {
-        elementWithIssues.accentedContainer.dialog.remove();
+      elementWithIssues.trigger.remove();
+      if (elementWithIssues.trigger.dialog) {
+        elementWithIssues.trigger.dialog.remove();
       }
     }
   }
