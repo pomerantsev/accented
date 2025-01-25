@@ -37,7 +37,7 @@ export default (name: string) => {
     :host {
       position: absolute;
       inset-inline-end: anchor(end);
-      inset-block-end: anchor(end);
+      inset-block-start: anchor(start);
 
       /* Popover-specific stuff */
       border: none;
