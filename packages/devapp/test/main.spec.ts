@@ -127,7 +127,8 @@ test.describe('Accented', () => {
           return { top: rect.top, right: rect.right };
         });
         const id = await node.getAttribute(accentedDataAttr);
-        const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+        const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+        const trigger = await triggerContainer.locator('#trigger');
         const triggerPosition = await trigger.evaluate(el => {
           const rect = el.getBoundingClientRect();
           return { top: rect.top, right: rect.right };
@@ -149,7 +150,8 @@ test.describe('Accented', () => {
           return { top: rect.top, left: rect.left };
         });
         const id = await node.getAttribute(accentedDataAttr);
-        const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+        const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+        const trigger = await triggerContainer.locator('#trigger');
         const triggerPosition = await trigger.evaluate(el => {
           const rect = el.getBoundingClientRect();
           return { top: rect.top, left: rect.left };
@@ -187,7 +189,8 @@ test.describe('Accented', () => {
     test('trigger is interactable if the element with issues has a z-index', async ({ page }) => {
       const buttonWithIssue = await page.locator('#z-index-button');
       const id = await buttonWithIssue.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await triggerContainer.locator('#trigger');
       if ((await supportsAnchorPositioning(page))) {
         await trigger.click();
       } else {
@@ -209,7 +212,8 @@ test.describe('Accented', () => {
     test('a trigger is positioned correctly on a fixed-positioned element', async ({ page }) => {
       const fixedPositionSection = await page.locator('section#fixed-position');
       const id = await fixedPositionSection.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-container[data-id="${id}"]`);
+      const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await triggerContainer.locator('#trigger');
       if ((await supportsAnchorPositioning(page))) {
         await page.mouse.wheel(0, 10);
         const sectionTop = await fixedPositionSection.evaluate(node => {
@@ -219,6 +223,24 @@ test.describe('Accented', () => {
           return (node as Element).getBoundingClientRect().top;
         });
         expect(triggerTop).toBe(sectionTop);
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
+
+    test('a trigger is positioned correctly inside an element with white-space: pre', async ({ page }) => {
+      const element = await page.locator('#white-space-pre .test-button');
+      const id = await element.getAttribute(accentedDataAttr);
+      const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+      const trigger = await triggerContainer.locator('#trigger');
+      if ((await supportsAnchorPositioning(page))) {
+        const elementTop = await element.evaluate(node => {
+          return (node as Element).getBoundingClientRect().top;
+        });
+        const triggerTop = await trigger.evaluate(node => {
+          return (node as Element).getBoundingClientRect().top;
+        });
+        expect(triggerTop).toBe(elementTop);
       } else {
         await expect(trigger).not.toBeAttached();
       }

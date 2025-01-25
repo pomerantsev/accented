@@ -35,6 +35,7 @@ export default (name: string) => {
   const stylesheet = new CSSStyleSheet();
   stylesheet.replaceSync(`
     :host {
+      all: initial;
       position: fixed;
       inset-inline-end: anchor(end);
       inset-block-start: anchor(start);
