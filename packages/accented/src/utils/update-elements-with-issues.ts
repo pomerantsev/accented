@@ -5,6 +5,7 @@ import type { ExtendedElementWithIssues } from '../types';
 import transformViolations from './transform-violations.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
 import type { AccentedContainer } from '../elements/accented-container';
+import type { AccentedDialog } from '../elements/accented-dialog';
 
 let count = 0;
 
@@ -41,8 +42,10 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           }
           accentedContainer.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
           accentedContainer.dataset.id = id.toString();
+          const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
+          accentedContainer.dialog = accentedDialog;
           const issues = signal(addedElementWithIssues.issues);
-          accentedContainer.issues = issues;
+          accentedDialog.issues = issues;
           return {
             id,
             element: addedElementWithIssues.element,

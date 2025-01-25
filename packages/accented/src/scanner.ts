@@ -37,8 +37,8 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   const mutationObserver = new MutationObserver(mutationList => {
     const listWithoutAccentedContainers = mutationList.filter(mutationRecord => {
       return !(mutationRecord.type === 'childList' &&
-        [...mutationRecord.addedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase()) &&
-        [...mutationRecord.removedNodes].every(node => node.nodeName === `${name}-container`.toUpperCase()));
+        [...mutationRecord.addedNodes].every(node => [`${name}-container`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&
+        [...mutationRecord.removedNodes].every(node => [`${name}-container`, `${name}-dialog`].includes(node.nodeName.toLowerCase())));
     });
 
     const elementsWithAccentedAttributeChanges = listWithoutAccentedContainers.reduce((nodes, mutationRecord) => {

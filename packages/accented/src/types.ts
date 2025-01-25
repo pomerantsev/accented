@@ -1,6 +1,7 @@
 import type axe from 'axe-core';
 import type { Signal } from '@preact/signals-core';
 import type { AccentedContainer } from './elements/accented-container';
+import type { AccentedDialog } from './elements/accented-dialog';
 
 export type DeepRequired<T> = T extends object ? {
   [P in keyof T]-? : DeepRequired<T[P]>
