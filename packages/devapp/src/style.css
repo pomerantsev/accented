@@ -4,6 +4,14 @@
 
 section {
   margin-block-start: 1rem;
+
+  &#fixed-position {
+    position: fixed;
+    padding: 1rem;
+    inset-block-start: 3rem;
+    inset-inline-end: 1rem;
+    border: 1px solid currentColor;
+  }
 }
 
 .test-button {
