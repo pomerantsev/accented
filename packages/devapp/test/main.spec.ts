@@ -235,8 +235,8 @@ test.describe('Accented', () => {
     const id = await elementWithIssue.getAttribute(accentedDataAttr);
     const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
     const trigger = await triggerContainer.locator('#trigger');
-    elementWithIssue.scrollIntoViewIfNeeded();
     if ((await supportsAnchorPositioning(page))) {
+      elementWithIssue.scrollIntoViewIfNeeded();
       await trigger.click();
       const closeButton = await page.getByRole('button', { name: 'Close' });
       await closeButton.click();
