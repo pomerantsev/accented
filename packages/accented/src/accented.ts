@@ -1,10 +1,10 @@
 
+import registerElements from './register-elements.js';
 import createDomUpdater from './dom-updater.js';
 import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
-import getAccentedContainer from './elements/accented-container.js'
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 
 export type { AccentedOptions, DisableAccented };
@@ -70,11 +70,6 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
 
   const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
 
-  const AccentedContainer = getAccentedContainer(name);
-  if (!customElements.get(`${name}-container`)) {
-    customElements.define(`${name}-container`, AccentedContainer);
-  }
-
   if (enabled.value) {
     // TODO: add link to relevant docs
     console.warn(
@@ -85,6 +80,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   }
 
   enabled.value = true;
+  registerElements(name);
   const cleanupScanner = createScanner(name, throttle, callback);
   const cleanupDomUpdater = createDomUpdater(name);
   const cleanupLogger = outputToConsole ? createLogger() : () => {};
