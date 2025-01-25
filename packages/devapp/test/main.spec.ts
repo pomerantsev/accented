@@ -229,6 +229,22 @@ test.describe('Accented', () => {
     });
   });
 
+  test('if the issue is within a link, the link isn’t followed', async ({ page }) => {
+    await page.goto('/');
+    const elementWithIssue = await page.locator('#issue-in-a-link-issue');
+    const id = await elementWithIssue.getAttribute(accentedDataAttr);
+    const triggerContainer = await page.locator(`accented-container[data-id="${id}"]`);
+    const trigger = await triggerContainer.locator('#trigger');
+    elementWithIssue.scrollIntoViewIfNeeded();
+    if ((await supportsAnchorPositioning(page))) {
+      await trigger.click();
+      const hash = new URL(await page.url()).hash;
+      expect(hash).toBe('');
+    } else {
+      await expect(trigger).not.toBeAttached();
+    }
+  });
+
   test.describe('issue dialogs', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
