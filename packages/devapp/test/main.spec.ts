@@ -124,16 +124,16 @@ test.describe('Accented', () => {
       for (const node of nodes) {
         const elementPosition = await node.evaluate(n => {
           const rect = (n as Element).getBoundingClientRect();
-          return { bottom: rect.bottom, right: rect.right };
+          return { top: rect.top, right: rect.right };
         });
         const id = await node.getAttribute(accentedDataAttr);
         const trigger = await page.locator(`accented-container[data-id="${id}"]`);
         const triggerPosition = await trigger.evaluate(el => {
           const rect = el.getBoundingClientRect();
-          return { bottom: rect.bottom, right: rect.right };
+          return { top: rect.top, right: rect.right };
         });
         expect(elementPosition.right).toBe(triggerPosition.right);
-        expect(elementPosition.bottom).toBe(triggerPosition.bottom);
+        expect(elementPosition.top).toBe(triggerPosition.top);
       }
     });
 
@@ -146,16 +146,16 @@ test.describe('Accented', () => {
       for (const node of nodes) {
         const elementPosition = await node.evaluate(n => {
           const rect = (n as Element).getBoundingClientRect();
-          return { bottom: rect.bottom, left: rect.left };
+          return { top: rect.top, left: rect.left };
         });
         const id = await node.getAttribute(accentedDataAttr);
         const trigger = await page.locator(`accented-container[data-id="${id}"]`);
         const triggerPosition = await trigger.evaluate(el => {
           const rect = el.getBoundingClientRect();
-          return { bottom: rect.bottom, left: rect.left };
+          return { top: rect.top, left: rect.left };
         });
         expect(elementPosition.left).toBe(triggerPosition.left);
-        expect(elementPosition.bottom).toBe(triggerPosition.bottom);
+        expect(elementPosition.top).toBe(triggerPosition.top);
       }
     });
 
