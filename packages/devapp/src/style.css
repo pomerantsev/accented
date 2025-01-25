@@ -2,6 +2,10 @@
   --green-accented-primary-color: green;
 }
 
+:target {
+  background-color: yellow;
+}
+
 section {
   margin-block-start: 1rem;
 
