@@ -13,6 +13,7 @@ export default (name: string) => {
   const dialogTemplate = document.createElement('template');
   dialogTemplate.innerHTML = `
     <dialog dir="ltr" aria-labelledby="title">
+      <button id="close" aria-label="Close">✕</button>
       <h2 id="title">Issues</h2>
       <ul id="issues"></ul>
     </dialog>
@@ -42,6 +43,8 @@ export default (name: string) => {
   return class AccentedDialogLocal extends HTMLElement implements AccentedDialog {
     #disposeOfEffect: (() => void) | undefined;
 
+    #abortController: AbortController | undefined;
+
     issues: Signal<Array<Issue>> | undefined;
 
     constructor() {
@@ -58,6 +61,11 @@ export default (name: string) => {
       if (this.shadowRoot) {
         const { shadowRoot } = this;
         const dialog = shadowRoot.querySelector('dialog');
+        const closeButton = shadowRoot.querySelector('#close');
+        this.#abortController = new AbortController();
+        closeButton?.addEventListener('click', (event) => {
+          dialog?.close();
+        }, { signal: this.#abortController.signal });
 
         this.#disposeOfEffect = effect(() => {
           if (this.issues) {
@@ -97,6 +105,9 @@ export default (name: string) => {
     disconnectedCallback() {
       if (this.#disposeOfEffect) {
         this.#disposeOfEffect();
+      }
+      if (this.#abortController) {
+        this.#abortController.abort();
       }
     }
 

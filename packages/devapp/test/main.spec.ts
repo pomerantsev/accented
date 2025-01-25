@@ -238,6 +238,8 @@ test.describe('Accented', () => {
     elementWithIssue.scrollIntoViewIfNeeded();
     if ((await supportsAnchorPositioning(page))) {
       await trigger.click();
+      const closeButton = await page.getByRole('button', { name: 'Close' });
+      await closeButton.click();
       const hash = new URL(await page.url()).hash;
       expect(hash).toBe('');
     } else {
