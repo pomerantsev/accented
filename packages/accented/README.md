@@ -83,6 +83,8 @@ You shouldn’t have to use this attribute unless some of the names on your page
   (default: `accented-trigger`, `accented-dialog`).
 * The CSS cascade layer containing page-wide Accented-specific styles (default: `accented`).
 * The prefix for some of the CSS custom properties used by Accented (default: `--accented-`).
+* The window property that’s used to prevent multiple axe-core scans from running simultaneously
+  (default: `__accented_axe_running__`).
 
 **Example:**
 
