@@ -61,6 +61,19 @@ test.describe('Accented', () => {
     });
   });
 
+  // I've seen this error in an external app, such quick toggling between on anf off may likely happen with hot reloading
+  // in case Accented is toggled on and off on a component's mount and unmount.
+  test('doesn’t cause an error when quickly toggled off and back on', async ({ page }) => {
+    let errorCount = 0;
+    page.on('pageerror', error => {
+      console.log(error.message);
+        errorCount++;
+    });
+    await page.goto('?quick-toggle');
+    await page.locator(accentedSelector).first().waitFor();
+    await expect(errorCount).toBe(0);
+  });
+
   test.describe('mutations', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('?no-console&callback&throttle-wait=0');
