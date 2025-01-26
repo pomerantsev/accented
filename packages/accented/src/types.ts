@@ -10,16 +10,16 @@ export type Throttle = {
   /**
    * The minimal time between scans.
    *
-   * Default: 1000.
+   * Default: `1000`.
    * */
   wait?: number,
 
   /**
    * When to run the scan on Accented initialization or on a mutation.
    *
-   * If true, the scan will run immediately. If false, the scan will run after the first throttle delay.
+   * If `true`, the scan will run immediately. If `false`, the scan will run after the first throttle delay.
    *
-   * Default: true.
+   * Default: `true`.
    * */
   leading?: boolean
 }
@@ -42,22 +42,22 @@ export type AccentedOptions = {
 
   /**
    * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
-   * * The data attribute that’s added to elements with issues (default: "data-accented").
+   * * The data attribute that’s added to elements with issues (default: `data-accented`).
    * * The custom elements for the button and the dialog that get created for each element with issues
-   *   (default: "accented-trigger", "accented-dialog").
-   * * The CSS cascade layer containing page-wide Accented-specific styles (default: "accented").
-   * * The prefix for some of the CSS custom properties used by Accented (default: "--accented-").
+   *   (default: `accented-trigger`, `accented-dialog`).
+   * * The CSS cascade layer containing page-wide Accented-specific styles (default: `accented`).
+   * * The prefix for some of the CSS custom properties used by Accented (default: `--accented-`).
    * * The window property that’s used to prevent multiple axe-core scans from running simultaneously
-   *   (default: "__accented_axe_running__").
+   *   (default: `__accented_axe_running__`).
    *
-   * Default: "accented".
+   * Default: `accented`.
    */
   name?: string,
 
   /**
    * Whether to output the issues to the console.
    *
-   * Default: true.
+   * Default: `true`.
    * */
   outputToConsole?: boolean,
 
@@ -69,7 +69,7 @@ export type AccentedOptions = {
   /**
    * A callback that will be called after each scan.
    *
-   * Default: () => {}.
+   * Default: `() => {}`.
    * */
   callback?: Callback
 };
