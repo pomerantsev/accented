@@ -52,6 +52,15 @@ if (searchParams.has('name')) {
 
 if (!searchParams.has('disable')) {
   toggleAccented(options);
+
+  if (searchParams.has('quick-toggle')) {
+    queueMicrotask(() => {
+      toggleAccented(options);
+      queueMicrotask(() => {
+        toggleAccented(options);
+      });
+    });
+  }
 }
 
 export default () => { toggleAccented(options); };

@@ -5,8 +5,19 @@ import type { Throttle, Callback } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 
 export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
+  const axeRunningWindowProp = `__${name}_axe_running__`;
+  const win: Record<string, any> = window;
   const taskQueue = new TaskQueue<Node>(async () => {
+    // We may see errors coming from axe-core when Accented is toggled off and on in qiuck succession,
+    // which I've seen happen with hot reloading of a React application.
+    // This window property serves as a circuit breaker for that particular case.
+    if (win[axeRunningWindowProp]) {
+      return;
+    }
+
     performance.mark('axe-start');
+
+    win[axeRunningWindowProp] = true;
     const result = await axe.run({
       elementRef: true,
       // Although axe-core can perform iframe scanning, I haven't succeeded in it,
@@ -17,6 +28,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       // A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
       iframes: false
     });
+    win[axeRunningWindowProp] = false;
 
     const axeMeasure = performance.measure('axe', 'axe-start');
 
