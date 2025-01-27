@@ -16,7 +16,9 @@ export type { AccentedOptions, DisableAccented };
 // * update examples in the Readme.
 const defaultOptions: DeepRequired<AccentedOptions> = {
   name: 'accented',
-  outputToConsole: true,
+  output: {
+    console: true
+  },
   throttle: {
     wait: 1000,
     leading: true
@@ -36,7 +38,9 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  *
  * @example
  * const disableAccented = accented({
- *   outputToConsole: false,
+ *   output: {
+ *     console: false
+ *   },
  *   throttle: {
  *     wait: 500,
  *     leading: false
@@ -57,9 +61,17 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     if (options.throttle.wait !== undefined && (typeof options.throttle.wait !== 'number' || options.throttle.wait < 0)) {
       throw new TypeError(`Invalid argument: \`throttle.wait\` option must be a non-negative number if provided. It’s currently set to ${options.throttle.wait}.`);
     }
-    if (options.callback !== undefined && typeof options.callback !== 'function') {
-      throw new TypeError(`Invalid argument: \`callback\` option must be a function if provided. It’s currently set to ${options.callback}.`);
+  }
+  if (options.output !== undefined) {
+    if (typeof options.output !== 'object' || options.output === null) {
+      throw new TypeError(`Invalid argument: \`output\` option must be an object if provided. It’s currently set to ${options.output}.`);
     }
+    if (options.output.console !== undefined && typeof options.output.console !== 'boolean') {
+      console.warn(`Invalid argument: \`output.console\` option is expected to be a boolean. It’s currently set to ${options.output.console}.`);
+    }
+  }
+  if (options.callback !== undefined && typeof options.callback !== 'function') {
+    throw new TypeError(`Invalid argument: \`callback\` option must be a function if provided. It’s currently set to ${options.callback}.`);
   }
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
@@ -68,7 +80,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     return () => {};
   }
 
-  const {name, outputToConsole, throttle, callback} = deepMerge(defaultOptions, options);
+  const {name, output, throttle, callback} = deepMerge(defaultOptions, options);
 
   if (enabled.value) {
     // TODO: add link to relevant docs
@@ -83,7 +95,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   registerElements(name);
   const cleanupScanner = createScanner(name, throttle, callback);
   const cleanupDomUpdater = createDomUpdater(name);
-  const cleanupLogger = outputToConsole ? createLogger() : () => {};
+  const cleanupLogger = output.console ? createLogger() : () => {};
 
   return () => {
     enabled.value = false;

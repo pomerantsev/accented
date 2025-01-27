@@ -17,7 +17,7 @@ function toggleAccented(opts: AccentedOptions = {}) {
 let options: AccentedOptions = {};
 
 if (searchParams.has('callback')) {
-  options.outputToConsole = false;
+  options.output = { console: false };
   options.callback = ({elementsWithIssues}) => {
     console.log('Elements from callback:', elementsWithIssues);
   };
@@ -43,7 +43,7 @@ if (searchParams.has('no-leading') && !searchParams.has('throttle-wait')) {
 }
 
 if (searchParams.has('no-console')) {
-  options.outputToConsole = false;
+  options.output = { console: false };
 }
 
 if (searchParams.has('name')) {
