@@ -37,7 +37,11 @@ The following types are exported for TypeScript consumers:
 
 ### Options
 
-#### `outputToConsole`
+#### `output`
+
+An object controlling how the results of scans will be presented.
+
+#### `output.console`
 
 **Type:** boolean.
 

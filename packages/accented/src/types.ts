@@ -24,6 +24,15 @@ export type Throttle = {
   leading?: boolean
 }
 
+export type Output = {
+  /**
+   * Whether to output the issues to the console.
+   *
+   * Default: `true`.
+   * */
+  console?: boolean
+}
+
 type CallbackParams = {
   /**
    * The most current array of elements with issues.
@@ -55,11 +64,9 @@ export type AccentedOptions = {
   name?: string,
 
   /**
-   * Whether to output the issues to the console.
-   *
-   * Default: `true`.
+   * Output options object.
    * */
-  outputToConsole?: boolean,
+  output?: Output,
 
   /**
    * Scan throttling options object.
