@@ -61,17 +61,23 @@ test.describe('Accented', () => {
     });
   });
 
-  // I've seen this error in an external app, such quick toggling between on anf off may likely happen with hot reloading
-  // in case Accented is toggled on and off on a component's mount and unmount.
-  test('doesn’t cause an error when quickly toggled off and back on', async ({ page }) => {
-    let errorCount = 0;
-    page.on('pageerror', error => {
-      console.log(error.message);
-        errorCount++;
+  test.describe('quick toggling off and on', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('?quick-toggle');
     });
-    await page.goto('?quick-toggle');
-    await page.locator(accentedSelector).first().waitFor();
-    await expect(errorCount).toBe(0);
+
+    // I've seen this error in an external app, such quick toggling between on anf off may likely happen with hot reloading
+    // in case Accented is toggled on and off on a component's mount and unmount.
+    test('doesn’t cause an error', async ({ page }) => {
+      let errorCount = 0;
+      page.on('pageerror', error => {
+        console.log(error.message);
+          errorCount++;
+      });
+
+      await page.locator(accentedSelector).first().waitFor();
+      await expect(errorCount).toBe(0);
+    });
   });
 
   test.describe('mutations', () => {
@@ -239,6 +245,39 @@ test.describe('Accented', () => {
       } else {
         await expect(trigger).not.toBeAttached();
       }
+    });
+  });
+
+  test.describe('console output', () => {
+    test('logs elements with issues to the console', async ({ page }) => {
+      await page.goto('/');
+      const consoleMessage = await page.waitForEvent('console');
+      const arg2 = await consoleMessage.args()[1]?.jsonValue();
+      await expect(Array.isArray(arg2)).toBeTruthy();
+      await expect(arg2.length).toBeGreaterThan(0);
+    });
+
+    test('when Accented is toggled off, it doesn’t log an extra message', async ({ page }) => {
+      await page.goto('/');
+      let messageCount = 0;
+      page.on('console', () => {
+        messageCount++;
+      });
+      await page.locator(accentedSelector).first().waitFor();
+      await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      const count = await page.locator(accentedSelector).count();
+      await expect(count).toBe(0);
+      await expect(messageCount).toBe(1);
+    });
+
+    test('console output can be disabled', async ({ page }) => {
+      await page.goto('?no-console');
+      let messageCount = 0;
+      page.on('console', () => {
+        messageCount++;
+      });
+      await page.locator(accentedSelector).first().waitFor();
+      await expect(messageCount).toBe(0);
     });
   });
 
