@@ -281,22 +281,53 @@ test.describe('Accented', () => {
     });
   });
 
-  test('if the issue is within a link, the link isn’t followed', async ({ page }) => {
-    await page.goto('/');
-    const elementWithIssue = await page.locator('#issue-in-a-link-issue');
-    const id = await elementWithIssue.getAttribute(accentedDataAttr);
-    const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-    const trigger = await triggerContainer.locator('#trigger');
-    if ((await supportsAnchorPositioning(page))) {
-      elementWithIssue.scrollIntoViewIfNeeded();
-      await trigger.click();
-      const closeButton = await page.getByRole('button', { name: 'Close' });
-      await closeButton.click();
-      const hash = new URL(await page.url()).hash;
-      expect(hash).toBe('');
-    } else {
-      await expect(trigger).not.toBeAttached();
-    }
+  test.describe('web platform support', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/');
+    });
+
+    test('if the issue is within a link, the link isn’t followed', async ({ page }) => {
+      const elementWithIssue = await page.locator('#issue-in-a-link-issue');
+      const id = await elementWithIssue.getAttribute(accentedDataAttr);
+      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
+      const trigger = await triggerContainer.locator('#trigger');
+      if ((await supportsAnchorPositioning(page))) {
+        elementWithIssue.scrollIntoViewIfNeeded();
+        await trigger.click();
+        const closeButton = await page.getByRole('button', { name: 'Close' });
+        await closeButton.click();
+        const hash = new URL(await page.url()).hash;
+        expect(hash).toBe('');
+      } else {
+        await expect(trigger).not.toBeAttached();
+      }
+    });
+
+    test('issues in modal dialogs get reported correctly', async ({ page }) => {
+      await page.getByRole('button', { name: 'Open modal dialog' }).click();
+      const modalDialog = await page.locator('#modal-dialog');
+      await modalDialog.locator('accented-trigger').click();
+      const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
+      await expect(issueDialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(issueDialog).not.toBeVisible();
+      await expect(modalDialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(modalDialog).not.toBeVisible();
+    });
+
+    test('issues in non-modal dialogs get reported correctly', async ({ page }) => {
+      await page.getByRole('button', { name: 'Open non-modal dialog' }).click();
+      const nonModalDialog = await page.locator('#non-modal-dialog');
+      await nonModalDialog.locator('accented-trigger').click();
+      const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
+      await expect(issueDialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(issueDialog).not.toBeVisible();
+      await expect(nonModalDialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(nonModalDialog).toBeVisible();
+    });
   });
 
   test.describe('issue dialogs', () => {
