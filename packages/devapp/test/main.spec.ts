@@ -328,6 +328,15 @@ test.describe('Accented', () => {
       await page.keyboard.press('Escape');
       await expect(nonModalDialog).toBeVisible();
     });
+
+    test('issues in details elements get reported correctly', async ({ page }) => {
+      const details = await page.locator('details');
+      const elementsWithIssues = await details.locator(accentedSelector);
+      await expect(await elementsWithIssues.count()).toBe(0);
+      await details.locator('summary').click();
+      await elementsWithIssues.first().waitFor();
+      await expect(await elementsWithIssues.count()).toBeGreaterThan(0);
+    });
   });
 
   test.describe('issue dialogs', () => {
