@@ -75,8 +75,12 @@ document.getElementById('add-many-no-issues')?.addEventListener('click', () => {
   }
 });
 
-document.getElementById('open-dialog')?.addEventListener('click', () => {
-  (document.getElementById('dialog') as HTMLDialogElement)?.showModal();
+document.getElementById('open-modal-dialog')?.addEventListener('click', () => {
+  (document.getElementById('modal-dialog') as HTMLDialogElement)?.showModal();
+});
+
+document.getElementById('open-non-modal-dialog')?.addEventListener('click', () => {
+  (document.getElementById('non-modal-dialog') as HTMLDialogElement)?.show();
 });
 
 document.getElementById('enter-fullscreen')?.addEventListener('click', () => {
