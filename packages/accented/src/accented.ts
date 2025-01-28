@@ -6,6 +6,7 @@ import createScanner from './scanner.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
+import validateOptions from './validate-options.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -53,26 +54,7 @@ const defaultOptions: DeepRequired<AccentedOptions> = {
  */
 export default function accented(options: AccentedOptions = {}): DisableAccented {
 
-  // Argument validation
-  if (options.throttle !== undefined) {
-    if (typeof options.throttle !== 'object' || options.throttle === null) {
-      throw new TypeError(`Invalid argument: \`throttle\` option must be an object if provided. It’s currently set to ${options.throttle}.`);
-    }
-    if (options.throttle.wait !== undefined && (typeof options.throttle.wait !== 'number' || options.throttle.wait < 0)) {
-      throw new TypeError(`Invalid argument: \`throttle.wait\` option must be a non-negative number if provided. It’s currently set to ${options.throttle.wait}.`);
-    }
-  }
-  if (options.output !== undefined) {
-    if (typeof options.output !== 'object' || options.output === null) {
-      throw new TypeError(`Invalid argument: \`output\` option must be an object if provided. It’s currently set to ${options.output}.`);
-    }
-    if (options.output.console !== undefined && typeof options.output.console !== 'boolean') {
-      console.warn(`Invalid argument: \`output.console\` option is expected to be a boolean. It’s currently set to ${options.output.console}.`);
-    }
-  }
-  if (options.callback !== undefined && typeof options.callback !== 'function') {
-    throw new TypeError(`Invalid argument: \`callback\` option must be a function if provided. It’s currently set to ${options.callback}.`);
-  }
+  validateOptions(options);
 
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
