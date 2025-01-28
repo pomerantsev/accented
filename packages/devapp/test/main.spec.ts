@@ -306,27 +306,37 @@ test.describe('Accented', () => {
     test('issues in modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open modal dialog' }).click();
       const modalDialog = await page.locator('#modal-dialog');
-      await modalDialog.locator('accented-trigger').click();
-      const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
-      await expect(issueDialog).toBeVisible();
-      await page.keyboard.press('Escape');
-      await expect(issueDialog).not.toBeVisible();
-      await expect(modalDialog).toBeVisible();
-      await page.keyboard.press('Escape');
-      await expect(modalDialog).not.toBeVisible();
+      const triggerContainer = modalDialog.locator('accented-trigger');
+      if (await supportsAnchorPositioning(page)) {
+        await triggerContainer.click();
+        const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
+        await expect(issueDialog).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(issueDialog).not.toBeVisible();
+        await expect(modalDialog).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(modalDialog).not.toBeVisible();
+      } else {
+        await expect(triggerContainer).not.toBeAttached();
+      }
     });
 
     test('issues in non-modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open non-modal dialog' }).click();
       const nonModalDialog = await page.locator('#non-modal-dialog');
-      await nonModalDialog.locator('accented-trigger').click();
-      const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
-      await expect(issueDialog).toBeVisible();
-      await page.keyboard.press('Escape');
-      await expect(issueDialog).not.toBeVisible();
-      await expect(nonModalDialog).toBeVisible();
-      await page.keyboard.press('Escape');
-      await expect(nonModalDialog).toBeVisible();
+      const triggerContainer = nonModalDialog.locator('accented-trigger');
+      if (await supportsAnchorPositioning(page)) {
+        await triggerContainer.click();
+        const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
+        await expect(issueDialog).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(issueDialog).not.toBeVisible();
+        await expect(nonModalDialog).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(nonModalDialog).toBeVisible();
+      } else {
+        await expect(triggerContainer).not.toBeAttached();
+      }
     });
 
     test('issues in details elements get reported correctly', async ({ page }) => {
@@ -336,6 +346,28 @@ test.describe('Accented', () => {
       await details.locator('summary').click();
       await elementsWithIssues.first().waitFor();
       await expect(await elementsWithIssues.count()).toBeGreaterThan(0);
+    });
+
+    test('issue triggers are correctly positioned in fullscreen mode', async ({ page }) => {
+      if (!(await supportsAnchorPositioning(page))) {
+        return;
+      }
+      const fullscreenContainer = await page.locator('#fullscreen-container');
+      const elementWithIssues = await fullscreenContainer.locator(accentedSelector).first();
+      await page.getByRole('button', { name: 'Enter fullscreen' }).click();
+      const elementPosition = await elementWithIssues.evaluate(el => {
+        const rect = el.getBoundingClientRect();
+        return { top: rect.top, right: rect.right };
+      });
+      const id = await elementWithIssues.getAttribute(accentedDataAttr);
+      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
+      const trigger = await triggerContainer.locator('#trigger');
+      const triggerPosition = await trigger.evaluate(el => {
+        const rect = el.getBoundingClientRect();
+        return { top: rect.top, right: rect.right };
+      });
+      expect(elementPosition.right).toBe(triggerPosition.right);
+      expect(elementPosition.top).toBe(triggerPosition.top);
     });
   });
 
