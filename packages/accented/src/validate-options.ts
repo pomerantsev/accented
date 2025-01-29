@@ -1,6 +1,9 @@
 import type { AccentedOptions } from './types';
 
 export default function validateOptions(options: AccentedOptions) {
+  if (typeof options !== 'object' || options === null) {
+    throw new TypeError(`Invalid argument: the options parameter must be an object if provided. It’s currently set to ${options}.`);
+  }
   if (options.throttle !== undefined) {
     if (typeof options.throttle !== 'object' || options.throttle === null) {
       throw new TypeError(`Invalid argument: \`throttle\` option must be an object if provided. It’s currently set to ${options.throttle}.`);
