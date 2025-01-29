@@ -488,6 +488,39 @@ test.describe('Accented', () => {
   });
 
   test.describe('API', () => {
+    test.describe('validations', () => {
+      test('throws an error if options is not an object', async ({ page }) => {
+        await page.goto(`?options-invalid=foo`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+      test('throws an error if throttle is not an object', async ({ page }) => {
+        await page.goto(`?throttle-invalid=foo`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+      test('throws an error if throttle.wait is negative', async ({ page }) => {
+        await page.goto(`?throttle-wait=-1`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+      test('throws an error if throttle.wait is not a number', async ({ page }) => {
+        await page.goto(`?throttle-wait-invalid=foo`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+      test('throws an error if output is not an object', async ({ page }) => {
+        await page.goto(`?output-invalid=foo`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+      test('throws an error if callback is not a function', async ({ page }) => {
+        await page.goto(`?callback-invalid=foo`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+    });
+
     test('callback', async ({ page }) => {
       await page.goto(`?callback&no-console`);
       const consoleMessage = await page.waitForEvent('console');

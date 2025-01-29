@@ -16,11 +16,19 @@ function toggleAccented(opts: AccentedOptions = {}) {
 
 let options: AccentedOptions = {};
 
+if (searchParams.has('options-invalid')) {
+  options = 'foo' as any;
+}
+
 if (searchParams.has('callback')) {
   options.output = { console: false };
   options.callback = ({elementsWithIssues}) => {
     console.log('Elements from callback:', elementsWithIssues);
   };
+}
+
+if (searchParams.has('callback-invalid')) {
+  options.callback = searchParams.get('output-invalid') as any;
 }
 
 if (searchParams.has('duration') && !searchParams.has('callback')) {
@@ -34,6 +42,12 @@ if (searchParams.has('throttle-wait')) {
     wait: parseInt(searchParams.get('throttle-wait')!, 10) ?? 1000,
     leading: !searchParams.has('no-leading')
   };
+} else if (searchParams.has('throttle-invalid')) {
+  options.throttle = searchParams.get('throttle-invalid') as any;
+} else if (searchParams.has('throttle-wait-invalid')) {
+  options.throttle = {
+    wait: searchParams.get('throttle-wait-invalid') as any
+  };
 }
 
 if (searchParams.has('no-leading') && !searchParams.has('throttle-wait')) {
@@ -44,6 +58,10 @@ if (searchParams.has('no-leading') && !searchParams.has('throttle-wait')) {
 
 if (searchParams.has('no-console')) {
   options.output = { console: false };
+}
+
+if (searchParams.has('output-invalid')) {
+  options.output = searchParams.get('output-invalid') as any;
 }
 
 if (searchParams.has('name')) {
