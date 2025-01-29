@@ -20,11 +20,16 @@ section {
 
 .test-button {
   inline-size: 5rem;
-  block-size: 3rem;
+  block-size: min-content;
+  min-block-size: 3rem;
 }
 
 button:not(.test-button) + button:not(.test-button) {
   margin-inline-start: 1rem;
+}
+
+#with-anchors {
+  anchor-name: --foo, --bar;
 }
 
 #many-elements {

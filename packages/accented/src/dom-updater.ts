@@ -9,11 +9,16 @@ export default function createDomUpdater(name: string) {
     return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
   }
 
+  function getAnchorNames (anchorNameValue: string) {
+    return anchorNameValue
+      .split(',')
+      .map(anchorName => anchorName.trim())
+      .filter(anchorName => anchorName.startsWith('--'));
+  }
+
   function setAnchorName (element: HTMLElement, id: number) {
     const anchorNameValue = element.style.getPropertyValue('anchor-name') || window.getComputedStyle(element).getPropertyValue('anchor-name');
-    const anchorNames = anchorNameValue
-      .split(/,\s*/)
-      .filter(anchorName => anchorName.startsWith('--'));
+    const anchorNames = getAnchorNames(anchorNameValue);
     if (anchorNames.length > 0) {
       element.style.setProperty('anchor-name', `${anchorNameValue}, --${name}-anchor-${id}`);
     } else {
@@ -23,9 +28,7 @@ export default function createDomUpdater(name: string) {
 
   function removeAnchorName (element: HTMLElement, id: number) {
     const anchorNameValue = element.style.getPropertyValue('anchor-name');
-    const anchorNames = anchorNameValue
-      .split(/,\s*/)
-      .filter(anchorName => anchorName.startsWith('--'));
+    const anchorNames = getAnchorNames(anchorNameValue);
     const index = anchorNames.indexOf(`--${name}-anchor-${id}`);
     if (anchorNames.length === 1 && index === 0) {
       element.style.removeProperty('anchor-name');

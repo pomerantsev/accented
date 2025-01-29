@@ -247,6 +247,53 @@ test.describe('Accented', () => {
         await expect(trigger).not.toBeAttached();
       }
     });
+
+    test.describe('anchor positioning', () => {
+      test('element with no anchors', async ({ page }) => {
+        if (!(await supportsAnchorPositioning(page))) {
+          return;
+        }
+        const element = await page.getByRole('button', { name: 'Button with no anchors' });
+        const id = await element.getAttribute(accentedDataAttr);
+        const style = await element.getAttribute('style');
+        await expect(style).toBe(`anchor-name: --accented-anchor-${id};`);
+
+        await page.getByRole('button', { name: 'Toggle Accented' }).click();
+
+        const styleAfterToggling = await element.getAttribute('style');
+        await expect(styleAfterToggling).toBe('');
+      });
+
+      test('element with anchors in a stylesheet', async ({ page }) => {
+        if (!(await supportsAnchorPositioning(page))) {
+          return;
+        }
+        const element = await page.getByRole('button', { name: 'Button with anchors in a stylesheet' });
+        const id = await element.getAttribute(accentedDataAttr);
+        const style = await element.getAttribute('style');
+        await expect(style).toBe(`anchor-name: --foo, --bar, --accented-anchor-${id};`);
+
+        await page.getByRole('button', { name: 'Toggle Accented' }).click();
+
+        const styleAfterToggling = await element.getAttribute('style');
+        await expect(styleAfterToggling).toBe('anchor-name: --foo, --bar;');
+      });
+
+      test('element with anchors in a style attribute', async ({ page }) => {
+        if (!(await supportsAnchorPositioning(page))) {
+          return;
+        }
+        const element = await page.getByRole('button', { name: 'Button with anchors in a style attribute' });
+        const id = await element.getAttribute(accentedDataAttr);
+        const style = await element.getAttribute('style');
+        await expect(style).toBe(`anchor-name: --foo, --bar, --accented-anchor-${id};`);
+
+        await page.getByRole('button', { name: 'Toggle Accented' }).click();
+
+        const styleAfterToggling = await element.getAttribute('style');
+        await expect(styleAfterToggling).toBe('anchor-name: --foo, --bar;');
+      });
+    });
   });
 
   test.describe('console output', () => {
