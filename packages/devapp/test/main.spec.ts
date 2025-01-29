@@ -11,6 +11,17 @@ const supportsAnchorPositioning = async (page: Page) =>
   await page.evaluate(() => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'));
 
 test.describe('Accented', () => {
+  let errorCount = 0;
+  test.beforeEach(async ({ page }) => {
+    page.on('pageerror', error => {
+      console.log(error.message);
+      errorCount++;
+    });
+  });
+  test.afterEach(async () => {
+    await expect(errorCount).toBe(0);
+  });
+
   test.describe('basic functionality', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
@@ -62,21 +73,11 @@ test.describe('Accented', () => {
   });
 
   test.describe('quick toggling off and on', () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto('?quick-toggle');
-    });
-
     // I've seen this error in an external app, such quick toggling between on anf off may likely happen with hot reloading
     // in case Accented is toggled on and off on a component's mount and unmount.
     test('doesn’t cause an error', async ({ page }) => {
-      let errorCount = 0;
-      page.on('pageerror', error => {
-        console.log(error.message);
-          errorCount++;
-      });
-
+      await page.goto('?quick-toggle');
       await page.locator(accentedSelector).first().waitFor();
-      await expect(errorCount).toBe(0);
     });
   });
 
