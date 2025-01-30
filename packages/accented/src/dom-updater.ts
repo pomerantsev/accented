@@ -38,19 +38,18 @@ export default function createDomUpdater(name: string) {
   }
 
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
-    const displayAccentedElements = supportsAnchorPositioning();
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
-      if (displayAccentedElements) {
+      if (supportsAnchorPositioning()) {
         setAnchorName(elementWithIssues.element, elementWithIssues.id);
-        if (elementWithIssues.element.parentElement) {
-          elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
-        } else {
-          elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
-        }
-        if (elementWithIssues.trigger.dialog) {
-          document.body.append(elementWithIssues.trigger.dialog);
-        }
+      }
+      if (elementWithIssues.element.parentElement) {
+        elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
+      } else {
+        elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
+      }
+      if (elementWithIssues.trigger.dialog) {
+        document.body.append(elementWithIssues.trigger.dialog);
       }
     }
   }
@@ -58,7 +57,9 @@ export default function createDomUpdater(name: string) {
   function removeIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
-      removeAnchorName(elementWithIssues.element, elementWithIssues.id);
+      if (supportsAnchorPositioning()) {
+        removeAnchorName(elementWithIssues.element, elementWithIssues.id);
+      }
       elementWithIssues.trigger.remove();
       if (elementWithIssues.trigger.dialog) {
         elementWithIssues.trigger.dialog.remove();

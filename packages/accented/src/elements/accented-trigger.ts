@@ -1,7 +1,13 @@
 import type { AccentedDialog } from './accented-dialog';
+import type { Position } from '../types';
 
 export interface AccentedTrigger extends HTMLElement {
   dialog: AccentedDialog | undefined;
+  position: Position | undefined;
+}
+
+function supportsAnchorPositioning () {
+  return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
 }
 
 // We want Accented to not throw an error in Node, and use static imports,
@@ -59,6 +65,8 @@ export default (name: string) => {
 
     dialog: AccentedDialog | undefined;
 
+    position: Position | undefined;
+
     constructor() {
       super();
       this.attachShadow({ mode: 'open' });
@@ -78,6 +86,16 @@ export default (name: string) => {
           event.preventDefault();
           this.dialog?.showModal();
         }, { signal: this.#abortController.signal });
+
+        if (!supportsAnchorPositioning() && this.position && trigger) {
+          this.style.top = `${this.position.blockStartTop}px`;
+          if (this.position.direction === 'ltr') {
+            // TODO: calculate width dynamically
+            this.style.left = `${this.position.inlineEndLeft - 32}px`;
+          } else if (this.position.direction === 'rtl') {
+            this.style.left = `${this.position.inlineEndLeft}px`;
+          }
+        }
       }
     }
 

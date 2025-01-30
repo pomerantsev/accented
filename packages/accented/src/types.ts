@@ -87,6 +87,12 @@ export type AccentedOptions = {
  */
 export type DisableAccented = () => void;
 
+export type Position = {
+  inlineEndLeft: number,
+  blockStartTop: number,
+  direction: 'ltr' | 'rtl'
+};
+
 export type Issue = {
   id: string,
   title: string,
@@ -103,5 +109,6 @@ export type ElementWithIssues = {
 export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
   issues: Signal<ElementWithIssues['issues']>,
   trigger: AccentedTrigger,
+  position: Position,
   id: number
 };
