@@ -79,6 +79,26 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   const cleanupDomUpdater = createDomUpdater(name);
   const cleanupLogger = output.console ? createLogger() : () => {};
 
+  if (!(CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'))) {
+    document.addEventListener('scroll', () => {
+      const positions = extendedElementsWithIssues.value.map(({element, trigger}) => {
+        const rect = element.getBoundingClientRect();
+        // console.log(rect);
+        return {
+          trigger,
+          top: rect.top,
+          right: rect.right
+        };
+      });
+      window.requestAnimationFrame(() => {
+        for (const {trigger, top, right} of positions) {
+          trigger.style.top = `${top}px`;
+          trigger.style.left = `${right - 32}px`;
+        }
+      });
+    });
+  }
+
   return () => {
     enabled.value = false;
     extendedElementsWithIssues.value = [];

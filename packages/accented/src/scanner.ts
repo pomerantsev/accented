@@ -47,6 +47,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
+    console.log('Mutation');
     const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
       return !(mutationRecord.type === 'childList' &&
         [...mutationRecord.addedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&

@@ -6,6 +6,7 @@ import transformViolations from './transform-violations.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
 import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { AccentedDialog } from '../elements/accented-dialog';
+import getElementPosition from './get-element-position.js';
 
 let count = 0;
 
@@ -44,11 +45,14 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           trigger.dataset.id = id.toString();
           const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
           trigger.dialog = accentedDialog;
+          const position = getElementPosition(addedElementWithIssues.element);
+          trigger.position = position;
           const issues = signal(addedElementWithIssues.issues);
           accentedDialog.issues = issues;
           return {
             id,
             element: addedElementWithIssues.element,
+            position,
             trigger,
             issues
           };
