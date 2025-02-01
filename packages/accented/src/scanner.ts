@@ -49,15 +49,20 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
-    if (!supportsAnchorPositioning()) {
-      // TODO: optimize? See what the performance impact is.
+    // TODO: explain what's going on in this mutation observer and why
+
+    const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
+      const onlyAccentedElementsAddedOrRemoved = mutationRecord.type === 'childList' &&
+        [...mutationRecord.addedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&
+        [...mutationRecord.removedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase()));
+      const accentedElementChanged = mutationRecord.type === 'attributes' &&
+        [`${name}-trigger`, `${name}-dialog`].includes(mutationRecord.target.nodeName.toLowerCase());
+      return !(onlyAccentedElementsAddedOrRemoved || accentedElementChanged);
+    });
+
+    if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning()) {
       recalculatePositions();
     }
-    const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
-      return !(mutationRecord.type === 'childList' &&
-        [...mutationRecord.addedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&
-        [...mutationRecord.removedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())));
-    });
 
     const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce((nodes, mutationRecord) => {
       if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`) {
