@@ -2,14 +2,11 @@ import type { AccentedDialog } from './accented-dialog';
 import type { Position } from '../types';
 import { effect } from '@preact/signals-core';
 import type { Signal } from '@preact/signals-core';
+import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';
 
 export interface AccentedTrigger extends HTMLElement {
   dialog: AccentedDialog | undefined;
   position: Signal<Position> | undefined;
-}
-
-function supportsAnchorPositioning () {
-  return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
 }
 
 // We want Accented to not throw an error in Node, and use static imports,

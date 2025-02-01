@@ -1,13 +1,10 @@
 import { effect } from '@preact/signals-core';
 import { extendedElementsWithIssues } from './state.js';
 import type { ExtendedElementWithIssues } from './types';
+import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 
 export default function createDomUpdater(name: string) {
   const attrName = `data-${name}`;
-
-  function supportsAnchorPositioning () {
-    return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
-  }
 
   function getAnchorNames (anchorNameValue: string) {
     return anchorNameValue

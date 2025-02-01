@@ -8,6 +8,7 @@ import deepMerge from './utils/deep-merge.js';
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 import validateOptions from './validate-options.js';
 import recalculatePositions from './utils/recalculate-positions.js';
+import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -81,8 +82,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   const cleanupLogger = output.console ? createLogger() : () => {};
 
   // TODO: move this to a separate file.
-  // TODO: create a helper function to determine support.
-  if (!(CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'))) {
+  if (!supportsAnchorPositioning()) {
     // TODO: remove event listener on cleanup.
     document.addEventListener('scroll', () => {
       recalculatePositions();
