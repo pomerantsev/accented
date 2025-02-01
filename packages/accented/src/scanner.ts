@@ -4,6 +4,7 @@ import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state
 import type { Throttle, Callback } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
+import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 
 export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
@@ -48,7 +49,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
-    if (!(CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'))) {
+    if (!supportsAnchorPositioning()) {
       // TODO: optimize? See what the performance impact is.
       recalculatePositions();
     }
