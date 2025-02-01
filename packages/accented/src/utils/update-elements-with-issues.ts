@@ -46,13 +46,13 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
           trigger.dialog = accentedDialog;
           const position = getElementPosition(addedElementWithIssues.element);
-          trigger.position = position;
+          trigger.position = signal(position);
           const issues = signal(addedElementWithIssues.issues);
           accentedDialog.issues = issues;
           return {
             id,
             element: addedElementWithIssues.element,
-            position,
+            position: trigger.position,
             trigger,
             issues
           };

@@ -3,6 +3,7 @@ import TaskQueue from './task-queue.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import type { Throttle, Callback } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
+import recalculatePositions from './utils/recalculate-positions.js';
 
 export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
@@ -47,7 +48,10 @@ export default function createScanner(name: string, throttle: Required<Throttle>
   taskQueue.add(document);
 
   const mutationObserver = new MutationObserver(mutationList => {
-    console.log('Mutation');
+    if (!(CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'))) {
+      // TODO: optimize? See what the performance impact is.
+      recalculatePositions();
+    }
     const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
       return !(mutationRecord.type === 'childList' &&
         [...mutationRecord.addedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&

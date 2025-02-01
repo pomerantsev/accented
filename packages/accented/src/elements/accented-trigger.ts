@@ -1,9 +1,11 @@
 import type { AccentedDialog } from './accented-dialog';
 import type { Position } from '../types';
+import { effect } from '@preact/signals-core';
+import type { Signal } from '@preact/signals-core';
 
 export interface AccentedTrigger extends HTMLElement {
   dialog: AccentedDialog | undefined;
-  position: Position | undefined;
+  position: Signal<Position> | undefined;
 }
 
 function supportsAnchorPositioning () {
@@ -63,9 +65,11 @@ export default (name: string) => {
   return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
 
+    #disposeOfEffect: (() => void) | undefined;
+
     dialog: AccentedDialog | undefined;
 
-    position: Position | undefined;
+    position: Signal<Position> | undefined;
 
     constructor() {
       super();
@@ -87,14 +91,19 @@ export default (name: string) => {
           this.dialog?.showModal();
         }, { signal: this.#abortController.signal });
 
-        if (!supportsAnchorPositioning() && this.position && trigger) {
-          this.style.top = `${this.position.blockStartTop}px`;
-          if (this.position.direction === 'ltr') {
-            // TODO: calculate width dynamically
-            this.style.left = `${this.position.inlineEndLeft - 32}px`;
-          } else if (this.position.direction === 'rtl') {
-            this.style.left = `${this.position.inlineEndLeft}px`;
-          }
+        if (!supportsAnchorPositioning()) {
+          this.#disposeOfEffect = effect(() => {
+            if (this.position && trigger) {
+              const position = this.position.value;
+              this.style.top = `${position.blockStartTop}px`;
+              if (position.direction === 'ltr') {
+                // TODO: calculate width dynamically
+                this.style.left = `${position.inlineEndLeft - 32}px`;
+              } else if (this.position.value.direction === 'rtl') {
+                this.style.left = `${position.inlineEndLeft}px`;
+              }
+            }
+          });
         }
       }
     }
@@ -102,6 +111,10 @@ export default (name: string) => {
     disconnectedCallback() {
       if (this.#abortController) {
         this.#abortController.abort();
+      }
+      if (this.#disposeOfEffect) {
+        this.#disposeOfEffect();
+        this.#disposeOfEffect = undefined;
       }
     }
   };
