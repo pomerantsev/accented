@@ -22,16 +22,25 @@ const win: Window = {
   },
   // @ts-expect-error we're missing a lot of properties
   getComputedStyle: () => ({
-    zIndex: ''
+    zIndex: '',
+    direction: 'ltr'
   })
 }
 
+const getBoundingClientRect = () => ({});
+
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {};
+const element1: HTMLElement = {getBoundingClientRect};
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {};
+const element2: HTMLElement = {getBoundingClientRect};
 
 const trigger = win.document.createElement('accented-trigger') as AccentedTrigger;
+
+const position = signal({
+  inlineEndLeft: 0,
+  blockStartTop: 0,
+  direction: 'ltr' as const
+});
 
 const commonNodeProps = {
   html: '<div></div>',
@@ -105,12 +114,14 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        position,
         trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
+        position,
         trigger,
         issues: signal([issue2])
       }
@@ -128,12 +139,14 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        position,
         trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
+        position,
         trigger,
         issues: signal([issue2])
       }
@@ -151,12 +164,14 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        position,
         trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
+        position,
         trigger,
         issues: signal([issue2, issue3])
       }
@@ -174,6 +189,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        position,
         trigger,
         issues: signal([issue1])
       }
@@ -191,12 +207,14 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        position,
         trigger,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
+        position,
         trigger,
         issues: signal([issue2])
       }

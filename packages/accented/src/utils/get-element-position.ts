@@ -1,9 +1,9 @@
 import type { Position } from '../types';
 
 // TODO: test?
-export default function getElementPosition(element: Element): Position {
+export default function getElementPosition(element: Element, win: Window): Position {
   const rect = element.getBoundingClientRect();
-  const direction = window.getComputedStyle(element).direction;
+  const direction = win.getComputedStyle(element).direction;
   if (direction === 'ltr') {
     return {
       inlineEndLeft: rect.right,
