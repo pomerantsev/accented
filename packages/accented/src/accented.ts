@@ -7,6 +7,7 @@ import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 import validateOptions from './validate-options.js';
+import recalculatePositions from './utils/recalculate-positions.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -79,23 +80,16 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   const cleanupDomUpdater = createDomUpdater(name);
   const cleanupLogger = output.console ? createLogger() : () => {};
 
+  // TODO: move this to a separate file.
+  // TODO: create a helper function to determine support.
   if (!(CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'))) {
+    // TODO: remove event listener on cleanup.
     document.addEventListener('scroll', () => {
-      const positions = extendedElementsWithIssues.value.map(({element, trigger}) => {
-        const rect = element.getBoundingClientRect();
-        // console.log(rect);
-        return {
-          trigger,
-          top: rect.top,
-          right: rect.right
-        };
-      });
-      window.requestAnimationFrame(() => {
-        for (const {trigger, top, right} of positions) {
-          trigger.style.top = `${top}px`;
-          trigger.style.left = `${right - 32}px`;
-        }
-      });
+      recalculatePositions();
+    });
+
+    window.addEventListener('resize', () => {
+      recalculatePositions();
     });
   }
 

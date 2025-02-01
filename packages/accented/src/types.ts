@@ -109,6 +109,6 @@ export type ElementWithIssues = {
 export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
   issues: Signal<ElementWithIssues['issues']>,
   trigger: AccentedTrigger,
-  position: Position,
+  position: Signal<Position>,
   id: number
 };
