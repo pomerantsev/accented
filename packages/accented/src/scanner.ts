@@ -61,6 +61,8 @@ export default function createScanner(name: string, throttle: Required<Throttle>
     });
 
     if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning()) {
+      // TODO: we may be recalculating the position of a trigger that's going away.
+      // Should we prevent that?
       recalculatePositions();
     }
 
