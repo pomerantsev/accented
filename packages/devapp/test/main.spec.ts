@@ -134,6 +134,7 @@ test.describe('Accented', () => {
           const rect = el.getBoundingClientRect();
           return { top: rect.top, right: rect.right };
         });
+        console.log(node.toString());
         // We check for approximate equality because some browsers may not line the elements up precisely.
         expect(elementPosition.right).toBeGreaterThan(triggerPosition.right - 1);
         expect(elementPosition.right).toBeLessThan(triggerPosition.right + 1);
