@@ -40,6 +40,12 @@ jobs:
       - name: Run end-to-end tests
         run: pnpm test:e2e
 
+      - name: Archive end-to-end test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results
+          path: packages/devapp/test-results
+
       # https://pnpm.io/using-changesets
       - name: Setup npmrc
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/snapshot')
