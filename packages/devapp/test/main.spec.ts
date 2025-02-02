@@ -134,8 +134,11 @@ test.describe('Accented', () => {
           const rect = el.getBoundingClientRect();
           return { top: rect.top, right: rect.right };
         });
-        expect(elementPosition.right).toBe(triggerPosition.right);
-        expect(elementPosition.top).toBe(triggerPosition.top);
+        // We check for approximate equality because some browsers may not line the elements up precisely.
+        expect(elementPosition.right).toBeGreaterThan(triggerPosition.right - 1);
+        expect(elementPosition.right).toBeLessThan(triggerPosition.right + 1);
+        expect(elementPosition.top).toBeGreaterThan(triggerPosition.top - 1);
+        expect(elementPosition.top).toBeLessThan(triggerPosition.top + 1);
       }
     });
 
@@ -154,8 +157,11 @@ test.describe('Accented', () => {
           const rect = el.getBoundingClientRect();
           return { top: rect.top, left: rect.left };
         });
-        expect(elementPosition.left).toBe(triggerPosition.left);
-        expect(elementPosition.top).toBe(triggerPosition.top);
+        // We check for approximate equality because some browsers may not line the elements up precisely.
+        expect(elementPosition.left).toBeGreaterThan(triggerPosition.left - 1);
+        expect(elementPosition.left).toBeLessThan(triggerPosition.left + 1);
+        expect(elementPosition.top).toBeGreaterThan(triggerPosition.top - 1);
+        expect(elementPosition.top).toBeLessThan(triggerPosition.top + 1);
       }
     });
 
