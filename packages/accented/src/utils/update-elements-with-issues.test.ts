@@ -30,9 +30,11 @@ const win: Window = {
 const getBoundingClientRect = () => ({});
 
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {getBoundingClientRect};
+const element1: HTMLElement = {getBoundingClientRect, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {getBoundingClientRect};
+const element2: HTMLElement = {getBoundingClientRect, isConnected: true};
+// @ts-expect-error element is not HTMLElement
+const element3: HTMLElement = {getBoundingClientRect, isConnected: false};
 
 const trigger = win.document.createElement('accented-trigger') as AccentedTrigger;
 
@@ -60,6 +62,11 @@ const node2: Node = {
   element: element2,
 };
 
+const node3: Node = {
+  ...commonNodeProps,
+  element: element3,
+};
+
 const commonViolationProps = {
   help: 'help',
   helpUrl: 'http://example.com',
@@ -84,6 +91,12 @@ const violation3: Violation = {
   ...commonViolationProps,
   id: 'id3',
   nodes: [node2]
+};
+
+const violation4: Violation = {
+  ...commonViolationProps,
+  id: 'id4',
+  nodes: [node3]
 };
 
 const commonIssueProps = {
@@ -200,6 +213,21 @@ suite('updateElementsWithIssues', () => {
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[1]?.element, element2);
     assert.equal(extendedElementsWithIssues.value[1]?.issues.value.length, 1);
+  });
+
+  test('one disconnected element added', () => {
+    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
+      {
+        id: 1,
+        element: element1,
+        position,
+        trigger,
+        issues: signal([issue1])
+      }
+    ]);
+    updateElementsWithIssues(extendedElementsWithIssues, [violation1, violation4], win, 'accented');
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
   });
 
   test('one element removed', () => {

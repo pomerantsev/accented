@@ -13,7 +13,9 @@ export default function recalculatePositions() {
     frameRequested = false;
     batch(() => {
       extendedElementsWithIssues.value.forEach(({ element, position }) => {
-        position.value = getElementPosition(element, window);
+        if (element.isConnected) {
+          position.value = getElementPosition(element, window);
+        }
       });
     });
   });
