@@ -76,7 +76,7 @@ export default (name: string) => {
         this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
-      this.hidden = false;
+      // this.hidden = false;
     }
 
     connectedCallback() {

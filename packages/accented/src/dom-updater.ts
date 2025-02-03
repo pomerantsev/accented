@@ -40,11 +40,13 @@ export default function createDomUpdater(name: string) {
       if (supportsAnchorPositioning()) {
         setAnchorName(elementWithIssues.element, elementWithIssues.id);
       }
+      elementWithIssues.trigger.hidden = true;
       if (elementWithIssues.element.parentElement) {
         elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
       } else {
         elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
       }
+      elementWithIssues.trigger.hidden = false;
       if (elementWithIssues.trigger.dialog) {
         document.body.append(elementWithIssues.trigger.dialog);
       }
