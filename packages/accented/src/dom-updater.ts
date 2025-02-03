@@ -45,6 +45,7 @@ export default function createDomUpdater(name: string) {
       // The trigger would be displayed unstyled for a split second.
       // The custom element constructor probably runs async in some conditions.
       // elementWithIssues.trigger.hidden = true;
+      elementWithIssues.trigger.style.position = 'fixed';
       if (elementWithIssues.element.parentElement) {
         elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
       } else {

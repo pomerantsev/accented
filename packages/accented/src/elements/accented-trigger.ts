@@ -21,7 +21,7 @@ export default (name: string) => {
   stylesheet.replaceSync(`
     :host {
       all: initial;
-      position: fixed;
+      /* position: fixed; */
       inset-inline-end: anchor(end);
       inset-block-start: anchor(start);
 
@@ -113,10 +113,10 @@ export default (name: string) => {
       this.attachShadow({ mode: 'open' });
       const content = template.content.cloneNode(true);
       if (this.shadowRoot) {
-        const styleElement = document.createElement('style');
-        styleElement.textContent = style;
-        this.shadowRoot.append(styleElement);
-        // this.shadowRoot.adoptedStyleSheets.push(stylesheet);
+        // const styleElement = document.createElement('style');
+        // styleElement.textContent = style;
+        // this.shadowRoot.append(styleElement);
+        this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
     }
