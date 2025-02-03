@@ -303,7 +303,7 @@ test.describe('Accented', () => {
     });
   });
 
-  test.describe('web platform support', () => {
+  test.describe.only('web platform support', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
     });
@@ -321,7 +321,7 @@ test.describe('Accented', () => {
       expect(hash).toBe('');
     });
 
-    test.only('issues in modal dialogs get reported correctly', async ({ page }) => {
+    test('issues in modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open modal dialog' }).click();
       const modalDialog = await page.locator('#modal-dialog');
       const triggerContainer = modalDialog.locator('accented-trigger');
