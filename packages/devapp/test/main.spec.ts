@@ -140,6 +140,7 @@ test.describe('Accented', () => {
         expect(elementPosition.top).toBeGreaterThan(triggerPosition.top - 1);
         expect(elementPosition.top).toBeLessThan(triggerPosition.top + 1);
       }
+      await page.waitForTimeout(1500);
     });
 
     test('triggers are rendered in the correct positions for right-to-left writing mode', async ({ page }) => {
