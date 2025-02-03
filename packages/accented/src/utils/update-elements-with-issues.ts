@@ -39,7 +39,7 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
           .map(addedElementWithIssues => {
             const id = count++;
             const trigger = win.document.createElement(`${name}-trigger`) as AccentedTrigger;
-            // trigger.hidden = true;
+            trigger.hidden = true;
             const elementZIndex = parseInt(win.getComputedStyle(addedElementWithIssues.element).zIndex, 10);
             if (!isNaN(elementZIndex)) {
               trigger.style.setProperty('z-index', (elementZIndex + 1).toString());
