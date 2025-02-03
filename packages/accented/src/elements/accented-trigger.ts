@@ -59,6 +59,46 @@ export default (name: string) => {
     }
   `);
 
+  const style = `
+    :host {
+      all: initial;
+      position: fixed;
+      inset-inline-end: anchor(end);
+      inset-block-start: anchor(start);
+
+      /* Popover-specific stuff */
+      border: none;
+      padding: 0;
+      margin-inline-end: 0;
+      margin-block-end: 0;
+    }
+
+    #trigger {
+      box-sizing: border-box;
+      font-size: 1rem;
+      inline-size: max(32px, 2rem);
+      block-size: max(32px, 2rem);
+
+      /* Make it look better in forced-colors mode, */
+      border: 2px solid transparent;
+
+      background-color: var(--${name}-primary-color);
+      color: var(--${name}-secondary-color);
+
+      outline-offset: -4px;
+      outline-color: var(--${name}-secondary-color);
+
+      &:focus-visible {
+        outline-width: 2px;
+        outline-style: solid;
+      }
+
+      &:hover:not(:focus-visible) {
+        outline-width: 2px;
+        outline-style: dashed;
+      }
+    }
+  `;
   return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
 
@@ -73,7 +113,10 @@ export default (name: string) => {
       this.attachShadow({ mode: 'open' });
       const content = template.content.cloneNode(true);
       if (this.shadowRoot) {
-        this.shadowRoot.adoptedStyleSheets.push(stylesheet);
+        const styleElement = document.createElement('style');
+        styleElement.textContent = style;
+        this.shadowRoot.append(styleElement);
+        // this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
     }
