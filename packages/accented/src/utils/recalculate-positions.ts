@@ -10,10 +10,8 @@ export default function recalculatePositions() {
   }
   frameRequested = true;
   window.requestAnimationFrame(() => {
-    console.log('Recalculating positions');
     frameRequested = false;
     batch(() => {
-      console.log('Element count:', extendedElementsWithIssues.value.length);
       extendedElementsWithIssues.value.forEach(({ element, position }) => {
         if (element.isConnected) {
           position.value = getElementPosition(element, window);
