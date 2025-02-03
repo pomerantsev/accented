@@ -40,13 +40,16 @@ export default function createDomUpdater(name: string) {
       if (supportsAnchorPositioning()) {
         setAnchorName(elementWithIssues.element, elementWithIssues.id);
       }
+
+      // Hiding the trigger as a hack to prevent layout issues in CI tests in Safari.
+      // The trigger would be displayed unstyled for a split second.
+      // The custom element constructor probably runs async in some conditions.
       elementWithIssues.trigger.hidden = true;
       if (elementWithIssues.element.parentElement) {
         elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
       } else {
         elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
       }
-      elementWithIssues.trigger.hidden = false;
       if (elementWithIssues.trigger.dialog) {
         document.body.append(elementWithIssues.trigger.dialog);
       }
