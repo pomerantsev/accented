@@ -72,6 +72,7 @@ export default (name: string) => {
       super();
       this.attachShadow({ mode: 'open' });
       const content = template.content.cloneNode(true);
+      this.hidden = true;
       if (this.shadowRoot) {
         this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
