@@ -303,7 +303,7 @@ test.describe('Accented', () => {
     });
   });
 
-  test.describe.only('web platform support', () => {
+  test.describe('web platform support', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
     });
