@@ -76,6 +76,9 @@ export default (name: string) => {
         this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
+
+      // The element was hidden before insertion as a hack to prevent some layout issues.
+      this.hidden = false;
     }
 
     connectedCallback() {
