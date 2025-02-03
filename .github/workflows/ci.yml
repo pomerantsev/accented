@@ -42,7 +42,7 @@ jobs:
         run: pnpm test:e2e
 
       - name: Archive end-to-end test results
-        if: ${{ failure() && steps.test-e2e.conclusion == 'failure' }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: e2e-results

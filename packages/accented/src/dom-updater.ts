@@ -82,6 +82,7 @@ export default function createDomUpdater(name: string) {
       }
     }
   `);
+  console.log('Replaced stylesheet');
 
   let previousExtendedElementsWithIssues: Array<ExtendedElementWithIssues> = [];
 

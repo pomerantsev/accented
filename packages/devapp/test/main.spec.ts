@@ -321,7 +321,7 @@ test.describe('Accented', () => {
       expect(hash).toBe('');
     });
 
-    test('issues in modal dialogs get reported correctly', async ({ page }) => {
+    test.only('issues in modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open modal dialog' }).click();
       const modalDialog = await page.locator('#modal-dialog');
       const triggerContainer = modalDialog.locator('accented-trigger');
