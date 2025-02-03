@@ -121,9 +121,6 @@ test.describe('Accented', () => {
     });
 
     test('triggers are rendered in the correct positions', async ({ page }) => {
-      // Give triggers time to stabilize their positions
-      await page.waitForTimeout(500);
-
       const nodes = await page.locator(accentedSelector).elementHandles();
       for (const node of nodes) {
         const elementPosition = await node.evaluate(n => {
