@@ -76,12 +76,12 @@ export default (name: string) => {
         this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
-
-      // The element was hidden before insertion as a hack to prevent some layout issues.
-      this.hidden = false;
     }
 
     connectedCallback() {
+      // The element was hidden before insertion as a hack to prevent some layout issues.
+      this.hidden = false;
+
       if (this.shadowRoot) {
         const { shadowRoot } = this;
         const trigger = shadowRoot.getElementById('trigger');
