@@ -13,51 +13,55 @@ export interface AccentedTrigger extends HTMLElement {
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
 export default (name: string) => {
   const template = document.createElement('template');
+
+  // I initially tried creating a CSSStyelSheet object with styles instead of having a <style> element in the template,
+  // but that led to a hard-to-catch layout bug in Safari in CI that caused a test to fail.
+  // It seems that when using adoptedStyleSheets, the styles may be applied asynchronously,
+  // which may have caused the layout bug.
+  // Using a <style> element does not seem to lead to any performance issues, so I'm keeping it this way.
   template.innerHTML = `
+    <style>
+      :host {
+        all: initial;
+        position: fixed;
+        inset-inline-end: anchor(end);
+        inset-block-start: anchor(start);
+
+        /* Popover-specific stuff */
+        border: none;
+        padding: 0;
+        margin-inline-end: 0;
+        margin-block-end: 0;
+      }
+
+      #trigger {
+        box-sizing: border-box;
+        font-size: 1rem;
+        inline-size: max(32px, 2rem);
+        block-size: max(32px, 2rem);
+
+        /* Make it look better in forced-colors mode, */
+        border: 2px solid transparent;
+
+        background-color: var(--${name}-primary-color);
+        color: var(--${name}-secondary-color);
+
+        outline-offset: -4px;
+        outline-color: var(--${name}-secondary-color);
+
+        &:focus-visible {
+          outline-width: 2px;
+          outline-style: solid;
+        }
+
+        &:hover:not(:focus-visible) {
+          outline-width: 2px;
+          outline-style: dashed;
+        }
+      }
+    </style>
     <button id="trigger">⚠</button>
   `;
-
-  const stylesheet = new CSSStyleSheet();
-  stylesheet.replaceSync(`
-    :host {
-      all: initial;
-      position: fixed;
-      inset-inline-end: anchor(end);
-      inset-block-start: anchor(start);
-
-      /* Popover-specific stuff */
-      border: none;
-      padding: 0;
-      margin-inline-end: 0;
-      margin-block-end: 0;
-    }
-
-    #trigger {
-      box-sizing: border-box;
-      font-size: 1rem;
-      inline-size: max(32px, 2rem);
-      block-size: max(32px, 2rem);
-
-      /* Make it look better in forced-colors mode, */
-      border: 2px solid transparent;
-
-      background-color: var(--${name}-primary-color);
-      color: var(--${name}-secondary-color);
-
-      outline-offset: -4px;
-      outline-color: var(--${name}-secondary-color);
-
-      &:focus-visible {
-        outline-width: 2px;
-        outline-style: solid;
-      }
-
-      &:hover:not(:focus-visible) {
-        outline-width: 2px;
-        outline-style: dashed;
-      }
-    }
-  `);
 
   return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
@@ -73,15 +77,11 @@ export default (name: string) => {
       this.attachShadow({ mode: 'open' });
       const content = template.content.cloneNode(true);
       if (this.shadowRoot) {
-        this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
     }
 
     connectedCallback() {
-      // The element was hidden before insertion as a hack to prevent some layout issues.
-      this.hidden = false;
-
       if (this.shadowRoot) {
         const { shadowRoot } = this;
         const trigger = shadowRoot.getElementById('trigger');
