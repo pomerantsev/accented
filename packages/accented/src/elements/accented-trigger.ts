@@ -14,91 +14,49 @@ export interface AccentedTrigger extends HTMLElement {
 export default (name: string) => {
   const template = document.createElement('template');
   template.innerHTML = `
+    <style>
+      :host {
+        all: initial;
+        position: fixed;
+        inset-inline-end: anchor(end);
+        inset-block-start: anchor(start);
+
+        /* Popover-specific stuff */
+        border: none;
+        padding: 0;
+        margin-inline-end: 0;
+        margin-block-end: 0;
+      }
+
+      #trigger {
+        box-sizing: border-box;
+        font-size: 1rem;
+        inline-size: max(32px, 2rem);
+        block-size: max(32px, 2rem);
+
+        /* Make it look better in forced-colors mode, */
+        border: 2px solid transparent;
+
+        background-color: var(--${name}-primary-color);
+        color: var(--${name}-secondary-color);
+
+        outline-offset: -4px;
+        outline-color: var(--${name}-secondary-color);
+
+        &:focus-visible {
+          outline-width: 2px;
+          outline-style: solid;
+        }
+
+        &:hover:not(:focus-visible) {
+          outline-width: 2px;
+          outline-style: dashed;
+        }
+      }
+    </style>
     <button id="trigger">⚠</button>
   `;
 
-  const stylesheet = new CSSStyleSheet();
-  stylesheet.replaceSync(`
-    :host {
-      all: initial;
-      /* position: fixed; */
-      inset-inline-end: anchor(end);
-      inset-block-start: anchor(start);
-
-      /* Popover-specific stuff */
-      border: none;
-      padding: 0;
-      margin-inline-end: 0;
-      margin-block-end: 0;
-    }
-
-    #trigger {
-      box-sizing: border-box;
-      font-size: 1rem;
-      inline-size: max(32px, 2rem);
-      block-size: max(32px, 2rem);
-
-      /* Make it look better in forced-colors mode, */
-      border: 2px solid transparent;
-
-      background-color: var(--${name}-primary-color);
-      color: var(--${name}-secondary-color);
-
-      outline-offset: -4px;
-      outline-color: var(--${name}-secondary-color);
-
-      &:focus-visible {
-        outline-width: 2px;
-        outline-style: solid;
-      }
-
-      &:hover:not(:focus-visible) {
-        outline-width: 2px;
-        outline-style: dashed;
-      }
-    }
-  `);
-
-  const style = `
-    :host {
-      all: initial;
-      position: fixed;
-      inset-inline-end: anchor(end);
-      inset-block-start: anchor(start);
-
-      /* Popover-specific stuff */
-      border: none;
-      padding: 0;
-      margin-inline-end: 0;
-      margin-block-end: 0;
-    }
-
-    #trigger {
-      box-sizing: border-box;
-      font-size: 1rem;
-      inline-size: max(32px, 2rem);
-      block-size: max(32px, 2rem);
-
-      /* Make it look better in forced-colors mode, */
-      border: 2px solid transparent;
-
-      background-color: var(--${name}-primary-color);
-      color: var(--${name}-secondary-color);
-
-      outline-offset: -4px;
-      outline-color: var(--${name}-secondary-color);
-
-      &:focus-visible {
-        outline-width: 2px;
-        outline-style: solid;
-      }
-
-      &:hover:not(:focus-visible) {
-        outline-width: 2px;
-        outline-style: dashed;
-      }
-    }
-  `;
   return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
 
@@ -116,7 +74,7 @@ export default (name: string) => {
         // const styleElement = document.createElement('style');
         // styleElement.textContent = style;
         // this.shadowRoot.append(styleElement);
-        this.shadowRoot.adoptedStyleSheets.push(stylesheet);
+        // this.shadowRoot.adoptedStyleSheets.push(stylesheet);
         this.shadowRoot.append(content);
       }
     }
