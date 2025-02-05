@@ -27,6 +27,8 @@ export default (name: string) => {
         inset-inline-end: anchor(end);
         inset-block-start: anchor(start);
 
+        position-visibility: anchors-visible;
+
         /* Popover-specific stuff */
         border: none;
         padding: 0;
