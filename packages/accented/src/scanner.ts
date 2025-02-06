@@ -4,6 +4,7 @@ import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state
 import type { Throttle, Callback } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
+import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 
 export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
@@ -64,6 +65,8 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       // TODO: we may be recalculating the position of a trigger that's going away.
       // Should we prevent that?
       recalculatePositions();
+
+      recalculateScrollableAncestors();
     }
 
     const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce((nodes, mutationRecord) => {
