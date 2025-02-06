@@ -10,3 +10,15 @@ export const elementsWithIssues = computed<Array<ElementWithIssues>>(() => exten
   element: extendedElementWithIssues.element,
   issues: extendedElementWithIssues.issues.value
 })));
+
+export const scrollableAncestors = computed<Set<HTMLElement>>(() =>
+  extendedElementsWithIssues.value.reduce(
+    (scrollableAncestors, extendedElementWithIssues) => {
+      for (const scrollableAncestor of extendedElementWithIssues.scrollableAncestors.value) {
+        scrollableAncestors.add(scrollableAncestor);
+      }
+      return scrollableAncestors;
+    },
+    new Set<HTMLElement>()
+  )
+);

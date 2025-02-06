@@ -7,6 +7,7 @@ import areIssueSetsEqual from './are-issue-sets-equal.js';
 import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { AccentedDialog } from '../elements/accented-dialog';
 import getElementPosition from './get-element-position.js';
+import getScrollableAncestors from './get-scrollable-ancestors';
 
 let count = 0;
 
@@ -49,12 +50,14 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             trigger.dialog = accentedDialog;
             const position = getElementPosition(addedElementWithIssues.element, win);
             trigger.position = signal(position);
+            const scrollableAncestors = getScrollableAncestors(addedElementWithIssues.element, win);
             const issues = signal(addedElementWithIssues.issues);
             accentedDialog.issues = issues;
             return {
               id,
               element: addedElementWithIssues.element,
               position: trigger.position,
+              scrollableAncestors: signal(scrollableAncestors),
               trigger,
               issues
             };

@@ -3,6 +3,7 @@ import registerElements from './register-elements.js';
 import createDomUpdater from './dom-updater.js';
 import createLogger from './logger.js';
 import createScanner from './scanner.js';
+import setupScrollListeners from './scroll-listeners.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
@@ -80,14 +81,11 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   const cleanupScanner = createScanner(name, throttle, callback);
   const cleanupDomUpdater = createDomUpdater(name);
   const cleanupLogger = output.console ? createLogger() : () => {};
+  const cleanupScrollListeners = supportsAnchorPositioning() ? () => {} : setupScrollListeners();
 
   // TODO: move this to a separate file.
   if (!supportsAnchorPositioning()) {
     // TODO: remove event listener on cleanup.
-    document.addEventListener('scroll', () => {
-      recalculatePositions();
-    });
-
     window.addEventListener('resize', () => {
       recalculatePositions();
     });
@@ -99,5 +97,6 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     cleanupScanner();
     cleanupDomUpdater();
     cleanupLogger();
+    cleanupScrollListeners();
   };
 }
