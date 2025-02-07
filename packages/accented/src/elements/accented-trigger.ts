@@ -113,7 +113,7 @@ export default (name: string) => {
           });
 
           this.#disposeOfVisibilityEffect = effect(() => {
-            this.style.display = this.visible?.value ? 'block' : 'none';
+            this.style.visibility = this.visible?.value ? 'visible' : 'hidden';
           });
         }
       }

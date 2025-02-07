@@ -364,7 +364,7 @@ test.describe('Accented', () => {
       const fullscreenContainer = await page.locator('#fullscreen-container');
       const elementWithIssues = await fullscreenContainer.locator(accentedSelector).first();
       await page.getByRole('button', { name: 'Enter fullscreen' }).click();
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(1000);
       const elementPosition = await elementWithIssues.evaluate(el => {
         const rect = el.getBoundingClientRect();
         return { top: rect.top, right: rect.right };
