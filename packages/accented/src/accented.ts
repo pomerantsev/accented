@@ -77,9 +77,20 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   }
 
   enabled.value = true;
+
   registerElements(name);
+
+  const intersectionObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const extendedElementWithIssues = extendedElementsWithIssues.value.find(el => el.element === entry.target);
+      if (extendedElementWithIssues) {
+        extendedElementWithIssues.visible.value = entry.isIntersecting;
+      }
+    }
+  }, { threshold: 0 });
+
   const cleanupScanner = createScanner(name, throttle, callback);
-  const cleanupDomUpdater = createDomUpdater(name);
+  const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
   const cleanupLogger = output.console ? createLogger() : () => {};
   const cleanupScrollListeners = supportsAnchorPositioning() ? () => {} : setupScrollListeners();
 

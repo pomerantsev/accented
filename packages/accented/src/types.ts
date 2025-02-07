@@ -108,6 +108,7 @@ export type ElementWithIssues = {
 
 export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
   issues: Signal<ElementWithIssues['issues']>,
+  visible: Signal<boolean>,
   trigger: AccentedTrigger,
   position: Signal<Position>,
   scrollableAncestors: Signal<Set<HTMLElement>>
