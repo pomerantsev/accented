@@ -123,6 +123,8 @@ test.describe('Accented', () => {
     test('triggers are rendered in the correct positions', async ({ page }) => {
       const nodes = await page.locator(accentedSelector).elementHandles();
       for (const node of nodes) {
+        await node.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(200);
         const elementPosition = await node.evaluate(n => {
           const rect = (n as Element).getBoundingClientRect();
           return { top: rect.top, right: rect.right };
@@ -146,6 +148,8 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Toggle text direction' }).click();
       const nodes = await page.locator(accentedSelector).elementHandles();
       for (const node of nodes) {
+        await node.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(200);
         const elementPosition = await node.evaluate(n => {
           const rect = (n as Element).getBoundingClientRect();
           return { top: rect.top, left: rect.left };
@@ -360,6 +364,7 @@ test.describe('Accented', () => {
       const fullscreenContainer = await page.locator('#fullscreen-container');
       const elementWithIssues = await fullscreenContainer.locator(accentedSelector).first();
       await page.getByRole('button', { name: 'Enter fullscreen' }).click();
+      await page.waitForTimeout(200);
       const elementPosition = await elementWithIssues.evaluate(el => {
         const rect = el.getBoundingClientRect();
         return { top: rect.top, right: rect.right };

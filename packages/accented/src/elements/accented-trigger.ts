@@ -7,6 +7,7 @@ import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';
 export interface AccentedTrigger extends HTMLElement {
   dialog: AccentedDialog | undefined;
   position: Signal<Position> | undefined;
+  visible: Signal<boolean> | undefined;
 }
 
 // We want Accented to not throw an error in Node, and use static imports,
@@ -68,11 +69,15 @@ export default (name: string) => {
   return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
 
-    #disposeOfEffect: (() => void) | undefined;
+    #disposeOfPositionEffect: (() => void) | undefined;
+
+    #disposeOfVisibilityEffect: (() => void) | undefined;
 
     dialog: AccentedDialog | undefined;
 
     position: Signal<Position> | undefined;
+
+    visible: Signal<boolean> | undefined;
 
     constructor() {
       super();
@@ -94,7 +99,7 @@ export default (name: string) => {
         }, { signal: this.#abortController.signal });
 
         if (!supportsAnchorPositioning()) {
-          this.#disposeOfEffect = effect(() => {
+          this.#disposeOfPositionEffect = effect(() => {
             if (this.position && trigger) {
               const position = this.position.value;
               this.style.top = `${position.blockStartTop}px`;
@@ -106,6 +111,10 @@ export default (name: string) => {
               }
             }
           });
+
+          this.#disposeOfVisibilityEffect = effect(() => {
+            this.style.display = this.visible?.value ? 'block' : 'none';
+          });
         }
       }
     }
@@ -114,9 +123,11 @@ export default (name: string) => {
       if (this.#abortController) {
         this.#abortController.abort();
       }
-      if (this.#disposeOfEffect) {
-        this.#disposeOfEffect();
-        this.#disposeOfEffect = undefined;
+      if (this.#disposeOfPositionEffect && this.#disposeOfVisibilityEffect) {
+        this.#disposeOfPositionEffect();
+        this.#disposeOfPositionEffect = undefined;
+        this.#disposeOfVisibilityEffect();
+        this.#disposeOfVisibilityEffect = undefined;
       }
     }
   };

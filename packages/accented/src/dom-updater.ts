@@ -3,7 +3,7 @@ import { extendedElementsWithIssues } from './state.js';
 import type { ExtendedElementWithIssues } from './types';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 
-export default function createDomUpdater(name: string) {
+export default function createDomUpdater(name: string, intersectionObserver: IntersectionObserver) {
   const attrName = `data-${name}`;
 
   function getAnchorNames (anchorNameValue: string) {
@@ -49,6 +49,9 @@ export default function createDomUpdater(name: string) {
       if (elementWithIssues.trigger.dialog) {
         document.body.append(elementWithIssues.trigger.dialog);
       }
+      if (!supportsAnchorPositioning()) {
+        intersectionObserver.observe(elementWithIssues.element);
+      }
     }
   }
 
@@ -61,6 +64,9 @@ export default function createDomUpdater(name: string) {
       elementWithIssues.trigger.remove();
       if (elementWithIssues.trigger.dialog) {
         elementWithIssues.trigger.dialog.remove();
+      }
+      if (!supportsAnchorPositioning()) {
+        intersectionObserver.unobserve(elementWithIssues.element);
       }
     }
   }
