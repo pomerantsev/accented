@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+
+import { expectElementAndTriggerToBeAligned, getTrigger } from './helpers/trigger';
 
 import axe from 'axe-core';
 
@@ -121,52 +123,62 @@ test.describe('Accented', () => {
     });
 
     test('triggers are rendered in the correct positions', async ({ page }) => {
-      const nodes = await page.locator(accentedSelector).elementHandles();
-      for (const node of nodes) {
-        await node.scrollIntoViewIfNeeded();
+      const elements = await page.locator(accentedSelector).all();
+      for (const element of elements) {
+        await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
-        const elementPosition = await node.evaluate(n => {
-          const rect = (n as Element).getBoundingClientRect();
-          return { top: rect.top, right: rect.right };
-        });
-        const id = await node.getAttribute(accentedDataAttr);
-        const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-        const trigger = await triggerContainer.locator('#trigger');
-        const triggerPosition = await trigger.evaluate(el => {
-          const rect = el.getBoundingClientRect();
-          return { top: rect.top, right: rect.right };
-        });
-        // We check for approximate equality because some browsers may not line the elements up precisely.
-        expect(elementPosition.right).toBeGreaterThan(triggerPosition.right - 1);
-        expect(elementPosition.right).toBeLessThan(triggerPosition.right + 1);
-        expect(elementPosition.top).toBeGreaterThan(triggerPosition.top - 1);
-        expect(elementPosition.top).toBeLessThan(triggerPosition.top + 1);
+        const trigger = await getTrigger(page, element);
+        await expectElementAndTriggerToBeAligned(element, trigger, 'right');
       }
     });
 
     test('triggers are rendered in the correct positions for right-to-left writing mode', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle text direction' }).click();
-      const nodes = await page.locator(accentedSelector).elementHandles();
-      for (const node of nodes) {
-        await node.scrollIntoViewIfNeeded();
+      const elements = await page.locator(accentedSelector).all();
+      for (const element of elements) {
+        await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
-        const elementPosition = await node.evaluate(n => {
-          const rect = (n as Element).getBoundingClientRect();
-          return { top: rect.top, left: rect.left };
-        });
-        const id = await node.getAttribute(accentedDataAttr);
-        const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-        const trigger = await triggerContainer.locator('#trigger');
-        const triggerPosition = await trigger.evaluate(el => {
-          const rect = el.getBoundingClientRect();
-          return { top: rect.top, left: rect.left };
-        });
-        // We check for approximate equality because some browsers may not line the elements up precisely.
-        expect(elementPosition.left).toBeGreaterThan(triggerPosition.left - 1);
-        expect(elementPosition.left).toBeLessThan(triggerPosition.left + 1);
-        expect(elementPosition.top).toBeGreaterThan(triggerPosition.top - 1);
-        expect(elementPosition.top).toBeLessThan(triggerPosition.top + 1);
+        const trigger = await getTrigger(page, element);
+        await expectElementAndTriggerToBeAligned(element, trigger, 'left');
       }
+    });
+
+    test('trigger positions get updated in scrollable regions and are hidden from view when scrolled out', async ({ page }) => {
+      const scrollableRegion = await page.locator('#scrollable-region');
+      const button1 = await page.locator('#scrollable-test-button-1');
+      const button1Trigger = await getTrigger(page, button1);
+      const button2 = await page.locator('#scrollable-test-button-2');
+      const button2Trigger = await getTrigger(page, button2);
+
+      async function expectToBeHiddenOutsideScrollableRegion(element: Locator) {
+        if (await supportsAnchorPositioning(page)) {
+          // I'm not sure how to really test the button for visibility here.
+          // It's hidden using position-visibility: anchors-visible,
+          // but that doesn't seem to affect how Playwright calculates visibility.
+          // Hopefully in a future version of Playwright this is addressed.
+          await expect(element).toBeVisible();
+        } else {
+          await expect(element).not.toBeVisible();
+        }
+      }
+
+      await scrollableRegion.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      await expect(button1Trigger).toBeVisible();
+      await expectElementAndTriggerToBeAligned(button1, button1Trigger, 'right');
+      await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
+
+      await scrollableRegion.evaluate(element => element.scrollBy(0, 10));
+      await page.waitForTimeout(200);
+      await expect(button1Trigger).toBeVisible();
+      await expectElementAndTriggerToBeAligned(button1, button1Trigger, 'right');
+      await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
+
+      await button2.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      await expectToBeHiddenOutsideScrollableRegion(button1Trigger);
+      await expect(button2Trigger).toBeVisible();
+      await expectElementAndTriggerToBeAligned(button2, button2Trigger, 'right');
     });
 
     test('outlines with certain properties are added to elements', async ({ page }) => {
