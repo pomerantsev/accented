@@ -143,6 +143,24 @@ test.describe('Accented', () => {
       }
     });
 
+    test('trigger positions are updated on page resize', async ({ page }) => {
+      await page.getByRole('button', { name: 'Toggle text direction' }).click();
+      const elements = await page.locator(accentedSelector).all();
+      for (const element of elements) {
+        await element.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(200);
+        const trigger = await getTrigger(page, element);
+        await expectElementAndTriggerToBeAligned(element, trigger, 'left');
+      }
+      await page.setViewportSize({ width: 400, height: 400 });
+      for (const element of elements) {
+        await element.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(200);
+        const trigger = await getTrigger(page, element);
+        await expectElementAndTriggerToBeAligned(element, trigger, 'left');
+      }
+    });
+
     test('trigger positions get updated in scrollable regions and are hidden from view when scrolled out', async ({ page }) => {
       const scrollableRegion = await page.locator('#scrollable-region');
       const button1 = await page.locator('#scrollable-test-button-1');
@@ -179,6 +197,16 @@ test.describe('Accented', () => {
       await expectToBeHiddenOutsideScrollableRegion(button1Trigger);
       await expect(button2Trigger).toBeVisible();
       await expectElementAndTriggerToBeAligned(button2, button2Trigger, 'right');
+    });
+
+    test('trigger position is correct for a sticky positioned element', async ({ page }) => {
+      const button2 = await page.locator('#scrollable-test-button-2');
+      const stickyElement = await page.locator('#sticky');
+      const stickyElementTrigger = await getTrigger(page, stickyElement);
+
+      await button2.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      await expectElementAndTriggerToBeAligned(stickyElement, stickyElementTrigger, 'right');
     });
 
     test('outlines with certain properties are added to elements', async ({ page }) => {
