@@ -44,6 +44,10 @@ const position = signal({
   direction: 'ltr' as const
 });
 
+const visible = signal(true);
+
+const scrollableAncestors = signal(new Set<HTMLElement>());
+
 const commonNodeProps = {
   html: '<div></div>',
   any: [],
@@ -128,14 +132,18 @@ suite('updateElementsWithIssues', () => {
         id: 1,
         element: element1,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue2])
       }
     ]);
@@ -153,14 +161,18 @@ suite('updateElementsWithIssues', () => {
         id: 1,
         element: element1,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue2])
       }
     ]);
@@ -178,14 +190,18 @@ suite('updateElementsWithIssues', () => {
         id: 1,
         element: element1,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue2, issue3])
       }
     ]);
@@ -203,7 +219,9 @@ suite('updateElementsWithIssues', () => {
         id: 1,
         element: element1,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue1])
       }
     ]);
@@ -221,7 +239,9 @@ suite('updateElementsWithIssues', () => {
         id: 1,
         element: element1,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue1])
       }
     ]);
@@ -236,14 +256,18 @@ suite('updateElementsWithIssues', () => {
         id: 1,
         element: element1,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue1])
       },
       {
         id: 2,
         element: element2,
         position,
+        visible,
         trigger,
+        scrollableAncestors,
         issues: signal([issue2])
       }
     ]);
