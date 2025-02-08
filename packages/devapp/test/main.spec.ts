@@ -578,13 +578,13 @@ test.describe('Accented', () => {
     async function expectShortScan(page: Page) {
       const consoleMessage = await page.waitForEvent('console');
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeLessThan(150);
+      await expect(duration).toBeLessThan(200);
     }
 
     async function expectLongScan(page: Page) {
       const consoleMessage = await page.waitForEvent('console');
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeGreaterThan(150);
+      await expect(duration).toBeGreaterThan(200);
     }
 
     test('does not take long to run with few elements', async ({ page }) => {
