@@ -4,13 +4,13 @@ import createDomUpdater from './dom-updater.js';
 import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import setupScrollListeners from './scroll-listeners.js';
+import setupResizeListener from './resize-listener.js';
+import setupIntersectionObserver from './intersection-observer.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
 import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 import validateOptions from './validate-options.js';
-import recalculatePositions from './utils/recalculate-positions.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
-import getElementPosition from './utils/get-element-position.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -81,30 +81,12 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
 
   registerElements(name);
 
-  const intersectionObserver = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      const extendedElementWithIssues = extendedElementsWithIssues.value.find(el => el.element === entry.target);
-      if (extendedElementWithIssues) {
-        extendedElementWithIssues.visible.value = entry.isIntersecting;
-        if (entry.isIntersecting) {
-          extendedElementWithIssues.position.value = getElementPosition(entry.target, window);
-        }
-      }
-    }
-  }, { threshold: 0 });
-
+  const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning() ? {} : setupIntersectionObserver();
   const cleanupScanner = createScanner(name, throttle, callback);
   const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
   const cleanupLogger = output.console ? createLogger() : () => {};
   const cleanupScrollListeners = supportsAnchorPositioning() ? () => {} : setupScrollListeners();
-
-  // TODO: move this to a separate file.
-  if (!supportsAnchorPositioning()) {
-    // TODO: remove event listener on cleanup.
-    window.addEventListener('resize', () => {
-      recalculatePositions();
-    });
-  }
+  const cleanupResizeListener = supportsAnchorPositioning() ? () => {} : setupResizeListener();
 
   return () => {
     enabled.value = false;
@@ -113,5 +95,9 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     cleanupDomUpdater();
     cleanupLogger();
     cleanupScrollListeners();
+    cleanupResizeListener();
+    if (cleanupIntersectionObserver) {
+      cleanupIntersectionObserver();
+    }
   };
 }
