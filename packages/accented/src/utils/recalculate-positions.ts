@@ -12,8 +12,8 @@ export default function recalculatePositions() {
   window.requestAnimationFrame(() => {
     frameRequested = false;
     batch(() => {
-      extendedElementsWithIssues.value.forEach(({ element, position }) => {
-        if (element.isConnected) {
+      extendedElementsWithIssues.value.forEach(({ element, position, visible }) => {
+        if (visible.value && element.isConnected) {
           position.value = getElementPosition(element, window);
         }
       });

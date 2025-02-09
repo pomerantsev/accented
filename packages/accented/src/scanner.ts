@@ -62,10 +62,13 @@ export default function createScanner(name: string, throttle: Required<Throttle>
     });
 
     if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning()) {
-      // TODO: we may be recalculating the position of a trigger that's going away.
-      // Should we prevent that?
+      // Something has changed in the DOM, so we need to realign all triggers with respective elements.
       recalculatePositions();
 
+      // Elements' scrollable ancestors only change when styles change
+      // (specifically when the `display` prop on one of the ancestors changes),
+      // so a good place to recalculate the scrollable ancestors for elements is here.
+      // We could further optimize this by only recalculating scrollable ancestors for elements that have changed.
       recalculateScrollableAncestors();
     }
 
