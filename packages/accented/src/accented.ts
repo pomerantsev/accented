@@ -10,6 +10,7 @@ import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
 import validateOptions from './validate-options.js';
 import recalculatePositions from './utils/recalculate-positions.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
+import getElementPosition from './utils/get-element-position.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -85,6 +86,9 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
       const extendedElementWithIssues = extendedElementsWithIssues.value.find(el => el.element === entry.target);
       if (extendedElementWithIssues) {
         extendedElementWithIssues.visible.value = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          extendedElementWithIssues.position.value = getElementPosition(entry.target, window);
+        }
       }
     }
   }, { threshold: 0 });
