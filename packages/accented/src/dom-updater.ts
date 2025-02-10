@@ -37,7 +37,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
-      if (supportsAnchorPositioning()) {
+      if (supportsAnchorPositioning(window)) {
         setAnchorName(elementWithIssues.element, elementWithIssues.id);
       }
 
@@ -58,7 +58,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   function removeIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
-      if (supportsAnchorPositioning()) {
+      if (supportsAnchorPositioning(window)) {
         removeAnchorName(elementWithIssues.element, elementWithIssues.id);
       }
       elementWithIssues.trigger.remove();

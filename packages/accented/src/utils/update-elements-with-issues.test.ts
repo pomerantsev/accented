@@ -24,7 +24,10 @@ const win: Window = {
   getComputedStyle: () => ({
     zIndex: '',
     direction: 'ltr'
-  })
+  }),
+  CSS: {
+    supports: () => true
+  }
 }
 
 const getBoundingClientRect = () => ({});

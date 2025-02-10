@@ -98,7 +98,7 @@ export default (name: string) => {
           this.dialog?.showModal();
         }, { signal: this.#abortController.signal });
 
-        if (!supportsAnchorPositioning()) {
+        if (!supportsAnchorPositioning(window)) {
           this.#disposeOfPositionEffect = effect(() => {
             if (this.position && trigger) {
               const position = this.position.value;

@@ -1,3 +1,7 @@
-export default function supportsAnchorPositioning() {
-  return CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo');
+type WindowWithCSS = Window & {
+  CSS: typeof CSS
+}
+
+export default function supportsAnchorPositioning(win: WindowWithCSS) {
+  return win.CSS.supports('anchor-name: --foo') && win.CSS.supports('position-anchor: --foo');
 }
