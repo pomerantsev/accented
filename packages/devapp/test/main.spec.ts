@@ -509,6 +509,11 @@ test.describe('Accented', () => {
         expect(errorCount).toBe(1);
         errorCount = 0;
       });
+      test('throws an error if name is invalid (starts with a number)', async ({ page }) => {
+        await page.goto(`?name=1foo`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      })
     });
 
     test('callback', async ({ page }) => {

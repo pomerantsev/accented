@@ -69,7 +69,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
   const {name, output, throttle, callback} = deepMerge(defaultOptions, options);
 
   if (enabled.value) {
-    // TODO: add link to the recipes section of the docs.
+    // Add link to the recipes section of the docs (#56).
     console.warn(
       'You are trying to run the Accented library more than once. ' +
       'This will likely lead to errors.'

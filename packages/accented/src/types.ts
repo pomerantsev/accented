@@ -59,6 +59,9 @@ export type AccentedOptions = {
    * * The window property that’s used to prevent multiple axe-core scans from running simultaneously
    *   (default: `__accented_axe_running__`).
    *
+   * Only lowercase alphanumeric characters and dashes (-) are allowed in the name,
+   * and it must start with a lowercase letter.
+   *
    * Default: `accented`.
    */
   name?: string,
