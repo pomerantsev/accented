@@ -61,7 +61,7 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       return !(onlyAccentedElementsAddedOrRemoved || accentedElementChanged);
     });
 
-    if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning()) {
+    if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning(window)) {
       // Something has changed in the DOM, so we need to realign all triggers with respective elements.
       recalculatePositions();
 

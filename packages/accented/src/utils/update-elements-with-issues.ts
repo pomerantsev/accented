@@ -12,7 +12,7 @@ import supportsAnchorPositioning from './supports-anchor-positioning.js';
 
 let count = 0;
 
-export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, win: Window, name: string) {
+export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, win: Window & { CSS: typeof CSS }, name: string) {
   const updatedElementsWithIssues = transformViolations(violations);
 
   batch(() => {
@@ -52,7 +52,7 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             const position = getElementPosition(addedElementWithIssues.element, win);
             trigger.position = signal(position);
             trigger.visible = signal(true);
-            const scrollableAncestors = supportsAnchorPositioning() ?
+            const scrollableAncestors = supportsAnchorPositioning(win) ?
               new Set<HTMLElement>() :
               getScrollableAncestors(addedElementWithIssues.element, win);
             const issues = signal(addedElementWithIssues.issues);

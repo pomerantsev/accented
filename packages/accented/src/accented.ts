@@ -81,12 +81,12 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
 
   registerElements(name);
 
-  const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning() ? {} : setupIntersectionObserver();
+  const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
   const cleanupScanner = createScanner(name, throttle, callback);
   const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
   const cleanupLogger = output.console ? createLogger() : () => {};
-  const cleanupScrollListeners = supportsAnchorPositioning() ? () => {} : setupScrollListeners();
-  const cleanupResizeListener = supportsAnchorPositioning() ? () => {} : setupResizeListener();
+  const cleanupScrollListeners = supportsAnchorPositioning(window) ? () => {} : setupScrollListeners();
+  const cleanupResizeListener = supportsAnchorPositioning(window) ? () => {} : setupResizeListener();
 
   return () => {
     enabled.value = false;
