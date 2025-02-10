@@ -123,9 +123,11 @@ export default (name: string) => {
       if (this.#abortController) {
         this.#abortController.abort();
       }
-      if (this.#disposeOfPositionEffect && this.#disposeOfVisibilityEffect) {
+      if (this.#disposeOfPositionEffect) {
         this.#disposeOfPositionEffect();
         this.#disposeOfPositionEffect = undefined;
+      }
+      if (this.#disposeOfVisibilityEffect) {
         this.#disposeOfVisibilityEffect();
         this.#disposeOfVisibilityEffect = undefined;
       }

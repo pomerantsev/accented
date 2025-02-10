@@ -8,6 +8,7 @@ import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { AccentedDialog } from '../elements/accented-dialog';
 import getElementPosition from './get-element-position.js';
 import getScrollableAncestors from './get-scrollable-ancestors.js';
+import supportsAnchorPositioning from './supports-anchor-positioning.js';
 
 let count = 0;
 
@@ -51,7 +52,9 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             const position = getElementPosition(addedElementWithIssues.element, win);
             trigger.position = signal(position);
             trigger.visible = signal(true);
-            const scrollableAncestors = getScrollableAncestors(addedElementWithIssues.element, win);
+            const scrollableAncestors = supportsAnchorPositioning() ?
+              new Set<HTMLElement>() :
+              getScrollableAncestors(addedElementWithIssues.element, win);
             const issues = signal(addedElementWithIssues.issues);
             accentedDialog.issues = issues;
             return {
