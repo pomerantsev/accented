@@ -12,6 +12,7 @@
     "build": "tsc",
     "checkBuiltFiles": "node --import tsx ./scripts/check-built-files.ts",
     "checkImportsInBuiltFiles": "node ./dist/accented.js",
+    "typecheckTests": "tsc -p ./tsconfig.test.json",
     "watch": "tsc --watch",
     "test": "node --test --import tsx \"./**/*.test.ts\""
   },
