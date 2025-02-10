@@ -90,6 +90,9 @@ You shouldn’t have to use this attribute unless some of the names on your page
 * The window property that’s used to prevent multiple axe-core scans from running simultaneously
   (default: `__accented_axe_running__`).
 
+Only lowercase alphanumeric characters and dashes (-) are allowed in the name,
+and it must start with a lowercase letter.
+
 **Example:**
 
 ```

@@ -1,5 +1,10 @@
 import type { AccentedOptions } from './types';
 
+// The space of valid CSS and HTML names is wider than this,
+// but with Unicode it gets complicated quickly, so I'm sticking to only allowing
+// lowercase alphanumeric names that possibly contain dashes that start with a letter.
+const nameRegex = /^[a-z]([a-z0-9]|-)+$/;
+
 export default function validateOptions(options: AccentedOptions) {
   if (typeof options !== 'object' || options === null) {
     throw new TypeError(`Invalid argument: the options parameter must be an object if provided. It’s currently set to ${options}.`);
@@ -22,5 +27,8 @@ export default function validateOptions(options: AccentedOptions) {
   }
   if (options.callback !== undefined && typeof options.callback !== 'function') {
     throw new TypeError(`Invalid argument: \`callback\` option must be a function if provided. It’s currently set to ${options.callback}.`);
+  }
+  if (options.name !== undefined && (typeof options.name !== 'string' || !options.name.match(nameRegex))) {
+    throw new TypeError(`Invalid argument: \`name\` option must be a string that starts with a lowercase letter and only contains lowercase alphanumeric characters and dashes. It’s currently set to ${options.name}.`);
   }
 }
