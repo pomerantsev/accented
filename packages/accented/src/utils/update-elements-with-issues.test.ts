@@ -10,7 +10,7 @@ import type { AccentedTrigger } from '../elements/accented-trigger';
 type Violation = AxeResults['violations'][number];
 type Node = Violation['nodes'][number];
 
-const win: Window = {
+const win: Window & { CSS: typeof CSS } = {
   document: {
     // @ts-expect-error the return value is of incorrect type.
     createElement: () => ({
@@ -25,6 +25,7 @@ const win: Window = {
     zIndex: '',
     direction: 'ltr'
   }),
+  // @ts-expect-error we're missing a lot of properties
   CSS: {
     supports: () => true
   }
