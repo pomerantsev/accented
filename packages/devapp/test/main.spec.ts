@@ -513,7 +513,17 @@ test.describe('Accented', () => {
         await page.goto(`?name=1foo`);
         expect(errorCount).toBe(1);
         errorCount = 0;
-      })
+      });
+      test('throws an error if name is invalid (contains an uppercase character)', async ({ page }) => {
+        await page.goto(`?name=baR`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
+      test('throws an error if name is invalid (contains unicode)', async ({ page }) => {
+        await page.goto(`?name=hello-你好`);
+        expect(errorCount).toBe(1);
+        errorCount = 0;
+      });
     });
 
     test('callback', async ({ page }) => {
