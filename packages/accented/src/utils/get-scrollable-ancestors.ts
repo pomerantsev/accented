@@ -1,4 +1,3 @@
-// TODO: write tests for each of the options.
 const scrollableOverflowValues = new Set(['auto', 'scroll', 'hidden']);
 
 export default function getScrollableAncestors (element: HTMLElement, win: Window) {

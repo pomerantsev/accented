@@ -49,15 +49,17 @@ export default function createScanner(name: string, throttle: Required<Throttle>
 
   taskQueue.add(document);
 
+  const accentedElementNames = [`${name}-trigger`, `${name}-dialog`];
   const mutationObserver = new MutationObserver(mutationList => {
-    // TODO: explain what's going on in this mutation observer and why
 
+    // We're not interested in mutations that are caused exclusively by the custom elements
+    // introduced by Accented.
     const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
       const onlyAccentedElementsAddedOrRemoved = mutationRecord.type === 'childList' &&
-        [...mutationRecord.addedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase())) &&
-        [...mutationRecord.removedNodes].every(node => [`${name}-trigger`, `${name}-dialog`].includes(node.nodeName.toLowerCase()));
+        [...mutationRecord.addedNodes].every(node => accentedElementNames.includes(node.nodeName.toLowerCase())) &&
+        [...mutationRecord.removedNodes].every(node => accentedElementNames.includes(node.nodeName.toLowerCase()));
       const accentedElementChanged = mutationRecord.type === 'attributes' &&
-        [`${name}-trigger`, `${name}-dialog`].includes(mutationRecord.target.nodeName.toLowerCase());
+        accentedElementNames.includes(mutationRecord.target.nodeName.toLowerCase());
       return !(onlyAccentedElementsAddedOrRemoved || accentedElementChanged);
     });
 
@@ -68,10 +70,14 @@ export default function createScanner(name: string, throttle: Required<Throttle>
       // Elements' scrollable ancestors only change when styles change
       // (specifically when the `display` prop on one of the ancestors changes),
       // so a good place to recalculate the scrollable ancestors for elements is here.
-      // We could further optimize this by only recalculating scrollable ancestors for elements that have changed.
+      // In future, we could further optimize this by only recalculating scrollable ancestors for elements that have changed.
       recalculateScrollableAncestors();
     }
 
+    // Exclude all mutations on elements that got the accented attribute added or removed.
+    // If we simply exclude all mutations where attributeName = `data-${name}`,
+    // we may miss other mutations on those same elements caused by Accented,
+    // leading to extra runs of the mutation observer.
     const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce((nodes, mutationRecord) => {
       if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`) {
         nodes.add(mutationRecord.target);
