@@ -1,6 +1,5 @@
 import type { Position } from '../types';
 
-// TODO: test?
 export default function getElementPosition(element: Element, win: Window): Position {
   const rect = element.getBoundingClientRect();
   const direction = win.getComputedStyle(element).direction;
