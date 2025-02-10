@@ -1,5 +1,71 @@
 # Contributing
 
+## Decisions
+
+### Trigger placement in the DOM
+
+**Decision:** Place the triggers next to their respective elements (as opposed to placing them all in one HTML element).
+
+Pros:
+
+* The primary reason is it seems to be impossible to have an interactive popover for some content in a modal dialog,
+  where the popover lives outside the dialog.
+  See https://github.com/whatwg/html/issues/9936.
+  And I haven’t found a way to determine whether the element is within a modal dialog:
+  it’s trivial to determine whether we’re within a dialog,
+  but nothing to tell us whether it’s modal: https://html.spec.whatwg.org/multipage/interactive-elements.html#htmldialogelement
+  (I haven’t found any property for whether it’s modal, nor have I been able to check for inert on out-of-dialog elements).
+* It’s trivial to maintain correct focus order this way, and there’s no need in a skip link.
+
+Cons:
+
+* It may lead to invalid HTML in some cases
+  (like when the element with an issue is an `li`, leading to the parent `ul` having non-`li` children).
+* It may lead to toggling an element’s issue state,
+  in case the issue is about an element not having text content,
+  for example (the trigger adds text content because the button has an accessible name).
+* Table rendering may become incorrect.
+  TODO: Determine how bad it is. At least, document it. Ideally, find some sort of a solution. Write tests.
+
+### Trigger positioning
+
+**Decision 1:** use anchor positioning in supporting browsers.
+
+Pros:
+
+* Positioning requires much less JS code and is mostly handled by the browser.
+* Better performance.
+
+Cons:
+
+* We may not always be handling anchor-name property dynamic changes.
+  We try to be the least disruptive, but I don’t think we can eliminate all possible issues.
+* If positioning of the element with issues include CSS transforms,
+  anchor positioning doesn’t work as expected — it is so by design currently,
+  so if this works better without anchor positioning,
+  we may need to rethink our approach or give the consumer a way to opt out.
+* Another challenge of anchor positioning has to do with testing in Playwright.
+  Playwright doesn’t scroll into view the fixed-positioned anchored elements.
+  And we can’t use `position: absolute` because it doesn’t work as expected on fixed-positioned triggers.
+
+**Decision 2:** use fixed positioning (as opposed to absolute positioning)
+as a fallback in browsers that don’t support anchor positioning.
+
+Note: this choice may be not as important,
+with anchor positioning hopefully coming to Safari and Firefox in 2026.
+
+Pros:
+
+* Fixed positioning with updates on scroll may be the only way to support attaching triggers to elements that have `position: sticky`.
+* Positioning is slightly easier than for elements with absolute positioning:
+  We don’t need to find the position within the nearest scrollable container, just on the screen.
+
+Cons:
+
+* Scroll jank.
+* Scroll recomputations become expensive if there are many elements with issues.
+* There’s additional overhead with ensuring that multiple scrolling regions on the page are taken care of.
+
 ## Testing
 
 ### Running unit tests
