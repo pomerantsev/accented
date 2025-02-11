@@ -27,8 +27,8 @@ export default (name: string) => {
       :host {
         all: initial;
         position: fixed;
-        inset-inline-end: anchor(end);
-        inset-block-start: anchor(start);
+        inset-inline-end: anchor(self-end);
+        inset-block-start: anchor(self-start);
 
         position-visibility: anchors-visible;
 
