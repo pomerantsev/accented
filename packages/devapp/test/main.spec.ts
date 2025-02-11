@@ -128,18 +128,7 @@ test.describe('Accented', () => {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger, 'right');
-      }
-    });
-
-    test('triggers are rendered in the correct positions for right-to-left writing mode', async ({ page }) => {
-      await page.getByRole('button', { name: 'Toggle text direction' }).click();
-      const elements = await page.locator(accentedSelector).all();
-      for (const element of elements) {
-        await element.scrollIntoViewIfNeeded();
-        await page.waitForTimeout(200);
-        const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger, 'left');
+        await expectElementAndTriggerToBeAligned(element, trigger);
       }
     });
 
@@ -150,14 +139,14 @@ test.describe('Accented', () => {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger, 'left');
+        await expectElementAndTriggerToBeAligned(element, trigger);
       }
       await page.setViewportSize({ width: 400, height: 400 });
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger, 'left');
+        await expectElementAndTriggerToBeAligned(element, trigger);
       }
     });
 
@@ -183,20 +172,20 @@ test.describe('Accented', () => {
       await scrollableRegion.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
       await expect(button1Trigger).toBeVisible();
-      await expectElementAndTriggerToBeAligned(button1, button1Trigger, 'right');
+      await expectElementAndTriggerToBeAligned(button1, button1Trigger);
       await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
 
       await scrollableRegion.evaluate(element => element.scrollBy(0, 10));
       await page.waitForTimeout(200);
       await expect(button1Trigger).toBeVisible();
-      await expectElementAndTriggerToBeAligned(button1, button1Trigger, 'right');
+      await expectElementAndTriggerToBeAligned(button1, button1Trigger);
       await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
 
       await button2.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
       await expectToBeHiddenOutsideScrollableRegion(button1Trigger);
       await expect(button2Trigger).toBeVisible();
-      await expectElementAndTriggerToBeAligned(button2, button2Trigger, 'right');
+      await expectElementAndTriggerToBeAligned(button2, button2Trigger);
     });
 
     test('trigger position is correct for a sticky positioned element', async ({ page }) => {
@@ -206,7 +195,7 @@ test.describe('Accented', () => {
 
       await button2.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
-      await expectElementAndTriggerToBeAligned(stickyElement, stickyElementTrigger, 'right');
+      await expectElementAndTriggerToBeAligned(stickyElement, stickyElementTrigger);
     });
 
     test('outlines with certain properties are added to elements', async ({ page }) => {

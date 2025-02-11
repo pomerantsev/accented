@@ -13,8 +13,10 @@ async function getBoundingClientRect(element: Locator) {
   });
 }
 
-export async function expectElementAndTriggerToBeAligned(element: Locator, trigger: Locator, side: 'left' | 'right') {
+export async function expectElementAndTriggerToBeAligned(element: Locator, trigger: Locator) {
   const elementRect = await getBoundingClientRect(element);
+  const direction = await element.evaluate(el => window.getComputedStyle(el).direction);
+  const side = direction === 'ltr' ? 'right' : 'left';
   const triggerRect = await getBoundingClientRect(trigger);
 
   // We check for approximate equality because some browsers may not line the elements up precisely.
