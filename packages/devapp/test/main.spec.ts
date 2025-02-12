@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
 import { expectElementAndTriggerToBeAligned, getTrigger } from './helpers/trigger';
+import { openAccentedDialog } from './helpers/dialog';
 
 import axe from 'axe-core';
 
@@ -415,36 +416,27 @@ test.describe('Accented', () => {
       await page.goto('/');
     });
 
-    test('dialog is displayed and contains the expected number of issue descriptions', async ({ page }) => {
-      const buttonWithIssues = await page.locator('#over-2-issues');
-      const id = await buttonWithIssues.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
-      await trigger.click();
-      const dialog = await page.getByRole('dialog', { name: 'Issues' });
+    test('dialog is displayed and contains the element HTML and the expected number of issue descriptions', async ({ page }) => {
+      const dialog = await openAccentedDialog(page, '#over-2-issues');
       await expect(dialog).toBeVisible();
       const issueDescriptions = await dialog.locator('#issues > li');
       expect(await issueDescriptions.count()).toBeGreaterThan(2);
+      await expect(dialog).toContainText('role="directory"');
     });
 
-    test('issue descriptions are updated if the element is updated', async ({ page }) => {
-      const buttonWithIssues = await page.locator('#over-2-issues');
-      const id = await buttonWithIssues.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
-      await trigger.click();
-      const dialog = await page.getByRole('dialog', { name: 'Issues' });
+    test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
+      const dialog = await openAccentedDialog(page, '#over-2-issues');
       const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
+      await expect(dialog).toContainText('role="directory"');
       const statusElement = page.locator('#issues-updated-status');
       await statusElement.waitFor();
       const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
       expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
+      await expect(dialog).toContainText('role=""');
     });
 
     test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
-      const buttonWithIssues = await page.locator('#over-2-issues');
-      const id = await buttonWithIssues.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
-      await trigger.click();
-      const dialog = await page.getByRole('dialog', { name: 'Issues' });
+      const dialog = await openAccentedDialog(page, '#over-2-issues');
       const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
       expect(violations).toHaveLength(0);
     });
