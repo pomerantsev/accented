@@ -1,9 +1,11 @@
 import type { Issue } from '../types';
 import type { Signal } from '@preact/signals-core';
 import { effect } from '@preact/signals-core';
+import getElementHtml from '../utils/get-element-html.js';
 
 export interface AccentedDialog extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;
+  element: Element | undefined;
   showModal: () => void;
 }
 
@@ -15,6 +17,7 @@ export default (name: string) => {
     <dialog dir="ltr" aria-labelledby="title">
       <button id="close" aria-label="Close">✕</button>
       <h2 id="title">Issues</h2>
+      <code id="element-html"></code>
       <ul id="issues"></ul>
     </dialog>
   `;
@@ -46,6 +49,10 @@ export default (name: string) => {
     #abortController: AbortController | undefined;
 
     issues: Signal<Array<Issue>> | undefined;
+
+    element: Element | undefined;
+
+    #elementMutationObserver: MutationObserver | undefined;
 
     constructor() {
       super();
@@ -99,6 +106,32 @@ export default (name: string) => {
             }
           }
         });
+
+        const updateElementHtml = () => {
+          if (this.element) {
+            const elementHtmlContainer = shadowRoot.getElementById('element-html');
+            if (elementHtmlContainer) {
+              elementHtmlContainer.textContent = getElementHtml(this.element);
+            }
+          }
+        };
+
+        updateElementHtml();
+
+        this.#elementMutationObserver = new MutationObserver(() => {
+          updateElementHtml();
+        });
+        if (this.element) {
+          // We're only outputting the element itself, not its subtree.
+          // However, we're still listening for childList changes, because
+          // we display an ellipsis if the element has innerHTML,
+          // and we leave it empty if the element is empty.
+          this.#elementMutationObserver.observe(this.element, {
+            attributes: true,
+            childList: true
+          });
+        }
+
       }
     }
 
@@ -108,6 +141,9 @@ export default (name: string) => {
       }
       if (this.#abortController) {
         this.#abortController.abort();
+      }
+      if (this.#elementMutationObserver) {
+        this.#elementMutationObserver.disconnect();
       }
     }
 

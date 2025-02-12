@@ -57,6 +57,7 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
               getScrollableAncestors(addedElementWithIssues.element, win);
             const issues = signal(addedElementWithIssues.issues);
             accentedDialog.issues = issues;
+            accentedDialog.element = addedElementWithIssues.element;
             return {
               id,
               element: addedElementWithIssues.element,
