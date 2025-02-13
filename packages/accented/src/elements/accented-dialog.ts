@@ -14,7 +14,7 @@ export interface AccentedDialog extends HTMLElement {
 export default (name: string) => {
   const dialogTemplate = document.createElement('template');
   dialogTemplate.innerHTML = `
-    <dialog dir="ltr" aria-labelledby="title">
+    <dialog dir="ltr" lang="en" aria-labelledby="title">
       <button id="close" aria-label="Close">✕</button>
       <h2 id="title">Issues</h2>
       <code id="element-html"></code>

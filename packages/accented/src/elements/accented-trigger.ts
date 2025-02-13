@@ -66,7 +66,7 @@ export default (name: string) => {
         }
       }
     </style>
-    <button id="trigger">⚠</button>
+    <button id="trigger" lang="en">⚠</button>
   `;
 
   return class extends HTMLElement implements AccentedTrigger {
