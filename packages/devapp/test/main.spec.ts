@@ -43,6 +43,13 @@ test.describe('Accented', () => {
         const triggerCount = await page.locator(accentedTriggerElementName).count();
         await expect(triggerCount).toBe(count);
       });
+
+      test('triggers have meaningful accessible names', async ({ page }) => {
+        const htmlTriggerCount = await page.getByRole('button', { name: 'Accessibility issues in html' }).count();
+        await expect(htmlTriggerCount).toBe(1);
+        const buttonTriggerCount = await page.getByRole('button', { name: 'Accessibility issues in button' }).count();
+        await expect(buttonTriggerCount).toBeGreaterThan(1);
+      });
     });
 
     test.describe('when disabled', () => {

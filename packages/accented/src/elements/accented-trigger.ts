@@ -5,6 +5,7 @@ import type { Signal } from '@preact/signals-core';
 import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';
 
 export interface AccentedTrigger extends HTMLElement {
+  element: Element | undefined;
   dialog: AccentedDialog | undefined;
   position: Signal<Position> | undefined;
   visible: Signal<boolean> | undefined;
@@ -75,6 +76,8 @@ export default (name: string) => {
 
     #disposeOfVisibilityEffect: (() => void) | undefined;
 
+    element: Element | undefined;
+
     dialog: AccentedDialog | undefined;
 
     position: Signal<Position> | undefined;
@@ -94,6 +97,9 @@ export default (name: string) => {
       if (this.shadowRoot) {
         const { shadowRoot } = this;
         const trigger = shadowRoot.getElementById('trigger');
+        if (trigger && this.element) {
+          trigger.ariaLabel = `Accessibility issues in ${this.element.nodeName.toLowerCase()}`;
+        }
         this.#abortController = new AbortController();
         trigger?.addEventListener('click', (event) => {
           event.preventDefault();

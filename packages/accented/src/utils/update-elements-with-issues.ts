@@ -52,6 +52,7 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             const position = getElementPosition(addedElementWithIssues.element, win);
             trigger.position = signal(position);
             trigger.visible = signal(true);
+            trigger.element = addedElementWithIssues.element;
             const scrollableAncestors = supportsAnchorPositioning(win) ?
               new Set<HTMLElement>() :
               getScrollableAncestors(addedElementWithIssues.element, win);
