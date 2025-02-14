@@ -1,7 +1,6 @@
 import { effect } from '@preact/signals-core';
 import { elementsWithIssues, enabled } from './state.js';
-
-const accentedUrl = 'https://www.npmjs.com/package/accented';
+import { accentedUrl } from './constants.js';
 
 export default function createLogger() {
 
