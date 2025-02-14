@@ -50,10 +50,10 @@ export default (name: string) => {
         border: 2px solid transparent;
 
         background-color: var(--${name}-primary-color);
-        color: var(--${name}-secondary-color);
+        color: var(--${name}-light-color);
 
         outline-offset: -4px;
-        outline-color: var(--${name}-secondary-color);
+        outline-color: var(--${name}-light-color);
 
         &:focus-visible {
           outline-width: 2px;
