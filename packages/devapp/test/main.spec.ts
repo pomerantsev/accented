@@ -307,6 +307,14 @@ test.describe('Accented', () => {
         await expect(styleAfterToggling).toBe('anchor-name: --foo, --bar;');
       });
     });
+
+    test('dialog styles are unaffected by host app styles', async ({ page }) => {
+      await page.goto('?small-caps');
+      await openAccentedDialog(page, '#over-2-issues');
+      const heading = await page.getByRole('heading', { name: 'Accessibility issues' });
+      const fontVariant = await heading.evaluate(node => window.getComputedStyle(node).fontVariant);
+      await expect(fontVariant).toBe('normal');
+    });
   });
 
   test.describe('console output', () => {
@@ -444,6 +452,8 @@ test.describe('Accented', () => {
 
     test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
       const dialog = await openAccentedDialog(page, '#over-2-issues');
+      // Wait for the transition to complete
+      await page.waitForTimeout(200);
       const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
       expect(violations).toHaveLength(0);
     });

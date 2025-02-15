@@ -81,4 +81,14 @@ if (!searchParams.has('disable')) {
   }
 }
 
+if (searchParams.has('small-caps')) {
+  const stylesheet = new CSSStyleSheet();
+  stylesheet.replaceSync(`
+    * {
+      font-variant: small-caps !important;
+    }
+  `);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
+}
+
 export default () => { toggleAccented(options); };
