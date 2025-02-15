@@ -52,7 +52,7 @@ export default (name: string) => {
   const stylesheet = new CSSStyleSheet();
   stylesheet.replaceSync(`
     :host {
-      all: initial;
+      all: initial !important;
     }
 
     a, button {

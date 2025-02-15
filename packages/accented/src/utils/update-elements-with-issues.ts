@@ -43,9 +43,9 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             const trigger = win.document.createElement(`${name}-trigger`) as AccentedTrigger;
             const elementZIndex = parseInt(win.getComputedStyle(addedElementWithIssues.element).zIndex, 10);
             if (!isNaN(elementZIndex)) {
-              trigger.style.setProperty('z-index', (elementZIndex + 1).toString());
+              trigger.style.setProperty('z-index', (elementZIndex + 1).toString(), 'important');
             }
-            trigger.style.setProperty('position-anchor', `--${name}-anchor-${id}`);
+            trigger.style.setProperty('position-anchor', `--${name}-anchor-${id}`, 'important');
             trigger.dataset.id = id.toString();
             const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
             trigger.dialog = accentedDialog;

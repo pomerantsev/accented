@@ -27,17 +27,11 @@ export default (name: string) => {
     <style>
       :host {
         all: initial;
-        position: fixed;
-        inset-inline-end: anchor(self-end);
-        inset-block-start: anchor(self-start);
+        position: fixed !important;
+        inset-inline-end: anchor(self-end) !important;
+        inset-block-start: anchor(self-start) !important;
 
-        position-visibility: anchors-visible;
-
-        /* Popover-specific stuff */
-        border: none;
-        padding: 0;
-        margin-inline-end: 0;
-        margin-block-end: 0;
+        position-visibility: anchors-visible !important;
       }
 
       #trigger {
@@ -110,17 +104,17 @@ export default (name: string) => {
           this.#disposeOfPositionEffect = effect(() => {
             if (this.position && trigger) {
               const position = this.position.value;
-              this.style.top = `${position.blockStartTop}px`;
+              this.style.setProperty('top', `${position.blockStartTop}px`, 'important');
               if (position.direction === 'ltr') {
-                this.style.left = `calc(${position.inlineEndLeft}px - ${triggerSize})`;
+                this.style.setProperty('left', `calc(${position.inlineEndLeft}px - ${triggerSize})`, 'important');
               } else if (this.position.value.direction === 'rtl') {
-                this.style.left = `${position.inlineEndLeft}px`;
+                this.style.setProperty('left', `${position.inlineEndLeft}px`, 'important');
               }
             }
           });
 
           this.#disposeOfVisibilityEffect = effect(() => {
-            this.style.visibility = this.visible?.value ? 'visible' : 'hidden';
+            this.style.setProperty('visibility', this.visible?.value ? 'visible' : 'hidden', 'important');
           });
         }
       }
