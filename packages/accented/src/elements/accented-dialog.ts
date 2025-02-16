@@ -141,6 +141,10 @@ export default (name: string) => {
     .description {
       margin-block-start: var(--${name}-space-2xs);
       font-size: var(--${name}-step--1);
+
+      li {
+        list-style-type: disc;
+      }
     }
 
     #footer {
