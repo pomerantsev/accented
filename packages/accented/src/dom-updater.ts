@@ -81,26 +81,26 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;
 
-        /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-        --${name}-step--2: clamp(0.6944rem, 0.6856rem + 0.0444vw, 0.72rem);
-        --${name}-step--1: clamp(0.8333rem, 0.8101rem + 0.1159vw, 0.9rem);
-        --${name}-step-0: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
-        --${name}-step-1: clamp(1.2rem, 1.1283rem + 0.3587vw, 1.4063rem);
-        --${name}-step-2: clamp(1.44rem, 1.3295rem + 0.5527vw, 1.7578rem);
-        --${name}-step-3: clamp(1.728rem, 1.5648rem + 0.8161vw, 2.1973rem);
-        --${name}-step-4: clamp(2.0736rem, 1.8395rem + 1.1704vw, 2.7466rem);
-        --${name}-step-5: clamp(2.4883rem, 2.1597rem + 1.6433vw, 3.4332rem);
+        /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
 
-        /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-        --${name}-space-3xs: clamp(0.25rem, 0.2283rem + 0.1087vw, 0.3125rem);
-        --${name}-space-2xs: clamp(0.5rem, 0.4783rem + 0.1087vw, 0.5625rem);
-        --${name}-space-xs: clamp(0.75rem, 0.7065rem + 0.2174vw, 0.875rem);
-        --${name}-space-s: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
-        --${name}-space-m: clamp(1.5rem, 1.4348rem + 0.3261vw, 1.6875rem);
-        --${name}-space-l: clamp(2rem, 1.913rem + 0.4348vw, 2.25rem);
-        --${name}-space-xl: clamp(3rem, 2.8696rem + 0.6522vw, 3.375rem);
-        --${name}-space-2xl: clamp(4rem, 3.8261rem + 0.8696vw, 4.5rem);
-        --${name}-space-3xl: clamp(6rem, 5.7391rem + 1.3043vw, 6.75rem);
+        /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+        --${name}-ratio: 1.2;
+        --${name}-step-0: 1rem;
+        --${name}-step-1: calc(var(--${name}-step-0) * var(--${name}-ratio));
+        --${name}-step-2: calc(var(--${name}-step-1) * var(--${name}-ratio));
+        --${name}-step-3: calc(var(--${name}-step-2) * var(--${name}-ratio));
+        --${name}-step--1: calc(var(--${name}-step-0) / var(--${name}-ratio));
+
+        /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+        --${name}-space-3xs: 0.25rem;
+        --${name}-space-2xs: 0.5rem;
+        --${name}-space-xs: 0.75rem;
+        --${name}-space-s: 1rem;
+        --${name}-space-m: 1.5rem;
+        --${name}-space-l: 2rem;
+        --${name}-space-xl: 3rem;
+        --${name}-space-2xl: 4rem;
+        --${name}-space-3xl: 6rem;
       }
 
       [${attrName}]:not(:focus-visible) {
