@@ -37,10 +37,6 @@ export default (name: string) => {
       }
 
       #trigger {
-        all: initial;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         box-sizing: border-box;
         font-size: 1rem;
         inline-size: ${triggerSize};
