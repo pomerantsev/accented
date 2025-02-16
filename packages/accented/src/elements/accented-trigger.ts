@@ -31,6 +31,9 @@ export default (name: string) => {
         inset-block-start: anchor(self-start) !important;
 
         position-visibility: anchors-visible !important;
+
+        /* Revert potential effects of white-space: pre; set on a trigger's ancestor. */
+        white-space: normal !important;
       }
 
       #trigger {
