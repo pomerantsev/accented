@@ -75,11 +75,19 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   stylesheet.replaceSync(`
     @layer ${name} {
       :root {
+        /* Documented custom prop API */
         --${name}-primary-color: red;
-        --${name}-light-color: white;
-        --${name}-dark-color: black;
+        --${name}-secondary-color: white;
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;
+        /* End of documented custom prop API */
+
+
+
+        /* Other colors */
+
+        --${name}-light-color: white;
+        --${name}-dark-color: black;
 
         /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
 

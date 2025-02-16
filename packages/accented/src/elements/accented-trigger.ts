@@ -46,7 +46,7 @@ export default (name: string) => {
         border: 2px solid transparent;
 
         background-color: var(--${name}-primary-color);
-        color: var(--${name}-light-color);
+        color: var(--${name}-secondary-color);
 
         outline-offset: -4px;
         outline-color: currentColor;
