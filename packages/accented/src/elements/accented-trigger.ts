@@ -26,7 +26,6 @@ export default (name: string) => {
   template.innerHTML = `
     <style>
       :host {
-        all: initial;
         position: fixed !important;
         inset-inline-end: anchor(self-end) !important;
         inset-block-start: anchor(self-start) !important;
@@ -35,27 +34,31 @@ export default (name: string) => {
       }
 
       #trigger {
+        all: initial;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         box-sizing: border-box;
         font-size: 1rem;
         inline-size: ${triggerSize};
         block-size: ${triggerSize};
 
-        /* Make it look better in forced-colors mode, */
+        /* Make it look better in forced-colors mode. */
         border: 2px solid transparent;
 
         background-color: var(--${name}-primary-color);
         color: var(--${name}-light-color);
 
         outline-offset: -4px;
-        outline-color: var(--${name}-light-color);
+        outline-color: currentColor;
+        outline-width: 2px;
+        outline-style: none;
 
         &:focus-visible {
-          outline-width: 2px;
           outline-style: solid;
         }
 
         &:hover:not(:focus-visible) {
-          outline-width: 2px;
           outline-style: dashed;
         }
       }

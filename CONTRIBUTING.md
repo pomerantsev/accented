@@ -73,6 +73,14 @@ host app styles from leaking into the elements introduced by Accented.
 That's even true for cases where the specificity of a host app selector is higher
 (and the declaration has `!important` as well).
 
+### Known issues / limitations
+
+* In Safari, pinch-zoom leads to incorrectly positioned triggers.
+  In Safari, top CSS prop doesn’t match what’s returned for the trigger element by getBoundingClientRect() when zoomed.
+  See https://bugs.webkit.org/show_bug.cgi?id=207089
+* In Firefox, when "Zoom text only" setting is on, zooming does not lead to trigger repositioning.
+  I don't know if there's any event that fires when such zoom happens, so there may be no way to address it.
+
 ## Testing
 
 ### Running unit tests

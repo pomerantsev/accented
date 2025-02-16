@@ -55,23 +55,27 @@ export default (name: string) => {
       all: initial !important;
     }
 
-    a, button {
-      &:hover, &:focus-visible {
-        outline-width: 2px;
-        outline-color: currentColor;
-        outline-offset: 2px;
-      }
+    a[href], button {
+      outline-offset: 2px;
+      outline-color: currentColor;
+      outline-width: 2px;
+      outline-style: none;
+
       &:focus-visible {
         outline-style: solid;
       }
+
       &:hover:not(:focus-visible) {
         outline-style: dashed;
       }
     }
 
-    :focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: 2px;
+    a[href] {
+      color: currentColor;
+    }
+
+    a[href][target="_blank"]::after {
+      content: " ↗";
     }
 
     dialog {
@@ -81,7 +85,7 @@ export default (name: string) => {
       line-height: 1.5;
       background-color: var(--${name}-light-color);
       color: var(--${name}-dark-color);
-      border: 2px solid var(--${name}-dark-color);
+      border: 2px solid currentColor;
       padding: var(--${name}-space-l);
       inline-size: min(90ch, calc(100% - var(--${name}-space-s)* 2));
       max-block-size: calc(100% - var(--${name}-space-s) * 2);
@@ -91,7 +95,7 @@ export default (name: string) => {
       text-align: end;
     }
 
-    button {
+    #close {
       background-color: var(--${name}-light-color);
       color: var(--${name}-dark-color);
       border: 2px solid currentColor;
@@ -114,6 +118,7 @@ export default (name: string) => {
     }
 
     code {
+      /* https://systemfontstack.com/ */
       font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
       font-size: var(--${name}-step--1);
     }
@@ -131,14 +136,6 @@ export default (name: string) => {
       a {
         font-weight: bold;
       }
-    }
-
-    a[href] {
-      color: currentColor;
-    }
-
-    a[href][target="_blank"]::after {
-      content: " ↗";
     }
 
     .description {
