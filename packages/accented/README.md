@@ -140,6 +140,12 @@ This may be useful if you’re expecting bursts of mutations on your page.
 
 TODO: Create a separate doc with info on using `:root` and CSS layers to control some aspects of styling.
 
+Documented CSS custom props:
+* `--accented-primary-color`
+* `--accented-secondary-color`
+* `--accented-outline-width`
+* `--accented-outline-style`
+
 ## Miscellaneous
 
 ### Shadow DOM
