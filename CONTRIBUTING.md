@@ -66,6 +66,13 @@ Cons:
 * Scroll recomputations become expensive if there are many elements with issues.
 * There’s additional overhead with ensuring that multiple scrolling regions on the page are taken care of.
 
+### Shadow DOM styling
+
+Setting `!important` styles on `:host` (particularly `all: initial !important`) seems to completely prevent
+host app styles from leaking into the elements introduced by Accented.
+That's even true for cases where the specificity of a host app selector is higher
+(and the declaration has `!important` as well).
+
 ## Testing
 
 ### Running unit tests
