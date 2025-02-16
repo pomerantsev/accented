@@ -452,8 +452,6 @@ test.describe('Accented', () => {
 
     test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
       const dialog = await openAccentedDialog(page, '#over-2-issues');
-      // Wait for the transition to complete
-      await page.waitForTimeout(200);
       const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
       expect(violations).toHaveLength(0);
     });

@@ -83,28 +83,8 @@ export default (name: string) => {
       color: var(--${name}-dark-color);
       border: 2px solid var(--${name}-dark-color);
       padding: var(--${name}-space-l);
-      margin: auto;
       inline-size: min(90ch, calc(100% - var(--${name}-space-s)* 2));
       max-block-size: calc(100% - var(--${name}-space-s) * 2);
-
-      &, &::backdrop {
-        transition-behavior: allow-discrete;
-        transition-property: overlay, display, opacity;
-
-        transition-duration: 0;
-        @media (prefers-reduced-motion: no-preference) {
-          transition-duration: 200ms;
-        }
-
-        opacity: 0;
-      }
-
-      &[open], &[open]::backdrop {
-        opacity: 1;
-        @starting-style {
-          opacity: 0;
-        }
-      }
     }
 
     #button-container {
