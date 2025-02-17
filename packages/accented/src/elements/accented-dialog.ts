@@ -39,6 +39,7 @@ export default (name: string) => {
   issueTemplate.innerHTML = `
     <li>
       <a target="_blank" aria-description="Opens in new tab"></a>
+      <div class="impact"></div>
       <div class="description"></div>
     </li>
   `;
@@ -57,7 +58,7 @@ export default (name: string) => {
 
     a[href], button {
       outline-offset: 2px;
-      outline-color: currentColor;
+      outline-color: var(--${name}-focus-color);
       outline-width: 2px;
       outline-style: none;
 
@@ -138,6 +139,39 @@ export default (name: string) => {
       }
     }
 
+    .impact {
+      margin-block-start: var(--${name}-space-2xs);
+      font-size: var(--${name}-step--1);
+
+      display: flex;
+      align-items: center;
+      gap: var(--${name}-space-3xs);
+
+      @media (forced-colors: none) {
+        &::before {
+          box-sizing: border-box;
+          content: "";
+          inline-size: var(--${name}-step-0);
+          block-size: var(--${name}-step-0);
+          border: 2px solid currentColor;
+          border-radius: 50%;
+        }
+      }
+
+      &[data-impact="minor"]::before {
+        background-color: var(--${name}-impact-minor-color);
+      }
+      &[data-impact="moderate"]::before {
+        background-color: var(--${name}-impact-moderate-color);
+      }
+      &[data-impact="serious"]::before {
+        background-color: var(--${name}-impact-serious-color);
+      }
+      &[data-impact="critical"]::before {
+        background-color: var(--${name}-impact-critical-color);
+      }
+    }
+
     .description {
       margin-block-start: var(--${name}-space-2xs);
       font-size: var(--${name}-step--1);
@@ -197,11 +231,16 @@ export default (name: string) => {
               issuesList.innerHTML = '';
               for (const issue of issues) {
                 const issueContent = issueTemplate.content.cloneNode(true) as Element;
-                const a = issueContent.querySelector('a');
-                const div = issueContent.querySelector('div');
-                if (a && div) {
-                  a.textContent = issue.title;
-                  a.href = issue.url;
+                const title = issueContent.querySelector('a');
+                const impact = issueContent.querySelector('.impact');
+                const description = issueContent.querySelector('.description');
+                if (title && impact && description) {
+                  title.textContent = issue.title + ' (' + issue.id + ')';
+                  title.href = issue.url;
+
+                  impact.textContent = 'User impact: ' + issue.impact;
+                  impact.setAttribute('data-impact', String(issue.impact));
+
                   const descriptionItems = issue.description.split(/\n\s*/);
                   const descriptionContent = descriptionTemplate.content.cloneNode(true) as Element;
                   const descriptionTitle = descriptionContent.querySelector('span');
@@ -213,7 +252,7 @@ export default (name: string) => {
                       li.textContent = descriptionItem;
                       descriptionList.appendChild(li);
                     }
-                    div.appendChild(descriptionContent);
+                    description.appendChild(descriptionContent);
                   }
                 }
                 issuesList.appendChild(issueContent);

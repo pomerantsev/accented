@@ -439,6 +439,17 @@ test.describe('Accented', () => {
       await expect(dialog).toContainText('role="directory"');
     });
 
+    test('issues are sorted by impact', async ({ page }) => {
+      const dialog = await openAccentedDialog(page, '#various-impacts');
+      const issues = await dialog.locator('#issues > li');
+      const impacts = await issues.evaluateAll(issues => {
+        return issues.map(issue => {
+          return issue.querySelector('.impact')?.getAttribute('data-impact');
+        });
+      });
+      await expect(impacts).toEqual(['critical', 'critical', 'serious', 'moderate', 'minor']);
+    });
+
     test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
       const dialog = await openAccentedDialog(page, '#over-2-issues');
       const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
