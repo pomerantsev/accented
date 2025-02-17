@@ -106,7 +106,7 @@ export default (name: string) => {
     }
 
     h2 {
-      font-size: var(--${name}-step-3);
+      font-size: var(--${name}-step-4);
       line-height: 1.2;
       margin-block-start: var(--${name}-space-s);
       margin-block-end: 0;
@@ -125,7 +125,7 @@ export default (name: string) => {
     }
 
     #issues {
-      font-size: var(--${name}-step-0);
+      font-size: var(--${name}-step-1);
       margin-block-start: var(--${name}-space-l);
       padding-inline: 0;
       list-style: none;
@@ -143,31 +143,19 @@ export default (name: string) => {
       margin-block-start: var(--${name}-space-2xs);
       font-size: var(--${name}-step--1);
 
-      display: flex;
-      align-items: center;
-      gap: var(--${name}-space-3xs);
+      inline-size: fit-content;
+      padding-inline: var(--${name}-space-3xs);
 
-      @media (forced-colors: none) {
-        &::before {
-          box-sizing: border-box;
-          content: "";
-          inline-size: var(--${name}-step-0);
-          block-size: var(--${name}-step-0);
-          border: 2px solid currentColor;
-          border-radius: 50%;
-        }
-      }
-
-      &[data-impact="minor"]::before {
+      &[data-impact="minor"] {
         background-color: var(--${name}-impact-minor-color);
       }
-      &[data-impact="moderate"]::before {
+      &[data-impact="moderate"] {
         background-color: var(--${name}-impact-moderate-color);
       }
-      &[data-impact="serious"]::before {
+      &[data-impact="serious"] {
         background-color: var(--${name}-impact-serious-color);
       }
-      &[data-impact="critical"]::before {
+      &[data-impact="critical"] {
         background-color: var(--${name}-impact-critical-color);
       }
     }

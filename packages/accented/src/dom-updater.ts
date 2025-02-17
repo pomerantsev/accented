@@ -86,8 +86,8 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
 
         --${name}-impact-minor-color: lightgray;
         --${name}-impact-moderate-color: gold;
-        --${name}-impact-serious-color: darkorange;
-        --${name}-impact-critical-color: red;
+        --${name}-impact-serious-color: #ff9e00;
+        --${name}-impact-critical-color: #f883ec;
 
         /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
 
@@ -97,6 +97,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
         --${name}-step-1: calc(var(--${name}-step-0) * var(--${name}-ratio));
         --${name}-step-2: calc(var(--${name}-step-1) * var(--${name}-ratio));
         --${name}-step-3: calc(var(--${name}-step-2) * var(--${name}-ratio));
+        --${name}-step-4: calc(var(--${name}-step-3) * var(--${name}-ratio));
         --${name}-step--1: calc(var(--${name}-step-0) / var(--${name}-ratio));
 
         /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
