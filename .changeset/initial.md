@@ -1,5 +1,0 @@
----
-"accented": minor
----
-
-Initial release
