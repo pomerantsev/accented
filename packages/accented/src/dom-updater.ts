@@ -46,9 +46,6 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
       } else {
         elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
       }
-      if (elementWithIssues.trigger.dialog) {
-        document.body.append(elementWithIssues.trigger.dialog);
-      }
       if (intersectionObserver) {
         intersectionObserver.observe(elementWithIssues.element);
       }
@@ -62,9 +59,6 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
         removeAnchorName(elementWithIssues.element, elementWithIssues.id);
       }
       elementWithIssues.trigger.remove();
-      if (elementWithIssues.trigger.dialog) {
-        elementWithIssues.trigger.dialog.remove();
-      }
       if (intersectionObserver) {
         intersectionObserver.unobserve(elementWithIssues.element);
       }

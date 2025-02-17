@@ -247,6 +247,9 @@ export default (name: string) => {
           });
         }
 
+        dialog?.addEventListener('close', () => {
+          this.dispatchEvent(new Event('close'));
+        }, { signal: this.#abortController.signal });
       }
     }
 

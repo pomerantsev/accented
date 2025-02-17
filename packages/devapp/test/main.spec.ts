@@ -596,6 +596,8 @@ test.describe('Accented', () => {
       const consoleMessage = await page.waitForEvent('console');
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
       await expect(duration).toBeGreaterThan(200);
+      // It shouldn't be too long though.
+      await expect(duration).toBeLessThan(2000);
     }
 
     test('does not take long to run with few elements', async ({ page }) => {

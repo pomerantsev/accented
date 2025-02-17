@@ -68,6 +68,8 @@ export default (name: string) => {
   return class extends HTMLElement implements AccentedTrigger {
     #abortController: AbortController | undefined;
 
+    #dialogCloseAbortController: AbortController | undefined;
+
     #disposeOfPositionEffect: (() => void) | undefined;
 
     #disposeOfVisibilityEffect: (() => void) | undefined;
@@ -99,7 +101,20 @@ export default (name: string) => {
         this.#abortController = new AbortController();
         trigger?.addEventListener('click', (event) => {
           event.preventDefault();
-          this.dialog?.showModal();
+
+          // We append the dialog when the button is clicked,
+          // and remove it from the DOM when the dialog is closed.
+          // This gives us a performance improvement since Axe
+          // scan time seems to depend on the number of elements in the DOM.
+          if (this.dialog) {
+            this.#dialogCloseAbortController = new AbortController();
+            document.body.append(this.dialog);
+            this.dialog.showModal();
+            this.dialog.addEventListener('close', () => {
+              this.dialog?.remove();
+              this.#dialogCloseAbortController?.abort();
+            }, { signal: this.#dialogCloseAbortController.signal });
+          }
         }, { signal: this.#abortController.signal });
 
         if (!supportsAnchorPositioning(window)) {
@@ -125,6 +140,10 @@ export default (name: string) => {
     disconnectedCallback() {
       if (this.#abortController) {
         this.#abortController.abort();
+      }
+      if (this.#dialogCloseAbortController) {
+        this.#dialogCloseAbortController.abort();
+        this.dialog?.remove();
       }
       if (this.#disposeOfPositionEffect) {
         this.#disposeOfPositionEffect();
