@@ -1,5 +1,10 @@
-import type { AxeResults } from 'axe-core';
+import type { AxeResults, ImpactValue } from 'axe-core';
 import type { Issue, ElementWithIssues } from '../types';
+
+function impactCompare(a: ImpactValue, b: ImpactValue) {
+  const impactOrder = [null, 'minor', 'moderate', 'serious', 'critical'];
+  return impactOrder.indexOf(a) - impactOrder.indexOf(b);
+}
 
 export default function transformViolations(violations: typeof AxeResults.violations) {
   const elementsWithIssues: Array<ElementWithIssues> = [];
@@ -39,6 +44,12 @@ export default function transformViolations(violations: typeof AxeResults.violat
         }
       }
     }
+  }
+
+  for (const elementWithIssues of elementsWithIssues) {
+    elementWithIssues.issues.sort((a, b) => {
+      return -impactCompare(a.impact, b.impact) || a.id.localeCompare(b.id);
+    });
   }
 
   return elementsWithIssues;

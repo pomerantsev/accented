@@ -82,6 +82,12 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
 
         --${name}-light-color: white;
         --${name}-dark-color: black;
+        --${name}-focus-color: #0078d4; /* Contrasts with both white and black. */
+
+        --${name}-impact-minor-color: lightgray;
+        --${name}-impact-moderate-color: gold;
+        --${name}-impact-serious-color: darkorange;
+        --${name}-impact-critical-color: red;
 
         /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
 
