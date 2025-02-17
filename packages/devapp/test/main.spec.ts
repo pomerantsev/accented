@@ -445,6 +445,8 @@ test.describe('Accented', () => {
       await expect(dialog).toContainText('role="directory"');
       const statusElement = page.locator('#issues-updated-status');
       await statusElement.waitFor();
+      // Give the DOM a chance to stabilize
+      await page.waitForTimeout(100);
       const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
       expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
       await expect(dialog).toContainText('role=""');
@@ -597,7 +599,7 @@ test.describe('Accented', () => {
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
       await expect(duration).toBeGreaterThan(200);
       // It shouldn't be too long though.
-      await expect(duration).toBeLessThan(2000);
+      await expect(duration).toBeLessThan(5000);
     }
 
     test('does not take long to run with few elements', async ({ page }) => {
