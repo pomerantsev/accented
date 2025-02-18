@@ -9,8 +9,7 @@ export const test = base.extend<{ expectErrors: (expectedCount: number) => void 
       expectedErrorCount = count;
     };
 
-    page.on('pageerror', (error) => {
-      console.log(error.message);
+    page.on('pageerror', () => {
       errorCount++;
     });
 
