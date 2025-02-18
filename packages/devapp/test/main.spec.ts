@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test } from './fixtures/test';
+import { expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
 import { expectElementAndTriggerToBeAligned, getTrigger } from './helpers/trigger';
@@ -14,17 +15,6 @@ const supportsAnchorPositioning = async (page: Page) =>
   await page.evaluate(() => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'));
 
 test.describe('Accented', () => {
-  let errorCount = 0;
-  test.beforeEach(async ({ page }) => {
-    page.on('pageerror', error => {
-      console.log(error.message);
-      errorCount++;
-    });
-  });
-  test.afterEach(async () => {
-    await expect(errorCount).toBe(0);
-  });
-
   test.describe('basic functionality', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
@@ -488,50 +478,41 @@ test.describe('Accented', () => {
 
   test.describe('API', () => {
     test.describe('validations', () => {
-      test('throws an error if options is not an object', async ({ page }) => {
+      test('throws an error if options is not an object', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?options-invalid=foo`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if throttle is not an object', async ({ page }) => {
+      test('throws an error if throttle is not an object', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?throttle-invalid=foo`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if throttle.wait is negative', async ({ page }) => {
+      test('throws an error if throttle.wait is negative', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?throttle-wait=-1`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if throttle.wait is not a number', async ({ page }) => {
+      test('throws an error if throttle.wait is not a number', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?throttle-wait-invalid=foo`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if output is not an object', async ({ page }) => {
+      test('throws an error if output is not an object', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?output-invalid=foo`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if callback is not a function', async ({ page }) => {
+      test('throws an error if callback is not a function', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?callback-invalid=foo`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if name is invalid (starts with a number)', async ({ page }) => {
+      test('throws an error if name is invalid (starts with a number)', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?name=1foo`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if name is invalid (contains an uppercase character)', async ({ page }) => {
+      test('throws an error if name is invalid (contains an uppercase character)', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?name=baR`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
-      test('throws an error if name is invalid (contains unicode)', async ({ page }) => {
+      test('throws an error if name is invalid (contains unicode)', async ({ page, expectErrors }) => {
+        expectErrors(1);
         await page.goto(`?name=hello-你好`);
-        expect(errorCount).toBe(1);
-        errorCount = 0;
       });
     });
 
