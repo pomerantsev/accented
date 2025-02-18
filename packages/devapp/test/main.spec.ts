@@ -457,14 +457,14 @@ test.describe('Accented', () => {
       const statusElement = page.locator('#issues-updated-status');
       await statusElement.waitFor();
       // Give the DOM a chance to stabilize
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(500);
       const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
       expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
       await expect(dialog).toContainText('role=""');
     });
 
     test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
-      const dialog = await openAccentedDialog(page, '#over-2-issues');
+      const dialog = await openAccentedDialog(page, '#various-impacts');
       const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
       expect(violations).toHaveLength(0);
     });
