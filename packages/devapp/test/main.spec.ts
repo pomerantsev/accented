@@ -429,12 +429,24 @@ test.describe('Accented', () => {
       await expect(dialog).toContainText('role="directory"');
     });
 
-    test('issues are sorted by impact', async ({ page }) => {
+    test('issues are sorted by impact and have specific background colors', async ({ page }) => {
       const dialog = await openAccentedDialog(page, '#various-impacts');
       const impactElements = await dialog.getByText(/User impact:/);
       const impacts = await impactElements.evaluateAll(elements =>
         elements.map(element => element.textContent?.match(/User impact: (\w+)$/)?.[1]));
       await expect(impacts).toEqual(['critical', 'critical', 'serious', 'moderate', 'minor']);
+
+      const colorMap = {
+        critical: 'rgb(248, 131, 236)',
+        serious: 'rgb(255, 158, 0)',
+        moderate: 'rgb(255, 215, 0)',
+        minor: 'rgb(211, 211, 211)'
+      };
+      const backgroundColors = await impactElements.evaluateAll(elements =>
+        elements.map(element => window.getComputedStyle(element).backgroundColor));
+      await expect(backgroundColors).toEqual([
+        colorMap.critical, colorMap.critical, colorMap.serious, colorMap.moderate, colorMap.minor
+      ]);
     });
 
     test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
