@@ -431,12 +431,9 @@ test.describe('Accented', () => {
 
     test('issues are sorted by impact', async ({ page }) => {
       const dialog = await openAccentedDialog(page, '#various-impacts');
-      const issues = await dialog.locator('#issues > li');
-      const impacts = await issues.evaluateAll(issues => {
-        return issues.map(issue => {
-          return issue.querySelector('.impact')?.getAttribute('data-impact');
-        });
-      });
+      const impactElements = await dialog.getByText(/User impact:/);
+      const impacts = await impactElements.evaluateAll(elements =>
+        elements.map(element => element.textContent?.match(/User impact: (\w+)$/)?.[1]));
       await expect(impacts).toEqual(['critical', 'critical', 'serious', 'moderate', 'minor']);
     });
 
