@@ -467,6 +467,13 @@ test.describe('Accented', () => {
       const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
       expect(violations).toHaveLength(0);
     });
+
+    test('dialog can be dismissed by clicking the mouse outside the dialog', async ({ page }) => {
+      const dialog = await openAccentedDialog(page, '#various-impacts');
+      await expect(dialog).toBeVisible();
+      await page.mouse.click(10, 10);
+      await expect(dialog).not.toBeVisible();
+    });
   });
 
   test.describe('mutation observer', () => {
