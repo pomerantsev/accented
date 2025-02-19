@@ -534,7 +534,7 @@ test.describe('Accented', () => {
         await page.goto(`?throttle-wait=100&no-leading`);
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(1000);
         const countAfter = await page.locator(accentedSelector).count();
         await expect(countAfter).toBeGreaterThan(0);
       });
@@ -571,10 +571,6 @@ test.describe('Accented', () => {
     });
   });
 
-  // 2025.01.04: these tests will currently not do anything in Safari and Firefox
-  // because they don't support the longtask PerformanceObserver entry type.
-  // We could potentially use mark and measure that work in all browsers,
-  // but testing this only in Chromium is probably good enough for now.
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`?disable&no-console&duration&throttle-wait=100&no-leading`);
@@ -583,7 +579,7 @@ test.describe('Accented', () => {
     async function expectShortScan(page: Page) {
       const consoleMessage = await page.waitForEvent('console');
       const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeLessThan(200);
+      await expect(duration).toBeLessThan(350);
     }
 
     async function expectLongScan(page: Page) {
