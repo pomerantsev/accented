@@ -207,8 +207,12 @@ export default (name: string) => {
         const dialog = shadowRoot.querySelector('dialog');
         const closeButton = shadowRoot.querySelector('#close');
         this.#abortController = new AbortController();
-        closeButton?.addEventListener('click', (event) => {
+        closeButton?.addEventListener('click', () => {
           dialog?.close();
+        }, { signal: this.#abortController.signal });
+
+        dialog?.addEventListener('click', (event) => {
+          this.#onDialogClick(event);
         }, { signal: this.#abortController.signal });
 
         this.#disposeOfEffect = effect(() => {
@@ -298,6 +302,22 @@ export default (name: string) => {
         if (dialog) {
           dialog.showModal();
         }
+      }
+    }
+
+    #onDialogClick(event: MouseEvent) {
+      const dialog = event.currentTarget as HTMLDialogElement;
+      if (!dialog || typeof dialog.getBoundingClientRect !== 'function' || typeof dialog.close !== 'function') {
+        return;
+      }
+      const rect = dialog.getBoundingClientRect();
+      const isInsideDialog =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!isInsideDialog) {
+        dialog.close();
       }
     }
   };
