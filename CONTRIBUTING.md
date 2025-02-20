@@ -1,5 +1,23 @@
 # Contributing
 
+## Principles
+
+### Error handling
+
+Global philosophy: rethrow all errors with as meaningful a message as possible.
+If this is an unknown error, suggest a browser update.
+In any case (except the most obvious ones, such as parameter validation), mention where to file issues.
+
+Add a try-catch block in every code block that's called asynchronously, and cover as much of the callback as possible.
+
+All custom elements lifecycle methods need to be wrapped in try-catch (because they’re called asynchronously by the browser).
+
+In the case of the Axe run failing, it's okay to swallow the error: if we rethrow it,
+it will also be caught by the outer try-catch block.
+
+If async code is simple enough and well tested (such as in task-queue.ts),
+it may not need explicit error handling.
+
 ## Decisions
 
 ### Trigger placement in the DOM

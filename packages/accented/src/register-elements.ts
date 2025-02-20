@@ -9,7 +9,7 @@ export default function registerElements(name: string): void {
     },
     {
       elementName: `${name}-dialog`,
-      Component: getAccentedDialog(name)
+      Component: getAccentedDialog()
     }
   ];
 
