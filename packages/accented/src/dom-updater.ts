@@ -69,47 +69,10 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   stylesheet.replaceSync(`
     @layer ${name} {
       :root {
-        /* Documented custom prop API */
         --${name}-primary-color: red;
         --${name}-secondary-color: white;
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;
-        /* End of documented custom prop API */
-
-
-
-        /* Other colors */
-
-        --${name}-light-color: white;
-        --${name}-dark-color: black;
-        --${name}-focus-color: #0078d4; /* Contrasts with both white and black. */
-
-        --${name}-impact-minor-color: lightgray;
-        --${name}-impact-moderate-color: gold;
-        --${name}-impact-serious-color: #ff9e00;
-        --${name}-impact-critical-color: #f883ec;
-
-        /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
-
-        /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-        --${name}-ratio: 1.2;
-        --${name}-step-0: 1rem;
-        --${name}-step-1: calc(var(--${name}-step-0) * var(--${name}-ratio));
-        --${name}-step-2: calc(var(--${name}-step-1) * var(--${name}-ratio));
-        --${name}-step-3: calc(var(--${name}-step-2) * var(--${name}-ratio));
-        --${name}-step-4: calc(var(--${name}-step-3) * var(--${name}-ratio));
-        --${name}-step--1: calc(var(--${name}-step-0) / var(--${name}-ratio));
-
-        /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-        --${name}-space-3xs: 0.25rem;
-        --${name}-space-2xs: 0.5rem;
-        --${name}-space-xs: 0.75rem;
-        --${name}-space-s: 1rem;
-        --${name}-space-m: 1.5rem;
-        --${name}-space-l: 2rem;
-        --${name}-space-xl: 3rem;
-        --${name}-space-2xl: 4rem;
-        --${name}-space-3xl: 6rem;
       }
 
       [${attrName}]:not(:focus-visible) {
