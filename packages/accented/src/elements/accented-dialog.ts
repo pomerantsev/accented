@@ -54,11 +54,42 @@ export default (name: string) => {
   stylesheet.replaceSync(`
     :host {
       all: initial !important;
+
+      --light-color: white;
+      --dark-color: black;
+      --focus-color: #0078d4; /* Contrasts with both white and black. */
+
+      --impact-minor-color: lightgray;
+      --impact-moderate-color: gold;
+      --impact-serious-color: #ff9e00;
+      --impact-critical-color: #f883ec;
+
+      /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
+
+      /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+      --ratio: 1.2;
+      --step-0: 1rem;
+      --step-1: calc(var(--step-0) * var(--ratio));
+      --step-2: calc(var(--step-1) * var(--ratio));
+      --step-3: calc(var(--step-2) * var(--ratio));
+      --step-4: calc(var(--step-3) * var(--ratio));
+      --step--1: calc(var(--step-0) / var(--ratio));
+
+      /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+      --space-3xs: 0.25rem;
+      --space-2xs: 0.5rem;
+      --space-xs: 0.75rem;
+      --space-s: 1rem;
+      --space-m: 1.5rem;
+      --space-l: 2rem;
+      --space-xl: 3rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
     }
 
     a[href], button {
       outline-offset: 2px;
-      outline-color: var(--${name}-focus-color);
+      outline-color: var(--focus-color);
       outline-width: 2px;
       outline-style: none;
 
@@ -84,12 +115,12 @@ export default (name: string) => {
       overflow-wrap: break-word;
       font-family: system-ui;
       line-height: 1.5;
-      background-color: var(--${name}-light-color);
-      color: var(--${name}-dark-color);
+      background-color: var(--light-color);
+      color: var(--dark-color);
       border: 2px solid currentColor;
-      padding: var(--${name}-space-l);
-      inline-size: min(90ch, calc(100% - var(--${name}-space-s)* 2));
-      max-block-size: calc(100% - var(--${name}-space-s) * 2);
+      padding: var(--space-l);
+      inline-size: min(90ch, calc(100% - var(--space-s)* 2));
+      max-block-size: calc(100% - var(--space-s) * 2);
     }
 
     #button-container {
@@ -97,41 +128,41 @@ export default (name: string) => {
     }
 
     #close {
-      background-color: var(--${name}-light-color);
-      color: var(--${name}-dark-color);
+      background-color: var(--light-color);
+      color: var(--dark-color);
       border: 2px solid currentColor;
-      padding-inline: var(--${name}-space-2xs);
+      padding-inline: var(--space-2xs);
       aspect-ratio: 1 / 1;
-      font-size: var(--${name}-step-0);
+      font-size: var(--step-0);
     }
 
     h2 {
-      font-size: var(--${name}-step-4);
+      font-size: var(--step-4);
       line-height: 1.2;
-      margin-block-start: var(--${name}-space-s);
+      margin-block-start: var(--space-s);
       margin-block-end: 0;
     }
 
     #element-html-container {
-      padding: var(--${name}-space-xs);
+      padding: var(--space-xs);
       border: 2px solid currentColor;
-      margin-block-start: var(--${name}-space-l);
+      margin-block-start: var(--space-l);
     }
 
     code {
       /* https://systemfontstack.com/ */
       font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
-      font-size: var(--${name}-step--1);
+      font-size: var(--step--1);
     }
 
     #issues {
-      font-size: var(--${name}-step-1);
-      margin-block-start: var(--${name}-space-l);
+      font-size: var(--step-1);
+      margin-block-start: var(--space-l);
       padding-inline: 0;
       list-style: none;
 
       & > li:not(:first-child) {
-        margin-block-start: var(--${name}-space-m);
+        margin-block-start: var(--space-m);
       }
 
       a {
@@ -140,29 +171,29 @@ export default (name: string) => {
     }
 
     .impact {
-      margin-block-start: var(--${name}-space-2xs);
-      font-size: var(--${name}-step--1);
+      margin-block-start: var(--space-2xs);
+      font-size: var(--step--1);
 
       inline-size: fit-content;
-      padding-inline: var(--${name}-space-3xs);
+      padding-inline: var(--space-3xs);
 
       &[data-impact="minor"] {
-        background-color: var(--${name}-impact-minor-color);
+        background-color: var(--impact-minor-color);
       }
       &[data-impact="moderate"] {
-        background-color: var(--${name}-impact-moderate-color);
+        background-color: var(--impact-moderate-color);
       }
       &[data-impact="serious"] {
-        background-color: var(--${name}-impact-serious-color);
+        background-color: var(--impact-serious-color);
       }
       &[data-impact="critical"] {
-        background-color: var(--${name}-impact-critical-color);
+        background-color: var(--impact-critical-color);
       }
     }
 
     .description {
-      margin-block-start: var(--${name}-space-2xs);
-      font-size: var(--${name}-step--1);
+      margin-block-start: var(--space-2xs);
+      font-size: var(--step--1);
 
       li {
         list-style-type: disc;
@@ -170,8 +201,8 @@ export default (name: string) => {
     }
 
     #footer {
-      margin-block-start: var(--${name}-space-l);
-      font-size: var(--${name}-step--1);
+      margin-block-start: var(--space-l);
+      font-size: var(--step--1);
 
       p {
         margin: 0;
