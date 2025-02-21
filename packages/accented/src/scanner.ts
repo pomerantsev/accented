@@ -37,7 +37,8 @@ export default function createScanner(name: string, throttle: Required<Throttle>
           // It seems preferable to disallow iframe scanning and not report issues in elements within iframes
           // in the case that such issues are for some reason reported by axe-core.
           // A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
-          iframes: false
+          iframes: false,
+          resultTypes: ['violations']
         });
       } catch (error) {
         console.error(
