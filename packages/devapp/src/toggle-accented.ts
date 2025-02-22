@@ -1,5 +1,6 @@
 import accented from'accented';
 import type { DisableAccented, AccentedOptions } from 'accented';
+import type { RuleObject } from 'axe-core';
 
 const searchParams = new URLSearchParams(location.search);
 
@@ -14,7 +15,9 @@ function toggleAccented(opts: AccentedOptions = {}) {
   }
 }
 
-let options: AccentedOptions = {};
+let options: AccentedOptions = {
+  axeOptions: {}
+};
 
 if (searchParams.has('options-invalid')) {
   options = 'foo' as any;
@@ -66,6 +69,34 @@ if (searchParams.has('output-invalid')) {
 
 if (searchParams.has('name')) {
   options.name = searchParams.get('name')!;
+}
+
+if (searchParams.has('run-only')) {
+  options.axeOptions = {
+    ...options.axeOptions,
+    // Pass an array as `runOnly` (one of the available options in axe-core).
+    runOnly: searchParams.get('run-only')!.split(',')
+  }
+}
+if (searchParams.has('disable-rules')) {
+  const rules = searchParams.get('disable-rules')!.split(',').reduce((acc: RuleObject, rule) => ({
+    ...acc,
+    [rule]: { enabled: false }
+  }), {});
+  options.axeOptions = {
+    ...options.axeOptions,
+    rules
+  }
+}
+if (searchParams.has('axe-options-reporter')) {
+  options.axeOptions = {
+    ...options.axeOptions,
+    // @ts-expect-error `reporter` is not defined on AxeOptions.
+    reporter: searchParams.get('axe-options-reporter')
+  };
+}
+if (searchParams.has('axe-options-invalid')) {
+  options.axeOptions = searchParams.get('axe-options-invalid') as any;
 }
 
 if (!searchParams.has('disable')) {

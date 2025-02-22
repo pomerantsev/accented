@@ -530,6 +530,14 @@ test.describe('Accented', () => {
         expectErrors(1);
         await page.goto(`?name=hello-你好`);
       });
+      test('throws an error if axeOptions is not an object', async ({ page, expectErrors }) => {
+        expectErrors(1);
+        await page.goto(`?axe-options-invalid=foo`);
+      });
+      test('throws an error if axeOptions contains unsupported keys', async ({ page, expectErrors }) => {
+        expectErrors(1);
+        await page.goto(`?axe-options-reporter=v1`);
+      });
     });
 
     test('callback', async ({ page }) => {
@@ -584,6 +592,23 @@ test.describe('Accented', () => {
         await expect(newButton1).toHaveAttribute(accentedDataAttr);
         await expect(newButton2).toHaveAttribute(accentedDataAttr);
       });
+    });
+
+    test('runOnly', async ({ page }) => {
+      await page.goto(`?run-only=wcag21aa`);
+      const count = await page.locator(accentedSelector).count();
+      // We only added one element with a WCAG 2.1 AA issue.
+      await expect(count).toBe(1);
+    });
+
+    test('rules', async ({ page }) => {
+      await page.goto('/');
+      const totalCount = await page.locator(accentedSelector).count();
+      await expect(totalCount).toBeGreaterThan(0);
+      await page.goto(`?disable-rules=button-name`);
+      const countWithoutButtonName = await page.locator(accentedSelector).count();
+      await expect(countWithoutButtonName).toBeGreaterThan(0);
+      await expect(countWithoutButtonName).toBeLessThan(totalCount);
     });
   });
 

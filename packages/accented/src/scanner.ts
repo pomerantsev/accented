@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
-import type { Throttle, Callback } from './types';
+import type { AxeOptions, Throttle, Callback } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
 import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
@@ -9,7 +9,7 @@ import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
 
-export default function createScanner(name: string, throttle: Required<Throttle>, callback: Callback) {
+export default function createScanner(name: string, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win: Record<string, any> = window;
   const taskQueue = new TaskQueue<Node>(async () => {
@@ -38,12 +38,13 @@ export default function createScanner(name: string, throttle: Required<Throttle>
           // in the case that such issues are for some reason reported by axe-core.
           // A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
           iframes: false,
-          resultTypes: ['violations']
+          resultTypes: ['violations'],
+          ...axeOptions
         });
       } catch (error) {
         console.error(
-          'Accented: axe-core (the accessibility testing engine) threw an error.' +
-            'Check the `axeOptions` property that you’re passing to Accented.' +
+          'Accented: axe-core (the accessibility testing engine) threw an error. ' +
+            'Check the `axeOptions` property that you’re passing to Accented. ' +
             `If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
           error
         );

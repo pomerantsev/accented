@@ -24,4 +24,11 @@ suite('deepMerge', () => {
     const result = deepMerge(target, source);
     assert.deepEqual(result, { a: null });
   });
+
+  test('doesn’t turn arrays into objects', () => {
+    const target = { a: [1, 2, 3] };
+    const source = { a: [4, 5] };
+    const result = deepMerge(target, source);
+    assert.deepEqual(result, { a: [4, 5] });
+  });
 });

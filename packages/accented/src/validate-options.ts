@@ -1,4 +1,5 @@
 import type { AccentedOptions } from './types';
+import { allowedAxeOptions } from './types.js';
 
 // The space of valid CSS and HTML names is wider than this,
 // but with Unicode it gets complicated quickly, so I'm sticking to only allowing
@@ -30,5 +31,14 @@ export default function validateOptions(options: AccentedOptions) {
   }
   if (options.name !== undefined && (typeof options.name !== 'string' || !options.name.match(nameRegex))) {
     throw new TypeError(`Accented: invalid argument. \`name\` option must be a string that starts with a lowercase letter and only contains lowercase alphanumeric characters and dashes. It’s currently set to ${options.name}.`);
+  }
+  if (options.axeOptions !== undefined) {
+    if (typeof options.axeOptions !== 'object' || options.axeOptions === null) {
+      throw new TypeError(`Accented: invalid argument. \`axeOptions\` option must be an object if provided. It’s currently set to ${options.axeOptions}.`);
+    }
+    const unsupportedKeys = Object.keys(options.axeOptions).filter(key => !(allowedAxeOptions as unknown as Array<string>).includes(key));
+    if (unsupportedKeys.length > 0) {
+      throw new TypeError(`Accented: invalid argument. \`axeOptions\` contains the following unsupported keys: ${unsupportedKeys.join(', ')}. Valid options are: ${allowedAxeOptions.join(', ')}.`);
+    }
   }
 }
