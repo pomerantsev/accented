@@ -33,6 +33,10 @@ export type Output = {
   console?: boolean
 }
 
+export const allowedAxeOptions = ['rules', 'runOnly'] as const;
+
+export type AxeOptions = Pick<axe.RunOptions, typeof allowedAxeOptions[number]>;
+
 type CallbackParams = {
   /**
    * The most current array of elements with issues.
@@ -48,6 +52,22 @@ type CallbackParams = {
 export type Callback = (params: CallbackParams) => void;
 
 export type AccentedOptions = {
+
+  /**
+   * The `options` parameter for `axe.run()`.
+   *
+   * Accented only supports two keys of the `options` object:
+   * * `rules`
+   * * `runOnly`
+   *
+   * Both properties are optional, and both control
+   * which accessibility rules your page is tested against.
+   *
+   * See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter
+   *
+   * Default: `{}`.
+   */
+  axeOptions?: AxeOptions,
 
   /**
    * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.

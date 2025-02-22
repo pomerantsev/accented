@@ -37,6 +37,23 @@ The following types are exported for TypeScript consumers:
 
 ### Options
 
+#### `axeOptions`
+
+**Type:** object.
+
+**Default:** `{}`.
+
+The `options` parameter for `axe.run()`.
+
+Accented only supports two keys of the `options` object:
+
+* `rules`
+* `runOnly`
+
+Both properties are optional, and both control which accessibility rules your page is tested against.
+
+See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter
+
 #### `output`
 
 An object controlling how the results of scans will be presented.
