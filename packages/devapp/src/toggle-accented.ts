@@ -99,6 +99,10 @@ if (searchParams.has('axe-options-invalid')) {
   options.axeOptions = searchParams.get('axe-options-invalid') as any;
 }
 
+if (searchParams.has('axe-context-selector')) {
+  options.axeContext = searchParams.get('axe-context-selector')!;
+}
+
 if (!searchParams.has('disable')) {
   toggleAccented(options);
 

@@ -8,35 +8,12 @@ import setupResizeListener from './resize-listener.js';
 import setupIntersectionObserver from './intersection-observer.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
-import type { DeepRequired, AccentedOptions, DisableAccented } from './types';
+import type { AccentedOptions, DisableAccented } from './types';
 import validateOptions from './validate-options.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import logAndRethrow from './log-and-rethrow.js';
 
 export type { AccentedOptions, DisableAccented };
-
-// IMPORTANT: when changing any of the properties or values, also do the following:
-// * update the default value in the type documentation accordingly;
-// * update validations and validation tests if necessary;
-// * update examples in the accented() function JSDoc;
-// * update examples in the Readme.
-const defaultOptions: DeepRequired<AccentedOptions> = {
-  axeOptions: {
-    rules: {},
-    // @ts-expect-error: `runOnly` cannot be `undefined` per the property's type,
-    // but that's the only option we have for a default value.
-    runOnly: undefined
-  },
-  name: 'accented',
-  output: {
-    console: true
-  },
-  throttle: {
-    wait: 1000,
-    leading: true
-  },
-  callback: () => {}
-};
 
 /**
  * Enables highlighting of elements with accessibility issues.
@@ -74,7 +51,30 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
       return () => {};
     }
 
-    const {axeOptions, name, output, throttle, callback} = deepMerge(defaultOptions, options);
+    const defaultOutput: Required<AccentedOptions['output']> = {
+      console: true
+    };
+
+    const defaultThrottle: Required<AccentedOptions['throttle']> = {
+      wait: 1000,
+      leading: true
+    };
+
+    // IMPORTANT: when changing any of the properties or values, also do the following:
+    // * update the default value in the type documentation accordingly;
+    // * update validations and validation tests if necessary;
+    // * update examples in the accented() function JSDoc;
+    // * update examples in the Readme.
+    const defaultOptions: Required<AccentedOptions> = {
+      axeContext: document,
+      axeOptions: {},
+      name: 'accented',
+      output: defaultOutput,
+      throttle: defaultThrottle,
+      callback: () => {}
+    };
+
+    const {axeContext, axeOptions, name, output, throttle, callback} = deepMerge(defaultOptions, options);
 
     if (enabled.value) {
       // Add link to the recipes section of the docs (#56).
@@ -90,7 +90,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     registerElements(name);
 
     const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
-    const cleanupScanner = createScanner(name, axeOptions, throttle, callback);
+    const cleanupScanner = createScanner(name, axeContext, axeOptions, throttle, callback);
     const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
     const cleanupLogger = output.console ? createLogger() : () => {};
     const cleanupScrollListeners = supportsAnchorPositioning(window) ? () => {} : setupScrollListeners();

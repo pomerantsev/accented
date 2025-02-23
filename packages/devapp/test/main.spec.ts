@@ -607,8 +607,18 @@ test.describe('Accented', () => {
       await expect(totalCount).toBeGreaterThan(0);
       await page.goto(`?disable-rules=button-name`);
       const countWithoutButtonName = await page.locator(accentedSelector).count();
-      await expect(countWithoutButtonName).toBeGreaterThan(0);
+      await expect(countWithoutButtonName).toBeGreaterThan(1);
       await expect(countWithoutButtonName).toBeLessThan(totalCount);
+    });
+
+    test('axeContext', async ({ page }) => {
+      await page.goto('/');
+      const totalCount = await page.locator(accentedSelector).count();
+      await expect(totalCount).toBeGreaterThan(0);
+      await page.goto(`?axe-context-selector=button`);
+      const countOnlyButtons = await page.locator(accentedSelector).count();
+      await expect(countOnlyButtons).toBeGreaterThan(1);
+      await expect(countOnlyButtons).toBeLessThan(totalCount);
     });
   });
 
