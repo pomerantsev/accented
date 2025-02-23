@@ -2,10 +2,6 @@ import type axe from 'axe-core';
 import type { Signal } from '@preact/signals-core';
 import type { AccentedTrigger } from './elements/accented-trigger';
 
-export type DeepRequired<T> = T extends object ? {
-  [P in keyof T]-? : DeepRequired<T[P]>
-} : T;
-
 export type Throttle = {
   /**
    * The minimal time between scans.
@@ -33,6 +29,8 @@ export type Output = {
   console?: boolean
 }
 
+export type AxeContext = axe.ElementContext;
+
 export const allowedAxeOptions = ['rules', 'runOnly'] as const;
 
 export type AxeOptions = Pick<axe.RunOptions, typeof allowedAxeOptions[number]>;
@@ -54,11 +52,29 @@ export type Callback = (params: CallbackParams) => void;
 export type AccentedOptions = {
 
   /**
+   * The `context` parameter for `axe.run()`.
+   *
+   * Determines what element(s) to scan for accessibility issues.
+   *
+   * Accepts a variety of shapes:
+   * * an element reference;
+   * * a selector;
+   * * a `NodeList`;
+   * * an include / exclude object;
+   * * and more.
+   *
+   * See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter
+   *
+   * Default: `document`.
+   */
+  axeContext?: AxeContext,
+
+  /**
    * The `options` parameter for `axe.run()`.
    *
    * Accented only supports two keys of the `options` object:
-   * * `rules`
-   * * `runOnly`
+   * * `rules`;
+   * * `runOnly`.
    *
    * Both properties are optional, and both control
    * which accessibility rules your page is tested against.

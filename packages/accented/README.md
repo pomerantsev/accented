@@ -37,6 +37,25 @@ The following types are exported for TypeScript consumers:
 
 ### Options
 
+#### `axeContext`
+
+**Type:** see [documentation](https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter).
+
+**Default:** `document`.
+
+The `context` parameter for `axe.run()`.
+
+Determines what element(s) to scan for accessibility issues.
+
+Accepts a variety of shapes:
+* an element reference;
+* a selector;
+* a `NodeList`;
+* an include / exclude object;
+* and more.
+
+See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter
+
 #### `axeOptions`
 
 **Type:** object.
@@ -47,8 +66,8 @@ The `options` parameter for `axe.run()`.
 
 Accented only supports two keys of the `options` object:
 
-* `rules`
-* `runOnly`
+* `rules`;
+* `runOnly`.
 
 Both properties are optional, and both control which accessibility rules your page is tested against.
 

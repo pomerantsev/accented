@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
-import type { AxeOptions, Throttle, Callback } from './types';
+import type { AxeOptions, Throttle, Callback, AxeContext } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
 import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
@@ -9,7 +9,7 @@ import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
 
-export default function createScanner(name: string, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
+export default function createScanner(name: string, axeContext: AxeContext, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win: Record<string, any> = window;
   const taskQueue = new TaskQueue<Node>(async () => {
@@ -29,7 +29,9 @@ export default function createScanner(name: string, axeOptions: AxeOptions, thro
       let result;
 
       try {
-        result = await axe.run({
+        // TODO (https://github.com/pomerantsev/accented/issues/102):
+        // only run Axe on what's changed, not on the whole axeContext
+        result = await axe.run(axeContext, {
           elementRef: true,
           // Although axe-core can perform iframe scanning, I haven't succeeded in it,
           // and the docs suggest that the axe-core script should be explicitly included
@@ -70,6 +72,9 @@ export default function createScanner(name: string, axeOptions: AxeOptions, thro
     }
   }, throttle);
 
+  // TODO (https://github.com/pomerantsev/accented/issues/102):
+  // limit to what's in axeContext,
+  // if that's an element or array of elements (not a selector).
   taskQueue.add(document);
 
   const accentedElementNames = [`${name}-trigger`, `${name}-dialog`];
@@ -118,6 +123,9 @@ export default function createScanner(name: string, axeOptions: AxeOptions, thro
     }
   });
 
+  // TODO (https://github.com/pomerantsev/accented/issues/102):
+  // possibly limit the observer to what's in axeContext,
+  // if that's an element or array of elements (not a selector).
   mutationObserver.observe(document, {
     subtree: true,
     childList: true,
