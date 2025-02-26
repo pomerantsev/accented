@@ -417,11 +417,8 @@ test.describe('Accented', () => {
   });
 
   test.describe('issue dialogs', () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto('/');
-    });
-
     test('dialog is displayed and contains the element HTML and the expected number of issue descriptions', async ({ page }) => {
+      await page.goto('/');
       const dialog = await openAccentedDialog(page, '#over-2-issues');
       await expect(dialog).toBeVisible();
       const issueDescriptions = await dialog.locator('#issues > li');
@@ -430,6 +427,7 @@ test.describe('Accented', () => {
     });
 
     test('issues are sorted by impact and have specific background colors', async ({ page }) => {
+      await page.goto('/');
       const dialog = await openAccentedDialog(page, '#various-impacts');
       const impactElements = await dialog.getByText(/User impact:/);
       const impacts = await impactElements.evaluateAll(elements =>
@@ -450,6 +448,7 @@ test.describe('Accented', () => {
     });
 
     test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
+      await page.goto('/');
       const dialog = await openAccentedDialog(page, '#over-2-issues');
       const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
       await expect(dialog).toContainText('role="directory"');
@@ -463,17 +462,33 @@ test.describe('Accented', () => {
     });
 
     test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
+      await page.goto('/');
       const dialog = await openAccentedDialog(page, '#various-impacts');
       const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
       expect(violations).toHaveLength(0);
     });
 
     test('dialog can be dismissed by clicking the mouse outside the dialog', async ({ page }) => {
+      await page.goto('/');
       const dialog = await openAccentedDialog(page, '#various-impacts');
       await expect(dialog).toBeVisible();
       await page.mouse.click(10, 10);
       await expect(dialog).not.toBeVisible();
     });
+
+    test('dialog can be dismissed by pressing Escape, and the keydown event doesn’t propagate', async ({ page }) => {
+      await page.goto('?no-console');
+      let messageCount = 0;
+      page.on('console', (event) => {
+        messageCount++;
+        console.log(event);
+      });
+      const dialog = await openAccentedDialog(page, '#various-impacts');
+      await expect(dialog).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(dialog).not.toBeVisible();
+      expect(messageCount).toBe(0);
+    })
   });
 
   test.describe('mutation observer', () => {

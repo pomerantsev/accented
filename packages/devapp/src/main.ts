@@ -86,3 +86,10 @@ document.getElementById('open-non-modal-dialog')?.addEventListener('click', () =
 document.getElementById('enter-fullscreen')?.addEventListener('click', () => {
   document.getElementById('fullscreen-container')?.requestFullscreen();
 });
+
+// This is needed to test that the Escape press doesn't propagate to the document from the dialog
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    console.log('Escape pressed');
+  }
+});

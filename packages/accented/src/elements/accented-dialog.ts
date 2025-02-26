@@ -260,6 +260,16 @@ export default () => {
             }
           }, { signal: this.#abortController.signal });
 
+          dialog?.addEventListener('keydown', (event) => {
+            try {
+              if (event.key === 'Escape') {
+                event.stopPropagation();
+              }
+            } catch (error) {
+              logAndRethrow(error);
+            }
+          }, { signal: this.#abortController.signal });
+
           this.#disposeOfEffect = effect(() => {
             if (this.issues) {
               const issues = this.issues.value;
