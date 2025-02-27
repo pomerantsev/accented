@@ -69,13 +69,13 @@
         <div>
           <button class="test-button" id="open-modal-dialog">Open modal dialog</button>
           <dialog id="modal-dialog">
-            <button class="test-button"></button>
+            <button class="test-button" id="modal-dialog-button"></button>
           </dialog>
         </div>
         <div>
           <button class="test-button" id="open-non-modal-dialog">Open non-modal dialog</button>
           <dialog id="non-modal-dialog">
-            <button class="test-button"></button>
+            <button class="test-button" id="non-modal-dialog-button"></button>
           </dialog>
         </div>
         <div>
@@ -144,8 +144,15 @@
       </section>
 
       <section style="transform: translateX(0);">
-        <h2>Transformed element</h2>
+        <h2>Transformed section</h2>
         <button class="test-button"></button>
+      </section>
+
+      <section style="transform: translateX(0); block-size: 7rem;">
+        <h2>Transformed section and element</h2>
+        <div style="border: 1px solid currentColor; inline-size: 10rem; block-size: 5rem; position: fixed; inset-inline-start: 3rem; inset-block-start: 2rem; perspective: 100px;">
+          <button class="test-button" style="transform: translateX(100%) rotateY(-30deg)"></button>
+        </div>
       </section>
 
       <section>

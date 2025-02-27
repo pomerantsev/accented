@@ -127,9 +127,13 @@ export type AccentedOptions = {
 export type DisableAccented = () => void;
 
 export type Position = {
-  inlineEndLeft: number,
-  blockStartTop: number,
-  direction: 'ltr' | 'rtl'
+  // inlineEndLeft: number,
+  // blockStartTop: number,
+  // direction: 'ltr' | 'rtl'
+  left: number,
+  top: number,
+  width: number,
+  height: number
 };
 
 export type Issue = {
