@@ -12,6 +12,7 @@ function toggleAccented(opts: AccentedOptions = {}) {
     stopAccented = null;
   } else {
     stopAccented = accented(opts);
+    // stopAccented = accented({axeContext: '#transformed-section'});
   }
 }
 

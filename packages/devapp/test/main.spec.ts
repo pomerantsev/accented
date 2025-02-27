@@ -361,9 +361,7 @@ test.describe('Accented', () => {
     test('issues in modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open modal dialog' }).click();
       const modalDialog = await page.locator('#modal-dialog');
-      const triggerContainer = modalDialog.locator('accented-trigger');
-      await triggerContainer.click();
-      const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
+      const issueDialog = await openAccentedDialog(page, '#modal-dialog-button');
       await expect(issueDialog).toBeVisible();
       await page.keyboard.press('Escape');
       await expect(issueDialog).not.toBeVisible();
