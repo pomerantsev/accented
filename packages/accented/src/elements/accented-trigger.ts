@@ -163,12 +163,6 @@ export default (name: string) => {
             this.#disposeOfPositionEffect = effect(() => {
               if (this.position && trigger) {
                 const position = this.position.value;
-                // this.style.setProperty('top', `${position.blockStartTop}px`, 'important');
-                // if (position.direction === 'ltr') {
-                //   this.style.setProperty('left', `calc(${position.inlineEndLeft}px - ${triggerSize})`, 'important');
-                // } else if (this.position.value.direction === 'rtl') {
-                //   this.style.setProperty('left', `${position.inlineEndLeft}px`, 'important');
-                // }
                 this.style.setProperty('top', `${position.top}px`, 'important');
                 this.style.setProperty('left', `${position.left}px`, 'important');
                 this.style.setProperty('width', `${position.width}px`, 'important');

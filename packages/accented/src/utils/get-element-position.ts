@@ -18,8 +18,7 @@ export default function getElementPosition(element: Element, win: Window): Posit
   // fixed positioning works differently.
   // https://achrafkassioui.com/blog/position-fixed-and-CSS-transforms/
   if (transformedAncestor) {
-    // const transformedAncestorRect = transformedAncestor.getBoundingClientRect();
-    // console.log(rect.top, transformedAncestorRect.top);
+    // TODO: can we call instanceof?
     if (element instanceof HTMLElement) {
       return {
         top: element.offsetTop,
@@ -28,31 +27,10 @@ export default function getElementPosition(element: Element, win: Window): Posit
         width: element.offsetWidth
       };
     } else {
+      // TODO: can we do something about this now?
       throw new Error('SVG or MathML elements are not yet supported.');
     }
   } else {
     return element.getBoundingClientRect();
-    // return {
-    //   top: rect.top,
-    //   height: rect.height,
-    //   left: rect.left,
-    //   width: rect.width
-    // };
   }
-  // const direction = win.getComputedStyle(element).direction;
-  // if (direction === 'ltr') {
-  //   return {
-  //     inlineEndLeft: right,
-  //     blockStartTop: top,
-  //     direction
-  //   };
-  // } else if (direction === 'rtl') {
-  //   return {
-  //     inlineEndLeft: left,
-  //     blockStartTop: top,
-  //     direction
-  //   };
-  // } else {
-  //   throw new Error(`The element ${element} has a direction "${direction}", which is not supported.`);
-  // }
 }

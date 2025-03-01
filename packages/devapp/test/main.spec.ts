@@ -16,17 +16,15 @@ const supportsAnchorPositioning = async (page: Page) =>
 
 test.describe('Accented', () => {
   test.describe('basic functionality', () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto('/');
-    });
-
     test.describe('when enabled', () => {
       test('adds an Accented-specific stylesheet to the document', async ({ page }) => {
+        await page.goto('/');
         const adoptedStyleSheets = await page.evaluate(() => document.adoptedStyleSheets);
         await expect(adoptedStyleSheets).toHaveLength(1);
       });
 
       test('adds its attributes to elements, and adds triggers in supporting browsers', async ({ page }) => {
+        await page.goto('/');
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
 
@@ -35,15 +33,28 @@ test.describe('Accented', () => {
       });
 
       test('triggers have meaningful accessible names', async ({ page }) => {
+        await page.goto('/');
         const htmlTriggerCount = await page.getByRole('button', { name: 'Accessibility issues in html' }).count();
         await expect(htmlTriggerCount).toBe(1);
         const buttonTriggerCount = await page.getByRole('button', { name: 'Accessibility issues in button' }).count();
         await expect(buttonTriggerCount).toBeGreaterThan(1);
       });
+
+      test('an element with issues can still be interacted with', async ({ page }) => {
+        await page.goto('?no-console');
+        const buttonWithIssue = await page.locator(`#button-with-single-issue${accentedSelector}`);
+        let messageText;
+        page.on('console', (message) => {
+          messageText = message.text();
+        });
+        await buttonWithIssue.click();
+        expect(messageText).toBe('Button clicked');
+      });
     });
 
     test.describe('when disabled', () => {
       test.beforeEach(async ({ page }) => {
+        await page.goto('/');
         await page.getByRole('button', { name: 'Toggle Accented' }).click();
       });
 
@@ -137,7 +148,6 @@ test.describe('Accented', () => {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const triggerContainer = await getTriggerContainer(page, element);
-        // console.log(await element.evaluate(node => node.outerHTML), await triggerContainer.evaluate(node => node.outerHTML));
         await expectElementAndTriggerToBeAligned(element, triggerContainer);
       }
       await page.setViewportSize({ width: 400, height: 400 });
@@ -249,6 +259,16 @@ test.describe('Accented', () => {
         return (node as Element).getBoundingClientRect().top;
       });
       expect(triggerTop).toBe(sectionTop);
+    });
+
+    test('a trigger’s position remains correct on transforms', async ({ page }) => {
+      const elementWithTransforms = await page.locator('#transformed-button');
+      const triggerContainer = await getTriggerContainer(page, elementWithTransforms);
+      await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
+      (await page.getByRole('button', { name: 'Change button transform' })).click();
+      await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
+      (await page.getByRole('button', { name: 'Change section transform' })).click();
+      await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
     });
 
     test.describe('anchor positioning', () => {

@@ -3,8 +3,6 @@ import { expect } from '@playwright/test';
 
 export async function getTriggerContainer(page: Page, locator: Locator) {
   const id = await locator.getAttribute('data-accented');
-  // const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-  // return await triggerContainer.locator('#trigger');
   return await page.locator(`accented-trigger[data-id="${id}"]`);
 }
 
