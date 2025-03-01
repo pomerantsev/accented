@@ -1,9 +1,10 @@
 import type { Page } from '@playwright/test';
-import { getTrigger } from './trigger';
+import { getTriggerContainer, getTrigger } from './trigger';
 
 export async function openAccentedDialog(page: Page, selector: string) {
   const elementWithIssues = await page.locator(selector);
-  const trigger = await getTrigger(page, elementWithIssues);
+  const triggerContainer = await getTriggerContainer(page, elementWithIssues);
+  const trigger = await getTrigger(triggerContainer);
   await trigger.click();
   return await page.getByRole('dialog', { name: 'Issues' });
 }

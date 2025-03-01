@@ -2,7 +2,7 @@ import { test } from './fixtures/test';
 import { expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-import { expectElementAndTriggerToBeAligned, getTrigger } from './helpers/trigger';
+import { expectElementAndTriggerToBeAligned, getTriggerContainer, getTrigger } from './helpers/trigger';
 import { openAccentedDialog } from './helpers/dialog';
 
 import axe from 'axe-core';
@@ -125,8 +125,8 @@ test.describe('Accented', () => {
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
-        const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger);
+        const triggerContainer = await getTriggerContainer(page, element);
+        await expectElementAndTriggerToBeAligned(element, triggerContainer);
       }
     });
 
@@ -136,24 +136,27 @@ test.describe('Accented', () => {
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
-        const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger);
+        const triggerContainer = await getTriggerContainer(page, element);
+        // console.log(await element.evaluate(node => node.outerHTML), await triggerContainer.evaluate(node => node.outerHTML));
+        await expectElementAndTriggerToBeAligned(element, triggerContainer);
       }
       await page.setViewportSize({ width: 400, height: 400 });
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
-        const trigger = await getTrigger(page, element);
-        await expectElementAndTriggerToBeAligned(element, trigger);
+        const triggerContainer = await getTriggerContainer(page, element);
+        await expectElementAndTriggerToBeAligned(element, triggerContainer);
       }
     });
 
     test('trigger positions get updated in scrollable regions and are hidden from view when scrolled out', async ({ page }) => {
       const scrollableRegion = await page.locator('#scrollable-region');
       const button1 = await page.locator('#scrollable-test-button-1');
-      const button1Trigger = await getTrigger(page, button1);
+      const button1TriggerContainer = await getTriggerContainer(page, button1);
+      const button1Trigger = await getTrigger(button1TriggerContainer);
       const button2 = await page.locator('#scrollable-test-button-2');
-      const button2Trigger = await getTrigger(page, button2);
+      const button2TriggerContainer = await getTriggerContainer(page, button2);
+      const button2Trigger = await getTrigger(button2TriggerContainer);
 
       async function expectToBeHiddenOutsideScrollableRegion(element: Locator) {
         if (await supportsAnchorPositioning(page)) {
@@ -170,30 +173,31 @@ test.describe('Accented', () => {
       await scrollableRegion.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
       await expect(button1Trigger).toBeVisible();
-      await expectElementAndTriggerToBeAligned(button1, button1Trigger);
+      console.log(button1, button1TriggerContainer);
+      await expectElementAndTriggerToBeAligned(button1, button1TriggerContainer);
       await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
 
       await scrollableRegion.evaluate(element => element.scrollBy(0, 10));
       await page.waitForTimeout(200);
       await expect(button1Trigger).toBeVisible();
-      await expectElementAndTriggerToBeAligned(button1, button1Trigger);
+      await expectElementAndTriggerToBeAligned(button1, button1TriggerContainer);
       await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
 
       await button2.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
-      await expectToBeHiddenOutsideScrollableRegion(button1Trigger);
+      await expectToBeHiddenOutsideScrollableRegion(button1TriggerContainer);
       await expect(button2Trigger).toBeVisible();
-      await expectElementAndTriggerToBeAligned(button2, button2Trigger);
+      await expectElementAndTriggerToBeAligned(button2, button2TriggerContainer);
     });
 
     test('trigger position is correct for a sticky positioned element', async ({ page }) => {
       const button2 = await page.locator('#scrollable-test-button-2');
       const stickyElement = await page.locator('#sticky');
-      const stickyElementTrigger = await getTrigger(page, stickyElement);
+      const stickyElementTriggerContainer = await getTriggerContainer(page, stickyElement);
 
       await button2.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
-      await expectElementAndTriggerToBeAligned(stickyElement, stickyElementTrigger);
+      await expectElementAndTriggerToBeAligned(stickyElement, stickyElementTriggerContainer);
     });
 
     test('outlines with certain properties are added to elements', async ({ page }) => {
@@ -223,24 +227,21 @@ test.describe('Accented', () => {
 
     test('trigger is interactable if the element with issues has a z-index', async ({ page }) => {
       const buttonWithIssue = await page.locator('#z-index-button');
-      const id = await buttonWithIssue.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-      const trigger = await triggerContainer.locator('#trigger');
+      const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
+      const trigger = await getTrigger(triggerContainer);
       await trigger.click();
     });
 
     test('a trigger is added for issues in the <html> element', async ({ page }) => {
       const html = await page.locator('html');
-      const id = await html.getAttribute(accentedDataAttr);
-      const trigger = await page.locator(`accented-trigger[data-id="${id}"]`);
-      await expect(trigger).toBeVisible();
+      const triggerContainer = await getTriggerContainer(page, html);
+      await expect(triggerContainer).toBeVisible();
     });
 
     test('a trigger is positioned correctly on a fixed-positioned element', async ({ page }) => {
       const fixedPositionSection = await page.locator('section#fixed-position');
-      const id = await fixedPositionSection.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-      const trigger = await triggerContainer.locator('#trigger');
+      const triggerContainer = await getTriggerContainer(page, fixedPositionSection);
+      const trigger = await getTrigger(triggerContainer);
       await page.mouse.wheel(0, 10);
       const sectionTop = await fixedPositionSection.evaluate(node => {
         return (node as Element).getBoundingClientRect().top;
@@ -347,9 +348,8 @@ test.describe('Accented', () => {
 
     test('if the issue is within a link, the link isn’t followed', async ({ page }) => {
       const elementWithIssue = await page.locator('#issue-in-a-link-issue');
-      const id = await elementWithIssue.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-      const trigger = await triggerContainer.locator('#trigger');
+      const triggerContainer = await getTriggerContainer(page, elementWithIssue);
+      const trigger = await getTrigger(triggerContainer);
       elementWithIssue.scrollIntoViewIfNeeded();
       await trigger.click();
       const closeButton = await page.getByRole('button', { name: 'Close' });
@@ -373,8 +373,9 @@ test.describe('Accented', () => {
     test('issues in non-modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open non-modal dialog' }).click();
       const nonModalDialog = await page.locator('#non-modal-dialog');
-      const triggerContainer = nonModalDialog.locator('accented-trigger');
-      await triggerContainer.click();
+      const triggerContainer = await getTriggerContainer(page, nonModalDialog);
+      const trigger = await getTrigger(triggerContainer);
+      await trigger.click();
       const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
       await expect(issueDialog).toBeVisible();
       await page.keyboard.press('Escape');
@@ -402,9 +403,8 @@ test.describe('Accented', () => {
         const rect = el.getBoundingClientRect();
         return { top: rect.top, right: rect.right };
       });
-      const id = await elementWithIssues.getAttribute(accentedDataAttr);
-      const triggerContainer = await page.locator(`accented-trigger[data-id="${id}"]`);
-      const trigger = await triggerContainer.locator('#trigger');
+      const triggerContainer = await getTriggerContainer(page, elementWithIssues);
+      const trigger = await getTrigger(triggerContainer);
       const triggerPosition = await trigger.evaluate(el => {
         const rect = el.getBoundingClientRect();
         return { top: rect.top, right: rect.right };
