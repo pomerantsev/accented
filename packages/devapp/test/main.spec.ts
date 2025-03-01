@@ -173,7 +173,6 @@ test.describe('Accented', () => {
       await scrollableRegion.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
       await expect(button1Trigger).toBeVisible();
-      console.log(button1, button1TriggerContainer);
       await expectElementAndTriggerToBeAligned(button1, button1TriggerContainer);
       await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
 
@@ -361,6 +360,7 @@ test.describe('Accented', () => {
     test('issues in modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open modal dialog' }).click();
       const modalDialog = await page.locator('#modal-dialog');
+      await modalDialog.locator(accentedSelector).first().waitFor();
       const issueDialog = await openAccentedDialog(page, '#modal-dialog-button');
       await expect(issueDialog).toBeVisible();
       await page.keyboard.press('Escape');
@@ -373,10 +373,8 @@ test.describe('Accented', () => {
     test('issues in non-modal dialogs get reported correctly', async ({ page }) => {
       await page.getByRole('button', { name: 'Open non-modal dialog' }).click();
       const nonModalDialog = await page.locator('#non-modal-dialog');
-      const triggerContainer = await getTriggerContainer(page, nonModalDialog);
-      const trigger = await getTrigger(triggerContainer);
-      await trigger.click();
-      const issueDialog = await page.getByRole('dialog', { name: 'Issues' });
+      await nonModalDialog.locator(accentedSelector).first().waitFor();
+      const issueDialog = await openAccentedDialog(page, '#non-modal-dialog-button');
       await expect(issueDialog).toBeVisible();
       await page.keyboard.press('Escape');
       await expect(issueDialog).not.toBeVisible();
