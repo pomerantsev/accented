@@ -20,12 +20,17 @@ export default function getElementPosition(element: Element, win: Window): Posit
   // https://achrafkassioui.com/blog/position-fixed-and-CSS-transforms/
   if (transformedAncestor) {
     if (isHtmlElement(element)) {
-      return {
-        top: element.offsetTop,
-        height: element.offsetHeight,
-        left: element.offsetLeft,
-        width: element.offsetWidth
-      };
+      const width = element.offsetWidth;
+      const height = element.offsetHeight;
+      let left = element.offsetLeft;
+      let top = element.offsetTop;
+      let currentElement = element;
+      while (currentElement.offsetParent && currentElement.offsetParent !== transformedAncestor) {
+        currentElement = currentElement.offsetParent as HTMLElement;
+        left += currentElement.offsetLeft;
+        top += currentElement.offsetTop;
+      }
+      return { top, left, width, height };
     } else {
       // TODO: https://github.com/pomerantsev/accented/issues/116
       // This is half-baked. It works incorrectly with scaled / rotated elements with issues.

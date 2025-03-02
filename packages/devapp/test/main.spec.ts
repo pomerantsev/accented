@@ -433,8 +433,8 @@ test.describe('Accented', () => {
       expect(elementPosition.top).toBe(triggerPosition.top);
     });
 
+    // This ensures that we don't use instanceof
     test('element with an issue moved from an iframe behaves as expected', async ({ page }) => {
-      // This ensures that we don't use instanceof
       (await page.getByRole('button', { name: 'Move element from iframe' })).click();
       const elementWithIssue = await page.locator(`#button-from-iframe${accentedSelector}`);
       await elementWithIssue.scrollIntoViewIfNeeded();
