@@ -159,6 +159,35 @@
         </div>
       </section>
 
+      <section style="transform: translateX(0);">
+        <h2>SVG in a transformed section</h2>
+        <div>
+          <svg width="70" height="70" viewBox="0 0 24 24" role="img">
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              fill="none"
+            ></circle>
+          </svg>
+        </div>
+      </section>
+
+      <section>
+        <h2>Iframe testing (moving element from iframe to main document)</h2>
+        <div style="margin-block-end: 1rem;">
+          <button id="move-element-from-iframe">Move element from iframe</button>
+        </div>
+        <iframe
+          id="iframe-test"
+          title="Iframe content"
+          src="iframe-content.html"
+          style="border: 1px solid black; inline-size: 15rem; block-size: 15rem;"
+        >
+        </iframe>
+      </section>
+
       <section>
         <h2>Performance testing</h2>
         <button id="add-one">Add one element with an issue</button>

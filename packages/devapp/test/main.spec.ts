@@ -266,8 +266,10 @@ test.describe('Accented', () => {
       const triggerContainer = await getTriggerContainer(page, elementWithTransforms);
       await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
       (await page.getByRole('button', { name: 'Change button transform' })).click();
+      await page.waitForTimeout(200);
       await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
       (await page.getByRole('button', { name: 'Change section transform' })).click();
+      await page.waitForTimeout(200);
       await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
     });
 
@@ -429,6 +431,16 @@ test.describe('Accented', () => {
       });
       expect(elementPosition.right).toBe(triggerPosition.right);
       expect(elementPosition.top).toBe(triggerPosition.top);
+    });
+
+    test('element with an issue moved from an iframe behaves as expected', async ({ page }) => {
+      // This ensures that we don't use instanceof
+      (await page.getByRole('button', { name: 'Move element from iframe' })).click();
+      const elementWithIssue = await page.locator(`#button-from-iframe${accentedSelector}`);
+      await elementWithIssue.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      const triggerContainer = await getTriggerContainer(page, elementWithIssue);
+      await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
     });
   });
 

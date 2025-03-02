@@ -105,6 +105,14 @@ document.getElementById('change-section-transform')?.addEventListener('click', (
   }
 });
 
+document.getElementById('move-element-from-iframe')?.addEventListener('click', () => {
+  const iframe = document.getElementById('iframe-test') as HTMLIFrameElement;
+  const iframedSection = iframe?.contentDocument?.querySelector('section');
+  if (iframe && iframedSection) {
+    iframe.insertAdjacentElement('afterend', iframedSection);
+  }
+});
+
 // This is needed to test that the Escape press doesn't propagate to the document from the dialog
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
