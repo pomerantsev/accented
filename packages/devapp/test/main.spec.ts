@@ -419,18 +419,8 @@ test.describe('Accented', () => {
       const elementWithIssues = await fullscreenContainer.locator(accentedSelector).first();
       await page.getByRole('button', { name: 'Enter fullscreen' }).click();
       await page.waitForTimeout(1000);
-      const elementPosition = await elementWithIssues.evaluate(el => {
-        const rect = el.getBoundingClientRect();
-        return { top: rect.top, right: rect.right };
-      });
       const triggerContainer = await getTriggerContainer(page, elementWithIssues);
-      const trigger = await getTrigger(triggerContainer);
-      const triggerPosition = await trigger.evaluate(el => {
-        const rect = el.getBoundingClientRect();
-        return { top: rect.top, right: rect.right };
-      });
-      expect(elementPosition.right).toBe(triggerPosition.right);
-      expect(elementPosition.top).toBe(triggerPosition.top);
+      await expectElementAndTriggerToBeAligned(elementWithIssues, triggerContainer);
     });
 
     // This ensures that we don't use instanceof

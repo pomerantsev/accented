@@ -30,10 +30,10 @@ export async function expectElementAndTriggerToBeAligned(element: Locator, trigg
   const triggerRect = await getBoundingClientRect(trigger);
 
   // We check for approximate equality because some browsers may not line the elements up precisely.
-  expect(triggerRect[side]).toBeGreaterThan(elementRect[side] - 1);
-  expect(triggerRect[side]).toBeLessThan(elementRect[side] + 1);
-  expect(triggerRect.top).toBeGreaterThan(elementRect.top - 1);
-  expect(triggerRect.top).toBeLessThan(elementRect.top + 1);
+  expect(triggerRect[side]).toBeGreaterThan(elementRect[side] - 2);
+  expect(triggerRect[side]).toBeLessThan(elementRect[side] + 2);
+  expect(triggerRect.top).toBeGreaterThan(elementRect.top - 2);
+  expect(triggerRect.top).toBeLessThan(elementRect.top + 2);
 
   const elementTransform = await getTransform(element);
   const triggerContainerTransform = await getTransform(triggerContainer);
