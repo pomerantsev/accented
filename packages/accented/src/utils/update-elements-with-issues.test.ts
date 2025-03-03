@@ -43,9 +43,10 @@ const element3: HTMLElement = {getBoundingClientRect, isConnected: false};
 const trigger = win.document.createElement('accented-trigger') as AccentedTrigger;
 
 const position = signal({
-  inlineEndLeft: 0,
-  blockStartTop: 0,
-  direction: 'ltr' as const
+  left: 0,
+  width: 100,
+  top: 0,
+  height: 100
 });
 
 const visible = signal(true);

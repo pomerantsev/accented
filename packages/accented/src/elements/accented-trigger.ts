@@ -28,16 +28,25 @@ export default (name: string) => {
     <style>
       :host {
         position: fixed !important;
+        inset-inline-start: anchor(self-start) !important;
         inset-inline-end: anchor(self-end) !important;
         inset-block-start: anchor(self-start) !important;
+        inset-block-end: anchor(self-end) !important;
 
         position-visibility: anchors-visible !important;
 
         /* Revert potential effects of white-space: pre; set on a trigger's ancestor. */
         white-space: normal !important;
+
+        pointer-events: none !important;
       }
 
       #trigger {
+        pointer-events: auto;
+
+        position: absolute;
+        inset-inline-end: 0;
+
         box-sizing: border-box;
         font-size: 1rem;
         inline-size: ${triggerSize};
@@ -75,6 +84,8 @@ export default (name: string) => {
 
     #disposeOfVisibilityEffect: (() => void) | undefined;
 
+    #elementMutationObserver: MutationObserver | undefined;
+
     element: Element | undefined;
 
     dialog: AccentedDialog | undefined;
@@ -104,6 +115,23 @@ export default (name: string) => {
           if (trigger && this.element) {
             trigger.ariaLabel = `Accessibility issues in ${this.element.nodeName.toLowerCase()}`;
           }
+
+          this.#setTransform();
+
+          this.#elementMutationObserver = new MutationObserver(() => {
+            try {
+              this.#setTransform();
+            } catch (error) {
+              logAndRethrow(error);
+            }
+          });
+
+          if (this.element) {
+            this.#elementMutationObserver.observe(this.element, {
+              attributes: true
+            });
+          }
+
           this.#abortController = new AbortController();
           trigger?.addEventListener('click', (event) => {
             try {
@@ -135,12 +163,10 @@ export default (name: string) => {
             this.#disposeOfPositionEffect = effect(() => {
               if (this.position && trigger) {
                 const position = this.position.value;
-                this.style.setProperty('top', `${position.blockStartTop}px`, 'important');
-                if (position.direction === 'ltr') {
-                  this.style.setProperty('left', `calc(${position.inlineEndLeft}px - ${triggerSize})`, 'important');
-                } else if (this.position.value.direction === 'rtl') {
-                  this.style.setProperty('left', `${position.inlineEndLeft}px`, 'important');
-                }
+                this.style.setProperty('top', `${position.top}px`, 'important');
+                this.style.setProperty('left', `${position.left}px`, 'important');
+                this.style.setProperty('width', `${position.width}px`, 'important');
+                this.style.setProperty('height', `${position.height}px`, 'important');
               }
             });
 
@@ -171,8 +197,17 @@ export default (name: string) => {
           this.#disposeOfVisibilityEffect();
           this.#disposeOfVisibilityEffect = undefined;
         }
+        if (this.#elementMutationObserver) {
+          this.#elementMutationObserver.disconnect();
+        }
       } catch (error) {
         logAndRethrow(error);
+      }
+    }
+
+    #setTransform() {
+      if (this.element) {
+        this.style.setProperty('transform', window.getComputedStyle(this.element).getPropertyValue('transform'), 'important');
       }
     }
   };

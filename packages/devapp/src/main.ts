@@ -20,6 +20,10 @@ document.getElementById('add-one')?.addEventListener('click', () => {
   container?.appendChild(button);
 });
 
+document.getElementById('button-with-single-issue')?.addEventListener('click', () => {
+  console.log('Button clicked');
+});
+
 document.getElementById('add-issue')?.addEventListener('click', () => {
   document.getElementById('button-with-single-issue')?.setAttribute('aria-checked', 'true');
 });
@@ -85,6 +89,28 @@ document.getElementById('open-non-modal-dialog')?.addEventListener('click', () =
 
 document.getElementById('enter-fullscreen')?.addEventListener('click', () => {
   document.getElementById('fullscreen-container')?.requestFullscreen();
+});
+
+document.getElementById('change-button-transform')?.addEventListener('click', () => {
+  const button = document.getElementById('transformed-button');
+  if (button) {
+    button.style.transform = 'translateX(200%) scale(2)';
+  }
+});
+
+document.getElementById('change-section-transform')?.addEventListener('click', () => {
+  const section = document.getElementById('transformed-section');
+  if (section) {
+    section.style.transform = 'translateX(100px) scale(1.2)';
+  }
+});
+
+document.getElementById('move-element-from-iframe')?.addEventListener('click', () => {
+  const iframe = document.getElementById('iframe-test') as HTMLIFrameElement;
+  const iframedSection = iframe?.contentDocument?.querySelector('section');
+  if (iframe && iframedSection) {
+    iframe.insertAdjacentElement('afterend', iframedSection);
+  }
 });
 
 // This is needed to test that the Escape press doesn't propagate to the document from the dialog

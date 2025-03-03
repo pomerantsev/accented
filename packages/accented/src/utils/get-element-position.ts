@@ -1,48 +1,59 @@
 import type { Position } from '../types';
+import isHtmlElement from './is-html-element.js';
 
-function getNearestTransformedAncestor(element: Element, win: Window): Element | null {
+// https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
+function isContainingBlock(element: Element, win: Window): boolean {
+  const style = win.getComputedStyle(element);
+  const { transform, perspective } = style;
+  // TODO: https://github.com/pomerantsev/accented/issues/119
+  // Support other types of containing blocks
+  return transform !== 'none'
+    || perspective !== 'none';
+}
+
+function getNonInitialContainingBlock(element: Element, win: Window): Element | null {
   let currentElement: Element | null = element;
-  while (currentElement) {
-    const transform = win.getComputedStyle(currentElement).transform;
-    if (transform !== 'none') {
+  while (currentElement?.parentElement) {
+    currentElement = currentElement.parentElement;
+    if (isContainingBlock(currentElement, win)) {
       return currentElement;
     }
-    currentElement = currentElement.parentElement;
   }
   return null;
 }
 
 export default function getElementPosition(element: Element, win: Window): Position {
-  const rect = element.getBoundingClientRect();
-  const transformedAncestor = getNearestTransformedAncestor(element, win);
-  let top, left, right;
+  const nonInitialContainingBlock = getNonInitialContainingBlock(element, win);
   // If an element has an ancestor whose transform is not 'none',
   // fixed positioning works differently.
   // https://achrafkassioui.com/blog/position-fixed-and-CSS-transforms/
-  if (transformedAncestor) {
-    const transformedAncestorRect = transformedAncestor.getBoundingClientRect();
-    top = rect.top - transformedAncestorRect.top;
-    left = rect.left - transformedAncestorRect.left;
-    right = rect.right - transformedAncestorRect.left;
+  if (nonInitialContainingBlock) {
+    if (isHtmlElement(element)) {
+      const width = element.offsetWidth;
+      const height = element.offsetHeight;
+      let left = element.offsetLeft;
+      let top = element.offsetTop;
+      let currentElement = element.offsetParent as HTMLElement | null;
+      // Non-initial containing block may not be an offset parent, we have to account for that as well.
+      while (currentElement && currentElement !== nonInitialContainingBlock) {
+        left += currentElement.offsetLeft;
+        top += currentElement.offsetTop;
+        currentElement = currentElement.offsetParent as HTMLElement | null;
+      }
+      return { top, left, width, height };
+    } else {
+      // TODO: https://github.com/pomerantsev/accented/issues/116
+      // This is half-baked. It works incorrectly with scaled / rotated elements with issues.
+      const elementRect = element.getBoundingClientRect();
+      const nonInitialContainingBlockRect = nonInitialContainingBlock.getBoundingClientRect();
+      return {
+        top: elementRect.top - nonInitialContainingBlockRect.top,
+        height: elementRect.height,
+        left: elementRect.left - nonInitialContainingBlockRect.left,
+        width: elementRect.width
+      };
+    }
   } else {
-    top = rect.top;
-    left = rect.left;
-    right = rect.right;
-  }
-  const direction = win.getComputedStyle(element).direction;
-  if (direction === 'ltr') {
-    return {
-      inlineEndLeft: right,
-      blockStartTop: top,
-      direction
-    };
-  } else if (direction === 'rtl') {
-    return {
-      inlineEndLeft: left,
-      blockStartTop: top,
-      direction
-    };
-  } else {
-    throw new Error(`The element ${element} has a direction "${direction}", which is not supported.`);
+    return element.getBoundingClientRect();
   }
 }
