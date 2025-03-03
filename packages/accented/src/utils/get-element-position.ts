@@ -4,18 +4,11 @@ import isHtmlElement from './is-html-element.js';
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
 function isContainingBlock(element: Element, win: Window): boolean {
   const style = win.getComputedStyle(element);
-  const { filter, backdropFilter, transform, perspective, contain, containerType, willChange, contentVisibility } = style;
-  return filter !== 'none'
-    || backdropFilter !== 'none'
-    || transform !== 'none'
-    || perspective !== 'none'
-    || contain === 'layout'
-    || contain === 'paint'
-    || contain === 'strict'
-    || contain === 'content'
-    || containerType !== 'normal'
-    || ['filter', 'backdrop-filter', 'transform', 'perspective', 'contain', 'container-type', 'content-visibility'].includes(willChange)
-    || contentVisibility === 'auto';
+  const { transform, perspective } = style;
+  // TODO: https://github.com/pomerantsev/accented/issues/119
+  // Support other types of containing blocks
+  return transform !== 'none'
+    || perspective !== 'none';
 }
 
 function getNonInitialContainingBlock(element: Element, win: Window): Element | null {
@@ -41,7 +34,6 @@ export default function getElementPosition(element: Element, win: Window): Posit
       let left = element.offsetLeft;
       let top = element.offsetTop;
       let currentElement = element.offsetParent as HTMLElement | null;
-      // TODO: https://github.com/pomerantsev/accented/issues/119
       // Non-initial containing block may not be an offset parent, we have to account for that as well.
       while (currentElement && currentElement !== nonInitialContainingBlock) {
         left += currentElement.offsetLeft;
