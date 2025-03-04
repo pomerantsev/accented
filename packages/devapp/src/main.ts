@@ -113,6 +113,23 @@ document.getElementById('move-element-from-iframe')?.addEventListener('click', (
   }
 });
 
+const correctlyStructuredList = document.getElementById('correctly-structured-list');
+const addDivToListButton = document.getElementById('add-div-to-list');
+const increaseListItemContrastButton = document.getElementById('increase-list-item-contrast');
+
+addDivToListButton?.addEventListener('click', () => {
+  const div = document.createElement('div');
+  div.textContent = 'I’m a div';
+  correctlyStructuredList?.appendChild(div);
+});
+
+increaseListItemContrastButton?.addEventListener('click', () => {
+  const lowContrastListItem = document.getElementById('low-contrast-list-item');
+  if (lowContrastListItem) {
+    lowContrastListItem.style.color = 'black';
+  }
+});
+
 // This is needed to test that the Escape press doesn't propagate to the document from the dialog
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {

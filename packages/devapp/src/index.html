@@ -199,6 +199,21 @@
       </section>
 
       <section>
+        <h2>Correctly structured list</h2>
+        <p>
+          We don’t report an “Incorrectly structured” issue on a list if one of its descendants has an issue
+          (because in this case Accented may affect the structure of the list).
+        </p>
+        <ul id="correctly-structured-list">
+          <li>I’m a list item</li>
+          <li>I’m also a list item</li>
+          <li id="low-contrast-list-item" style="color: lightgreen;">I’m a low-contrast list item</li>
+        </ul>
+        <button id="add-div-to-list">Add div to list</button>
+        <button id="increase-list-item-contrast">Increase list item contrast</button>
+      </section>
+
+      <section>
         <h2>Performance testing</h2>
         <button id="add-one">Add one element with an issue</button>
         <button id="add-two">Add two elements with issues</button>

@@ -65,7 +65,7 @@ suite('transformViolations', () => {
       ...commonViolationProps1,
       nodes: [node1]
     };
-    const elementsWithIssues = transformViolations([violation]);
+    const elementsWithIssues = transformViolations([violation], 'accented');
     assert.equal(elementsWithIssues.length, 1);
     assert.equal(elementsWithIssues[0]?.element, element1);
     assert.equal(elementsWithIssues[0].issues.length, 1);
@@ -82,7 +82,7 @@ suite('transformViolations', () => {
       ...commonViolationProps2,
       nodes: [node1, node3]
     };
-    const elementsWithIssues = transformViolations([violation1, violation2]);
+    const elementsWithIssues = transformViolations([violation1, violation2], 'accented');
     assert.equal(elementsWithIssues.length, 3);
     const elementWithTwoIssues = elementsWithIssues.find(elementWithIssues => elementWithIssues.element === element1);
     assert.equal(elementWithTwoIssues?.issues.length, 2);
@@ -101,7 +101,7 @@ suite('transformViolations', () => {
       nodes: [node]
     };
 
-    const elementsWithIssues = transformViolations([violation]);
+    const elementsWithIssues = transformViolations([violation], 'accented');
     assert.equal(elementsWithIssues.length, 0);
   });
 
@@ -118,7 +118,7 @@ suite('transformViolations', () => {
       nodes: [node]
     };
 
-    const elementsWithIssues = transformViolations([violation]);
+    const elementsWithIssues = transformViolations([violation], 'accented');
     assert.equal(elementsWithIssues.length, 0);
   });
 });

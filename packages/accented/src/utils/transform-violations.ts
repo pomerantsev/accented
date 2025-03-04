@@ -1,12 +1,29 @@
 import type { AxeResults, ImpactValue } from 'axe-core';
 import type { Issue, ElementWithIssues } from '../types';
 
+// This is a list of axe-core violations (their ids) that may be flagged by axe-core
+// as false positives if an Accented trigger is a descendant of the element with the issue.
+const violationsAffectedByAccentedTriggers = [
+  'aria-hidden-focus',
+  'aria-text',
+  'definition-list',
+  'label-content-name-mismatch',
+  'list',
+  'nested-interactive',
+  'scrollable-region-focusable' // The Accented trigger might make the content grow such that scrolling is required.
+];
+
+function maybeCausedByAccented(violationId: string, element: HTMLElement, name: string) {
+  return violationsAffectedByAccentedTriggers.includes(violationId)
+    && Boolean(element.querySelector(`${name}-trigger`));
+}
+
 function impactCompare(a: ImpactValue, b: ImpactValue) {
   const impactOrder = [null, 'minor', 'moderate', 'serious', 'critical'];
   return impactOrder.indexOf(a) - impactOrder.indexOf(b);
 }
 
-export default function transformViolations(violations: typeof AxeResults.violations) {
+export default function transformViolations(violations: typeof AxeResults.violations, name: string) {
   const elementsWithIssues: Array<ElementWithIssues> = [];
 
   for (const violation of violations) {
@@ -25,7 +42,7 @@ export default function transformViolations(violations: typeof AxeResults.violat
       // Until then, we don’t want such elements to be added to the set.
       const isInShadowDOM = Array.isArray(target[0]);
 
-      if (element && !isInIframe && !isInShadowDOM) {
+      if (element && !isInIframe && !isInShadowDOM && !maybeCausedByAccented(violation.id, element, name)) {
         const issue: Issue = {
           id: violation.id,
           title: violation.help,
