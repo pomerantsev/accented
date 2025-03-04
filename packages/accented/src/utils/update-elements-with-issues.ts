@@ -13,7 +13,7 @@ import supportsAnchorPositioning from './supports-anchor-positioning.js';
 let count = 0;
 
 export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, win: Window & { CSS: typeof CSS }, name: string) {
-  const updatedElementsWithIssues = transformViolations(violations);
+  const updatedElementsWithIssues = transformViolations(violations, name);
 
   batch(() => {
     for (const updatedElementWithIssues of updatedElementsWithIssues) {

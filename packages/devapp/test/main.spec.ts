@@ -50,6 +50,26 @@ test.describe('Accented', () => {
         await buttonWithIssue.click();
         expect(messageText).toBe('Button clicked');
       });
+
+      test('doesn’t report issues that may be caused by another Accented trigger', async ({ page }) => {
+        await page.goto('?throttle-wait=100');
+        await page.locator(`#low-contrast-list-item${accentedSelector}`);
+        const addDivToListButton = await page.getByRole('button', { name: 'Add div to list' });
+        await addDivToListButton.click();
+        await page.waitForTimeout(500);
+
+        // We know that the list contains a div, but the structural issue on the list may also be caused
+        // by the trigger that's set on the low-contrast element,
+        // so we decided not to report such cases.
+        expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).not.toBeVisible();
+        const increaseListItemContrastButton = await page.getByRole('button', { name: 'Increase list item contrast' });
+        await increaseListItemContrastButton.click();
+        await page.waitForTimeout(500);
+
+        // Now the only issue in the list is the structural one (a div as a child of a ul),
+        // so now it should be reported.
+        expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).toBeVisible();
+      });
     });
 
     test.describe('when disabled', () => {
