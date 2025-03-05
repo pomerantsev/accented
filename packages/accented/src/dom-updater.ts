@@ -69,7 +69,8 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   stylesheet.replaceSync(`
     @layer ${name} {
       :root {
-        --${name}-primary-color: red;
+        /* Ensure that the primary / secondary color combination meets WCAG 1.4.3 Contrast (Minimum) */
+        --${name}-primary-color: #d73a4a;
         --${name}-secondary-color: white;
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;
