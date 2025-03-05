@@ -91,6 +91,10 @@ document.getElementById('enter-fullscreen')?.addEventListener('click', () => {
   document.getElementById('fullscreen-container')?.requestFullscreen();
 });
 
+document.getElementById('issue-in-a-link-link')?.addEventListener('click', () => {
+  console.log('Link clicked');
+});
+
 document.getElementById('change-button-transform')?.addEventListener('click', () => {
   const button = document.getElementById('transformed-button');
   if (button) {

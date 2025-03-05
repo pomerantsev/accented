@@ -383,15 +383,12 @@ test.describe('Accented', () => {
   });
 
   test.describe('web platform support', () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto('/');
-    });
-
     test('if the issue is within a link, the link isn’t followed', async ({ page }) => {
+      await page.goto('/');
       const elementWithIssue = await page.locator('#issue-in-a-link-issue');
       const triggerContainer = await getTriggerContainer(page, elementWithIssue);
       const trigger = await getTrigger(triggerContainer);
-      elementWithIssue.scrollIntoViewIfNeeded();
+      await elementWithIssue.scrollIntoViewIfNeeded();
       await trigger.click();
       const closeButton = await page.getByRole('button', { name: 'Close' });
       await closeButton.click();
@@ -399,7 +396,32 @@ test.describe('Accented', () => {
       expect(hash).toBe('');
     });
 
+    test('when trigger is clicked, a click handler on an ancestor isn’t invoked', async ({ page }) => {
+      await page.goto('?throttle-wait=500&no-leading&no-console');
+
+      let messageCount = 0;
+      page.on('console', () => {
+        messageCount++;
+      });
+
+      const link = await page.locator('#issue-in-a-link-link');
+      await link.scrollIntoViewIfNeeded();
+      await link.click();
+      await expect(messageCount).toBe(1);
+
+      const elementWithIssue = await page.locator(`#issue-in-a-link-issue${accentedSelector}`);
+      const triggerContainer = await getTriggerContainer(page, elementWithIssue);
+      const trigger = await getTrigger(triggerContainer);
+      await elementWithIssue.scrollIntoViewIfNeeded();
+      await trigger.click();
+      const closeButton = await page.getByRole('button', { name: 'Close' });
+      await closeButton.click();
+
+      await expect(messageCount).toBe(1);
+    });
+
     test('issues in modal dialogs get reported correctly', async ({ page }) => {
+      await page.goto('/');
       await page.getByRole('button', { name: 'Open modal dialog' }).click();
       const modalDialog = await page.locator('#modal-dialog');
       await modalDialog.locator(accentedSelector).first().waitFor();
@@ -413,6 +435,7 @@ test.describe('Accented', () => {
     });
 
     test('issues in non-modal dialogs get reported correctly', async ({ page }) => {
+      await page.goto('/');
       await page.getByRole('button', { name: 'Open non-modal dialog' }).click();
       const nonModalDialog = await page.locator('#non-modal-dialog');
       await nonModalDialog.locator(accentedSelector).first().waitFor();
@@ -426,6 +449,7 @@ test.describe('Accented', () => {
     });
 
     test('issues in details elements get reported correctly', async ({ page }) => {
+      await page.goto('/');
       const details = await page.locator('details');
       const elementsWithIssues = await details.locator(accentedSelector);
       await expect(await elementsWithIssues.count()).toBe(0);
@@ -435,6 +459,7 @@ test.describe('Accented', () => {
     });
 
     test('issue triggers are correctly positioned in fullscreen mode', async ({ page }) => {
+      await page.goto('/');
       const fullscreenContainer = await page.locator('#fullscreen-container');
       const elementWithIssues = await fullscreenContainer.locator(accentedSelector).first();
       await page.getByRole('button', { name: 'Enter fullscreen' }).click();
@@ -445,6 +470,7 @@ test.describe('Accented', () => {
 
     // This ensures that we don't use instanceof
     test('element with an issue moved from an iframe behaves as expected', async ({ page }) => {
+      await page.goto('/');
       (await page.getByRole('button', { name: 'Move element from iframe' })).click();
       const elementWithIssue = await page.locator(`#button-from-iframe${accentedSelector}`);
       await elementWithIssue.scrollIntoViewIfNeeded();
