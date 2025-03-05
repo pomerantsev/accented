@@ -135,7 +135,13 @@ export default (name: string) => {
           this.#abortController = new AbortController();
           trigger?.addEventListener('click', (event) => {
             try {
+              // event.preventDefault() ensures that if the issue is within a link,
+              // the link's default behavior (following the URL) is prevented.
               event.preventDefault();
+
+              // event.stopPropagation() ensures that if there's a click handler on the trigger's ancestor
+              // (a link, or a button, or anything else), it doesn't get triggered.
+              event.stopPropagation();
 
               // We append the dialog when the button is clicked,
               // and remove it from the DOM when the dialog is closed.
