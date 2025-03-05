@@ -239,7 +239,7 @@ test.describe('Accented', () => {
           computedStyle.getPropertyValue('outline-offset')
         ];
       });
-      await expect(outlineColor).toBe('rgb(255, 0, 0)');
+      await expect(outlineColor).toBe('rgb(215, 58, 74)');
       await expect(outlineWidth).toBe('2px');
       await expect(outlineOffset).toBe('-2px');
     });
