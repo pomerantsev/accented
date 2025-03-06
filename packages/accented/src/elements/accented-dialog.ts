@@ -65,11 +65,13 @@ export default () => {
       --impact-serious-color: #ff9e00;
       --impact-critical-color: #f883ec;
 
+      --base-size: max(1rem, 16px);
+
       /* Spacing and typography custom props, inspired by https://utopia.fyi (simplified). */
 
       /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
       --ratio: 1.2;
-      --step-0: 1rem;
+      --step-0: var(--base-size);
       --step-1: calc(var(--step-0) * var(--ratio));
       --step-2: calc(var(--step-1) * var(--ratio));
       --step-3: calc(var(--step-2) * var(--ratio));
@@ -77,15 +79,15 @@ export default () => {
       --step--1: calc(var(--step-0) / var(--ratio));
 
       /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-      --space-3xs: 0.25rem;
-      --space-2xs: 0.5rem;
-      --space-xs: 0.75rem;
-      --space-s: 1rem;
-      --space-m: 1.5rem;
-      --space-l: 2rem;
-      --space-xl: 3rem;
-      --space-2xl: 4rem;
-      --space-3xl: 6rem;
+      --space-3xs: calc(0.25 * var(--base-size));
+      --space-2xs: calc(0.5 * var(--base-size));
+      --space-xs: calc(0.75 * var(--base-size));
+      --space-s: var(--base-size);
+      --space-m: calc(1.5 * var(--base-size));
+      --space-l: calc(2 * var(--base-size));
+      --space-xl: calc(3 * var(--base-size));
+      --space-2xl: calc(4 * var(--base-size));
+      --space-3xl: calc(6 * var(--base-size));
     }
 
     a[href], button {
