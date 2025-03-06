@@ -12,8 +12,6 @@ export interface AccentedTrigger extends HTMLElement {
   visible: Signal<boolean> | undefined;
 }
 
-const triggerSize = 'max(32px, 2rem)';
-
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
 export default (name: string) => {
@@ -27,6 +25,7 @@ export default (name: string) => {
   template.innerHTML = `
     <style>
       :host {
+        --base-size: max(1rem, 16px);
         position: fixed !important;
         inset-inline-start: anchor(self-start) !important;
         inset-inline-end: anchor(self-end) !important;
@@ -48,9 +47,9 @@ export default (name: string) => {
         inset-inline-end: 0;
 
         box-sizing: border-box;
-        font-size: 1rem;
-        inline-size: ${triggerSize};
-        block-size: ${triggerSize};
+        font-size: var(--base-size);
+        inline-size: calc(2 * var(--base-size));
+        block-size: calc(2 * var(--base-size));
 
         /* Make it look better in forced-colors mode. */
         border: 2px solid transparent;

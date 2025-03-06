@@ -151,6 +151,34 @@ test.describe('Accented', () => {
       await page.goto('/');
     });
 
+    test('sizes of Accented elements don’t fall below a certain threshold', async ({ page }) => {
+      const round = (value: string) => Math.round(parseFloat(value) * 10) / 10;
+
+      const sizes = [
+        // Default base font size, which in most browsers is 16px
+        { baseFontSize: '', expectedTriggerSize: 32, expectedIssueLinkFontSize: 19.2 },
+        // When base font size grows, Accented elements also grow
+        { baseFontSize: '24px', expectedTriggerSize: 48, expectedIssueLinkFontSize: 28.8 },
+        // When base font size shrinks, Accented elements stay at the base size
+        // (so they don't become unreadable)
+        { baseFontSize: '8px', expectedTriggerSize: 32, expectedIssueLinkFontSize: 19.2 }
+      ];
+
+      for (const { baseFontSize, expectedTriggerSize, expectedIssueLinkFontSize } of sizes) {
+        await page.goto('?base-font-size=' + baseFontSize);
+        const buttonWithIssue = await page.locator(`#button-with-single-issue`);
+        const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
+        const trigger = await getTrigger(triggerContainer);
+        const triggerInlineSize = await trigger.evaluate(node => window.getComputedStyle(node).inlineSize);
+        await expect(round(triggerInlineSize)).toBe(expectedTriggerSize);
+
+        await trigger.click();
+        const issueLink = await page.getByRole('link', { name: 'Buttons must have discernible text' });
+        const issueLinkFontSize = await issueLink.evaluate(node => window.getComputedStyle(node).fontSize);
+        await expect(round(issueLinkFontSize)).toBe(expectedIssueLinkFontSize);
+      }
+    });
+
     test('triggers are rendered in the correct positions', async ({ page }) => {
       const elements = await page.locator(accentedSelector).all();
       for (const element of elements) {

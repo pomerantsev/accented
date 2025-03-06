@@ -1,5 +1,11 @@
 import toggleAccented from './toggle-accented';
 
+const searchParams = new URLSearchParams(location.search);
+
+if (searchParams.has('base-font-size')) {
+  document.documentElement.style.fontSize = searchParams.get('base-font-size')!;
+}
+
 document.getElementById('toggleAccented')?.addEventListener('click', () => {
   toggleAccented();
 });
