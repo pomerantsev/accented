@@ -213,6 +213,46 @@
         <button id="increase-list-item-contrast">Increase list item contrast</button>
       </section>
 
+      <section style="transform: translateX(0);">
+        <h2>Shadow DOM</h2>
+        <div id="shadow-dom-container-1">
+          <template shadowrootmode="open">
+            <style>
+              .test-button {
+                inline-size: 5rem;
+                block-size: min-content;
+                min-block-size: 3rem;
+              }
+            </style>
+            <div id="container" style="border: 1px solid black; padding: 1rem;" aria-sort="both">
+              <p>I’m in shadow DOM.</p>
+              <button class="test-button"></button>
+              <div>
+                <slot></slot>
+              </div>
+            </div>
+          </template>
+          <button class="test-button"></button>
+        </div>
+        <div id="shadow-dom-container-2" style="margin-block-start: 1rem;">
+          <template shadowrootmode="open">
+            <style>
+              .test-button {
+                inline-size: 5rem;
+                block-size: min-content;
+                min-block-size: 3rem;
+              }
+            </style>
+            <div id="container" style="border: 1px solid black; padding: 1rem;">
+              <p>I’m also in shadow DOM.</p>
+            </div>
+          </template>
+        </div>
+        <div style="margin-block-start: 1rem;">
+          <button id="move-button-between-shadow-roots">Move button between shadow roots</button>
+        </div>
+      </section>
+
       <section>
         <h2>Performance testing</h2>
         <button id="add-one">Add one element with an issue</button>

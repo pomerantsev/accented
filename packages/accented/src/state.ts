@@ -8,8 +8,13 @@ export const extendedElementsWithIssues = signal<Array<ExtendedElementWithIssues
 
 export const elementsWithIssues = computed<Array<ElementWithIssues>>(() => extendedElementsWithIssues.value.map(extendedElementWithIssues => ({
   element: extendedElementWithIssues.element,
+  rootNode: extendedElementWithIssues.rootNode,
   issues: extendedElementWithIssues.issues.value
 })));
+
+export const rootNodes = computed<Set<Node>>(() =>
+  new Set([document as Node].concat(...(extendedElementsWithIssues.value.map(extendedElementWithIssues => extendedElementWithIssues.rootNode))))
+);
 
 export const scrollableAncestors = computed<Set<HTMLElement>>(() =>
   extendedElementsWithIssues.value.reduce(
