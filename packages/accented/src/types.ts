@@ -155,6 +155,6 @@ export type ExtendedElementWithIssues = BaseElementWithIssues & {
   visible: Signal<boolean>,
   trigger: AccentedTrigger,
   position: Signal<Position>,
-  scrollableAncestors: Signal<Set<HTMLElement>>
+  scrollableAncestors: Signal<Set<Element>>
   id: number
 };

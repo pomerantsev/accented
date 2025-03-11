@@ -33,12 +33,14 @@ const win: Window & { CSS: typeof CSS } = {
 
 const getBoundingClientRect = () => ({});
 
+const getRootNode = (): Node => ({} as Node);
+
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {getBoundingClientRect, isConnected: true};
+const element1: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {getBoundingClientRect, isConnected: true};
+const element2: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = {getBoundingClientRect, isConnected: false};
+const element3: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: false};
 
 // @ts-expect-error rootNode is not Node
 const rootNode: Node = {};

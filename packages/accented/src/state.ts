@@ -16,7 +16,7 @@ export const rootNodes = computed<Set<Node>>(() =>
   new Set([document as Node].concat(...(extendedElementsWithIssues.value.map(extendedElementWithIssues => extendedElementWithIssues.rootNode))))
 );
 
-export const scrollableAncestors = computed<Set<HTMLElement>>(() =>
+export const scrollableAncestors = computed<Set<Element>>(() =>
   extendedElementsWithIssues.value.reduce(
     (scrollableAncestors, extendedElementWithIssues) => {
       for (const scrollableAncestor of extendedElementWithIssues.scrollableAncestors.value) {
@@ -24,6 +24,6 @@ export const scrollableAncestors = computed<Set<HTMLElement>>(() =>
       }
       return scrollableAncestors;
     },
-    new Set<HTMLElement>()
+    new Set<Element>()
   )
 );
