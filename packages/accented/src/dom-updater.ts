@@ -92,22 +92,22 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
 
   let previousRootNodes: Set<Node> = new Set();
 
-  // TODO: handle removals
-  effect(() => {
+  const disposeOfStyleSheetsEffect = effect(() => {
     const newRootNodes = rootNodes.value;
     const addedRootNodes = [...newRootNodes].filter(rootNode => !previousRootNodes.has(rootNode));
+    const removedRootNodes = [...previousRootNodes].filter(rootNode => !newRootNodes.has(rootNode));
     for (const rootNode of addedRootNodes) {
       if (isDocument(rootNode) || (isDocumentFragment(rootNode) && isShadowRoot(rootNode))) {
         rootNode.adoptedStyleSheets.push(stylesheet);
       }
     }
-  });
-
-  const removeStylesheet = () => {
-    if (document.adoptedStyleSheets.includes(stylesheet)) {
-      document.adoptedStyleSheets.splice(document.adoptedStyleSheets.indexOf(stylesheet), 1);
+    for (const rootNode of removedRootNodes) {
+      if (isDocument(rootNode) || (isDocumentFragment(rootNode) && isShadowRoot(rootNode))) {
+        rootNode.adoptedStyleSheets.splice(rootNode.adoptedStyleSheets.indexOf(stylesheet), 1);
+      }
     }
-  };
+    previousRootNodes = newRootNodes;
+  });
 
   const disposeOfElementsEffect = effect(() => {
     const added = extendedElementsWithIssues.value.filter(elementWithIssues => {
@@ -122,7 +122,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   });
 
   return () => {
-    removeStylesheet();
+    disposeOfStyleSheetsEffect();
     disposeOfElementsEffect();
   };
 }

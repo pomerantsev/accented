@@ -13,7 +13,10 @@ export const elementsWithIssues = computed<Array<ElementWithIssues>>(() => exten
 })));
 
 export const rootNodes = computed<Set<Node>>(() =>
-  new Set([document as Node].concat(...(extendedElementsWithIssues.value.map(extendedElementWithIssues => extendedElementWithIssues.rootNode))))
+  new Set(
+    (enabled.value ? [document as Node] : [])
+      .concat(...(extendedElementsWithIssues.value.map(extendedElementWithIssues => extendedElementWithIssues.rootNode)))
+  )
 );
 
 export const scrollableAncestors = computed<Set<Element>>(() =>
