@@ -506,6 +506,41 @@ test.describe('Accented', () => {
       const triggerContainer = await getTriggerContainer(page, elementWithIssue);
       await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
     });
+
+    test.describe('shadow DOM', () => {
+      test.beforeEach(async ({ page }) => {
+        await page.goto('/');
+      });
+
+      test('the shadow root that contains elements with issues get the Accented styleshet', async ({ page }) => {
+        const shadowDOMContainer1 = await page.locator('#shadow-dom-container-1');
+        const adoptedStyleSheets = await shadowDOMContainer1.evaluate((element) => element.shadowRoot?.adoptedStyleSheets);
+        await expect(adoptedStyleSheets).toHaveLength(1);
+      });
+
+      test('the shadow root that doesn’t contain elements with issues doesn’t get the Accented stylesheet', async ({ page }) => {
+        const shadowDOMContainer2 = await page.locator('#shadow-dom-container-2');
+        const adoptedStyleSheets = await shadowDOMContainer2.evaluate((element) => element.shadowRoot?.adoptedStyleSheets);
+        await expect(adoptedStyleSheets).toHaveLength(0);
+      });
+
+      test('an element in shadow DOM has a trigger that is aligned with the element', async ({ page }) => {
+        const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
+        await elementWithIssue.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(200);
+        const triggerContainer = await getTriggerContainer(page, elementWithIssue);
+        await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
+      });
+
+      test('when an element is moved to a different shadow root, it gets a trigger that is aligned with the element', async ({ page }) => {
+        (await page.getByRole('button', { name: 'Move button between shadow roots' })).click();
+        await page.waitForTimeout(1200);
+        const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
+        await elementWithIssue.scrollIntoViewIfNeeded();
+        const triggerContainer = await getTriggerContainer(page, elementWithIssue);
+        await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
+      });
+    });
   });
 
   test.describe('issue dialogs', () => {
