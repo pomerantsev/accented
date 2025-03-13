@@ -141,16 +141,20 @@ export type Issue = {
   impact: axe.ImpactValue
 };
 
-export type ElementWithIssues = {
+export type BaseElementWithIssues = {
   element: HTMLElement,
-  issues: Array<Issue>
-}
+  rootNode: Node
+};
 
-export type ExtendedElementWithIssues = Omit<ElementWithIssues, 'issues'> & {
+export type ElementWithIssues = BaseElementWithIssues &{
+  issues: Array<Issue>
+};
+
+export type ExtendedElementWithIssues = BaseElementWithIssues & {
   issues: Signal<ElementWithIssues['issues']>,
   visible: Signal<boolean>,
   trigger: AccentedTrigger,
   position: Signal<Position>,
-  scrollableAncestors: Signal<Set<HTMLElement>>
+  scrollableAncestors: Signal<Set<Element>>
   id: number
 };

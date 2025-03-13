@@ -6,8 +6,9 @@ import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
 import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
-import { issuesUrl } from './constants.js';
+import { getAccentedElementNames, issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
+import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
 
 export default function createScanner(name: string, axeContext: AxeContext, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
@@ -77,8 +78,8 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
   // if that's an element or array of elements (not a selector).
   taskQueue.add(document);
 
-  const accentedElementNames = [`${name}-trigger`, `${name}-dialog`];
-  const mutationObserver = new MutationObserver(mutationList => {
+  const accentedElementNames = getAccentedElementNames(name);
+  const mutationObserver = createShadowDOMAwareMutationObserver(name, mutationList => {
     try {
       // We're not interested in mutations that are caused exclusively by the custom elements
       // introduced by Accented.

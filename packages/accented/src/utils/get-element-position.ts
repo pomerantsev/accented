@@ -1,5 +1,6 @@
 import type { Position } from '../types';
-import isHtmlElement from './is-html-element.js';
+import { isHtmlElement } from './dom-helpers.js';
+import getParent from './get-parent.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
 function isContainingBlock(element: Element, win: Window): boolean {
@@ -13,9 +14,9 @@ function isContainingBlock(element: Element, win: Window): boolean {
 
 function getNonInitialContainingBlock(element: Element, win: Window): Element | null {
   let currentElement: Element | null = element;
-  while (currentElement?.parentElement) {
-    currentElement = currentElement.parentElement;
-    if (isContainingBlock(currentElement, win)) {
+  while (currentElement) {
+    currentElement = getParent(currentElement);
+    if (currentElement && isContainingBlock(currentElement, win)) {
       return currentElement;
     }
   }

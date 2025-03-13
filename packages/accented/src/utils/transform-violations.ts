@@ -38,11 +38,7 @@ export default function transformViolations(violations: typeof AxeResults.violat
       // A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
       const isInIframe = target.length > 1;
 
-      // Highlighting elements in shadow DOM is not yet supported, see https://github.com/pomerantsev/accented/issues/25
-      // Until then, we don’t want such elements to be added to the set.
-      const isInShadowDOM = Array.isArray(target[0]);
-
-      if (element && !isInIframe && !isInShadowDOM && !maybeCausedByAccented(violation.id, element, name)) {
+      if (element && !isInIframe && !maybeCausedByAccented(violation.id, element, name)) {
         const issue: Issue = {
           id: violation.id,
           title: violation.help,
@@ -54,6 +50,7 @@ export default function transformViolations(violations: typeof AxeResults.violat
         if (existingElementIndex === -1) {
           elementsWithIssues.push({
             element,
+            rootNode: element.getRootNode(),
             issues: [issue]
           });
         } else {

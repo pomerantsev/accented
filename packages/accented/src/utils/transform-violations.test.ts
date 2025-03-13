@@ -24,12 +24,14 @@ const commonViolationProps2: Omit<Violation, 'nodes'> = {
   impact: 'serious'
 };
 
+const getRootNode = (): Node => ({} as Node);
+
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {};
+const element1: HTMLElement = {getRootNode};
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {};
+const element2: HTMLElement = {getRootNode};
 // @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = {};
+const element3: HTMLElement = {getRootNode};
 
 const commonNodeProps = {
   html: '<div></div>',
@@ -119,6 +121,6 @@ suite('transformViolations', () => {
     };
 
     const elementsWithIssues = transformViolations([violation], 'accented');
-    assert.equal(elementsWithIssues.length, 0);
+    assert.equal(elementsWithIssues.length, 1);
   });
 });

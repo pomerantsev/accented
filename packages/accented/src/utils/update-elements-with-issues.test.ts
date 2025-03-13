@@ -8,7 +8,7 @@ import updateElementsWithIssues from './update-elements-with-issues';
 import type { AxeResults, ImpactValue } from 'axe-core';
 import type { AccentedTrigger } from '../elements/accented-trigger';
 type Violation = AxeResults['violations'][number];
-type Node = Violation['nodes'][number];
+type AxeNode = Violation['nodes'][number];
 
 const win: Window & { CSS: typeof CSS } = {
   document: {
@@ -33,12 +33,17 @@ const win: Window & { CSS: typeof CSS } = {
 
 const getBoundingClientRect = () => ({});
 
+const getRootNode = (): Node => ({} as Node);
+
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {getBoundingClientRect, isConnected: true};
+const element1: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {getBoundingClientRect, isConnected: true};
+const element2: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = {getBoundingClientRect, isConnected: false};
+const element3: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: false};
+
+// @ts-expect-error rootNode is not Node
+const rootNode: Node = {};
 
 const trigger = win.document.createElement('accented-trigger') as AccentedTrigger;
 
@@ -61,17 +66,17 @@ const commonNodeProps = {
   target: ['div']
 };
 
-const node1: Node = {
+const node1: AxeNode = {
   ...commonNodeProps,
   element: element1,
 };
 
-const node2: Node = {
+const node2: AxeNode = {
   ...commonNodeProps,
   element: element2,
 };
 
-const node3: Node = {
+const node3: AxeNode = {
   ...commonNodeProps,
   element: element3,
 };
@@ -136,6 +141,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        rootNode,
         position,
         visible,
         trigger,
@@ -145,6 +151,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 2,
         element: element2,
+        rootNode,
         position,
         visible,
         trigger,
@@ -165,6 +172,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        rootNode,
         position,
         visible,
         trigger,
@@ -174,6 +182,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 2,
         element: element2,
+        rootNode,
         position,
         visible,
         trigger,
@@ -194,6 +203,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        rootNode,
         position,
         visible,
         trigger,
@@ -203,6 +213,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 2,
         element: element2,
+        rootNode,
         position,
         visible,
         trigger,
@@ -223,6 +234,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        rootNode,
         position,
         visible,
         trigger,
@@ -243,6 +255,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        rootNode,
         position,
         visible,
         trigger,
@@ -260,6 +273,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 1,
         element: element1,
+        rootNode,
         position,
         visible,
         trigger,
@@ -269,6 +283,7 @@ suite('updateElementsWithIssues', () => {
       {
         id: 2,
         element: element2,
+        rootNode,
         position,
         visible,
         trigger,

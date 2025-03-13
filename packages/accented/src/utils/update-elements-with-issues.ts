@@ -3,6 +3,7 @@ import type { Signal } from '@preact/signals-core';
 import { batch, signal } from '@preact/signals-core';
 import type { ExtendedElementWithIssues } from '../types';
 import transformViolations from './transform-violations.js';
+import areElementsWithIssuesEqual from './are-elements-with-issues-equal.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
 import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { AccentedDialog } from '../elements/accented-dialog';
@@ -17,24 +18,24 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
 
   batch(() => {
     for (const updatedElementWithIssues of updatedElementsWithIssues) {
-      const existingElementIndex = extendedElementsWithIssues.value.findIndex(extendedElementWithIssues => extendedElementWithIssues.element === updatedElementWithIssues.element);
+      const existingElementIndex = extendedElementsWithIssues.value.findIndex(extendedElementWithIssues => areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues));
       if (existingElementIndex > -1 && extendedElementsWithIssues.value[existingElementIndex] && !areIssueSetsEqual(extendedElementsWithIssues.value[existingElementIndex].issues.value, updatedElementWithIssues.issues)) {
         extendedElementsWithIssues.value[existingElementIndex].issues.value = updatedElementWithIssues.issues;
       }
     }
 
     const addedElementsWithIssues = updatedElementsWithIssues.filter(updatedElementWithIssues => {
-      return !extendedElementsWithIssues.value.some(extendedElementWithIssues => extendedElementWithIssues.element === updatedElementWithIssues.element);
+      return !extendedElementsWithIssues.value.some(extendedElementWithIssues => areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues));
     });
 
     const removedElementsWithIssues = extendedElementsWithIssues.value.filter(extendedElementWithIssues => {
-      return !updatedElementsWithIssues.some(updatedElementWithIssues => updatedElementWithIssues.element === extendedElementWithIssues.element);
+      return !updatedElementsWithIssues.some(updatedElementWithIssues => areElementsWithIssuesEqual(updatedElementWithIssues, extendedElementWithIssues));
     });
 
     if (addedElementsWithIssues.length > 0 || removedElementsWithIssues.length > 0) {
       extendedElementsWithIssues.value = [...extendedElementsWithIssues.value]
         .filter(extendedElementWithIssues => {
-          return !removedElementsWithIssues.some(removedElementWithIssues => removedElementWithIssues.element === extendedElementWithIssues.element);
+          return !removedElementsWithIssues.some(removedElementWithIssues => areElementsWithIssuesEqual(removedElementWithIssues, extendedElementWithIssues));
         })
         .concat(addedElementsWithIssues
           .filter(addedElementWithIssues => addedElementWithIssues.element.isConnected)
@@ -62,6 +63,7 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
             return {
               id,
               element: addedElementWithIssues.element,
+              rootNode: addedElementWithIssues.rootNode,
               visible: trigger.visible,
               position: trigger.position,
               scrollableAncestors: signal(scrollableAncestors),
