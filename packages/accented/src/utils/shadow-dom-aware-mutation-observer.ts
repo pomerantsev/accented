@@ -10,8 +10,10 @@ export default function createShadowDOMAwareMutationObserver (name: string, call
     constructor(callback: MutationCallback) {
       super((mutations, observer) => {
         const accentedElementNames = getAccentedElementNames(name);
-        const newElements = mutations
+        const childListMutations = mutations
           .filter(mutation => mutation.type === 'childList')
+
+        const newElements = childListMutations
           .map(mutation => [...mutation.addedNodes])
           .flat()
           .filter(node => isElement(node))
@@ -19,7 +21,15 @@ export default function createShadowDOMAwareMutationObserver (name: string, call
 
         this.#observeShadowRoots(newElements);
 
-        // TODO: remove shadow roots that are no longer in the DOM
+        const removedElements = childListMutations
+          .map(mutation => [...mutation.removedNodes])
+          .flat()
+          .filter(node => isElement(node))
+          .filter(node => !accentedElementNames.includes(node.nodeName.toLowerCase()));
+
+        // Mutation observer has no "unobserve" method, so we're simply deleting
+        // the elements from the set of shadow roots.
+        this.#deleteShadowRoots(removedElements);
 
         callback(mutations, observer);
       });
@@ -33,6 +43,11 @@ export default function createShadowDOMAwareMutationObserver (name: string, call
       super.observe(target, options);
     }
 
+    override disconnect(): void {
+      this.#shadowRoots.clear();
+      super.disconnect();
+    }
+
     #observeShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
       const shadowRoots = elements
         .map(element => [...element.querySelectorAll('*')])
@@ -43,6 +58,18 @@ export default function createShadowDOMAwareMutationObserver (name: string, call
       for (const shadowRoot of shadowRoots) {
         this.#shadowRoots.add(shadowRoot);
         this.observe(shadowRoot, this.#options);
+      }
+    }
+
+    #deleteShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
+      const shadowRoots = elements
+        .map(element => [...element.querySelectorAll('*')])
+        .flat()
+        .filter(element => element.shadowRoot)
+        .map(element => element.shadowRoot!);
+
+      for (const shadowRoot of shadowRoots) {
+        this.#shadowRoots.delete(shadowRoot);
       }
     }
   }
