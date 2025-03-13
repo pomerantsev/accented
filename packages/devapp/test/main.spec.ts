@@ -4,6 +4,7 @@ import type { Locator, Page } from '@playwright/test';
 
 import { expectElementAndTriggerToBeAligned, getTriggerContainer, getTrigger } from './helpers/trigger';
 import { openAccentedDialog } from './helpers/dialog';
+import { expectElementToHaveOutline } from './helpers/element';
 
 import axe from 'axe-core';
 
@@ -259,17 +260,7 @@ test.describe('Accented', () => {
 
     test('outlines with certain properties are added to elements', async ({ page }) => {
       const buttonWithIssue = await page.getByRole('button').and(page.locator(accentedSelector)).first();
-      const [outlineColor, outlineWidth, outlineOffset] = await buttonWithIssue.evaluate(buttonElement => {
-        const computedStyle = window.getComputedStyle(buttonElement)
-        return [
-          computedStyle.getPropertyValue('outline-color'),
-          computedStyle.getPropertyValue('outline-width'),
-          computedStyle.getPropertyValue('outline-offset')
-        ];
-      });
-      await expect(outlineColor).toBe('rgb(215, 58, 74)');
-      await expect(outlineWidth).toBe('2px');
-      await expect(outlineOffset).toBe('-2px');
+      await expectElementToHaveOutline(buttonWithIssue);
     });
 
     test('outlines change color if certain CSS props are set', async ({ page }) => {
@@ -524,12 +515,13 @@ test.describe('Accented', () => {
         await expect(adoptedStyleSheets).toHaveLength(0);
       });
 
-      test('an element in shadow DOM has a trigger that is aligned with the element', async ({ page }) => {
+      test('an element in shadow DOM has a trigger that is aligned with the element, and an outline', async ({ page }) => {
         const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
         await elementWithIssue.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const triggerContainer = await getTriggerContainer(page, elementWithIssue);
         await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
+        await expectElementToHaveOutline(elementWithIssue);
       });
 
       test('when an element is moved to a different shadow root, it gets a trigger that is aligned with the element', async ({ page }) => {
@@ -539,6 +531,7 @@ test.describe('Accented', () => {
         await elementWithIssue.scrollIntoViewIfNeeded();
         const triggerContainer = await getTriggerContainer(page, elementWithIssue);
         await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
+        await expectElementToHaveOutline(elementWithIssue);
       });
     });
   });
