@@ -1,15 +1,15 @@
 import type { Throttle } from './types';
 
-type TaskCallback = () => void;
+type TaskCallback<T> = (items: Array<T>) => void;
 
 export default class TaskQueue<T> {
   #throttle: Throttle;
-  #asyncCallback: TaskCallback | null = null;
+  #asyncCallback: TaskCallback<T> | null = null;
 
   #items = new Set<T>();
   #inRunLoop = false;
 
-  constructor(asyncCallback: TaskCallback, throttle: Required<Throttle>) {
+  constructor(asyncCallback: TaskCallback<T>, throttle: Required<Throttle>) {
     this.#asyncCallback = asyncCallback;
     this.#throttle = throttle;
   }
@@ -33,10 +33,12 @@ export default class TaskQueue<T> {
       return;
     }
 
+    const items = Array.from(this.#items);
+
     this.#items.clear();
 
     if (this.#asyncCallback) {
-      await this.#asyncCallback();
+      await this.#asyncCallback(items);
     }
 
     await new Promise((resolve) => setTimeout(resolve, this.#throttle.wait));
