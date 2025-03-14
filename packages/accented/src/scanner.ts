@@ -9,11 +9,12 @@ import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { getAccentedElementNames, issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
 import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
+import getNodesToScan from './utils/get-nodes-to-scan.js';
 
 export default function createScanner(name: string, axeContext: AxeContext, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win: Record<string, any> = window;
-  const taskQueue = new TaskQueue<Node>(async () => {
+  const taskQueue = new TaskQueue<Node>(async (nodes) => {
     // We may see errors coming from axe-core when Accented is toggled off and on in qiuck succession,
     // which I've seen happen with hot reloading of a React application.
     // This window property serves as a circuit breaker for that particular case.
@@ -30,9 +31,7 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
       let result;
 
       try {
-        // TODO (https://github.com/pomerantsev/accented/issues/102):
-        // only run Axe on what's changed, not on the whole axeContext
-        result = await axe.run(axeContext, {
+        result = await axe.run(nodes, {
           elementRef: true,
           // Although axe-core can perform iframe scanning, I haven't succeeded in it,
           // and the docs suggest that the axe-core script should be explicitly included
@@ -83,10 +82,8 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
     }
   }, throttle);
 
-  // TODO (https://github.com/pomerantsev/accented/issues/102):
-  // limit to what's in axeContext,
-  // if that's an element or array of elements (not a selector).
-  taskQueue.add(document);
+  const initialNodesToScan = getNodesToScan([document], axeContext);
+  taskQueue.addMultiple(initialNodesToScan);
 
   const accentedElementNames = getAccentedElementNames(name);
   const mutationObserver = createShadowDOMAwareMutationObserver(name, mutationList => {
@@ -128,7 +125,9 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
         return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
       });
 
-      taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
+      const nodes = filteredMutationList.map(mutationRecord => mutationRecord.target)
+      const nodesToScan = getNodesToScan(nodes, axeContext);
+      taskQueue.addMultiple(nodesToScan);
     } catch (error) {
       logAndRethrow(error);
     }
