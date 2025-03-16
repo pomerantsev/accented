@@ -29,7 +29,31 @@ export type Output = {
   console?: boolean
 }
 
-export type AxeContext = axe.ElementContext;
+/**
+ * Model context type based on axe.ElementContext,
+ * excluding frame selectors (since we don't support scanning iframes).
+ */
+
+export type Selector = Exclude<axe.Selector, axe.LabelledFramesSelector>;
+
+// axe.SelectorList also can have FrameSelector elements in the array.
+// We're not allowing that.
+export type SelectorList = Array<Selector> | NodeList;
+
+// The rest of the type is structured the same as in axe-core.
+export type ContextProp = Selector | SelectorList;
+
+export type ContextObject = {
+  include: ContextProp;
+  exclude?: ContextProp;
+} | {
+  exclude: ContextProp;
+  include?: ContextProp;
+};
+
+export type AxeContext = ContextProp | ContextObject;
+
+
 
 export const allowedAxeOptions = ['rules', 'runOnly'] as const;
 
