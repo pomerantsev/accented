@@ -9,7 +9,7 @@ import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { getAccentedElementNames, issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
 import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
-import getNodesToScan from './utils/get-nodes-to-scan.js';
+import getScanContext from './utils/get-scan-context.js';
 
 export default function createScanner(name: string, axeContext: AxeContext, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
@@ -28,10 +28,12 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
 
       win[axeRunningWindowProp] = true;
 
+      const scanContext = getScanContext(nodes, axeContext);
+
       let result;
 
       try {
-        result = await axe.run(nodes, {
+        result = await axe.run(scanContext, {
           elementRef: true,
           // Although axe-core can perform iframe scanning, I haven't succeeded in it,
           // and the docs suggest that the axe-core script should be explicitly included
@@ -82,8 +84,7 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
     }
   }, throttle);
 
-  const initialNodesToScan = getNodesToScan([document], axeContext);
-  taskQueue.addMultiple(initialNodesToScan);
+  taskQueue.add(document);
 
   const accentedElementNames = getAccentedElementNames(name);
   const mutationObserver = createShadowDOMAwareMutationObserver(name, mutationList => {
@@ -126,8 +127,7 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
       });
 
       const nodes = filteredMutationList.map(mutationRecord => mutationRecord.target)
-      const nodesToScan = getNodesToScan(nodes, axeContext);
-      taskQueue.addMultiple(nodesToScan);
+      taskQueue.addMultiple(nodes);
     } catch (error) {
       logAndRethrow(error);
     }
