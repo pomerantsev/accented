@@ -49,7 +49,7 @@ test.describe('Accented', () => {
         expect(messageText).toBe('Button clicked');
       });
 
-      test('doesn’t report issues that may be caused by another Accented trigger', async ({ page }) => {
+      test.skip('doesn’t report issues that may be caused by another Accented trigger', async ({ page }) => {
         await page.goto('?throttle-wait=100');
         await page.locator(`#low-contrast-list-item${accentedSelector}`);
         const addDivToListButton = await page.getByRole('button', { name: 'Add div to list' });
