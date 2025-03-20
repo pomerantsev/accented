@@ -1,10 +1,11 @@
 import type { AxeResults } from 'axe-core';
 import type { Signal } from '@preact/signals-core';
 import { batch, signal } from '@preact/signals-core';
-import type { ExtendedElementWithIssues } from '../types';
+import type { ExtendedElementWithIssues, ScanContext } from '../types';
 import transformViolations from './transform-violations.js';
 import areElementsWithIssuesEqual from './are-elements-with-issues-equal.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
+import isNodeInScanContext from './is-node-in-scan-context.js';
 import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { AccentedDialog } from '../elements/accented-dialog';
 import getElementPosition from './get-element-position.js';
@@ -13,7 +14,19 @@ import supportsAnchorPositioning from './supports-anchor-positioning.js';
 
 let count = 0;
 
-export default function updateElementsWithIssues(extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>, violations: typeof AxeResults.violations, win: Window & { CSS: typeof CSS }, name: string) {
+export default function updateElementsWithIssues({
+  extendedElementsWithIssues,
+  scanContext,
+  violations,
+  win,
+  name
+}: {
+  extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>,
+  scanContext: ScanContext,
+  violations: typeof AxeResults.violations,
+  win: Window & { CSS: typeof CSS },
+  name: string
+}) {
   const updatedElementsWithIssues = transformViolations(violations, name);
 
   batch(() => {
@@ -28,8 +41,15 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
       return !extendedElementsWithIssues.value.some(extendedElementWithIssues => areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues));
     });
 
+    // TODO: only consider an element to be removed in two cases:
+    // 1. It has been removed from the DOM.
+    // 2. It is within the scan context, but not among updatedElementsWithIssues.
+    // We need a function, isElementInScanContext, that supports Shadow DOM
     const removedElementsWithIssues = extendedElementsWithIssues.value.filter(extendedElementWithIssues => {
-      return !updatedElementsWithIssues.some(updatedElementWithIssues => areElementsWithIssuesEqual(updatedElementWithIssues, extendedElementWithIssues));
+      const isConnected = extendedElementWithIssues.element.isConnected;
+      const hasNoMoreIssues = isNodeInScanContext(extendedElementWithIssues.element, scanContext)
+        && !updatedElementsWithIssues.some(updatedElementWithIssues => areElementsWithIssuesEqual(updatedElementWithIssues, extendedElementWithIssues));
+      return !isConnected || hasNoMoreIssues;
     });
 
     if (addedElementsWithIssues.length > 0 || removedElementsWithIssues.length > 0) {

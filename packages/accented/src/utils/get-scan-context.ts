@@ -1,13 +1,10 @@
-import type { AxeContext, ContextProp, Selector } from '../types';
+import type { AxeContext, ContextProp, Selector, ScanContext } from '../types';
 import { isDocument, isDocumentFragment, isNode, isNodeList } from './dom-helpers.js';
-
-type ScanContext = {
-  include: Array<Node>;
-  exclude: Array<Node>;
-}
+import contains from './contains.js';
 
 function selectorToNodes(selector: Selector): Array<Node> {
   if (typeof selector === 'string') {
+    // TODO: how should this work with Shadow DOM?
     return Array.from(document.querySelectorAll(selector));
   } else if (isNode(selector)) {
     return [selector];
@@ -42,20 +39,36 @@ function contextPropToNodes(contextProp: ContextProp): Array<Node> {
 
 // TODO: actually take nodes into account
 export default function getScanContext(nodes: Array<Node>, axeContext: AxeContext): ScanContext {
+  let axeContextInclude: Array<Node> = [];
+  let axeContextExclude: Array<Node> = [];
+  const include: Array<Node> = [];
+  const exclude: Array<Node> = [];
   if (typeof axeContext === 'object' && ('include' in axeContext || 'exclude' in axeContext)) {
-    let include: Array<Node> = [];
-    let exclude: Array<Node> = [];
     if (axeContext.include !== undefined) {
-      include = contextPropToNodes(axeContext.include);
+      axeContextInclude = contextPropToNodes(axeContext.include);
     }
     if (axeContext.exclude !== undefined) {
-      exclude = contextPropToNodes(axeContext.exclude);
+      axeContextExclude = contextPropToNodes(axeContext.exclude);
     }
-    return { include, exclude };
   } else {
-    return {
-      include: contextPropToNodes(axeContext),
-      exclude: []
-    };
+    axeContextInclude = contextPropToNodes(axeContext);
   }
+
+  // TODO: this is way oversimplified, needs to be significantly expanded
+  // exclude not taken care of
+  // de-duplication not taken care of
+  // The isElementInScanContext (or maybe isNodeInScanContext) and this function should reuse the `contains` logic
+  // that takes shadow DOM into account.
+  for (const node of nodes) {
+    const descendants = axeContextInclude.filter(item => contains(node, item));
+    include.push(...descendants);
+  }
+  for (const item of axeContextInclude) {
+    const descendants = nodes.filter(node => contains(item, node));
+    include.push(...descendants);
+  }
+  return {
+    include,
+    exclude
+  };
 }

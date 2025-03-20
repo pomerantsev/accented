@@ -65,7 +65,13 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
 
       performance.mark('dom-update-start');
 
-      updateElementsWithIssues(extendedElementsWithIssues, result.violations, window, name);
+      updateElementsWithIssues({
+        extendedElementsWithIssues,
+        scanContext,
+        violations: result.violations,
+        win: window,
+        name
+      });
 
       const domUpdateMeasure = performance.measure('dom-update', 'dom-update-start');
       const domUpdateDuration = Math.round(domUpdateMeasure.duration);
@@ -126,7 +132,7 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
         return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
       });
 
-      const nodes = filteredMutationList.map(mutationRecord => mutationRecord.target)
+      const nodes = filteredMutationList.map(mutationRecord => mutationRecord.target);
       taskQueue.addMultiple(nodes);
     } catch (error) {
       logAndRethrow(error);
