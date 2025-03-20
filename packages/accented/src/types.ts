@@ -191,3 +191,8 @@ export type ExtendedElementWithIssues = BaseElementWithIssues & {
   scrollableAncestors: Signal<Set<Element>>
   id: number
 };
+
+export type ScanContext = {
+  include: Array<Node>,
+  exclude: Array<Node>
+};
