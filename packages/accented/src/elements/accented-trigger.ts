@@ -212,7 +212,10 @@ export default (name: string) => {
 
     #setTransform() {
       if (this.element) {
-        this.style.setProperty('transform', window.getComputedStyle(this.element).getPropertyValue('transform'), 'important');
+        const transform = window.getComputedStyle(this.element).getPropertyValue('transform');
+        if (transform !== 'none') {
+          this.style.setProperty('transform', transform, 'important');
+        }
       }
     }
   };
