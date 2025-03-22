@@ -211,12 +211,12 @@ export default (name: string) => {
     }
 
     #setTransform() {
-      if (this.element) {
-        const transform = window.getComputedStyle(this.element).getPropertyValue('transform');
-        if (transform !== 'none') {
-          this.style.setProperty('transform', transform, 'important');
-        }
-      }
+      // if (this.element) {
+      //   const transform = window.getComputedStyle(this.element).getPropertyValue('transform');
+      //   if (transform !== 'none') {
+      //     this.style.setProperty('transform', transform, 'important');
+      //   }
+      // }
     }
   };
 };

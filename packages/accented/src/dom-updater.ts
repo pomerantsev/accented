@@ -17,13 +17,13 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   }
 
   function setAnchorName (element: HTMLElement, id: number) {
-    const anchorNameValue = element.style.getPropertyValue('anchor-name') || window.getComputedStyle(element).getPropertyValue('anchor-name');
-    const anchorNames = getAnchorNames(anchorNameValue);
-    if (anchorNames.length > 0) {
-      element.style.setProperty('anchor-name', `${anchorNameValue}, --${name}-anchor-${id}`);
-    } else {
+    // const anchorNameValue = element.style.getPropertyValue('anchor-name') || window.getComputedStyle(element).getPropertyValue('anchor-name');
+    // const anchorNames = getAnchorNames(anchorNameValue);
+    // if (anchorNames.length > 0) {
+    //   element.style.setProperty('anchor-name', `${anchorNameValue}, --${name}-anchor-${id}`);
+    // } else {
       element.style.setProperty('anchor-name', `--${name}-anchor-${id}`);
-    }
+    // }
   }
 
   function removeAnchorName (element: HTMLElement, id: number) {
