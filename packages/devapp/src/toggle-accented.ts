@@ -34,9 +34,9 @@ if (searchParams.has('callback-invalid')) {
   options.callback = searchParams.get('output-invalid') as any;
 }
 
-if (searchParams.has('duration') && !searchParams.has('callback')) {
-  options.callback = ({scanDuration}) => {
-    console.log('Scan duration:', scanDuration);
+if (searchParams.has('performance') && !searchParams.has('callback')) {
+  options.callback = ({performance}) => {
+    console.log('Performance:', performance);
   };
 }
 

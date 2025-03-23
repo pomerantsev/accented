@@ -5,6 +5,7 @@ import createLogger from './logger.js';
 import createScanner from './scanner.js';
 import setupScrollListeners from './scroll-listeners.js';
 import setupResizeListener from './resize-listener.js';
+import setupFullscreenListener from './fullscreen-listener.js';
 import setupIntersectionObserver from './intersection-observer.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
@@ -34,9 +35,9 @@ export type { AccentedOptions, DisableAccented };
  *     wait: 500,
  *     leading: false
  *   },
- *   callback: ({ elementsWithIssues, scanDuration }) => {
+ *   callback: ({ elementsWithIssues, performance }) => {
  *    console.log('Elements with issues:', elementsWithIssues);
- *    console.log('Scan duration:', scanDuration);
+ *    console.log('Total blocking time:', performance.totalBlockingTime);
  *   }
  * });
  */
@@ -95,6 +96,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     const cleanupLogger = output.console ? createLogger() : () => {};
     const cleanupScrollListeners = supportsAnchorPositioning(window) ? () => {} : setupScrollListeners();
     const cleanupResizeListener = supportsAnchorPositioning(window) ? () => {} : setupResizeListener();
+    const cleanupFullscreenListener = supportsAnchorPositioning(window) ? () => {} : setupFullscreenListener();
 
     return () => {
       try {
@@ -105,6 +107,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
         cleanupLogger();
         cleanupScrollListeners();
         cleanupResizeListener();
+        cleanupFullscreenListener();
         if (cleanupIntersectionObserver) {
           cleanupIntersectionObserver();
         }

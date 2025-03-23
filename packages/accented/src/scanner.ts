@@ -23,7 +23,7 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
 
     try {
 
-      performance.mark('axe-start');
+      performance.mark('scan-start');
 
       win[axeRunningWindowProp] = true;
 
@@ -55,17 +55,27 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
       }
       win[axeRunningWindowProp] = false;
 
-      const axeMeasure = performance.measure('axe', 'axe-start');
+      const scanMeasure = performance.measure('scan', 'scan-start');
+      const scanDuration = Math.round(scanMeasure.duration);
 
       if (!enabled.value) {
         return;
       }
 
+      performance.mark('dom-update-start');
+
       updateElementsWithIssues(extendedElementsWithIssues, result.violations, window, name);
+
+      const domUpdateMeasure = performance.measure('dom-update', 'dom-update-start');
+      const domUpdateDuration = Math.round(domUpdateMeasure.duration);
 
       callback({
         elementsWithIssues: elementsWithIssues.value,
-        scanDuration: Math.round(axeMeasure.duration)
+        performance: {
+          totalBlockingTime: scanDuration + domUpdateDuration,
+          scan: scanDuration,
+          domUpdate: domUpdateDuration
+        }
       });
     } catch (error) {
       win[axeRunningWindowProp] = false;

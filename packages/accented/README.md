@@ -95,15 +95,19 @@ A function that Accented will call after every scan.
 It accepts a single `params` object with the following properties:
 
 * `elementsWithIssues`: the most up-to-date array of all elements with accessibility issues.
-* `scanDuration`: how long the last scan took, in milliseconds (may be useful for performance tracking).
+* `performance`: runtime performance of the last scan. An object:
+  * `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
+    It’s further divided into the `scan` and `domUpdate` phases.
+  * `scan`: how long the `scan` phase took, in milliseconds.
+  * `domUpdate`: how long the `domUpdate` phase took, in milliseconds.
 
 **Example:**
 
 ```
 accented({
-  callback: ({ elementsWithIssues, scanDuration }) => {
+  callback: ({ elementsWithIssues, performance }) => {
     console.log('Elements with issues:', elementsWithIssues);
-    console.log('Scan duration:', scanDuration);
+    console.log('Total blocking time:', performance.totalBlockingTime);
   }
 });
 ```
