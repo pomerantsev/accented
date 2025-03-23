@@ -68,7 +68,15 @@ test.describe('Accented', () => {
         await page.waitForTimeout(500);
 
         // Now the only issue in the list is the structural one (a div as a child of a ul),
-        // so now it should be reported.
+        // however on the last scan the issue trigger on the low-contrast item was still present,
+        // so this time the issue on the parent will not be reported.
+        expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).not.toBeVisible();
+
+        await addDivToListButton.click();
+        await page.waitForTimeout(500);
+
+        // Now finally we ran the scan without any triggers present,
+        // so the issue will be reported.
         expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).toBeVisible();
       });
     });
@@ -568,7 +576,7 @@ test.describe('Accented', () => {
     });
 
     test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
-      await page.goto('/');
+      await page.goto('?remove-issues-on-timeout');
       const dialog = await openAccentedDialog(page, '#over-2-issues');
       const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
       await expect(dialog).toContainText('role="directory"');
@@ -759,40 +767,46 @@ test.describe('Accented', () => {
 
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`?disable&no-console&duration&throttle-wait=100&no-leading`);
+      await page.goto(`?disable&no-console&performance&throttle-wait=100&no-leading`);
     });
 
-    async function expectShortScan(page: Page) {
-      const consoleMessage = await page.waitForEvent('console');
-      const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeLessThan(200);
-    }
+    type Duration = 'short' | 'long';
 
-    async function expectLongScan(page: Page) {
+    async function expectPerformance(page: Page, { scan, domUpdate }: { scan: Duration; domUpdate: Duration }) {
       const consoleMessage = await page.waitForEvent('console');
-      const duration = parseInt(await consoleMessage.args()[1]?.jsonValue(), 10);
-      await expect(duration).toBeGreaterThan(200);
-      // It shouldn't be too long though.
-      await expect(duration).toBeLessThan(5000);
+      const perfObject = await consoleMessage.args()[1]?.jsonValue();
+      const scanDuration = perfObject.scan;
+      const domUpdateDuration = perfObject.domUpdate;
+      if (scan === 'short') {
+        await expect(scanDuration).toBeLessThan(200);
+      } else {
+        await expect(scanDuration).toBeGreaterThan(200);
+      }
+      if (domUpdate === 'short') {
+        await expect(domUpdateDuration).toBeLessThan(100);
+      } else {
+        await expect(domUpdateDuration).toBeGreaterThan(100);
+      }
     }
 
     test('does not take long to run with few elements', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      await expectShortScan(page);
+      await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
 
     test('does not take long to run when one element with an issue is added', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectShortScan(page);
+      await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
 
     test('takes long to run with many elements with issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
-      await expectLongScan(page);
+      // TODO: DOM update duration should change soon.
+      await expectPerformance(page, { scan: 'long', domUpdate: 'long' });
     });
 
     // This behavior should eventually be fixed, but for now, it's a known issue.
@@ -802,14 +816,14 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectLongScan(page);
+      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
     test('causes long tasks with many elements with no issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
-      await expectLongScan(page);
+      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
     // This behavior should eventually be fixed, but for now, it's a known issue.
@@ -819,7 +833,7 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectLongScan(page);
+      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
   });
 });

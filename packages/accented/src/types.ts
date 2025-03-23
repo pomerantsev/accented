@@ -42,9 +42,17 @@ type CallbackParams = {
   elementsWithIssues: Array<ElementWithIssues>,
 
   /**
-   * How long the scan took in milliseconds.
+   * * `performance`: runtime performance of the last scan. An object:
+   * * `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
+   *   It’s further divided into the `scan` and `domUpdate` phases.
+   * * `scan`: how long the `scan` phase took, in milliseconds.
+   * * `domUpdate`: how long the `domUpdate` phase took, in milliseconds.
    * */
-  scanDuration: number
+  performance: {
+    totalBlockingTime: number,
+    scan: number,
+    domUpdate: number
+  }
 }
 
 export type Callback = (params: CallbackParams) => void;

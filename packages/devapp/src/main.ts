@@ -45,14 +45,16 @@ document.getElementById('remove-button')?.addEventListener('click', () => {
   document.getElementById('button-with-single-issue')?.remove();
 });
 
-setTimeout(() => {
-  const buttonWithManyIssues = document.getElementById('over-2-issues');
-  const status = document.getElementById('issues-updated-status');
-  if (buttonWithManyIssues && status) {
-    buttonWithManyIssues.role = '';
-    status.hidden = false;
-  }
-}, 1000);
+if (searchParams.has('remove-issues-on-timeout')) {
+  setTimeout(() => {
+    const buttonWithManyIssues = document.getElementById('over-2-issues');
+    const status = document.getElementById('issues-updated-status');
+    if (buttonWithManyIssues && status) {
+      buttonWithManyIssues.role = '';
+      status.hidden = false;
+    }
+  }, 1000);
+}
 
 document.getElementById('add-two')?.addEventListener('click', () => {
   const container = document.getElementById('many-elements');
