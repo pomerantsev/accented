@@ -145,6 +145,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue1])
       },
@@ -155,6 +156,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue2])
       }
@@ -176,6 +178,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue1])
       },
@@ -186,6 +189,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue2])
       }
@@ -207,6 +211,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue1])
       },
@@ -217,6 +222,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue2, issue3])
       }
@@ -238,6 +244,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue1])
       }
@@ -259,6 +266,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue1])
       }
@@ -277,6 +285,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue1])
       },
@@ -287,6 +296,7 @@ suite('updateElementsWithIssues', () => {
         position,
         visible,
         trigger,
+        anchorNameValue: 'none',
         scrollableAncestors,
         issues: signal([issue2])
       }

@@ -211,6 +211,7 @@ export default (name: string) => {
     }
 
     #setTransform() {
+      // We read and write values in separate animation frames to avoid layout thrashing.
       window.requestAnimationFrame(() => {
         if (this.element) {
           const transform = window.getComputedStyle(this.element).getPropertyValue('transform');
