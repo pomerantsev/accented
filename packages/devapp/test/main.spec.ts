@@ -805,8 +805,7 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
-      // TODO: DOM update duration should change soon.
-      await expectPerformance(page, { scan: 'long', domUpdate: 'long' });
+      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
     // This behavior should eventually be fixed, but for now, it's a known issue.

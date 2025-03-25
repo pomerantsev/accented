@@ -67,6 +67,9 @@ export default function updateElementsWithIssues(extendedElementsWithIssues: Sig
               visible: trigger.visible,
               position: trigger.position,
               scrollableAncestors: signal(scrollableAncestors),
+              anchorNameValue:
+                addedElementWithIssues.element.style.getPropertyValue('anchor-name')
+                || win.getComputedStyle(addedElementWithIssues.element).getPropertyValue('anchor-name'),
               trigger,
               issues
             };
