@@ -23,7 +23,8 @@ const win: Window & { CSS: typeof CSS } = {
   // @ts-expect-error we're missing a lot of properties
   getComputedStyle: () => ({
     zIndex: '',
-    direction: 'ltr'
+    direction: 'ltr',
+    getPropertyValue: () => 'none'
   }),
   // @ts-expect-error we're missing a lot of properties
   CSS: {
@@ -35,12 +36,20 @@ const getBoundingClientRect = () => ({});
 
 const getRootNode = (): Node => ({} as Node);
 
+const baseElement = {
+  getBoundingClientRect,
+  getRootNode,
+  style: {
+    getPropertyValue: () => ''
+  }
+}
+
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: true};
+const element1: HTMLElement = {...baseElement, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: true};
+const element2: HTMLElement = {...baseElement, isConnected: true};
 // @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = {getBoundingClientRect, getRootNode, isConnected: false};
+const element3: HTMLElement = {...baseElement, isConnected: false};
 
 // @ts-expect-error rootNode is not Node
 const rootNode: Node = {};
