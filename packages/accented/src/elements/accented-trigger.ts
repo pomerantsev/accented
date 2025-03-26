@@ -211,9 +211,17 @@ export default (name: string) => {
     }
 
     #setTransform() {
-      if (this.element) {
-        this.style.setProperty('transform', window.getComputedStyle(this.element).getPropertyValue('transform'), 'important');
-      }
+      // We read and write values in separate animation frames to avoid layout thrashing.
+      window.requestAnimationFrame(() => {
+        if (this.element) {
+          const transform = window.getComputedStyle(this.element).getPropertyValue('transform');
+          if (transform !== 'none') {
+            window.requestAnimationFrame(() => {
+              this.style.setProperty('transform', transform, 'important');
+            });
+          }
+        }
+      });
     }
   };
 };

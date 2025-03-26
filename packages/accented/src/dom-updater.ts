@@ -16,8 +16,8 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
       .filter(anchorName => anchorName.startsWith('--'));
   }
 
-  function setAnchorName (element: HTMLElement, id: number) {
-    const anchorNameValue = element.style.getPropertyValue('anchor-name') || window.getComputedStyle(element).getPropertyValue('anchor-name');
+  function setAnchorName (elementWithIssues: ExtendedElementWithIssues) {
+    const { element, id, anchorNameValue } = elementWithIssues;
     const anchorNames = getAnchorNames(anchorNameValue);
     if (anchorNames.length > 0) {
       element.style.setProperty('anchor-name', `${anchorNameValue}, --${name}-anchor-${id}`);
@@ -26,14 +26,13 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     }
   }
 
-  function removeAnchorName (element: HTMLElement, id: number) {
-    const anchorNameValue = element.style.getPropertyValue('anchor-name');
+  function removeAnchorName (elementWithIssues: ExtendedElementWithIssues) {
+    const { element, anchorNameValue } = elementWithIssues;
     const anchorNames = getAnchorNames(anchorNameValue);
-    const index = anchorNames.indexOf(`--${name}-anchor-${id}`);
-    if (anchorNames.length === 1 && index === 0) {
+    if (anchorNames.length > 0) {
+      element.style.setProperty('anchor-name', anchorNames.join(', '));
+    } else {
       element.style.removeProperty('anchor-name');
-    } else if (anchorNames.length > 1 && index > -1) {
-      element.style.setProperty('anchor-name', anchorNames.filter((_, i) => i !== index).join(', '));
     }
   }
 
@@ -41,7 +40,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
       if (supportsAnchorPositioning(window)) {
-        setAnchorName(elementWithIssues.element, elementWithIssues.id);
+        setAnchorName(elementWithIssues);
       }
 
       if (getParent(elementWithIssues.element)) {
@@ -59,7 +58,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     for (const elementWithIssues of extendedElementsWithIssues) {
       elementWithIssues.element.removeAttribute(attrName);
       if (supportsAnchorPositioning(window)) {
-        removeAnchorName(elementWithIssues.element, elementWithIssues.id);
+        removeAnchorName(elementWithIssues);
       }
       elementWithIssues.trigger.remove();
       if (intersectionObserver) {
