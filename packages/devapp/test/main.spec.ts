@@ -783,9 +783,9 @@ test.describe('Accented', () => {
         await expect(scanDuration).toBeGreaterThan(200);
       }
       if (domUpdate === 'short') {
-        await expect(domUpdateDuration).toBeLessThan(100);
+        await expect(domUpdateDuration).toBeLessThan(200);
       } else {
-        await expect(domUpdateDuration).toBeGreaterThan(100);
+        await expect(domUpdateDuration).toBeGreaterThan(200);
       }
     }
 
