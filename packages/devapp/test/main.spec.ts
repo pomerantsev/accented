@@ -717,9 +717,9 @@ test.describe('Accented', () => {
       const scanDuration = perfObject.scan;
       const domUpdateDuration = perfObject.domUpdate;
       if (scan === 'short') {
-        await expect(scanDuration).toBeLessThan(200);
+        await expect(scanDuration).toBeLessThan(300);
       } else {
-        await expect(scanDuration).toBeGreaterThan(200);
+        await expect(scanDuration).toBeGreaterThan(300);
       }
       if (domUpdate === 'short') {
         await expect(domUpdateDuration).toBeLessThan(200);
@@ -747,31 +747,29 @@ test.describe('Accented', () => {
       await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
-    // This behavior should eventually be fixed, but for now, it's a known issue.
-    test('causes long tasks when one element is added to many elements with issues', async ({ page }) => {
+    test('does not take long to run when one element is added to many elements with issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
+      await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
 
-    test('causes long tasks with many elements with no issues', async ({ page }) => {
+    test('takes long to run with many elements with no issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
       await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
-    // This behavior should eventually be fixed, but for now, it's a known issue.
-    test('causes long tasks when one element is added to many elements with no issues', async ({ page }) => {
+    test('does not take long to run when one element is added to many elements with no issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
+      await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
   });
 });
