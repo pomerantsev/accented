@@ -18,7 +18,8 @@ const win: Window & { CSS: typeof CSS } = {
         setProperty: () => {}
       },
       dataset: {}
-    })
+    }),
+    contains: () => true,
   },
   // @ts-expect-error we're missing a lot of properties
   getComputedStyle: () => ({
