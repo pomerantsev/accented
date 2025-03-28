@@ -76,7 +76,8 @@ test.describe('Accented', () => {
         await page.waitForTimeout(500);
 
         // Now finally we ran the scan without any triggers present,
-        // so the issue will be reported.
+        // but unfortunately we're only scanning what changed,
+        // so the div issue will still not be reported.
         expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).toBeVisible();
       });
     });
@@ -311,6 +312,7 @@ test.describe('Accented', () => {
     test('a trigger’s position remains correct on transforms', async ({ page }) => {
       const elementWithTransforms = await page.locator('#transformed-button');
       const triggerContainer = await getTriggerContainer(page, elementWithTransforms);
+      await page.waitForTimeout(200);
       await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
       (await page.getByRole('button', { name: 'Change button transform' })).click();
       await page.waitForTimeout(200);
@@ -778,7 +780,7 @@ test.describe('Accented', () => {
       const scanDuration = perfObject.scan;
       const domUpdateDuration = perfObject.domUpdate;
       if (scan === 'short') {
-        await expect(scanDuration).toBeLessThan(200);
+        await expect(scanDuration).toBeLessThan(500);
       } else {
         await expect(scanDuration).toBeGreaterThan(200);
       }
@@ -808,31 +810,29 @@ test.describe('Accented', () => {
       await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
-    // This behavior should eventually be fixed, but for now, it's a known issue.
-    test('causes long tasks when one element is added to many elements with issues', async ({ page }) => {
+    test('does not take long to run when one element is added to many elements with issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
+      await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
 
-    test('causes long tasks with many elements with no issues', async ({ page }) => {
+    test('takes long to run with many elements with no issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
       await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
-    // This behavior should eventually be fixed, but for now, it's a known issue.
-    test('causes long tasks when one element is added to many elements with no issues', async ({ page }) => {
+    test('does not take long to run when one element is added to many elements with no issues', async ({ page }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-      await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
+      await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
   });
 });

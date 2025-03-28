@@ -1,5 +1,89 @@
-import type { AccentedOptions } from './types';
+import type { Selector, SelectorList, ContextProp, ContextObject, AccentedOptions, AxeContext } from './types';
 import { allowedAxeOptions } from './types.js';
+import { isNode, isNodeList } from './utils/dom-helpers.js';
+
+function isSelector(axeContextFragment: AxeContext): axeContextFragment is Selector {
+  return typeof axeContextFragment === 'string'
+    || isNode(axeContextFragment)
+    || 'fromShadowDom' in axeContextFragment;
+}
+
+function validateSelector(selector: Selector) {
+  if (typeof selector === 'string') {
+    return;
+  } else if (isNode(selector)) {
+    return;
+  } else if ('fromShadowDom' in selector) {
+    if (!Array.isArray(selector.fromShadowDom)
+      || selector.fromShadowDom.length < 2 ||
+      !selector.fromShadowDom.every(item => typeof item === 'string')
+    ) {
+      throw new TypeError('TODO');
+    }
+    return;
+  } else {
+    const neverSelector: never = selector;
+    throw new TypeError(`TODO`);
+  }
+}
+
+function isSelectorList(axeContextFragment: AxeContext): axeContextFragment is SelectorList {
+  return (typeof axeContextFragment === 'object' && isNodeList(axeContextFragment))
+    || (Array.isArray(axeContextFragment) && axeContextFragment.every(item => isSelector(item)));
+}
+
+function validateSelectorList(selectorList: SelectorList) {
+  if (isNodeList(selectorList)) {
+    return;
+  } else if (Array.isArray(selectorList)) {
+    for (const selector of selectorList) {
+      validateSelector(selector);
+    }
+  } else {
+    const neverSelectorList: never = selectorList;
+    throw new TypeError(`TODO`);
+  }
+}
+
+function isContextProp(axeContextFragment: AxeContext): axeContextFragment is ContextProp {
+  return isSelector(axeContextFragment) || isSelectorList(axeContextFragment);
+}
+
+function validateContextProp(axeContext: Selector | SelectorList) {
+  if (isSelector(axeContext)) {
+    validateSelector(axeContext);
+  } else if (isSelectorList(axeContext)) {
+    validateSelectorList(axeContext);
+  } else {
+    const neverAxeContext: never = axeContext;
+    throw new TypeError(`TODO`);
+  }
+}
+
+function isContextObject(axeContextFragment: AxeContext): axeContextFragment is ContextObject {
+  return typeof axeContextFragment === 'object' && axeContextFragment !== null
+    && ('include' in axeContextFragment || 'exclude' in axeContextFragment);
+}
+
+function validateContextObject(contextObject: ContextObject) {
+  if ('include' in contextObject) {
+    validateContextProp(contextObject.include!);
+  }
+  if ('exclude' in contextObject) {
+    validateContextProp(contextObject.exclude!);
+  }
+}
+
+function validateAxeContext(axeContext: AxeContext) {
+  if (isContextProp(axeContext)) {
+    validateContextProp(axeContext);
+  } else if (isContextObject(axeContext)) {
+    validateContextObject(axeContext);
+  } else {
+    const neverAxeContext: never = axeContext;
+    throw new TypeError(`TODO`);
+  }
+}
 
 // The space of valid CSS and HTML names is wider than this,
 // but with Unicode it gets complicated quickly, so I'm sticking to only allowing
@@ -40,5 +124,8 @@ export default function validateOptions(options: AccentedOptions) {
     if (unsupportedKeys.length > 0) {
       throw new TypeError(`Accented: invalid argument. \`axeOptions\` contains the following unsupported keys: ${unsupportedKeys.join(', ')}. Valid options are: ${allowedAxeOptions.join(', ')}.`);
     }
+  }
+  if (options.axeContext !== undefined) {
+    validateAxeContext(options.axeContext);
   }
 }

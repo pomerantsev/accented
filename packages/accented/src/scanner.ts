@@ -9,11 +9,12 @@ import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { getAccentedElementNames, issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
 import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
+import getScanContext from './utils/get-scan-context.js';
 
 export default function createScanner(name: string, axeContext: AxeContext, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win: Record<string, any> = window;
-  const taskQueue = new TaskQueue<Node>(async () => {
+  const taskQueue = new TaskQueue<Node>(async (nodes) => {
     // We may see errors coming from axe-core when Accented is toggled off and on in qiuck succession,
     // which I've seen happen with hot reloading of a React application.
     // This window property serves as a circuit breaker for that particular case.
@@ -27,12 +28,12 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
 
       win[axeRunningWindowProp] = true;
 
+      const scanContext = getScanContext(nodes, axeContext);
+
       let result;
 
       try {
-        // TODO (https://github.com/pomerantsev/accented/issues/102):
-        // only run Axe on what's changed, not on the whole axeContext
-        result = await axe.run(axeContext, {
+        result = await axe.run(scanContext, {
           elementRef: true,
           // Although axe-core can perform iframe scanning, I haven't succeeded in it,
           // and the docs suggest that the axe-core script should be explicitly included
@@ -64,7 +65,13 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
 
       performance.mark('dom-update-start');
 
-      updateElementsWithIssues(extendedElementsWithIssues, result.violations, window, name);
+      updateElementsWithIssues({
+        extendedElementsWithIssues,
+        scanContext,
+        violations: result.violations,
+        win: window,
+        name
+      });
 
       const domUpdateMeasure = performance.measure('dom-update', 'dom-update-start');
       const domUpdateDuration = Math.round(domUpdateMeasure.duration);
@@ -83,9 +90,6 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
     }
   }, throttle);
 
-  // TODO (https://github.com/pomerantsev/accented/issues/102):
-  // limit to what's in axeContext,
-  // if that's an element or array of elements (not a selector).
   taskQueue.add(document);
 
   const accentedElementNames = getAccentedElementNames(name);
@@ -128,7 +132,8 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
         return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
       });
 
-      taskQueue.addMultiple(filteredMutationList.map(mutationRecord => mutationRecord.target));
+      const nodes = filteredMutationList.map(mutationRecord => mutationRecord.target);
+      taskQueue.addMultiple(nodes);
     } catch (error) {
       logAndRethrow(error);
     }

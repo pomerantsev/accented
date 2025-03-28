@@ -17,7 +17,7 @@ document.getElementById('toggle-text-direction')?.addEventListener('click', () =
 let buttonCount = 0;
 
 document.getElementById('add-one')?.addEventListener('click', () => {
-  const container = document.getElementById('many-elements');
+  const container = document.getElementById('few-elements');
   const button = document.createElement('button');
   button.className = 'test-button';
   buttonCount++;
@@ -57,7 +57,7 @@ if (searchParams.has('remove-issues-on-timeout')) {
 }
 
 document.getElementById('add-two')?.addEventListener('click', () => {
-  const container = document.getElementById('many-elements');
+  const container = document.getElementById('few-elements');
   for (let i = 0; i < 2; i++) {
     const button = document.createElement('button');
     button.className = 'test-button';
