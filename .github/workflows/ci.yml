@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: e2e-results
-          path: packages/devapp/test-results
+          path: packages/devapp/playwright
 
       # https://pnpm.io/using-changesets
       - name: Setup npmrc
