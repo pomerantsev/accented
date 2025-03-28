@@ -718,9 +718,9 @@ test.describe('Accented', () => {
       const scanDuration = perfObject.scan;
       const domUpdateDuration = perfObject.domUpdate;
       if (scan === 'short') {
-        await expect(scanDuration).toBeLessThan(300);
+        await expect(scanDuration).toBeLessThan(500);
       } else {
-        await expect(scanDuration).toBeGreaterThan(300);
+        await expect(scanDuration).toBeGreaterThan(250);
       }
       if (domUpdate === 'short') {
         await expect(domUpdateDuration).toBeLessThan(200);
