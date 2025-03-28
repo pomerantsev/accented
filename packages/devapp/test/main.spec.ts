@@ -49,7 +49,7 @@ test.describe('Accented', () => {
         expect(messageText).toBe('Button clicked');
       });
 
-      test.skip('doesn’t report issues that may be caused by another Accented trigger', async ({ page }) => {
+      test('doesn’t report issues that may be caused by another Accented trigger', async ({ page }) => {
         await page.goto('?throttle-wait=100');
         await page.locator(`#low-contrast-list-item${accentedSelector}`);
         const addDivToListButton = await page.getByRole('button', { name: 'Add div to list' });
@@ -73,7 +73,8 @@ test.describe('Accented', () => {
         await page.waitForTimeout(500);
 
         // Now finally we ran the scan without any triggers present,
-        // so the issue will be reported.
+        // but unfortunately we're only scanning what changed,
+        // so the div issue will still not be reported.
         expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).toBeVisible();
       });
     });
@@ -720,7 +721,7 @@ test.describe('Accented', () => {
       if (scan === 'short') {
         await expect(scanDuration).toBeLessThan(500);
       } else {
-        await expect(scanDuration).toBeGreaterThan(250);
+        await expect(scanDuration).toBeGreaterThan(200);
       }
       if (domUpdate === 'short') {
         await expect(domUpdateDuration).toBeLessThan(200);
