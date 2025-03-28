@@ -297,6 +297,7 @@ test.describe('Accented', () => {
     test('a trigger’s position remains correct on transforms', async ({ page }) => {
       const elementWithTransforms = await page.locator('#transformed-button');
       const triggerContainer = await getTriggerContainer(page, elementWithTransforms);
+      await page.waitForTimeout(200);
       await expectElementAndTriggerToBeAligned(elementWithTransforms, triggerContainer);
       (await page.getByRole('button', { name: 'Change button transform' })).click();
       await page.waitForTimeout(200);
