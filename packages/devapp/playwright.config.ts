@@ -44,14 +44,32 @@ export default defineConfig({
     },
 
     {
+      name: 'chromium-dark',
+      testMatch: /with-colors/,
+      use: { ...devices['Desktop Chrome'], colorScheme: 'dark' },
+    },
+
+    {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+    },
+
+    {
+      name: 'firefox-dark',
+      testMatch: /with-colors/,
+      use: { ...devices['Desktop Firefox'], colorScheme: 'dark' },
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+
+    {
+      name: 'webkit-dark',
+      testMatch: /with-colors/,
+      use: { ...devices['Desktop Safari'], colorScheme: 'dark' },
+    }
 
     /* Test against mobile viewports. */
     // {

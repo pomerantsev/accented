@@ -10,7 +10,7 @@ export async function expectElementToHaveOutline (element: Locator) {
       computedStyle.getPropertyValue('outline-offset')
     ];
   });
-  await expect(outlineColor).toBe('rgb(215, 58, 74)');
+  await expect(outlineColor).toBe('oklch(0.5 0.3 0)');
   await expect(outlineWidth).toBe('2px');
   await expect(outlineOffset).toBe('-2px');
 }

@@ -56,14 +56,50 @@ export default () => {
     :host {
       all: initial !important;
 
-      --light-color: white;
-      --dark-color: black;
-      --focus-color: #0078d4; /* Contrasts with both white and black. */
+      /* OKLCH stuff: https://oklch.com/ */
+      --light-color: oklch(0.98 0 0);
+      --dark-color: oklch(0.22 0 0);
 
-      --impact-minor-color: lightgray;
-      --impact-moderate-color: gold;
-      --impact-serious-color: #ff9e00;
-      --impact-critical-color: #f883ec;
+      --background-color: light-dark(var(--light-color), var(--dark-color));
+      --text-color: light-dark(var(--dark-color), var(--light-color));
+
+      --lightness-light: 0.80;
+      --lightness-dark: 0.45;
+
+      --blue-hue: 230;
+      --gold-hue: 90;
+      --red-hue: 0;
+
+      /* Contrasts with background. */
+      --focus-chroma: 0.25;
+      --focus-hue: var(--blue-hue);
+      --focus-color: light-dark(
+        oklch(var(--lightness-dark) var(--focus-chroma) var(--blue-hue)),
+        oklch(var(--lightness-light) var(--focus-chroma) var(--blue-hue))
+      );
+
+      --impact-chroma: 0.16;
+
+      --impact-moderate-hue: var(--blue-hue);
+      --impact-serious-hue: var(--gold-hue);
+      --impact-critical-hue: var(--red-hue);
+
+      --impact-minor-color: light-dark(
+        oklch(var(--lightness-light) 0 0),
+        oklch(var(--lightness-dark) 0 0)
+      );
+      --impact-moderate-color: light-dark(
+        oklch(var(--lightness-light) var(--impact-chroma) var(--impact-moderate-hue)),
+        oklch(var(--lightness-dark) var(--impact-chroma) var(--impact-moderate-hue))
+      );
+      --impact-serious-color: light-dark(
+        oklch(var(--lightness-light) var(--impact-chroma) var(--impact-serious-hue)),
+        oklch(var(--lightness-dark) var(--impact-chroma) var(--impact-serious-hue))
+      );
+      --impact-critical-color: light-dark(
+        oklch(var(--lightness-light) var(--impact-chroma) var(--impact-critical-hue)),
+        oklch(var(--lightness-dark) var(--impact-chroma) var(--impact-critical-hue))
+      );
 
       --base-size: max(1rem, 16px);
 
@@ -118,12 +154,15 @@ export default () => {
       overflow-wrap: break-word;
       font-family: system-ui;
       line-height: 1.5;
-      background-color: var(--light-color);
-      color: var(--dark-color);
+      text-wrap: pretty;
+      background-color: var(--background-color);
+      color: var(--text-color);
       border: 2px solid currentColor;
       padding: var(--space-l);
       inline-size: min(90ch, calc(100% - var(--space-s)* 2));
       max-block-size: calc(100% - var(--space-s) * 2);
+
+      color-scheme: light dark;
     }
 
     #button-container {
@@ -131,8 +170,8 @@ export default () => {
     }
 
     #close {
-      background-color: var(--light-color);
-      color: var(--dark-color);
+      background-color: var(--background-color);
+      color: var(--text-color);
       border: 2px solid currentColor;
       padding-inline: var(--space-2xs);
       aspect-ratio: 1 / 1;
@@ -169,7 +208,7 @@ export default () => {
       }
 
       a {
-        font-weight: bold;
+        font-weight: 500;
       }
     }
 

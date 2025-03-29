@@ -72,8 +72,9 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     @layer ${name} {
       :root {
         /* Ensure that the primary / secondary color combination meets WCAG 1.4.3 Contrast (Minimum) */
-        --${name}-primary-color: #d73a4a;
-        --${name}-secondary-color: white;
+        /* OKLCH stuff: https://oklch.com/ */
+        --${name}-primary-color: oklch(0.5 0.3 0);
+        --${name}-secondary-color: oklch(0.98 0 0);
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;
       }

@@ -4,7 +4,6 @@ import type { Locator, Page } from '@playwright/test';
 
 import { expectElementAndTriggerToBeAligned, getTriggerContainer, getTrigger } from './helpers/trigger';
 import { openAccentedDialog } from './helpers/dialog';
-import { expectElementToHaveOutline } from './helpers/element';
 
 import axe from 'axe-core';
 
@@ -266,11 +265,6 @@ test.describe('Accented', () => {
       await expectElementAndTriggerToBeAligned(stickyElement, stickyElementTriggerContainer);
     });
 
-    test('outlines with certain properties are added to elements', async ({ page }) => {
-      const buttonWithIssue = await page.getByRole('button').and(page.locator(accentedSelector)).first();
-      await expectElementToHaveOutline(buttonWithIssue);
-    });
-
     test('outlines change color if certain CSS props are set', async ({ page }) => {
       await page.goto('?name=green-accented');
       const buttonWithIssue = await page.getByRole('button').and(page.locator('[data-green-accented]')).first();
@@ -299,13 +293,7 @@ test.describe('Accented', () => {
       const triggerContainer = await getTriggerContainer(page, fixedPositionSection);
       const trigger = await getTrigger(triggerContainer);
       await page.mouse.wheel(0, 10);
-      const sectionTop = await fixedPositionSection.evaluate(node => {
-        return (node as Element).getBoundingClientRect().top;
-      });
-      const triggerTop = await trigger.evaluate(node => {
-        return (node as Element).getBoundingClientRect().top;
-      });
-      expect(triggerTop).toBe(sectionTop);
+      await expectElementAndTriggerToBeAligned(fixedPositionSection, triggerContainer);
     });
 
     test('a trigger’s position remains correct on transforms', async ({ page }) => {
@@ -522,25 +510,6 @@ test.describe('Accented', () => {
         const adoptedStyleSheets = await shadowDOMContainer2.evaluate((element) => element.shadowRoot?.adoptedStyleSheets);
         await expect(adoptedStyleSheets).toHaveLength(0);
       });
-
-      test('an element in shadow DOM has a trigger that is aligned with the element, and an outline', async ({ page }) => {
-        const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
-        await elementWithIssue.scrollIntoViewIfNeeded();
-        await page.waitForTimeout(200);
-        const triggerContainer = await getTriggerContainer(page, elementWithIssue);
-        await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
-        await expectElementToHaveOutline(elementWithIssue);
-      });
-
-      test('when an element is moved to a different shadow root, it gets a trigger that is aligned with the element', async ({ page }) => {
-        (await page.getByRole('button', { name: 'Move button between shadow roots' })).click();
-        await page.waitForTimeout(1200);
-        const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
-        await elementWithIssue.scrollIntoViewIfNeeded();
-        const triggerContainer = await getTriggerContainer(page, elementWithIssue);
-        await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
-        await expectElementToHaveOutline(elementWithIssue);
-      });
     });
   });
 
@@ -552,27 +521,6 @@ test.describe('Accented', () => {
       const issueDescriptions = await dialog.locator('#issues > li');
       expect(await issueDescriptions.count()).toBeGreaterThan(2);
       await expect(dialog).toContainText('role="directory"');
-    });
-
-    test('issues are sorted by impact and have specific background colors', async ({ page }) => {
-      await page.goto('/');
-      const dialog = await openAccentedDialog(page, '#various-impacts');
-      const impactElements = await dialog.getByText(/User impact:/);
-      const impacts = await impactElements.evaluateAll(elements =>
-        elements.map(element => element.textContent?.match(/User impact: (\w+)$/)?.[1]));
-      await expect(impacts).toEqual(['critical', 'critical', 'serious', 'moderate', 'minor']);
-
-      const colorMap = {
-        critical: 'rgb(248, 131, 236)',
-        serious: 'rgb(255, 158, 0)',
-        moderate: 'rgb(255, 215, 0)',
-        minor: 'rgb(211, 211, 211)'
-      };
-      const backgroundColors = await impactElements.evaluateAll(elements =>
-        elements.map(element => window.getComputedStyle(element).backgroundColor));
-      await expect(backgroundColors).toEqual([
-        colorMap.critical, colorMap.critical, colorMap.serious, colorMap.moderate, colorMap.minor
-      ]);
     });
 
     test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
