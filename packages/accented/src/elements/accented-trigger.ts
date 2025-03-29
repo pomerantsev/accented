@@ -25,6 +25,7 @@ export default (name: string) => {
   template.innerHTML = `
     <style>
       :host {
+        --ratio: 1.2;
         --base-size: max(1rem, 16px);
         position: fixed !important;
         inset-inline-start: anchor(self-start) !important;
@@ -44,18 +45,27 @@ export default (name: string) => {
         pointer-events: auto;
 
         position: absolute;
-        inset-inline-end: 0;
+        inset-block-start: 4px;
+        inset-inline-end: 4px;
 
         box-sizing: border-box;
-        font-size: var(--base-size);
+        font-size: calc(var(--ratio) * var(--ratio) * var(--base-size));
         inline-size: calc(2 * var(--base-size));
         block-size: calc(2 * var(--base-size));
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         /* Make it look better in forced-colors mode. */
         border: 2px solid transparent;
 
         background-color: var(--${name}-primary-color);
         color: var(--${name}-secondary-color);
+
+        padding: 0;
+
+        border-radius: calc(0.25 * var(--base-size));
 
         outline-offset: -4px;
         outline-color: currentColor;
@@ -71,7 +81,7 @@ export default (name: string) => {
         }
       }
     </style>
-    <button id="trigger" lang="en">⚠</button>
+    <button id="trigger" lang="en">!</button>
   `;
 
   return class extends HTMLElement implements AccentedTrigger {
