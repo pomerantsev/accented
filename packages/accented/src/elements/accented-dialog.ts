@@ -63,20 +63,19 @@ export default () => {
       --background-color: light-dark(var(--light-color), var(--dark-color));
       --text-color: light-dark(var(--dark-color), var(--light-color));
 
-      --lightness-light: 0.80;
-      --lightness-dark: 0.45;
+      --impact-lightness: 0.80;
+      --focus-lightness: 0.45;
+      @media (prefers-color-scheme: dark) {
+        --impact-lightness: 0.45;
+        --focus-lightness: 0.80;
+      }
 
       --blue-hue: 230;
       --gold-hue: 90;
       --red-hue: 0;
 
       /* Contrasts with background. */
-      --focus-chroma: 0.25;
-      --focus-hue: var(--blue-hue);
-      --focus-color: light-dark(
-        oklch(var(--lightness-dark) var(--focus-chroma) var(--blue-hue)),
-        oklch(var(--lightness-light) var(--focus-chroma) var(--blue-hue))
-      );
+      --focus-color: oklch(var(--focus-lightness) 0.25 var(--blue-hue));
 
       --impact-chroma: 0.16;
 
@@ -84,22 +83,10 @@ export default () => {
       --impact-serious-hue: var(--gold-hue);
       --impact-critical-hue: var(--red-hue);
 
-      --impact-minor-color: light-dark(
-        oklch(var(--lightness-light) 0 0),
-        oklch(var(--lightness-dark) 0 0)
-      );
-      --impact-moderate-color: light-dark(
-        oklch(var(--lightness-light) var(--impact-chroma) var(--impact-moderate-hue)),
-        oklch(var(--lightness-dark) var(--impact-chroma) var(--impact-moderate-hue))
-      );
-      --impact-serious-color: light-dark(
-        oklch(var(--lightness-light) var(--impact-chroma) var(--impact-serious-hue)),
-        oklch(var(--lightness-dark) var(--impact-chroma) var(--impact-serious-hue))
-      );
-      --impact-critical-color: light-dark(
-        oklch(var(--lightness-light) var(--impact-chroma) var(--impact-critical-hue)),
-        oklch(var(--lightness-dark) var(--impact-chroma) var(--impact-critical-hue))
-      );
+      --impact-minor-color: oklch(var(--impact-lightness) 0 0);
+      --impact-moderate-color: oklch(var(--impact-lightness) var(--impact-chroma) var(--impact-moderate-hue));
+      --impact-serious-color: oklch(var(--impact-lightness) var(--impact-chroma) var(--impact-serious-hue));
+      --impact-critical-color: oklch(var(--impact-lightness) var(--impact-chroma) var(--impact-critical-hue));
 
       --base-size: max(1rem, 16px);
 
