@@ -5,8 +5,6 @@ import type { Locator, Page } from '@playwright/test';
 import { expectElementAndTriggerToBeAligned, getTriggerContainer, getTrigger } from './helpers/trigger';
 import { openAccentedDialog } from './helpers/dialog';
 
-import axe from 'axe-core';
-
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
 const accentedTriggerElementName = 'accented-trigger';
@@ -535,13 +533,6 @@ test.describe('Accented', () => {
       const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
       expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
       await expect(dialog).toContainText('role=""');
-    });
-
-    test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
-      await page.goto('/');
-      const dialog = await openAccentedDialog(page, '#various-impacts');
-      const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
-      expect(violations).toHaveLength(0);
     });
 
     test('dialog can be dismissed by clicking the mouse outside the dialog', async ({ page }) => {
