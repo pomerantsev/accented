@@ -1,3 +1,4 @@
+import axe from 'axe-core';
 import { test } from './fixtures/test';
 import { expect } from '@playwright/test';
 import { openAccentedDialog } from './helpers/dialog';
@@ -43,6 +44,13 @@ test.describe('Accented', () => {
       await expect(backgroundColors).toEqual([
         colorMap.critical, colorMap.critical, colorMap.serious, colorMap.moderate, colorMap.minor
       ]);
+    });
+
+    test('the dialog itself doesn’t have accessibility issues identifiable by axe-core', async ({ page }) => {
+      await page.goto('/');
+      const dialog = await openAccentedDialog(page, '#various-impacts');
+      const violations = await dialog.evaluate(async (dialogElement) => (await axe.run(dialogElement)).violations);
+      expect(violations).toHaveLength(0);
     });
   });
 
