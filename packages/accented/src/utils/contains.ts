@@ -1,6 +1,6 @@
 import { isDocumentFragment, isShadowRoot } from './dom-helpers.js';
 
-export default function contains(ancestor: Node, descendant: Node) {
+export default function contains(ancestor: Node, descendant: Node): boolean {
   if (ancestor.contains(descendant)) {
     return true;
   }
@@ -15,4 +15,5 @@ export default function contains(ancestor: Node, descendant: Node) {
     }
     rootNode = host.getRootNode();
   }
+  return false;
 }

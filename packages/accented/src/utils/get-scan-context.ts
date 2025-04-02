@@ -1,6 +1,8 @@
 import type { AxeContext, ContextProp, Selector, ScanContext } from '../types';
 import { isDocument, isDocumentFragment, isNode, isNodeList } from './dom-helpers.js';
 import contains from './contains.js';
+import { deduplicateNodes } from './deduplicate-nodes.js';
+import isNodeInScanContext from './is-node-in-scan-context.js';
 
 function selectorToNodes(selector: Selector): Array<Node> {
   if (typeof selector === 'string') {
@@ -30,14 +32,15 @@ function selectorToNodes(selector: Selector): Array<Node> {
 }
 
 function contextPropToNodes(contextProp: ContextProp): Array<Node> {
+  let nodes: Array<Node> = [];
   if (typeof contextProp === 'object' && (Array.isArray(contextProp) || isNodeList(contextProp))) {
-    return Array.from(contextProp).map(item => selectorToNodes(item)).flat()
+    nodes = Array.from(contextProp).map(item => selectorToNodes(item)).flat();
   } else {
-    return selectorToNodes(contextProp);
+    nodes = selectorToNodes(contextProp);
   }
+  return deduplicateNodes(nodes, 'equality');
 }
 
-// TODO: actually take nodes into account
 export default function getScanContext(nodes: Array<Node>, axeContext: AxeContext): ScanContext {
   let axeContextInclude: Array<Node> = [];
   let axeContextExclude: Array<Node> = [];
@@ -53,22 +56,31 @@ export default function getScanContext(nodes: Array<Node>, axeContext: AxeContex
   } else {
     axeContextInclude = contextPropToNodes(axeContext);
   }
+  if (axeContextInclude.length === 0) {
+    axeContextInclude.push(document);
+  }
 
-  // TODO: this is way oversimplified, needs to be significantly expanded
-  // exclude not taken care of
-  // de-duplication not taken care of
-  // The isElementInScanContext (or maybe isNodeInScanContext) and this function should reuse the `contains` logic
-  // that takes shadow DOM into account.
+  // Filter only nodes that are included by axeContext (see isNodeInContext above).
+  const nodesInContext = nodes.filter(node =>
+    isNodeInScanContext(node, {
+      include: axeContextInclude,
+      exclude: axeContextExclude
+    })
+  );
+
+  // Adds all nodesInContext to the include array.
+  include.push(...nodesInContext);
+
+  // Now add any included and excluded context nodes that are contained by any of the original nodes.
   for (const node of nodes) {
-    const descendants = axeContextInclude.filter(item => contains(node, item));
-    include.push(...descendants);
+    const includeDescendants = axeContextInclude.filter(item => contains(node, item));
+    include.push(...includeDescendants);
+    const excludeDescendants = axeContextExclude.filter(item => contains(node, item));
+    exclude.push(...excludeDescendants);
   }
-  for (const item of axeContextInclude) {
-    const descendants = nodes.filter(node => contains(item, node));
-    include.push(...descendants);
-  }
+
   return {
-    include,
-    exclude
+    include: deduplicateNodes(include, 'equality'),
+    exclude: deduplicateNodes(exclude, 'equality')
   };
 }
