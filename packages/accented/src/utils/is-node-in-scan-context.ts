@@ -1,4 +1,4 @@
-/* Mostly copied from https://github.com/dequelabs/axe-core/blob/develop/lib/core/utils/is-node-in-context.js */
+/* Adapted from https://github.com/dequelabs/axe-core/blob/fd6239bfc97ebc904044f93f68d7e49137f744ad/lib/core/utils/is-node-in-context.js */
 
 import type { ScanContext } from '../types';
 import contains from './contains.js';
@@ -15,15 +15,15 @@ function getDeepest(nodes: [Node, ...Node[]]): Node {
 }
 
 export default function isNodeInScanContext(node: Node, { include, exclude }: ScanContext): boolean {
-  const filterInclude = include.filter(candidate => contains(candidate, node));
-  if (filterInclude.length === 0) {
+  const filteredInclude = include.filter(includeNode => contains(includeNode, node));
+  if (filteredInclude.length === 0) {
     return false;
   }
-  const filterExcluded = exclude.filter(candidate => contains(candidate, node));
-  if (filterExcluded.length === 0) {
+  const filteredExclude = exclude.filter(excludeNode => contains(excludeNode, node));
+  if (filteredExclude.length === 0) {
     return true;
   }
-  const deepestInclude = getDeepest(ensureNonEmpty(filterInclude));
-  const deepestExclude = getDeepest(ensureNonEmpty(filterExcluded));
+  const deepestInclude = getDeepest(ensureNonEmpty(filteredInclude));
+  const deepestExclude = getDeepest(ensureNonEmpty(filteredExclude));
   return contains(deepestExclude, deepestInclude);
 }
