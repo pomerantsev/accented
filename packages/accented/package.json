@@ -6,9 +6,11 @@
   "main": "dist/accented.js",
   "files": [
     "dist",
-    "src"
+    "src",
+    "NOTICE"
   ],
   "scripts": {
+    "prepare": "cp ../../NOTICE ./NOTICE",
     "build": "tsc",
     "checkBuiltFiles": "node --import tsx ./scripts/check-built-files.ts",
     "checkImportsInBuiltFiles": "node ./dist/accented.js",

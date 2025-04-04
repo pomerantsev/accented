@@ -1,0 +1,14 @@
+NOTICE
+
+This project, Accented, is licensed under the MIT License.
+
+However, it depends on axe-core, which is licensed under the Mozilla Public License 2.0 (MPL-2.0). The source code for axe-core is available at:
+
+https://github.com/dequelabs/axe-core
+
+According to the MPL-2.0 requirements:
+- Any modifications made to axe-core within this project will remain under the MPL-2.0 license.
+- The original license and notices for axe-core are preserved.
+- The full MPL-2.0 license can be found at: https://www.mozilla.org/MPL/2.0/
+
+No changes have been made to axe-core within this project, beyond its use as a dependency.
