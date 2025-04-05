@@ -1,12 +1,7 @@
-import contains from './contains.js';
-
-export function deduplicateNodes(nodes: Array<Node>, type: 'equality' | 'containment'): Array<Node> {
+export function deduplicateNodes(nodes: Array<Node>): Array<Node> {
   return nodes.filter((node, index) => {
     return !nodes.some((otherNode, otherIndex) => {
-      return index !== otherIndex && (
-        type === 'containment' && contains(otherNode, node)
-          || type === 'equality' && otherNode === node
-      );
+      return index !== otherIndex && otherNode === node;
     });
   });
 }

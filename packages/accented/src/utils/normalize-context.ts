@@ -1,31 +1,29 @@
 import type { AxeContext, ContextProp, Selector, ScanContext } from '../types';
-import { isDocument, isDocumentFragment, isNode, isNodeList } from './dom-helpers.js';
+import { isNode, isNodeList } from './dom-helpers.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
+
+function recursiveSelectAll(selectors: Array<string>, root: Document | ShadowRoot): Array<Node> {
+  const nodesOnCurrentLevel = root.querySelectorAll(selectors[0]!);
+  if (selectors.length === 1) {
+    return Array.from(nodesOnCurrentLevel);
+  }
+  const restSelectors: Array<string> = selectors.slice(1);
+  const selected = [];
+  for (const node of nodesOnCurrentLevel) {
+    if (node.shadowRoot) {
+      selected.push(...recursiveSelectAll(restSelectors, node.shadowRoot));
+    }
+  }
+  return selected;
+}
 
 function selectorToNodes(selector: Selector): Array<Node> {
   if (typeof selector === 'string') {
-    // TODO: how should this work with Shadow DOM?
-    return Array.from(document.querySelectorAll(selector));
+    return recursiveSelectAll([selector], document);
   } else if (isNode(selector)) {
     return [selector];
   } else {
-    // TODO: Verify that this is the actual algorithm for fromShadowDom.
-    const node = selector.fromShadowDom.reduce<Node | null>((root, currentSelector, index, array) => {
-      if (!root || !(isDocument(root) || isDocumentFragment(root))) {
-        return null;
-      }
-      const nextElement = root.querySelector(currentSelector);
-      if (nextElement) {
-        if (index === array.length - 1) {
-          return nextElement;
-        } else {
-          return nextElement.shadowRoot;
-        }
-      } else {
-        return null;
-      }
-    }, document);
-    return node ? [node] : [];
+    return recursiveSelectAll(selector.fromShadowDom, document);
   }
 }
 
@@ -36,14 +34,12 @@ function contextPropToNodes(contextProp: ContextProp): Array<Node> {
   } else {
     nodes = selectorToNodes(contextProp);
   }
-  return deduplicateNodes(nodes, 'equality');
+  return deduplicateNodes(nodes);
 }
 
 export default function normalizeContext(axeContext: AxeContext): ScanContext {
   let axeContextInclude: Array<Node> = [];
   let axeContextExclude: Array<Node> = [];
-  const include: Array<Node> = [];
-  const exclude: Array<Node> = [];
   if (typeof axeContext === 'object' && ('include' in axeContext || 'exclude' in axeContext)) {
     if (axeContext.include !== undefined) {
       axeContextInclude = contextPropToNodes(axeContext.include);
@@ -53,9 +49,6 @@ export default function normalizeContext(axeContext: AxeContext): ScanContext {
     }
   } else {
     axeContextInclude = contextPropToNodes(axeContext);
-  }
-  if (axeContextInclude.length === 0) {
-    axeContextInclude.push(document);
   }
 
   return {

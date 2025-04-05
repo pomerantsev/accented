@@ -33,7 +33,7 @@ export default function getScanContext(nodes: Array<Node>, axeContext: AxeContex
   }
 
   return {
-    include: deduplicateNodes(include, 'equality'),
-    exclude: deduplicateNodes(exclude, 'equality')
+    include: deduplicateNodes(include),
+    exclude: deduplicateNodes(exclude)
   };
 }
