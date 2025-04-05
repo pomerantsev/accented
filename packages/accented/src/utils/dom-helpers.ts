@@ -1,3 +1,12 @@
+export function isNode(obj: object): obj is Node {
+  return 'nodeType' in obj && typeof obj.nodeType === 'number' &&
+    'nodeName' in obj && typeof obj.nodeName === 'string';
+}
+
+export function isNodeList(obj: object): obj is NodeList {
+  return Object.prototype.toString.call(obj) === '[object NodeList]';
+}
+
 export function isElement(node: Node): node is Element {
   return typeof Node !== 'undefined' && node.nodeType === Node.ELEMENT_NODE;
 }

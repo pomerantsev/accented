@@ -37,5 +37,9 @@
   "dependencies": {
     "@preact/signals-core": "^1.8.0",
     "axe-core": "^4.10.2"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "jsdom": "^26.0.0"
   }
 }
