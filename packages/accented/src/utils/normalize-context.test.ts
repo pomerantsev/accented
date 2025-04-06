@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import normalizeContext from './normalize-context';
 
-suite('contains', () => {
+suite('normalizeContext', () => {
   test('when document is passed, only document is returned in include', () => {
     const dom = new JSDOM('<div id="test"></div>');
     const { document } = dom.window;
