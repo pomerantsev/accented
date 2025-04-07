@@ -73,8 +73,7 @@ test.describe('Accented', () => {
         await page.waitForTimeout(500);
 
         // Now finally we ran the scan without any triggers present,
-        // but unfortunately we're only scanning what changed,
-        // so the div issue will still not be reported.
+        // so the issue will be reported.
         expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).toBeVisible();
       });
     });
