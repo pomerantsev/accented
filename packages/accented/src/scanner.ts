@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
-import type { AxeOptions, Throttle, Callback, AxeContext } from './types';
+import type { AxeOptions, Throttle, Callback, Context } from './types';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
 import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
@@ -11,7 +11,7 @@ import logAndRethrow from './log-and-rethrow.js';
 import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
 import getScanContext from './utils/get-scan-context.js';
 
-export default function createScanner(name: string, axeContext: AxeContext, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
+export default function createScanner(name: string, context: Context, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win: Record<string, any> = window;
   const taskQueue = new TaskQueue<Node>(async (nodes) => {
@@ -28,7 +28,7 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
 
       win[axeRunningWindowProp] = true;
 
-      const scanContext = getScanContext(nodes, axeContext);
+      const scanContext = getScanContext(nodes, context);
 
       let result;
 
@@ -139,9 +139,6 @@ export default function createScanner(name: string, axeContext: AxeContext, axeO
     }
   });
 
-  // TODO (https://github.com/pomerantsev/accented/issues/102):
-  // possibly limit the observer to what's in axeContext,
-  // if that's an element or array of elements (not a selector).
   mutationObserver.observe(document, {
     subtree: true,
     childList: true,

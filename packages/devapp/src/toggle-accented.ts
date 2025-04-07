@@ -100,7 +100,7 @@ if (searchParams.has('axe-options-invalid')) {
 }
 
 if (searchParams.has('axe-context-selector')) {
-  options.axeContext = searchParams.get('axe-context-selector')!;
+  options.context = searchParams.get('axe-context-selector')!;
 }
 
 if (!searchParams.has('disable')) {

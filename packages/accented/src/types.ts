@@ -51,7 +51,7 @@ export type ContextObject = {
   include?: ContextProp;
 };
 
-export type AxeContext = ContextProp | ContextObject;
+export type Context = ContextProp | ContextObject;
 
 
 
@@ -99,7 +99,7 @@ export type AccentedOptions = {
    *
    * Default: `document`.
    */
-  axeContext?: AxeContext,
+  context?: Context,
 
   /**
    * The `options` parameter for `axe.run()`.

@@ -1,4 +1,4 @@
-import type { AxeContext, ContextProp, Selector, ScanContext } from '../types';
+import type { Context, ContextProp, Selector, ScanContext } from '../types';
 import { isNode, isNodeList } from './dom-helpers.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
 
@@ -37,22 +37,22 @@ function contextPropToNodes(contextProp: ContextProp): Array<Node> {
   return deduplicateNodes(nodes);
 }
 
-export default function normalizeContext(axeContext: AxeContext): ScanContext {
-  let axeContextInclude: Array<Node> = [];
-  let axeContextExclude: Array<Node> = [];
-  if (typeof axeContext === 'object' && ('include' in axeContext || 'exclude' in axeContext)) {
-    if (axeContext.include !== undefined) {
-      axeContextInclude = contextPropToNodes(axeContext.include);
+export default function normalizeContext(context: Context): ScanContext {
+  let contextInclude: Array<Node> = [];
+  let contextExclude: Array<Node> = [];
+  if (typeof context === 'object' && ('include' in context || 'exclude' in context)) {
+    if (context.include !== undefined) {
+      contextInclude = contextPropToNodes(context.include);
     }
-    if (axeContext.exclude !== undefined) {
-      axeContextExclude = contextPropToNodes(axeContext.exclude);
+    if (context.exclude !== undefined) {
+      contextExclude = contextPropToNodes(context.exclude);
     }
   } else {
-    axeContextInclude = contextPropToNodes(axeContext);
+    contextInclude = contextPropToNodes(context);
   }
 
   return {
-    include: axeContextInclude,
-    exclude: axeContextExclude
+    include: contextInclude,
+    exclude: contextExclude
   };
 }

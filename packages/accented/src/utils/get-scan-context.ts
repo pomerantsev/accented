@@ -1,20 +1,20 @@
-import type { AxeContext, ScanContext } from '../types';
+import type { Context, ScanContext } from '../types';
 import contains from './contains.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
 import isNodeInScanContext from './is-node-in-scan-context.js';
 import normalizeContext from './normalize-context.js';
 
-export default function getScanContext(nodes: Array<Node>, axeContext: AxeContext): ScanContext {
+export default function getScanContext(nodes: Array<Node>, context: Context): ScanContext {
   const {
-    include: axeContextInclude,
-    exclude: axeContextExclude
-  } = normalizeContext(axeContext);
+    include: contextInclude,
+    exclude: contextExclude
+  } = normalizeContext(context);
 
-  // Filter only nodes that are included by axeContext (see isNodeInContext above).
+  // Filter only nodes that are included by context (see isNodeInContext above).
   const nodesInContext = nodes.filter(node =>
     isNodeInScanContext(node, {
-      include: axeContextInclude,
-      exclude: axeContextExclude
+      include: contextInclude,
+      exclude: contextExclude
     })
   );
 
@@ -26,9 +26,9 @@ export default function getScanContext(nodes: Array<Node>, axeContext: AxeContex
 
   // Now add any included and excluded context nodes that are contained by any of the original nodes.
   for (const node of nodes) {
-    const includeDescendants = axeContextInclude.filter(item => contains(node, item));
+    const includeDescendants = contextInclude.filter(item => contains(node, item));
     include.push(...includeDescendants);
-    const excludeDescendants = axeContextExclude.filter(item => contains(node, item));
+    const excludeDescendants = contextExclude.filter(item => contains(node, item));
     exclude.push(...excludeDescendants);
   }
 
