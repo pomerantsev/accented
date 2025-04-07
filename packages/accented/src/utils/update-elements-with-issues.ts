@@ -41,10 +41,9 @@ export default function updateElementsWithIssues({
       return !extendedElementsWithIssues.value.some(extendedElementWithIssues => areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues));
     });
 
-    // TODO: only consider an element to be removed in two cases:
+    // Only consider an element to be removed in two cases:
     // 1. It has been removed from the DOM.
     // 2. It is within the scan context, but not among updatedElementsWithIssues.
-    // We need a function, isElementInScanContext, that supports Shadow DOM
     const removedElementsWithIssues = extendedElementsWithIssues.value.filter(extendedElementWithIssues => {
       const isConnected = extendedElementWithIssues.element.isConnected;
       const hasNoMoreIssues = isNodeInScanContext(extendedElementWithIssues.element, scanContext)

@@ -18,12 +18,12 @@ function validateSelector(selector: Selector) {
       || selector.fromShadowDom.length < 2 ||
       !selector.fromShadowDom.every(item => typeof item === 'string')
     ) {
-      throw new TypeError('TODO');
+      throw new TypeError(`Accented: invalid argument. \`fromShadowDom\` must be an array of strings with at least 2 elements. It’s currently set to ${selector.fromShadowDom}.`);
     }
     return;
   } else {
     const neverSelector: never = selector;
-    throw new TypeError(`TODO`);
+    throw new TypeError(`Accented: invalid argument. The selector must be one of: string, Node, or an object with a \`fromShadowDom\` property. It’s currently set to ${neverSelector}.`);
   }
 }
 
@@ -41,7 +41,7 @@ function validateSelectorList(selectorList: SelectorList) {
     }
   } else {
     const neverSelectorList: never = selectorList;
-    throw new TypeError(`TODO`);
+    throw new TypeError(`Accented: invalid argument. The selector list must either be a NodeList or an array. It’s currently set to ${neverSelectorList}.`);
   }
 }
 
@@ -56,7 +56,7 @@ function validateContextProp(axeContext: Selector | SelectorList) {
     validateSelectorList(axeContext);
   } else {
     const neverAxeContext: never = axeContext;
-    throw new TypeError(`TODO`);
+    throw new TypeError(`Accented: invalid argument. The context property must either be a selector or a selector list. It’s currently set to ${neverAxeContext}.`);
   }
 }
 
@@ -81,7 +81,7 @@ function validateAxeContext(axeContext: AxeContext) {
     validateContextObject(axeContext);
   } else {
     const neverAxeContext: never = axeContext;
-    throw new TypeError(`TODO`);
+    throw new TypeError(`Accented: invalid context argument. It’s currently set to ${neverAxeContext}.`);
   }
 }
 
