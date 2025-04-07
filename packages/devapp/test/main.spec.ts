@@ -695,7 +695,7 @@ test.describe('Accented', () => {
       await expect(countWithoutButtonName).toBeLessThan(totalCount);
     });
 
-    test('axeContext', async ({ page }) => {
+    test('context', async ({ page }) => {
       await page.goto('/');
       const totalCount = await page.locator(accentedSelector).count();
       await expect(totalCount).toBeGreaterThan(0);

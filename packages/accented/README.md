@@ -37,7 +37,7 @@ The following types are exported for TypeScript consumers:
 
 ### Options
 
-#### `axeContext`
+#### `context`
 
 **Type:** see [documentation](https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter).
 

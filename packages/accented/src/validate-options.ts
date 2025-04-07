@@ -1,11 +1,11 @@
-import type { Selector, SelectorList, ContextProp, ContextObject, AccentedOptions, AxeContext } from './types';
+import type { Selector, SelectorList, ContextProp, ContextObject, AccentedOptions, Context } from './types';
 import { allowedAxeOptions } from './types.js';
 import { isNode, isNodeList } from './utils/dom-helpers.js';
 
-function isSelector(axeContextFragment: AxeContext): axeContextFragment is Selector {
-  return typeof axeContextFragment === 'string'
-    || isNode(axeContextFragment)
-    || 'fromShadowDom' in axeContextFragment;
+function isSelector(contextFragment: Context): contextFragment is Selector {
+  return typeof contextFragment === 'string'
+    || isNode(contextFragment)
+    || 'fromShadowDom' in contextFragment;
 }
 
 function validateSelector(selector: Selector) {
@@ -27,9 +27,9 @@ function validateSelector(selector: Selector) {
   }
 }
 
-function isSelectorList(axeContextFragment: AxeContext): axeContextFragment is SelectorList {
-  return (typeof axeContextFragment === 'object' && isNodeList(axeContextFragment))
-    || (Array.isArray(axeContextFragment) && axeContextFragment.every(item => isSelector(item)));
+function isSelectorList(contextFragment: Context): contextFragment is SelectorList {
+  return (typeof contextFragment === 'object' && isNodeList(contextFragment))
+    || (Array.isArray(contextFragment) && contextFragment.every(item => isSelector(item)));
 }
 
 function validateSelectorList(selectorList: SelectorList) {
@@ -45,24 +45,24 @@ function validateSelectorList(selectorList: SelectorList) {
   }
 }
 
-function isContextProp(axeContextFragment: AxeContext): axeContextFragment is ContextProp {
-  return isSelector(axeContextFragment) || isSelectorList(axeContextFragment);
+function isContextProp(contextFragment: Context): contextFragment is ContextProp {
+  return isSelector(contextFragment) || isSelectorList(contextFragment);
 }
 
-function validateContextProp(axeContext: Selector | SelectorList) {
-  if (isSelector(axeContext)) {
-    validateSelector(axeContext);
-  } else if (isSelectorList(axeContext)) {
-    validateSelectorList(axeContext);
+function validateContextProp(context: Selector | SelectorList) {
+  if (isSelector(context)) {
+    validateSelector(context);
+  } else if (isSelectorList(context)) {
+    validateSelectorList(context);
   } else {
-    const neverAxeContext: never = axeContext;
-    throw new TypeError(`Accented: invalid argument. The context property must either be a selector or a selector list. It’s currently set to ${neverAxeContext}.`);
+    const neverContext: never = context;
+    throw new TypeError(`Accented: invalid argument. The context property must either be a selector or a selector list. It’s currently set to ${neverContext}.`);
   }
 }
 
-function isContextObject(axeContextFragment: AxeContext): axeContextFragment is ContextObject {
-  return typeof axeContextFragment === 'object' && axeContextFragment !== null
-    && ('include' in axeContextFragment || 'exclude' in axeContextFragment);
+function isContextObject(contextFragment: Context): contextFragment is ContextObject {
+  return typeof contextFragment === 'object' && contextFragment !== null
+    && ('include' in contextFragment || 'exclude' in contextFragment);
 }
 
 function validateContextObject(contextObject: ContextObject) {
@@ -74,14 +74,14 @@ function validateContextObject(contextObject: ContextObject) {
   }
 }
 
-function validateAxeContext(axeContext: AxeContext) {
-  if (isContextProp(axeContext)) {
-    validateContextProp(axeContext);
-  } else if (isContextObject(axeContext)) {
-    validateContextObject(axeContext);
+function validateContext(context: Context) {
+  if (isContextProp(context)) {
+    validateContextProp(context);
+  } else if (isContextObject(context)) {
+    validateContextObject(context);
   } else {
-    const neverAxeContext: never = axeContext;
-    throw new TypeError(`Accented: invalid context argument. It’s currently set to ${neverAxeContext}.`);
+    const neverContext: never = context;
+    throw new TypeError(`Accented: invalid context argument. It’s currently set to ${neverContext}.`);
   }
 }
 
@@ -125,7 +125,7 @@ export default function validateOptions(options: AccentedOptions) {
       throw new TypeError(`Accented: invalid argument. \`axeOptions\` contains the following unsupported keys: ${unsupportedKeys.join(', ')}. Valid options are: ${allowedAxeOptions.join(', ')}.`);
     }
   }
-  if (options.axeContext !== undefined) {
-    validateAxeContext(options.axeContext);
+  if (options.context !== undefined) {
+    validateContext(options.context);
   }
 }

@@ -67,7 +67,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     // * update examples in the accented() function JSDoc;
     // * update examples in the Readme.
     const defaultOptions: Required<AccentedOptions> = {
-      axeContext: document,
+      context: document,
       axeOptions: {},
       name: 'accented',
       output: defaultOutput,
@@ -75,7 +75,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
       callback: () => {}
     };
 
-    const {axeContext, axeOptions, name, output, throttle, callback} = deepMerge(defaultOptions, options);
+    const {context, axeOptions, name, output, throttle, callback} = deepMerge(defaultOptions, options);
 
     if (enabled.value) {
       // Add link to the recipes section of the docs (#56).
@@ -91,7 +91,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     registerElements(name);
 
     const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
-    const cleanupScanner = createScanner(name, axeContext, axeOptions, throttle, callback);
+    const cleanupScanner = createScanner(name, context, axeOptions, throttle, callback);
     const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
     const cleanupLogger = output.console ? createLogger() : () => {};
     const cleanupScrollListeners = supportsAnchorPositioning(window) ? () => {} : setupScrollListeners();
