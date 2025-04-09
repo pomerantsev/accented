@@ -174,11 +174,11 @@ export type Issue = {
 };
 
 export type BaseElementWithIssues = {
-  element: HTMLElement,
+  element: HTMLElement | SVGElement,
   rootNode: Node
 };
 
-export type ElementWithIssues = BaseElementWithIssues &{
+export type ElementWithIssues = BaseElementWithIssues & {
   issues: Array<Issue>
 };
 
@@ -187,6 +187,7 @@ export type ExtendedElementWithIssues = BaseElementWithIssues & {
   visible: Signal<boolean>,
   trigger: AccentedTrigger,
   position: Signal<Position>,
+  skipRender: boolean,
   anchorNameValue: string,
   scrollableAncestors: Signal<Set<Element>>
   id: number

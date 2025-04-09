@@ -11,6 +11,13 @@ import type { AccentedDialog } from '../elements/accented-dialog';
 import getElementPosition from './get-element-position.js';
 import getScrollableAncestors from './get-scrollable-ancestors.js';
 import supportsAnchorPositioning from './supports-anchor-positioning.js';
+import { isSvgElement } from './dom-helpers.js';
+import getParent from './get-parent.js';
+
+function shouldSkipRender(element: Element): boolean {
+  const parent = getParent(element);
+  return Boolean(parent && isSvgElement(parent));
+}
 
 let count = 0;
 
@@ -82,6 +89,7 @@ export default function updateElementsWithIssues({
             return {
               id,
               element: addedElementWithIssues.element,
+              skipRender: shouldSkipRender(addedElementWithIssues.element),
               rootNode: addedElementWithIssues.rootNode,
               visible: trigger.visible,
               position: trigger.position,
