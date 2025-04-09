@@ -510,6 +510,18 @@ test.describe('Accented', () => {
         await expect(adoptedStyleSheets).toHaveLength(0);
       });
     });
+
+    test('an issue in a nested SVG is reported in the console, but an outline and trigger are not rendered for it', async ({ page }) => {
+      await page.goto('?axe-context-selector=%23nested-svg');
+
+      const consoleMessage = await page.waitForEvent('console');
+      const arg2 = await consoleMessage.args()[1]?.jsonValue();
+      await expect(Array.isArray(arg2)).toBeTruthy();
+      await expect(arg2.length).toBe(1);
+
+      const count = await page.locator(accentedSelector).count();
+      await expect(count).toBe(0);
+    });
   });
 
   test.describe('issue dialogs', () => {

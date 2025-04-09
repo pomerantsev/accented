@@ -184,6 +184,25 @@
         </div>
       </section>
 
+      <section id="nested-svg">
+        <h2>A nested SVG with an issue</h2>
+        <p>
+          We’re logging the corresponding issue in the console, but not rendering it
+          (doing it properly is more complications than it’s currently worth).
+        </p>
+        <div>
+          <svg width="70" height="70" viewBox="0 0 24 24" stroke="black" fill="none">
+            <svg x="2" width="20" viewBox="0 0 24 24" role="img">
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              ></circle>
+            </svg>
+          </svg>
+        </div>
+      </section>
+
       <section>
         <h2>Iframe testing (moving element from iframe to main document)</h2>
         <div style="margin-block-end: 1rem;">
