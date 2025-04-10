@@ -23,6 +23,14 @@ function getNonInitialContainingBlock(element: Element, win: Window): Element | 
   return null;
 }
 
+/**
+ * https://github.com/pomerantsev/accented/issues/116
+ *
+ * This calculation leads to incorrectly positioned Accented triggers when all of the following are true:
+ * * The element is an SVG element.
+ * * The element itself, or one of the element's ancestors has a scale or rotate transform.
+ * * The browser doesn't support anchor positioning.
+ */
 export default function getElementPosition(element: Element, win: Window): Position {
   const nonInitialContainingBlock = getNonInitialContainingBlock(element, win);
   // If an element has an ancestor whose transform is not 'none',
@@ -43,8 +51,6 @@ export default function getElementPosition(element: Element, win: Window): Posit
       }
       return { top, left, width, height };
     } else {
-      // TODO: https://github.com/pomerantsev/accented/issues/116
-      // This is half-baked. It works incorrectly with scaled / rotated elements with issues.
       const elementRect = element.getBoundingClientRect();
       const nonInitialContainingBlockRect = nonInitialContainingBlock.getBoundingClientRect();
       return {
