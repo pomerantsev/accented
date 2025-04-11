@@ -15,8 +15,20 @@ import { isSvgElement } from './dom-helpers.js';
 import getParent from './get-parent.js';
 
 function shouldSkipRender(element: Element): boolean {
+
+  // Skip rendering if the element is inside an SVG:
+  // https://github.com/pomerantsev/accented/issues/62
   const parent = getParent(element);
-  return Boolean(parent && isSvgElement(parent));
+  const isInsideSvg = Boolean(parent && isSvgElement(parent));
+
+  // Some issues, such as meta-viewport, are on <head> descendants,
+  // but since <head> is never rendered, we don't want to output anything
+  // for those in the DOM.
+  // We're not anticipating the use of shadow DOM in <head>,
+  // so the use of .closest() should be fine.
+  const isInsideHead = element.closest('head') !== null;
+
+  return isInsideSvg || isInsideHead;
 }
 
 let count = 0;
