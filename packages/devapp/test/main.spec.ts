@@ -521,6 +521,24 @@ test.describe('Accented', () => {
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
+
+      const triggerCount = await page.locator(accentedTriggerElementName).count();
+      await expect(triggerCount).toBe(0);
+    });
+
+    test('an issue inside <head> is reported in the console, but a trigger is not rendered for it', async ({ page }) => {
+      await page.goto('?axe-context-selector=head');
+
+      const consoleMessage = await page.waitForEvent('console');
+      const arg2 = await consoleMessage.args()[1]?.jsonValue();
+      await expect(Array.isArray(arg2)).toBeTruthy();
+      await expect(arg2.length).toBe(1);
+
+      const count = await page.locator(accentedSelector).count();
+      await expect(count).toBe(0);
+
+      const triggerCount = await page.locator(accentedTriggerElementName).count();
+      await expect(triggerCount).toBe(0);
     });
   });
 

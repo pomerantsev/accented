@@ -42,7 +42,8 @@ const baseElement = {
   getRootNode,
   style: {
     getPropertyValue: () => ''
-  }
+  },
+  closest: () => null,
 }
 
 // @ts-expect-error element is not HTMLElement
