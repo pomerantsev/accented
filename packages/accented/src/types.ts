@@ -71,11 +71,14 @@ type CallbackParams = {
    *   It’s further divided into the `scan` and `domUpdate` phases.
    * * `scan`: how long the `scan` phase took, in milliseconds.
    * * `domUpdate`: how long the `domUpdate` phase took, in milliseconds.
+   * * `scanContext`: nodes that got scanned. Either an array of nodes,
+   *   or an object with `include` and `exclude` properties (if any nodes were excluded).
    * */
   performance: {
     totalBlockingTime: number,
     scan: number,
-    domUpdate: number
+    domUpdate: number,
+    scanContext: ScanContext | Array<Node>
   }
 }
 

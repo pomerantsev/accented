@@ -81,7 +81,11 @@ export default function createScanner(name: string, context: Context, axeOptions
         performance: {
           totalBlockingTime: scanDuration + domUpdateDuration,
           scan: scanDuration,
-          domUpdate: domUpdateDuration
+          domUpdate: domUpdateDuration,
+          // Assuming that the {include, exclude} shape of the context object will be used less often
+          // than other variants, we'll output just the `include` array in case nothing is excluded
+          // in the scan.
+          scanContext: scanContext.exclude.length > 0 ? scanContext : scanContext.include
         }
       });
     } catch (error) {
