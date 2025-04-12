@@ -49,6 +49,7 @@ export default (name: string) => {
         inset-inline-end: 4px;
 
         box-sizing: border-box;
+        font-family: system-ui;
         font-size: calc(var(--ratio) * var(--ratio) * var(--base-size));
         inline-size: calc(2 * var(--base-size));
         block-size: calc(2 * var(--base-size));
@@ -81,7 +82,7 @@ export default (name: string) => {
         }
       }
     </style>
-    <button id="trigger" lang="en">!</button>
+    <button id="trigger" lang="en">á</button>
   `;
 
   return class extends HTMLElement implements AccentedTrigger {
