@@ -464,12 +464,25 @@ test.describe('Accented', () => {
 
     test('issues in details elements get reported correctly', async ({ page }) => {
       await page.goto('/');
-      const details = await page.locator('details');
+      const details = await page.locator('#details');
       const elementsWithIssues = await details.locator(accentedSelector);
       await expect(await elementsWithIssues.count()).toBe(0);
       await details.locator('summary').click();
       await elementsWithIssues.first().waitFor();
       await expect(await elementsWithIssues.count()).toBeGreaterThan(0);
+    });
+
+    test('the Accented trigger on a <summary> is visible when collapsed', async ({ page }) => {
+      await page.goto('/');
+
+      const summaryContainer = await page.locator('#summary');
+      await summaryContainer.scrollIntoViewIfNeeded();
+
+      const summary = await summaryContainer.locator('summary');
+
+      const triggerContainer = await getTriggerContainer(page, summary);
+
+      await expect(triggerContainer).toBeVisible();
     });
 
     test('issue triggers are correctly positioned in fullscreen mode', async ({ page }) => {
