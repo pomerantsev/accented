@@ -10,7 +10,12 @@ This is a work in progress.
 
 ## Development notes
 
-* Placeholder favicon generated with https://favicon.io/favicon-generator/. I immediately forgot what the font was, but I won't relese this like this anyway.
+* Placeholder favicon generated with https://favicon.io/favicon-generator/.
+  * Text: á
+  * Background: rounded
+  * Font family: Noto Sans
+  * Font variant: Regular 400 Normal
+  * Font size: 110
 * In the Contributing docs, mention that `pnpm` needs to be installed first.
 * To update dependencies, run `pnpm update --recursive --latest` (or `pnpm up -rL`) (TODO: try offloading this to dependabot)
 * For publishing, we're using Changesets that does everything automatically for us. We only need to run `pnpm changeset` on every changeset.
