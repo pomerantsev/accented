@@ -12,6 +12,8 @@ This is a work in progress.
 
 * Placeholder favicon generated with https://favicon.io/favicon-generator/.
   * Text: á
+  * Font color: #ffffff
+  * Background color: #bb005e (the closest RGB to the primary oklch(0.5 0.3 0), according to https://oklch.com/)
   * Background: rounded
   * Font family: Noto Sans
   * Font variant: Regular 400 Normal
