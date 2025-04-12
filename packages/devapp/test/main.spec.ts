@@ -540,6 +540,21 @@ test.describe('Accented', () => {
       const triggerCount = await page.locator(accentedTriggerElementName).count();
       await expect(triggerCount).toBe(0);
     });
+
+    test('issues in table cells don’t break the table layout', async ({ page }) => {
+      await page.goto('?axe-context-selector=%23table');
+
+      const tableSection = await page.locator('#table');
+      await tableSection.scrollIntoViewIfNeeded();
+
+      const count = await page.locator(`${accentedSelector}:is(th, td)`).count();
+      await expect(count).toBe(2);
+
+      const rows = await tableSection.locator('tr').all();
+      for (const row of rows) {
+        expect(await row.evaluate(node => node.children.length)).toBe(3);
+      }
+    });
   });
 
   test.describe('issue dialogs', () => {

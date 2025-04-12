@@ -20,6 +20,15 @@ section {
   }
 }
 
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid currentColor;
+  padding: 0.5rem;
+}
+
 .test-button {
   inline-size: 5rem;
   block-size: min-content;

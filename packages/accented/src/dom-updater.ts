@@ -6,6 +6,23 @@ import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { isDocument, isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';
 import getParent from './utils/get-parent.js';
 
+const shouldInsertTriggerInsideElement = (element: Element): boolean => {
+  /**
+   * No parent means that the element is a root node,
+   * which cannot have siblings.
+   */
+  const noParent = !getParent(element);
+
+  /**
+   * Table cells get a special treatment because if a sibling to a TH or TD is inserted,
+   * it alters the table layout, no matter how that sibling is positioned.
+   * We don't want tables to look broken, so we're inserting the trigger inside the table cell.
+   */
+  const isTableCell = element.nodeName === 'TH' || element.nodeName === 'TD';
+
+  return noParent || isTableCell;
+};
+
 export default function createDomUpdater(name: string, intersectionObserver?: IntersectionObserver) {
   const attrName = `data-${name}`;
 
@@ -46,10 +63,10 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
         setAnchorName(elementWithIssues);
       }
 
-      if (getParent(elementWithIssues.element)) {
-        elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
-      } else {
+      if (shouldInsertTriggerInsideElement(elementWithIssues.element)) {
         elementWithIssues.element.insertAdjacentElement('beforeend', elementWithIssues.trigger);
+      } else {
+        elementWithIssues.element.insertAdjacentElement('afterend', elementWithIssues.trigger);
       }
       if (intersectionObserver) {
         intersectionObserver.observe(elementWithIssues.element);
