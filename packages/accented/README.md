@@ -100,6 +100,8 @@ It accepts a single `params` object with the following properties:
     It’s further divided into the `scan` and `domUpdate` phases.
   * `scan`: how long the `scan` phase took, in milliseconds.
   * `domUpdate`: how long the `domUpdate` phase took, in milliseconds.
+  * `scanContext`: nodes that got scanned. Either an array of nodes,
+    or an object with `include` and `exclude` properties (if any nodes were excluded).
 
 **Example:**
 

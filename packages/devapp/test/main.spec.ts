@@ -768,6 +768,33 @@ test.describe('Accented', () => {
       await page.goto(`?disable&no-console&performance&throttle-wait=100&no-leading`);
     });
 
+    test('uses expected scan context', async ({ page }) => {
+      await page.getByRole('button', { name: 'Toggle Accented' }).click();
+      await page.waitForEvent('console');
+
+      let contextLength;
+      let contextElementId;
+
+      page.on('console', async message => {
+        const args = message.args();
+        const { length, id } = await args[1]?.evaluate((perfObject) => {
+          return {
+            length: perfObject.scanContext.length,
+            id: perfObject.scanContext[0].id
+          };
+        })!;
+        contextLength = length;
+        contextElementId = id;
+      });
+
+      await page.getByRole('button', { name: 'Add one element with an issue' }).click();
+
+      await page.waitForTimeout(500);
+
+      expect(contextLength).toBe(1);
+      expect(contextElementId).toBe('few-elements');
+    });
+
     type Duration = 'short' | 'long';
 
     async function expectPerformance(page: Page, { scan, domUpdate }: { scan: Duration; domUpdate: Duration }) {
