@@ -20,7 +20,14 @@ const shouldInsertTriggerInsideElement = (element: Element): boolean => {
    */
   const isTableCell = element.nodeName === 'TH' || element.nodeName === 'TD';
 
-  return noParent || isTableCell;
+  /**
+   * We want to put the trigger inside the <summary> element,
+   * because otherwise it will be hidden by the browser when the <details> element is collapsed
+   * (since none of the siblings of <summary> are visible then).
+   */
+  const isSummary = element.nodeName === 'SUMMARY';
+
+  return noParent || isTableCell || isSummary;
 };
 
 export default function createDomUpdater(name: string, intersectionObserver?: IntersectionObserver) {
