@@ -44,9 +44,9 @@ export default (name: string) => {
       #trigger {
         pointer-events: auto;
 
-        position: absolute;
-        inset-block-start: 4px;
-        inset-inline-end: 4px;
+        margin-inline-start: auto;
+        margin-inline-end: 4px;
+        margin-block-start: 4px;
 
         box-sizing: border-box;
         font-family: system-ui;

@@ -185,13 +185,18 @@ test.describe('Accented', () => {
       }
     });
 
-    test('triggers are rendered in the correct positions', async ({ page }) => {
+    test('triggers are rendered in the correct positions, and are all interactable', async ({ page }) => {
       const elements = await page.locator(accentedSelector).all();
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const triggerContainer = await getTriggerContainer(page, element);
         await expectElementAndTriggerToBeAligned(element, triggerContainer);
+
+        const issueDialog = await openAccentedDialog(page, element);
+        await expect(issueDialog).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(issueDialog).not.toBeVisible();
       }
     });
 

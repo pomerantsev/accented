@@ -31,8 +31,8 @@ export async function expectElementAndTriggerToBeAligned(element: Locator, trigg
   // For ease of testing, make the trigger button flush with the element's inline end and block start
   // (usually top right).
   await trigger.evaluate(el => {
-    el.style.setProperty('inset-inline-end', '0');
-    el.style.setProperty('inset-block-start', '0');
+    el.style.setProperty('margin-inline-end', '0');
+    el.style.setProperty('margin-block-start', '0');
   });
 
   const triggerRect = await getBoundingClientRect(trigger);

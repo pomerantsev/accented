@@ -13,6 +13,7 @@ import type { AccentedOptions, DisableAccented } from './types';
 import validateOptions from './validate-options.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import logAndRethrow from './log-and-rethrow.js';
+import { initializeContainingBlockSupportSet } from './utils/containing-blocks.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -88,6 +89,7 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
 
     enabled.value = true;
 
+    initializeContainingBlockSupportSet();
     registerElements(name);
 
     const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
