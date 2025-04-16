@@ -725,8 +725,8 @@ test.describe('Accented', () => {
       });
 
       test('adding new elements with leading: false', async ({ page }) => {
-        await page.goto(`?throttle-wait=300&no-leading`);
-        await page.waitForTimeout(350);
+        await page.goto(`?throttle-wait=1000&no-leading`);
+        await page.waitForTimeout(1100);
         const button = await page.getByRole('button', { name: 'Add one element with an issue' });
         await button.click();
         await button.click();
@@ -734,7 +734,7 @@ test.describe('Accented', () => {
         const newButton2 = await page.getByRole('button', { name: 'Button 2' });
         await expect(newButton1).not.toHaveAttribute(accentedDataAttr, { timeout: 50 });
         await expect(newButton2).not.toHaveAttribute(accentedDataAttr, { timeout: 50 });
-        await page.waitForTimeout(350);
+        await page.waitForTimeout(1100);
         await expect(newButton1).toHaveAttribute(accentedDataAttr);
         await expect(newButton2).toHaveAttribute(accentedDataAttr);
       });
