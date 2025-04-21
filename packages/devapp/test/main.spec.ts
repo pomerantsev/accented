@@ -375,6 +375,13 @@ test.describe('Accented', () => {
       const arg2 = await consoleMessage.args()[1]?.jsonValue();
       await expect(Array.isArray(arg2)).toBeTruthy();
       await expect(arg2.length).toBeGreaterThan(0);
+
+      // Expect that only certain keys are present on each element
+      const expectedKeys = ['element', 'issues'];
+      await expect(Object.keys(arg2[0]).length).toBe(expectedKeys.length);
+      for (const key of expectedKeys) {
+        await expect(arg2[0]).toHaveProperty(key);
+      }
     });
 
     test('when Accented is toggled off, it doesn’t log an extra message', async ({ page }) => {
