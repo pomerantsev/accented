@@ -592,19 +592,25 @@ test.describe('Accented', () => {
       await expect(dialog).toContainText('role="directory"');
     });
 
-    test('issue descriptions and element HTML are updated if the element is updated', async ({ page }) => {
-      await page.goto('?remove-issues-on-timeout');
-      const dialog = await openAccentedDialog(page, '#over-2-issues');
-      const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
-      await expect(dialog).toContainText('role="directory"');
-      const statusElement = page.locator('#issues-updated-status');
-      await statusElement.waitFor();
-      // Give the DOM a chance to stabilize
-      await page.waitForTimeout(500);
-      const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
-      expect(updatedIssueDescriptionCount).toBeLessThan(initialIssueDescriptionCount);
-      await expect(dialog).toContainText('role=""');
-    });
+    for (const url of [
+      '?remove-some-issues-on-timeout',
+      '?remove-all-issues-on-timeout',
+      '?remove-element-on-timeout'
+    ]) {
+      test(`issue descriptions and element HTML are not updated when on ${url}`, async ({ page }) => {
+        await page.goto(url);
+        const dialog = await openAccentedDialog(page, '#over-2-issues');
+        const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
+        await expect(dialog).toContainText('role="directory"');
+        const statusElement = page.locator('#issues-updated-status');
+        await statusElement.waitFor();
+        // Give the DOM a chance to stabilize
+        await page.waitForTimeout(500);
+        const updatedIssueDescriptionCount = await dialog.locator('#issues > li').count();
+        expect(updatedIssueDescriptionCount).toBe(initialIssueDescriptionCount);
+        await expect(dialog).not.toContainText('role=""');
+      });
+    }
 
     test('dialog can be dismissed by clicking the mouse outside the dialog', async ({ page }) => {
       await page.goto('/');

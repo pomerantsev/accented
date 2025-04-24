@@ -201,7 +201,7 @@ export default (name: string) => {
         if (this.#abortController) {
           this.#abortController.abort();
         }
-        if (this.#dialogCloseAbortController) {
+        if (this.#dialogCloseAbortController && !this.dialog?.open) {
           this.#dialogCloseAbortController.abort();
           this.dialog?.remove();
         }

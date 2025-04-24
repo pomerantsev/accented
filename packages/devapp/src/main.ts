@@ -45,12 +45,36 @@ document.getElementById('remove-button')?.addEventListener('click', () => {
   document.getElementById('button-with-single-issue')?.remove();
 });
 
-if (searchParams.has('remove-issues-on-timeout')) {
+if (searchParams.has('remove-some-issues-on-timeout')) {
   setTimeout(() => {
     const buttonWithManyIssues = document.getElementById('over-2-issues');
     const status = document.getElementById('issues-updated-status');
     if (buttonWithManyIssues && status) {
       buttonWithManyIssues.role = '';
+      status.hidden = false;
+    }
+  }, 1000);
+}
+
+if (searchParams.has('remove-all-issues-on-timeout')) {
+  setTimeout(() => {
+    const buttonWithManyIssues = document.getElementById('over-2-issues');
+    const status = document.getElementById('issues-updated-status');
+    if (buttonWithManyIssues && status) {
+      buttonWithManyIssues.role = '';
+      status.hidden = false;
+      buttonWithManyIssues.removeAttribute('aria-checked');
+      buttonWithManyIssues.innerText = 'Click me';
+    }
+  }, 1000);
+}
+
+if (searchParams.has('remove-element-on-timeout')) {
+  setTimeout(() => {
+    const buttonWithManyIssues = document.getElementById('over-2-issues');
+    const status = document.getElementById('issues-updated-status');
+    if (buttonWithManyIssues && status) {
+      buttonWithManyIssues.remove();
       status.hidden = false;
     }
   }, 1000);
