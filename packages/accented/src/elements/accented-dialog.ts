@@ -1,6 +1,5 @@
 import type { Issue } from '../types';
 import type { Signal } from '@preact/signals-core';
-import { effect } from '@preact/signals-core';
 import getElementHtml from '../utils/get-element-html.js';
 import { accentedUrl } from '../constants.js';
 import logAndRethrow from '../log-and-rethrow.js';
@@ -9,6 +8,7 @@ export interface AccentedDialog extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;
   element: Element | undefined;
   showModal: () => void;
+  open: boolean;
 }
 
 // We want Accented to not throw an error in Node, and use static imports,
@@ -241,15 +241,13 @@ export default () => {
   `);
 
   return class extends HTMLElement implements AccentedDialog {
-    #disposeOfEffect: (() => void) | undefined;
-
     #abortController: AbortController | undefined;
 
     issues: Signal<Array<Issue>> | undefined;
 
     element: Element | undefined;
 
-    #elementMutationObserver: MutationObserver | undefined;
+    open: boolean = false;
 
     constructor() {
       try {
@@ -298,75 +296,52 @@ export default () => {
             }
           }, { signal: this.#abortController.signal });
 
-          this.#disposeOfEffect = effect(() => {
-            if (this.issues) {
-              const issues = this.issues.value;
-              const issuesList = shadowRoot.getElementById('issues');
-              if (issuesList) {
-                issuesList.innerHTML = '';
-                for (const issue of issues) {
-                  const issueContent = issueTemplate.content.cloneNode(true) as Element;
-                  const title = issueContent.querySelector('a');
-                  const impact = issueContent.querySelector('.impact');
-                  const description = issueContent.querySelector('.description');
-                  if (title && impact && description) {
-                    title.textContent = issue.title + ' (' + issue.id + ')';
-                    title.href = issue.url;
+          if (this.issues) {
+            const issues = this.issues.value;
+            const issuesList = shadowRoot.getElementById('issues');
+            if (issuesList) {
+              issuesList.innerHTML = '';
+              for (const issue of issues) {
+                const issueContent = issueTemplate.content.cloneNode(true) as Element;
+                const title = issueContent.querySelector('a');
+                const impact = issueContent.querySelector('.impact');
+                const description = issueContent.querySelector('.description');
+                if (title && impact && description) {
+                  title.textContent = issue.title + ' (' + issue.id + ')';
+                  title.href = issue.url;
 
-                    impact.textContent = 'User impact: ' + issue.impact;
-                    impact.setAttribute('data-impact', String(issue.impact));
+                  impact.textContent = 'User impact: ' + issue.impact;
+                  impact.setAttribute('data-impact', String(issue.impact));
 
-                    const descriptionItems = issue.description.split(/\n\s*/);
-                    const descriptionContent = descriptionTemplate.content.cloneNode(true) as Element;
-                    const descriptionTitle = descriptionContent.querySelector('span');
-                    const descriptionList = descriptionContent.querySelector('ul');
-                    if (descriptionTitle && descriptionList && descriptionItems.length > 1) {
-                      descriptionTitle.textContent = descriptionItems[0]!;
-                      for (const descriptionItem of descriptionItems.slice(1)) {
-                        const li = document.createElement('li');
-                        li.textContent = descriptionItem;
-                        descriptionList.appendChild(li);
-                      }
-                      description.appendChild(descriptionContent);
+                  const descriptionItems = issue.description.split(/\n\s*/);
+                  const descriptionContent = descriptionTemplate.content.cloneNode(true) as Element;
+                  const descriptionTitle = descriptionContent.querySelector('span');
+                  const descriptionList = descriptionContent.querySelector('ul');
+                  if (descriptionTitle && descriptionList && descriptionItems.length > 1) {
+                    descriptionTitle.textContent = descriptionItems[0]!;
+                    for (const descriptionItem of descriptionItems.slice(1)) {
+                      const li = document.createElement('li');
+                      li.textContent = descriptionItem;
+                      descriptionList.appendChild(li);
                     }
+                    description.appendChild(descriptionContent);
                   }
-                  issuesList.appendChild(issueContent);
                 }
+                issuesList.appendChild(issueContent);
               }
             }
-          });
+          }
 
-          const updateElementHtml = () => {
-            if (this.element) {
-              const elementHtmlContainer = shadowRoot.getElementById('element-html');
-              if (elementHtmlContainer) {
-                elementHtmlContainer.textContent = getElementHtml(this.element);
-              }
-            }
-          };
-
-          updateElementHtml();
-
-          this.#elementMutationObserver = new MutationObserver(() => {
-            try {
-              updateElementHtml();
-            } catch (error) {
-              logAndRethrow(error);
-            }
-          });
           if (this.element) {
-            // We're only outputting the element itself, not its subtree.
-            // However, we're still listening for childList changes, because
-            // we display an ellipsis if the element has innerHTML,
-            // and we leave it empty if the element is empty.
-            this.#elementMutationObserver.observe(this.element, {
-              attributes: true,
-              childList: true
-            });
+            const elementHtmlContainer = shadowRoot.getElementById('element-html');
+            if (elementHtmlContainer) {
+              elementHtmlContainer.textContent = getElementHtml(this.element);
+            }
           }
 
           dialog?.addEventListener('close', () => {
             try {
+              this.open = false;
               this.dispatchEvent(new Event('close'));
             } catch (error) {
               logAndRethrow(error);
@@ -380,14 +355,8 @@ export default () => {
 
     disconnectedCallback() {
       try {
-        if (this.#disposeOfEffect) {
-          this.#disposeOfEffect();
-        }
         if (this.#abortController) {
           this.#abortController.abort();
-        }
-        if (this.#elementMutationObserver) {
-          this.#elementMutationObserver.disconnect();
         }
       } catch (error) {
         logAndRethrow(error);
@@ -399,6 +368,7 @@ export default () => {
         const dialog = this.shadowRoot.querySelector('dialog');
         if (dialog) {
           dialog.showModal();
+          this.open = true;
         }
       }
     }
