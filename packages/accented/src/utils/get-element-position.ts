@@ -73,17 +73,17 @@ export default function getElementPosition(element: Element, win: Window): Posit
         currentElement = currentElement.offsetParent as HTMLElement | null;
       }
       return { top, left, width, height };
-    } else {
-      const elementRect = element.getBoundingClientRect();
-      const nonInitialContainingBlockRect = nonInitialContainingBlock.getBoundingClientRect();
-      return {
-        top: elementRect.top - nonInitialContainingBlockRect.top,
-        height: elementRect.height,
-        left: elementRect.left - nonInitialContainingBlockRect.left,
-        width: elementRect.width,
-      };
     }
-  } else {
-    return element.getBoundingClientRect();
+
+    const elementRect = element.getBoundingClientRect();
+    const nonInitialContainingBlockRect = nonInitialContainingBlock.getBoundingClientRect();
+    return {
+      top: elementRect.top - nonInitialContainingBlockRect.top,
+      height: elementRect.height,
+      left: elementRect.left - nonInitialContainingBlockRect.left,
+      width: elementRect.width,
+    };
   }
+
+  return element.getBoundingClientRect();
 }

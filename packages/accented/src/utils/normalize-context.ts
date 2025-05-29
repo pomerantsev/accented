@@ -20,11 +20,11 @@ function recursiveSelectAll(selectors: Array<string>, root: Document | ShadowRoo
 function selectorToNodes(selector: Selector): Array<Node> {
   if (typeof selector === 'string') {
     return recursiveSelectAll([selector], document);
-  } else if (isNode(selector)) {
-    return [selector];
-  } else {
-    return recursiveSelectAll(selector.fromShadowDom, document);
   }
+  if (isNode(selector)) {
+    return [selector];
+  }
+  return recursiveSelectAll(selector.fromShadowDom, document);
 }
 
 function contextPropToNodes(contextProp: ContextProp): Array<Node> {

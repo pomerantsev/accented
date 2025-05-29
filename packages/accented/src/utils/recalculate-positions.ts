@@ -14,11 +14,11 @@ export default function recalculatePositions() {
     try {
       frameRequested = false;
       batch(() => {
-        extendedElementsWithIssues.value.forEach(({ element, position, visible }) => {
+        for (const { element, position, visible } of extendedElementsWithIssues.value) {
           if (visible.value && element.isConnected) {
             position.value = getElementPosition(element, window);
           }
-        });
+        }
       });
     } catch (error) {
       logAndRethrow(error);

@@ -20,9 +20,11 @@ function isSelector(contextFragment: Context): contextFragment is Selector {
 function validateSelector(selector: Selector) {
   if (typeof selector === 'string') {
     return;
-  } else if (isNode(selector)) {
+  }
+  if (isNode(selector)) {
     return;
-  } else if ('fromShadowDom' in selector) {
+  }
+  if ('fromShadowDom' in selector) {
     if (
       !Array.isArray(selector.fromShadowDom) ||
       selector.fromShadowDom.length < 2 ||
@@ -33,12 +35,11 @@ function validateSelector(selector: Selector) {
       );
     }
     return;
-  } else {
-    const neverSelector: never = selector;
-    throw new TypeError(
-      `Accented: invalid argument. The selector must be one of: string, Node, or an object with a \`fromShadowDom\` property. It’s currently set to ${neverSelector}.`,
-    );
   }
+  const neverSelector: never = selector;
+  throw new TypeError(
+    `Accented: invalid argument. The selector must be one of: string, Node, or an object with a \`fromShadowDom\` property. It’s currently set to ${neverSelector}.`,
+  );
 }
 
 function isSelectorList(contextFragment: Context): contextFragment is SelectorList {
@@ -51,7 +52,8 @@ function isSelectorList(contextFragment: Context): contextFragment is SelectorLi
 function validateSelectorList(selectorList: SelectorList) {
   if (isNodeList(selectorList)) {
     return;
-  } else if (Array.isArray(selectorList)) {
+  }
+  if (Array.isArray(selectorList)) {
     for (const selector of selectorList) {
       validateSelector(selector);
     }

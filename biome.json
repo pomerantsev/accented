@@ -22,20 +22,15 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "complexity": {
-        "noForEach": "off"
-      },
       "correctness": {
         "noUnreachableSuper": "off",
-        "noUnusedImports": "error",
-        "useImportExtensions": "error"
+        "noUnusedImports": "error"
       },
       "performance": {
         "noAccumulatingSpread": "off"
       },
       "style": {
         "noNonNullAssertion": "off",
-        "noUselessElse": "off",
         "useTemplate": "off"
       },
       "suspicious": {
@@ -51,12 +46,12 @@
   },
   "overrides": [
     {
-      "include": ["**"],
-      "ignore": ["packages/accented/src/**/*{!.test}.ts"],
+      "include": ["packages/accented/src/**/*.ts"],
+      "ignore": ["packages/accented/src/**/*.test.ts"],
       "linter": {
         "rules": {
           "correctness": {
-            "useImportExtensions": "off"
+            "useImportExtensions": "error"
           }
         }
       }
