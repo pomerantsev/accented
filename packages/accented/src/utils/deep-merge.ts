@@ -1,4 +1,5 @@
-type AnyObject = Record<string, unknown>;
+// biome-ignore lint/suspicious/noExplicitAny: I'm not sure how to type this properly
+type AnyObject = Record<string, any>;
 
 const isObject = (obj: unknown): obj is AnyObject =>
   typeof obj === 'object' && obj !== null && !Array.isArray(obj);

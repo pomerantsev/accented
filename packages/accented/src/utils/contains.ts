@@ -15,7 +15,5 @@ export default function contains(ancestor: Node, descendant: Node): boolean {
     }
     rootNode = host.getRootNode();
   }
-  const a: boolean = true;
-  console.log(a);
   return false;
 }
