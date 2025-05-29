@@ -5,12 +5,12 @@ export default function registerElements(name: string): void {
   const elements = [
     {
       elementName: `${name}-trigger`,
-      Component: getAccentedTrigger(name)
+      Component: getAccentedTrigger(name),
     },
     {
       elementName: `${name}-dialog`,
-      Component: getAccentedDialog()
-    }
+      Component: getAccentedDialog(),
+    },
   ];
 
   for (const { elementName, Component } of elements) {
@@ -18,4 +18,4 @@ export default function registerElements(name: string): void {
       customElements.define(elementName, Component);
     }
   }
-};
+}

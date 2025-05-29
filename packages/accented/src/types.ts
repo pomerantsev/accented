@@ -8,7 +8,7 @@ export type Throttle = {
    *
    * Default: `1000`.
    * */
-  wait?: number,
+  wait?: number;
 
   /**
    * When to run the scan on Accented initialization or on a mutation.
@@ -17,8 +17,8 @@ export type Throttle = {
    *
    * Default: `true`.
    * */
-  leading?: boolean
-}
+  leading?: boolean;
+};
 
 export type Output = {
   /**
@@ -26,8 +26,8 @@ export type Output = {
    *
    * Default: `true`.
    * */
-  console?: boolean
-}
+  console?: boolean;
+};
 
 /**
  * Model context type based on axe.ElementContext,
@@ -43,27 +43,27 @@ export type SelectorList = Array<Selector> | NodeList;
 // The rest of the type is structured the same as in axe-core.
 export type ContextProp = Selector | SelectorList;
 
-export type ContextObject = {
-  include: ContextProp;
-  exclude?: ContextProp;
-} | {
-  exclude: ContextProp;
-  include?: ContextProp;
-};
+export type ContextObject =
+  | {
+      include: ContextProp;
+      exclude?: ContextProp;
+    }
+  | {
+      exclude: ContextProp;
+      include?: ContextProp;
+    };
 
 export type Context = ContextProp | ContextObject;
 
-
-
 export const allowedAxeOptions = ['rules', 'runOnly'] as const;
 
-export type AxeOptions = Pick<axe.RunOptions, typeof allowedAxeOptions[number]>;
+export type AxeOptions = Pick<axe.RunOptions, (typeof allowedAxeOptions)[number]>;
 
 type CallbackParams = {
   /**
    * The most current array of elements with issues.
    * */
-  elementsWithIssues: Array<ElementWithIssues>,
+  elementsWithIssues: Array<ElementWithIssues>;
 
   /**
    * * `performance`: runtime performance of the last scan. An object:
@@ -75,17 +75,16 @@ type CallbackParams = {
    *   or an object with `include` and `exclude` properties (if any nodes were excluded).
    * */
   performance: {
-    totalBlockingTime: number,
-    scan: number,
-    domUpdate: number,
-    scanContext: ScanContext | Array<Node>
-  }
-}
+    totalBlockingTime: number;
+    scan: number;
+    domUpdate: number;
+    scanContext: ScanContext | Array<Node>;
+  };
+};
 
 export type Callback = (params: CallbackParams) => void;
 
 export type AccentedOptions = {
-
   /**
    * The `context` parameter for `axe.run()`.
    *
@@ -102,7 +101,7 @@ export type AccentedOptions = {
    *
    * Default: `document`.
    */
-  context?: Context,
+  context?: Context;
 
   /**
    * The `options` parameter for `axe.run()`.
@@ -118,7 +117,7 @@ export type AccentedOptions = {
    *
    * Default: `{}`.
    */
-  axeOptions?: AxeOptions,
+  axeOptions?: AxeOptions;
 
   /**
    * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
@@ -135,24 +134,24 @@ export type AccentedOptions = {
    *
    * Default: `accented`.
    */
-  name?: string,
+  name?: string;
 
   /**
    * Output options object.
    * */
-  output?: Output,
+  output?: Output;
 
   /**
    * Scan throttling options object.
    * */
-  throttle?: Throttle,
+  throttle?: Throttle;
 
   /**
    * A callback that will be called after each scan.
    *
    * Default: `() => {}`.
    * */
-  callback?: Callback
+  callback?: Callback;
 };
 
 /**
@@ -162,41 +161,41 @@ export type AccentedOptions = {
 export type DisableAccented = () => void;
 
 export type Position = {
-  left: number,
-  top: number,
-  width: number,
-  height: number
+  left: number;
+  top: number;
+  width: number;
+  height: number;
 };
 
 export type Issue = {
-  id: string,
-  title: string,
-  description: string,
-  url: string,
-  impact: axe.ImpactValue
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  impact: axe.ImpactValue;
 };
 
 export type BaseElementWithIssues = {
-  element: HTMLElement | SVGElement,
-  rootNode: Node
+  element: HTMLElement | SVGElement;
+  rootNode: Node;
 };
 
 export type ElementWithIssues = BaseElementWithIssues & {
-  issues: Array<Issue>
+  issues: Array<Issue>;
 };
 
 export type ExtendedElementWithIssues = BaseElementWithIssues & {
-  issues: Signal<ElementWithIssues['issues']>,
-  visible: Signal<boolean>,
-  trigger: AccentedTrigger,
-  position: Signal<Position>,
-  skipRender: boolean,
-  anchorNameValue: string,
-  scrollableAncestors: Signal<Set<Element>>
-  id: number
+  issues: Signal<ElementWithIssues['issues']>;
+  visible: Signal<boolean>;
+  trigger: AccentedTrigger;
+  position: Signal<Position>;
+  skipRender: boolean;
+  anchorNameValue: string;
+  scrollableAncestors: Signal<Set<Element>>;
+  id: number;
 };
 
 export type ScanContext = {
-  include: Array<Node>,
-  exclude: Array<Node>
+  include: Array<Node>;
+  exclude: Array<Node>;
 };

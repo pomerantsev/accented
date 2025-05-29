@@ -8,7 +8,6 @@ function filterPropsForOutput(elements: Array<ElementWithIssues>) {
 }
 
 export default function createLogger() {
-
   let firstRun = true;
 
   return effect(() => {
@@ -18,10 +17,13 @@ export default function createLogger() {
 
     const elementCount = elementsWithIssues.value.length;
     if (elementCount > 0) {
-      const issueCount = elementsWithIssues.value.reduce((acc, { issues }) => acc + issues.length, 0);
+      const issueCount = elementsWithIssues.value.reduce(
+        (acc, { issues }) => acc + issues.length,
+        0,
+      );
       console.log(
         `${issueCount} accessibility issue${issueCount === 1 ? '' : 's'} found in ${elementCount} element${issueCount === 1 ? '' : 's'} (Accented, ${accentedUrl}):\n`,
-        filterPropsForOutput(elementsWithIssues.value)
+        filterPropsForOutput(elementsWithIssues.value),
       );
     } else {
       if (firstRun) {

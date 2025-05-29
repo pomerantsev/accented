@@ -11,7 +11,13 @@ import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutat
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 
-export default function createScanner(name: string, context: Context, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
+export default function createScanner(
+  name: string,
+  context: Context,
+  axeOptions: AxeOptions,
+  throttle: Required<Throttle>,
+  callback: Callback,
+) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win: Record<string, any> = window;
   const taskQueue = new TaskQueue<Node>(async (nodes) => {
@@ -23,7 +29,6 @@ export default function createScanner(name: string, context: Context, axeOptions
     }
 
     try {
-
       performance.mark('scan-start');
 
       win[axeRunningWindowProp] = true;
@@ -43,14 +48,14 @@ export default function createScanner(name: string, context: Context, axeOptions
           // A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
           iframes: false,
           resultTypes: ['violations'],
-          ...axeOptions
+          ...axeOptions,
         });
       } catch (error) {
         console.error(
           'Accented: axe-core (the accessibility testing engine) threw an error. ' +
             'Check the `axeOptions` property that you’re passing to Accented. ' +
             `If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
-          error
+          error,
         );
         result = { violations: [] };
       }
@@ -70,7 +75,7 @@ export default function createScanner(name: string, context: Context, axeOptions
         scanContext,
         violations: result.violations,
         win: window,
-        name
+        name,
       });
 
       const domUpdateMeasure = performance.measure('dom-update', 'dom-update-start');
@@ -85,8 +90,8 @@ export default function createScanner(name: string, context: Context, axeOptions
           // Assuming that the {include, exclude} shape of the context object will be used less often
           // than other variants, we'll output just the `include` array in case nothing is excluded
           // in the scan.
-          scanContext: scanContext.exclude.length > 0 ? scanContext : scanContext.include
-        }
+          scanContext: scanContext.exclude.length > 0 ? scanContext : scanContext.include,
+        },
       });
     } catch (error) {
       win[axeRunningWindowProp] = false;
@@ -97,15 +102,21 @@ export default function createScanner(name: string, context: Context, axeOptions
   taskQueue.add(document);
 
   const accentedElementNames = getAccentedElementNames(name);
-  const mutationObserver = createShadowDOMAwareMutationObserver(name, mutationList => {
+  const mutationObserver = createShadowDOMAwareMutationObserver(name, (mutationList) => {
     try {
       // We're not interested in mutations that are caused exclusively by the custom elements
       // introduced by Accented.
-      const listWithoutAccentedElements = mutationList.filter(mutationRecord => {
-        const onlyAccentedElementsAddedOrRemoved = mutationRecord.type === 'childList' &&
-          [...mutationRecord.addedNodes].every(node => accentedElementNames.includes(node.nodeName.toLowerCase())) &&
-          [...mutationRecord.removedNodes].every(node => accentedElementNames.includes(node.nodeName.toLowerCase()));
-        const accentedElementChanged = mutationRecord.type === 'attributes' &&
+      const listWithoutAccentedElements = mutationList.filter((mutationRecord) => {
+        const onlyAccentedElementsAddedOrRemoved =
+          mutationRecord.type === 'childList' &&
+          [...mutationRecord.addedNodes].every((node) =>
+            accentedElementNames.includes(node.nodeName.toLowerCase()),
+          ) &&
+          [...mutationRecord.removedNodes].every((node) =>
+            accentedElementNames.includes(node.nodeName.toLowerCase()),
+          );
+        const accentedElementChanged =
+          mutationRecord.type === 'attributes' &&
           accentedElementNames.includes(mutationRecord.target.nodeName.toLowerCase());
         return !(onlyAccentedElementsAddedOrRemoved || accentedElementChanged);
       });
@@ -125,18 +136,24 @@ export default function createScanner(name: string, context: Context, axeOptions
       // If we simply exclude all mutations where attributeName = `data-${name}`,
       // we may miss other mutations on those same elements caused by Accented,
       // leading to extra runs of the mutation observer.
-      const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce((nodes, mutationRecord) => {
-        if (mutationRecord.type === 'attributes' && mutationRecord.attributeName === `data-${name}`) {
-          nodes.add(mutationRecord.target);
-        }
-        return nodes;
-      }, new Set<Node>());
+      const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce(
+        (nodes, mutationRecord) => {
+          if (
+            mutationRecord.type === 'attributes' &&
+            mutationRecord.attributeName === `data-${name}`
+          ) {
+            nodes.add(mutationRecord.target);
+          }
+          return nodes;
+        },
+        new Set<Node>(),
+      );
 
-      const filteredMutationList = listWithoutAccentedElements.filter(mutationRecord => {
+      const filteredMutationList = listWithoutAccentedElements.filter((mutationRecord) => {
         return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
       });
 
-      const nodes = filteredMutationList.map(mutationRecord => mutationRecord.target);
+      const nodes = filteredMutationList.map((mutationRecord) => mutationRecord.target);
       taskQueue.addMultiple(nodes);
     } catch (error) {
       logAndRethrow(error);
@@ -147,7 +164,7 @@ export default function createScanner(name: string, context: Context, axeOptions
     subtree: true,
     childList: true,
     attributes: true,
-    characterData: true
+    characterData: true,
   });
 
   return () => {

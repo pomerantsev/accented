@@ -14,12 +14,15 @@ function getDeepest(nodes: [Node, ...Node[]]): Node {
   return deepest;
 }
 
-export default function isNodeInScanContext(node: Node, { include, exclude }: ScanContext): boolean {
-  const filteredInclude = include.filter(includeNode => contains(includeNode, node));
+export default function isNodeInScanContext(
+  node: Node,
+  { include, exclude }: ScanContext,
+): boolean {
+  const filteredInclude = include.filter((includeNode) => contains(includeNode, node));
   if (filteredInclude.length === 0) {
     return false;
   }
-  const filteredExclude = exclude.filter(excludeNode => contains(excludeNode, node));
+  const filteredExclude = exclude.filter((excludeNode) => contains(excludeNode, node));
   if (filteredExclude.length === 0) {
     return true;
   }

@@ -7,7 +7,10 @@
  *
  * It's only meant to be used during initialization.
  */
-function testContainingBlockCreation<T extends keyof CSSStyleDeclaration>(prop: T, value: CSSStyleDeclaration[T]) {
+function testContainingBlockCreation<T extends keyof CSSStyleDeclaration>(
+  prop: T,
+  value: CSSStyleDeclaration[T],
+) {
   const container = document.createElement('div');
   container.style[prop] = value;
   container.style.position = 'fixed';
@@ -40,13 +43,13 @@ export function createsContainingBlock(prop: keyof CSSStyleDeclaration) {
 
 export function initializeContainingBlockSupportSet() {
   type StyleEntry<T extends keyof CSSStyleDeclaration> = {
-    [K in T]: { prop: K; value: CSSStyleDeclaration[K] }
+    [K in T]: { prop: K; value: CSSStyleDeclaration[K] };
   }[T];
 
   const propsToTest: Array<StyleEntry<'filter' | 'backdropFilter' | 'containerType'>> = [
     { prop: 'filter', value: 'blur(1px)' },
     { prop: 'backdropFilter', value: 'blur(1px)' },
-    { prop: 'containerType', value: 'size' }
+    { prop: 'containerType', value: 'size' },
   ];
 
   for (const { prop, value } of propsToTest) {

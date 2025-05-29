@@ -1,7 +1,7 @@
 type AnyObject = Record<string, any>;
 
 export default function deepMerge(target: AnyObject, source: AnyObject): AnyObject {
-  const output = {...target};
+  const output = { ...target };
   for (const key of Object.keys(source)) {
     if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
       if (!(key in target)) {
@@ -9,8 +9,7 @@ export default function deepMerge(target: AnyObject, source: AnyObject): AnyObje
       } else {
         output[key] = deepMerge(target[key], source[key]);
       }
-    }
-    else {
+    } else {
       output[key] = source[key];
     }
   }

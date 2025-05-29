@@ -1,4 +1,3 @@
-
 import createDomUpdater from './dom-updater.js';
 import setupFullscreenListener from './fullscreen-listener.js';
 import setupIntersectionObserver from './intersection-observer.js';
@@ -43,23 +42,24 @@ export type { AccentedOptions, DisableAccented };
  * });
  */
 export default function accented(options: AccentedOptions = {}): DisableAccented {
-
   validateOptions(options);
 
   try {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
-      console.warn('Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.');
+      console.warn(
+        'Accented: this script can only run in the browser, and it’s likely running on the server now. Exiting.',
+      );
       console.trace();
       return () => {};
     }
 
     const defaultOutput: Required<AccentedOptions['output']> = {
-      console: true
+      console: true,
     };
 
     const defaultThrottle: Required<AccentedOptions['throttle']> = {
       wait: 1000,
-      leading: true
+      leading: true,
     };
 
     // IMPORTANT: when changing any of the properties or values, also do the following:
@@ -73,16 +73,19 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
       name: 'accented',
       output: defaultOutput,
       throttle: defaultThrottle,
-      callback: () => {}
+      callback: () => {},
     };
 
-    const {context, axeOptions, name, output, throttle, callback} = deepMerge(defaultOptions, options);
+    const { context, axeOptions, name, output, throttle, callback } = deepMerge(
+      defaultOptions,
+      options,
+    );
 
     if (enabled.value) {
       // Add link to the recipes section of the docs (#56).
       console.warn(
         'You are trying to run the Accented library more than once. ' +
-        'This will likely lead to errors.'
+          'This will likely lead to errors.',
       );
       console.trace();
     }
@@ -92,13 +95,20 @@ export default function accented(options: AccentedOptions = {}): DisableAccented
     initializeContainingBlockSupportSet();
     registerElements(name);
 
-    const {disconnect: cleanupIntersectionObserver, intersectionObserver } = supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
+    const { disconnect: cleanupIntersectionObserver, intersectionObserver } =
+      supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
     const cleanupScanner = createScanner(name, context, axeOptions, throttle, callback);
     const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
     const cleanupLogger = output.console ? createLogger() : () => {};
-    const cleanupScrollListeners = supportsAnchorPositioning(window) ? () => {} : setupScrollListeners();
-    const cleanupResizeListener = supportsAnchorPositioning(window) ? () => {} : setupResizeListener();
-    const cleanupFullscreenListener = supportsAnchorPositioning(window) ? () => {} : setupFullscreenListener();
+    const cleanupScrollListeners = supportsAnchorPositioning(window)
+      ? () => {}
+      : setupScrollListeners();
+    const cleanupResizeListener = supportsAnchorPositioning(window)
+      ? () => {}
+      : setupResizeListener();
+    const cleanupFullscreenListener = supportsAnchorPositioning(window)
+      ? () => {}
+      : setupFullscreenListener();
 
     return () => {
       try {

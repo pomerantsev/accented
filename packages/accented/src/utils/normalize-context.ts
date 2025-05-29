@@ -30,7 +30,9 @@ function selectorToNodes(selector: Selector): Array<Node> {
 function contextPropToNodes(contextProp: ContextProp): Array<Node> {
   let nodes: Array<Node> = [];
   if (typeof contextProp === 'object' && (Array.isArray(contextProp) || isNodeList(contextProp))) {
-    nodes = Array.from(contextProp).map(item => selectorToNodes(item)).flat();
+    nodes = Array.from(contextProp)
+      .map((item) => selectorToNodes(item))
+      .flat();
   } else {
     nodes = selectorToNodes(contextProp);
   }
@@ -53,6 +55,6 @@ export default function normalizeContext(context: Context): ScanContext {
 
   return {
     include: contextInclude,
-    exclude: contextExclude
+    exclude: contextExclude,
   };
 }
