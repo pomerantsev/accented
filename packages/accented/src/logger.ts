@@ -1,6 +1,6 @@
 import { effect } from '@preact/signals-core';
-import { elementsWithIssues, enabled } from './state.js';
 import { accentedUrl } from './constants.js';
+import { elementsWithIssues, enabled } from './state.js';
 import type { ElementWithIssues } from './types.ts';
 
 function filterPropsForOutput(elements: Array<ElementWithIssues>) {

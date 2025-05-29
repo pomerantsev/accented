@@ -1,8 +1,8 @@
-import type { Issue } from '../types.ts';
 import type { Signal } from '@preact/signals-core';
-import getElementHtml from '../utils/get-element-html.js';
 import { accentedUrl } from '../constants.js';
 import logAndRethrow from '../log-and-rethrow.js';
+import type { Issue } from '../types.ts';
+import getElementHtml from '../utils/get-element-html.js';
 
 export interface AccentedDialog extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;

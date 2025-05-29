@@ -1,5 +1,5 @@
-import type axe from 'axe-core';
 import type { Signal } from '@preact/signals-core';
+import type axe from 'axe-core';
 import type { AccentedTrigger } from './elements/accented-trigger.ts';
 
 export type Throttle = {

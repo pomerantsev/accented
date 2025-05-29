@@ -1,7 +1,7 @@
 import { effect } from '@preact/signals-core';
-import recalculatePositions from './utils/recalculate-positions.js';
-import { scrollableAncestors } from './state.js';
 import logAndRethrow from './log-and-rethrow.js';
+import { scrollableAncestors } from './state.js';
+import recalculatePositions from './utils/recalculate-positions.js';
 
 export default function setupScrollListeners() {
   const documentAbortController = new AbortController();

@@ -1,6 +1,6 @@
-import type { Context, ContextProp, Selector, ScanContext } from '../types.ts';
-import { isNode, isNodeList } from './dom-helpers.js';
+import type { Context, ContextProp, ScanContext, Selector } from '../types.ts';
 import { deduplicateNodes } from './deduplicate-nodes.js';
+import { isNode, isNodeList } from './dom-helpers.js';
 
 function recursiveSelectAll(selectors: Array<string>, root: Document | ShadowRoot): Array<Node> {
   const nodesOnCurrentLevel = root.querySelectorAll(selectors[0]!);

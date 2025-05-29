@@ -1,18 +1,18 @@
-import type { AxeResults } from 'axe-core';
 import type { Signal } from '@preact/signals-core';
 import { batch, signal } from '@preact/signals-core';
+import type { AxeResults } from 'axe-core';
+import type { AccentedDialog } from '../elements/accented-dialog.ts';
+import type { AccentedTrigger } from '../elements/accented-trigger.ts';
 import type { ExtendedElementWithIssues, ScanContext } from '../types.ts';
-import transformViolations from './transform-violations.js';
 import areElementsWithIssuesEqual from './are-elements-with-issues-equal.js';
 import areIssueSetsEqual from './are-issue-sets-equal.js';
-import isNodeInScanContext from './is-node-in-scan-context.js';
-import type { AccentedTrigger } from '../elements/accented-trigger.ts';
-import type { AccentedDialog } from '../elements/accented-dialog.ts';
-import getElementPosition from './get-element-position.js';
-import getScrollableAncestors from './get-scrollable-ancestors.js';
-import supportsAnchorPositioning from './supports-anchor-positioning.js';
 import { isSvgElement } from './dom-helpers.js';
+import getElementPosition from './get-element-position.js';
 import getParent from './get-parent.js';
+import getScrollableAncestors from './get-scrollable-ancestors.js';
+import isNodeInScanContext from './is-node-in-scan-context.js';
+import supportsAnchorPositioning from './supports-anchor-positioning.js';
+import transformViolations from './transform-violations.js';
 
 function shouldSkipRender(element: Element): boolean {
 

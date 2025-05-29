@@ -1,7 +1,7 @@
 import type { Position } from '../types.ts';
+import { createsContainingBlock } from './containing-blocks.js';
 import { isHtmlElement } from './dom-helpers.js';
 import getParent from './get-parent.js';
-import { createsContainingBlock } from './containing-blocks.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
 function isContainingBlock(element: Element, win: Window): boolean {

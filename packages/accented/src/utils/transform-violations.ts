@@ -1,5 +1,5 @@
 import type { AxeResults, ImpactValue } from 'axe-core';
-import type { Issue, ElementWithIssues } from '../types.ts';
+import type { ElementWithIssues, Issue } from '../types.ts';
 
 // This is a list of axe-core violations (their ids) that may be flagged by axe-core
 // as false positives if an Accented trigger is a descendant of the element with the issue.

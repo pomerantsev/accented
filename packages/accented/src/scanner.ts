@@ -1,15 +1,15 @@
 import axe from 'axe-core';
-import TaskQueue from './task-queue.js';
-import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
-import type { AxeOptions, Throttle, Callback, Context } from './types.ts';
-import updateElementsWithIssues from './utils/update-elements-with-issues.js';
-import recalculatePositions from './utils/recalculate-positions.js';
-import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
-import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { getAccentedElementNames, issuesUrl } from './constants.js';
 import logAndRethrow from './log-and-rethrow.js';
-import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
+import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
+import TaskQueue from './task-queue.js';
+import type { AxeOptions, Callback, Context, Throttle } from './types.ts';
 import getScanContext from './utils/get-scan-context.js';
+import recalculatePositions from './utils/recalculate-positions.js';
+import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
+import createShadowDOMAwareMutationObserver from './utils/shadow-dom-aware-mutation-observer.js';
+import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
+import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 
 export default function createScanner(name: string, context: Context, axeOptions: AxeOptions, throttle: Required<Throttle>, callback: Callback) {
   const axeRunningWindowProp = `__${name}_axe_running__`;

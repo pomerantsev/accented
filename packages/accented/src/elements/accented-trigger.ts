@@ -1,9 +1,9 @@
-import type { AccentedDialog } from './accented-dialog.ts';
-import type { Position } from '../types.ts';
 import { effect } from '@preact/signals-core';
 import type { Signal } from '@preact/signals-core';
-import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';
 import logAndRethrow from '../log-and-rethrow.js';
+import type { Position } from '../types.ts';
+import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';
+import type { AccentedDialog } from './accented-dialog.ts';
 
 export interface AccentedTrigger extends HTMLElement {
   element: Element | undefined;
