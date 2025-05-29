@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Check (Biome)
+        run: pnpm biome check
+
       - name: Build
         run: pnpm build
 
