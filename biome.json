@@ -23,15 +23,13 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnreachableSuper": "off",
-        "noUnusedImports": "error"
-      },
-      "performance": {
-        "noAccumulatingSpread": "off"
+        "noUnusedFunctionParameters": "error",
+        "noUnusedImports": "error",
+        "noUnusedPrivateClassMembers": "error",
+        "noUnusedVariables": "error"
       },
       "style": {
-        "noNonNullAssertion": "off",
-        "useTemplate": "off"
+        "noNonNullAssertion": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

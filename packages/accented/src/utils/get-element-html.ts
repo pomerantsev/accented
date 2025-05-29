@@ -9,5 +9,7 @@ export default function getElementHtml(element: Element) {
     // This shouldn't be happening, but if it does, we can just return the outer HTML.
     return outerHtml;
   }
-  return outerHtml.slice(0, index) + '…' + outerHtml.slice(index + innerHtml.length);
+  const openingTag = outerHtml.slice(0, index);
+  const closingTag = outerHtml.slice(index + innerHtml.length);
+  return `${openingTag}…${closingTag}`;
 }

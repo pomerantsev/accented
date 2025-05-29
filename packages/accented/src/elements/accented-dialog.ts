@@ -250,8 +250,8 @@ export default () => {
     open = false;
 
     constructor() {
+      super();
       try {
-        super();
         this.attachShadow({ mode: 'open' });
         const content = dialogTemplate.content.cloneNode(true);
         if (this.shadowRoot) {
@@ -319,10 +319,10 @@ export default () => {
                 const impact = issueContent.querySelector('.impact');
                 const description = issueContent.querySelector('.description');
                 if (title && impact && description) {
-                  title.textContent = issue.title + ' (' + issue.id + ')';
+                  title.textContent = `${issue.title} (${issue.id})`;
                   title.href = issue.url;
 
-                  impact.textContent = 'User impact: ' + issue.impact;
+                  impact.textContent = `User impact: ${issue.impact}`;
                   impact.setAttribute('data-impact', String(issue.impact));
 
                   const descriptionItems = issue.description.split(/\n\s*/);

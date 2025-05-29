@@ -197,7 +197,7 @@ test.describe('Accented', () => {
       ];
 
       for (const { baseFontSize, expectedTriggerSize, expectedIssueLinkFontSize } of sizes) {
-        await page.goto('?base-font-size=' + baseFontSize);
+        await page.goto(`?base-font-size=${baseFontSize}`);
         const buttonWithIssue = await page.locator('#button-with-single-issue');
         const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
         const trigger = await getTrigger(triggerContainer);
@@ -333,7 +333,6 @@ test.describe('Accented', () => {
     test('a trigger is positioned correctly on a fixed-positioned element', async ({ page }) => {
       const fixedPositionSection = await page.locator('section#fixed-position');
       const triggerContainer = await getTriggerContainer(page, fixedPositionSection);
-      const trigger = await getTrigger(triggerContainer);
       await page.mouse.wheel(0, 10);
       await expectElementAndTriggerToBeAligned(fixedPositionSection, triggerContainer);
     });
