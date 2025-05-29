@@ -53,7 +53,7 @@ test.describe('Accented', () => {
       test('an element with issues can still be interacted with', async ({ page }) => {
         await page.goto('?no-console');
         const buttonWithIssue = await page.locator(`#button-with-single-issue${accentedSelector}`);
-        let messageText;
+        let messageText: string | undefined;
         page.on('console', (message) => {
           messageText = message.text();
         });
@@ -868,8 +868,8 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
 
-      let contextLength;
-      let contextElementId;
+      let contextLength: number | undefined;
+      let contextElementId: string | undefined;
 
       page.on('console', async (message) => {
         const args = message.args();

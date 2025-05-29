@@ -31,4 +31,11 @@ suite('deepMerge', () => {
     const result = deepMerge(target, source);
     assert.deepEqual(result, { a: [4, 5] });
   });
+
+  test('handles merging an object into a string in a logical way', () => {
+    const target = { a: 'hello' };
+    const source = { a: { b: 'bye' } };
+    const result = deepMerge(target, source);
+    assert.deepEqual(result, { a: { b: 'bye' } });
+  });
 });

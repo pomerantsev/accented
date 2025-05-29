@@ -1,13 +1,20 @@
 import type { Context, ContextProp, ScanContext, Selector } from '../types.ts';
 import { deduplicateNodes } from './deduplicate-nodes.js';
 import { isNode, isNodeList } from './dom-helpers.js';
+import isNonEmpty from './is-non-empty.js';
 
-function recursiveSelectAll(selectors: Array<string>, root: Document | ShadowRoot): Array<Node> {
-  const nodesOnCurrentLevel = root.querySelectorAll(selectors[0]!);
+function recursiveSelectAll(
+  selectors: [string, ...string[]],
+  root: Document | ShadowRoot,
+): Array<Node> {
+  const nodesOnCurrentLevel = root.querySelectorAll(selectors[0]);
   if (selectors.length === 1) {
     return Array.from(nodesOnCurrentLevel);
   }
   const restSelectors: Array<string> = selectors.slice(1);
+  if (!isNonEmpty(restSelectors)) {
+    throw new Error('Error: the restSelectors array must not be empty.');
+  }
   const selected = [];
   for (const node of nodesOnCurrentLevel) {
     if (node.shadowRoot) {

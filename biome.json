@@ -32,8 +32,7 @@
         "noNonNullAssertion": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off",
-        "noImplicitAnyLet": "off"
+        "noExplicitAny": "off"
       }
     }
   },
@@ -50,6 +49,12 @@
         "rules": {
           "correctness": {
             "useImportExtensions": "error"
+          },
+          "style": {
+            "noNonNullAssertion": "error"
+          },
+          "suspicious": {
+            "noExplicitAny": "error"
           }
         }
       }

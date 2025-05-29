@@ -52,11 +52,13 @@ export default function createShadowDOMAwareMutationObserver(
       const shadowRoots = elements
         .flatMap((element) => [...element.querySelectorAll('*')])
         .filter((element) => element.shadowRoot)
-        .map((element) => element.shadowRoot!);
+        .map((element) => element.shadowRoot);
 
       for (const shadowRoot of shadowRoots) {
-        this.#shadowRoots.add(shadowRoot);
-        this.observe(shadowRoot, this.#options);
+        if (shadowRoot) {
+          this.#shadowRoots.add(shadowRoot);
+          this.observe(shadowRoot, this.#options);
+        }
       }
     };
 
@@ -64,7 +66,7 @@ export default function createShadowDOMAwareMutationObserver(
       const shadowRoots = elements
         .flatMap((element) => [...element.querySelectorAll('*')])
         .filter((element) => element.shadowRoot)
-        .map((element) => element.shadowRoot!);
+        .map((element) => element.shadowRoot);
 
       for (const shadowRoot of shadowRoots) {
         this.#shadowRoots.delete(shadowRoot);

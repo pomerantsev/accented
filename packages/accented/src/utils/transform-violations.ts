@@ -51,17 +51,17 @@ export default function transformViolations(
           url: violation.helpUrl,
           impact: violation.impact ?? null,
         };
-        const existingElementIndex = elementsWithIssues.findIndex(
+        const existingElement = elementsWithIssues.find(
           (elementWithIssues) => elementWithIssues.element === element,
         );
-        if (existingElementIndex === -1) {
+        if (existingElement === undefined) {
           elementsWithIssues.push({
             element,
             rootNode: element.getRootNode(),
             issues: [issue],
           });
         } else {
-          elementsWithIssues[existingElementIndex]!.issues.push(issue);
+          existingElement.issues.push(issue);
         }
       }
     }

@@ -91,11 +91,11 @@ function isContextObject(contextFragment: Context): contextFragment is ContextOb
 }
 
 function validateContextObject(contextObject: ContextObject) {
-  if ('include' in contextObject) {
-    validateContextProp(contextObject.include!);
+  if ('include' in contextObject && contextObject.include !== undefined) {
+    validateContextProp(contextObject.include);
   }
-  if ('exclude' in contextObject) {
-    validateContextProp(contextObject.exclude!);
+  if ('exclude' in contextObject && contextObject.exclude !== undefined) {
+    validateContextProp(contextObject.exclude);
   }
 }
 
