@@ -42,7 +42,7 @@ if (searchParams.has('performance') && !searchParams.has('callback')) {
 
 if (searchParams.has('throttle-wait')) {
   options.throttle = {
-    wait: parseInt(searchParams.get('throttle-wait')!, 10) ?? 1000,
+    wait: Number.parseInt(searchParams.get('throttle-wait')!, 10) ?? 1000,
     leading: !searchParams.has('no-leading'),
   };
 } else if (searchParams.has('throttle-invalid')) {

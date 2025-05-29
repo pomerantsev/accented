@@ -4,7 +4,7 @@ const scrollableOverflowValues = new Set(['auto', 'scroll', 'hidden']);
 
 export default function getScrollableAncestors(element: Element, win: Window) {
   let currentElement: Element | null = element;
-  let scrollableAncestors = new Set<Element>();
+  const scrollableAncestors = new Set<Element>();
   while (true) {
     currentElement = getParent(currentElement);
     if (!currentElement) {

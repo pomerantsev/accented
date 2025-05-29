@@ -36,13 +36,10 @@
       "style": {
         "noNonNullAssertion": "off",
         "noUselessElse": "off",
-        "useConst": "off",
-        "useNumberNamespace": "off",
         "useTemplate": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",
-        "noGlobalIsNan": "off",
         "noImplicitAnyLet": "off"
       }
     }

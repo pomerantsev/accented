@@ -184,7 +184,7 @@ test.describe('Accented', () => {
     });
 
     test('sizes of Accented elements don’t fall below a certain threshold', async ({ page }) => {
-      const round = (value: string) => Math.round(parseFloat(value) * 10) / 10;
+      const round = (value: string) => Math.round(Number.parseFloat(value) * 10) / 10;
 
       const sizes = [
         // Default base font size, which in most browsers is 16px

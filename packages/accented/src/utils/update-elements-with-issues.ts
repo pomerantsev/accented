@@ -100,11 +100,11 @@ export default function updateElementsWithIssues({
             .map((addedElementWithIssues) => {
               const id = count++;
               const trigger = win.document.createElement(`${name}-trigger`) as AccentedTrigger;
-              const elementZIndex = parseInt(
+              const elementZIndex = Number.parseInt(
                 win.getComputedStyle(addedElementWithIssues.element).zIndex,
                 10,
               );
-              if (!isNaN(elementZIndex)) {
+              if (!Number.isNaN(elementZIndex)) {
                 trigger.style.setProperty('z-index', (elementZIndex + 1).toString(), 'important');
               }
               trigger.style.setProperty('position-anchor', `--${name}-anchor-${id}`, 'important');
