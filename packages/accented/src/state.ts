@@ -1,6 +1,6 @@
 import { signal, computed } from '@preact/signals-core';
 
-import type { ElementWithIssues, ExtendedElementWithIssues } from './types';
+import type { ElementWithIssues, ExtendedElementWithIssues } from './types.ts';
 
 export const enabled = signal(false);
 

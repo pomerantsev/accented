@@ -1,4 +1,4 @@
-import type { Issue } from '../types';
+import type { Issue } from '../types.ts';
 import type { Signal } from '@preact/signals-core';
 import getElementHtml from '../utils/get-element-html.js';
 import { accentedUrl } from '../constants.js';
@@ -247,7 +247,7 @@ export default () => {
 
     element: Element | undefined;
 
-    open: boolean = false;
+    open = false;
 
     constructor() {
       try {

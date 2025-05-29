@@ -1,32 +1,64 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
-	},
-	"files": {
-		"ignoreUnknown": false,
-		"ignore": [],
-    "include": ["packages/accented/src"]
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "space",
-    "indentWidth": 2
-	},
-	"organizeImports": {
-		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
-		}
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "single"
-		}
-	}
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": ["**/*.test.ts"],
+    "include": ["packages/accented/src", "**/*.json"]
+  },
+  "formatter": {
+    "enabled": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "organizeImports": {
+    "enabled": false
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noForEach": "off",
+        "useFlatMap": "off"
+      },
+      "correctness": {
+        "noUnreachable": "off",
+        "noUnreachableSuper": "off",
+        "noUnusedImports": "error",
+        "useImportExtensions": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "off",
+        "noUselessElse": "off",
+        "useConst": "off",
+        "useNumberNamespace": "off",
+        "useTemplate": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noGlobalIsNan": "off",
+        "noImplicitAnyLet": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.json"],
+      "formatter": {
+        "enabled": true
+      }
+    }
+  ]
 }

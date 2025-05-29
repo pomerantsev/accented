@@ -1,6 +1,6 @@
 /* Adapted from https://github.com/dequelabs/axe-core/blob/fd6239bfc97ebc904044f93f68d7e49137f744ad/lib/core/utils/is-node-in-context.js */
 
-import type { ScanContext } from '../types';
+import type { ScanContext } from '../types.ts';
 import contains from './contains.js';
 import ensureNonEmpty from './ensure-non-empty.js';
 

@@ -4,11 +4,7 @@
   "description": "Continuous accessibility testing and issue highlighting for web development",
   "type": "module",
   "main": "dist/accented.js",
-  "files": [
-    "dist",
-    "src",
-    "NOTICE"
-  ],
+  "files": ["dist", "src", "NOTICE"],
   "scripts": {
     "prepare": "cp ../../NOTICE ./NOTICE",
     "build": "tsc",
@@ -22,12 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/pomerantsev/accented.git"
   },
-  "keywords": [
-    "accessibility",
-    "a11y",
-    "axe",
-    "axe-core"
-  ],
+  "keywords": ["accessibility", "a11y", "axe", "axe-core"],
   "author": "Pavel Pomerantsev",
   "license": "MIT",
   "bugs": {

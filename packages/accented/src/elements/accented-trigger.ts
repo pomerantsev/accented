@@ -1,5 +1,5 @@
-import type { AccentedDialog } from './accented-dialog';
-import type { Position } from '../types';
+import type { AccentedDialog } from './accented-dialog.ts';
+import type { Position } from '../types.ts';
 import { effect } from '@preact/signals-core';
 import type { Signal } from '@preact/signals-core';
 import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';

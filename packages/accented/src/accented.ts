@@ -9,7 +9,7 @@ import setupFullscreenListener from './fullscreen-listener.js';
 import setupIntersectionObserver from './intersection-observer.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import deepMerge from './utils/deep-merge.js';
-import type { AccentedOptions, DisableAccented } from './types';
+import type { AccentedOptions, DisableAccented } from './types.ts';
 import validateOptions from './validate-options.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import logAndRethrow from './log-and-rethrow.js';

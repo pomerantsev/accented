@@ -1,4 +1,4 @@
-import type { Selector, SelectorList, ContextProp, ContextObject, AccentedOptions, Context } from './types';
+import type { Selector, SelectorList, ContextProp, ContextObject, AccentedOptions, Context } from './types.ts';
 import { allowedAxeOptions } from './types.js';
 import { isNode, isNodeList } from './utils/dom-helpers.js';
 

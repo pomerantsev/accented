@@ -1,6 +1,6 @@
 import { effect } from '@preact/signals-core';
 import { extendedElementsWithIssues, rootNodes } from './state.js';
-import type { ExtendedElementWithIssues } from './types';
+import type { ExtendedElementWithIssues } from './types.ts';
 import areElementsWithIssuesEqual from './utils/are-elements-with-issues-equal.js';
 import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { isDocument, isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';

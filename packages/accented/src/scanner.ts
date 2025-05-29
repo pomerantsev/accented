@@ -1,7 +1,7 @@
 import axe from 'axe-core';
 import TaskQueue from './task-queue.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
-import type { AxeOptions, Throttle, Callback, Context } from './types';
+import type { AxeOptions, Throttle, Callback, Context } from './types.ts';
 import updateElementsWithIssues from './utils/update-elements-with-issues.js';
 import recalculatePositions from './utils/recalculate-positions.js';
 import recalculateScrollableAncestors from './utils/recalculate-scrollable-ancestors.js';
