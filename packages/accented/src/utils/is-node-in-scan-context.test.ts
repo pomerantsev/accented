@@ -1,6 +1,6 @@
-import { JSDOM } from 'jsdom';
 import assert from 'node:assert/strict';
-import {suite, test} from 'node:test';
+import { suite, test } from 'node:test';
+import { JSDOM } from 'jsdom';
 import isNodeInScanContext from './is-node-in-scan-context';
 
 suite('isNodeInScanContext', () => {

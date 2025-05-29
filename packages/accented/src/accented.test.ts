@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {suite, test} from 'node:test';
+import { suite, test } from 'node:test';
 import type { Mock } from 'node:test';
 
 import accented from './accented.js';

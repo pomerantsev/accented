@@ -70,7 +70,7 @@ export default defineConfig({
       name: 'webkit-dark',
       testMatch: /with-colors/,
       use: { ...devices['Desktop Safari'], colorScheme: 'dark' },
-    }
+    },
 
     /* Test against mobile viewports. */
     // {

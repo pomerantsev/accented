@@ -1,6 +1,6 @@
-import { JSDOM } from 'jsdom';
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
+import { JSDOM } from 'jsdom';
 import getScanContext from './get-scan-context';
 
 suite('getScanContext', () => {
@@ -13,7 +13,7 @@ suite('getScanContext', () => {
 
     assert.deepEqual(scanContext, {
       include: [],
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -27,7 +27,7 @@ suite('getScanContext', () => {
 
     assert.deepEqual(scanContext, {
       include: [contextNode],
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -44,13 +44,16 @@ suite('getScanContext', () => {
     const { document } = dom.window;
     global.document = document;
     const mutatedNode = document.querySelector('#mutated-node')!;
-    const scanContext = getScanContext([mutatedNode], {include: ['.include'], exclude: ['.exclude']});
+    const scanContext = getScanContext([mutatedNode], {
+      include: ['.include'],
+      exclude: ['.exclude'],
+    });
     const innerExclude = document.querySelector('#inner-exclude')!;
     const innerInclude = document.querySelector('#inner-include')!;
 
     assert.deepEqual(scanContext, {
       include: [mutatedNode, innerInclude],
-      exclude: [innerExclude]
+      exclude: [innerExclude],
     });
   });
 
@@ -67,13 +70,16 @@ suite('getScanContext', () => {
     const { document } = dom.window;
     global.document = document;
     const mutatedNode = document.querySelector('#mutated-node')!;
-    const scanContext = getScanContext([mutatedNode], {include: ['.include'], exclude: ['.exclude']});
+    const scanContext = getScanContext([mutatedNode], {
+      include: ['.include'],
+      exclude: ['.exclude'],
+    });
     const innerExclude = document.querySelector('#inner-exclude')!;
     const innerInclude = document.querySelector('#inner-include')!;
 
     assert.deepEqual(scanContext, {
       include: [innerInclude],
-      exclude: [innerExclude]
+      exclude: [innerExclude],
     });
   });
 });

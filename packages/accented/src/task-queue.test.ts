@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
-import {mock, suite, test} from 'node:test';
+import { mock, suite, test } from 'node:test';
 
 import TaskQueue from './task-queue.js';
 
-const wait = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
+const wait = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));
 
-const createAsyncCallback = (duration: number) => mock.fn(() => new Promise(resolve => setTimeout(resolve, duration)));
+const createAsyncCallback = (duration: number) =>
+  mock.fn(() => new Promise((resolve) => setTimeout(resolve, duration)));
 
 suite('TaskQueue', () => {
   test('callback is not called after a TaskQueue is created, even after a timeout', async () => {

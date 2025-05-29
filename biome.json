@@ -1,14 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["**/*.test.ts"],
-    "include": ["packages/accented/src", "**/*.json"]
+    "ignore": []
   },
   "formatter": {
     "enabled": true,
@@ -33,6 +32,9 @@
         "noUnusedImports": "error",
         "useImportExtensions": "error"
       },
+      "performance": {
+        "noAccumulatingSpread": "off"
+      },
       "style": {
         "noNonNullAssertion": "off",
         "noUnusedTemplateLiteral": "off",
@@ -55,9 +57,14 @@
   },
   "overrides": [
     {
-      "include": ["**/*.json"],
-      "formatter": {
-        "enabled": true
+      "include": ["**"],
+      "ignore": ["packages/accented/src/**/*{!.test}.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useImportExtensions": "off"
+          }
+        }
       }
     }
   ]

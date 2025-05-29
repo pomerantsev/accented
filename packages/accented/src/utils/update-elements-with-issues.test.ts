@@ -1,5 +1,5 @@
-import {suite, test} from 'node:test';
 import assert from 'node:assert/strict';
+import { suite, test } from 'node:test';
 import type { Signal } from '@preact/signals-core';
 import { signal } from '@preact/signals-core';
 import type { ExtendedElementWithIssues, Issue } from '../types';
@@ -15,9 +15,9 @@ const win: Window & { CSS: typeof CSS } = {
     // @ts-expect-error the return value is of incorrect type.
     createElement: () => ({
       style: {
-        setProperty: () => {}
+        setProperty: () => {},
       },
-      dataset: {}
+      dataset: {},
     }),
     contains: () => true,
   },
@@ -25,33 +25,33 @@ const win: Window & { CSS: typeof CSS } = {
   getComputedStyle: () => ({
     zIndex: '',
     direction: 'ltr',
-    getPropertyValue: () => 'none'
+    getPropertyValue: () => 'none',
   }),
   // @ts-expect-error we're missing a lot of properties
   CSS: {
-    supports: () => true
-  }
-}
+    supports: () => true,
+  },
+};
 
 const getBoundingClientRect = () => ({});
 
-const getRootNode = (): Node => ({} as Node);
+const getRootNode = (): Node => ({}) as Node;
 
 const baseElement = {
   getBoundingClientRect,
   getRootNode,
   style: {
-    getPropertyValue: () => ''
+    getPropertyValue: () => '',
   },
   closest: () => null,
-}
+};
 
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {...baseElement, isConnected: true};
+const element1: HTMLElement = { ...baseElement, isConnected: true };
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {...baseElement, isConnected: true};
+const element2: HTMLElement = { ...baseElement, isConnected: true };
 // @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = {...baseElement, isConnected: false};
+const element3: HTMLElement = { ...baseElement, isConnected: false };
 
 // @ts-expect-error rootNode is not Node
 const rootNode: Node = {};
@@ -62,7 +62,7 @@ const position = signal({
   left: 0,
   width: 100,
   top: 0,
-  height: 100
+  height: 100,
 });
 
 const visible = signal(true);
@@ -74,7 +74,7 @@ const commonNodeProps = {
   any: [],
   all: [],
   none: [],
-  target: ['div']
+  target: ['div'],
 };
 
 const node1: AxeNode = {
@@ -97,59 +97,59 @@ const commonViolationProps = {
   helpUrl: 'http://example.com',
   description: 'description',
   tags: [],
-  impact: 'serious' as ImpactValue
+  impact: 'serious' as ImpactValue,
 };
 
 const violation1: Violation = {
   ...commonViolationProps,
   id: 'id1',
-  nodes: [node1]
+  nodes: [node1],
 };
 
 const violation2: Violation = {
   ...commonViolationProps,
   id: 'id2',
-  nodes: [node2]
+  nodes: [node2],
 };
 
 const violation3: Violation = {
   ...commonViolationProps,
   id: 'id3',
-  nodes: [node2]
+  nodes: [node2],
 };
 
 const violation4: Violation = {
   ...commonViolationProps,
   id: 'id4',
-  nodes: [node3]
+  nodes: [node3],
 };
 
 const commonIssueProps = {
   title: 'help',
   description: 'description',
   url: 'http://example.com',
-  impact: 'serious'
+  impact: 'serious',
 } as const;
 
 const issue1: Issue = {
   id: 'id1',
-  ...commonIssueProps
+  ...commonIssueProps,
 };
 
 const issue2: Issue = {
   id: 'id2',
-  ...commonIssueProps
+  ...commonIssueProps,
 };
 
 const issue3: Issue = {
   id: 'id3',
-  ...commonIssueProps
+  ...commonIssueProps,
 };
 
 const scanContext = {
   include: [win.document],
-  exclude: []
-}
+  exclude: [],
+};
 
 suite('updateElementsWithIssues', () => {
   test('no changes', () => {
@@ -164,7 +164,7 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue1])
+        issues: signal([issue1]),
       },
       {
         id: 2,
@@ -176,15 +176,15 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue2])
-      }
+        issues: signal([issue2]),
+      },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2],
       win,
-      name: 'accented'
+      name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
@@ -205,7 +205,7 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue1])
+        issues: signal([issue1]),
       },
       {
         id: 2,
@@ -217,15 +217,15 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue2])
-      }
+        issues: signal([issue2]),
+      },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2, violation3],
       win,
-      name: 'accented'
+      name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
@@ -246,7 +246,7 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue1])
+        issues: signal([issue1]),
       },
       {
         id: 2,
@@ -258,15 +258,15 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue2, issue3])
-      }
+        issues: signal([issue2, issue3]),
+      },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2],
       win,
-      name: 'accented'
+      name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
@@ -287,15 +287,15 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue1])
-      }
+        issues: signal([issue1]),
+      },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2],
       win,
-      name: 'accented'
+      name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
@@ -316,15 +316,15 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue1])
-      }
+        issues: signal([issue1]),
+      },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation4],
       win,
-      name: 'accented'
+      name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
@@ -342,7 +342,7 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue1])
+        issues: signal([issue1]),
       },
       {
         id: 2,
@@ -354,15 +354,15 @@ suite('updateElementsWithIssues', () => {
         trigger,
         anchorNameValue: 'none',
         scrollableAncestors,
-        issues: signal([issue2])
-      }
+        issues: signal([issue2]),
+      },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1],
       win,
-      name: 'accented'
+      name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);

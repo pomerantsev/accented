@@ -20,7 +20,7 @@ async function checkGeneratedFiles(sourceFilePath: string) {
 }
 
 async function analyzeDir(dirPath: string) {
-  const entries = await fs.readdir(dirPath, {withFileTypes: true});
+  const entries = await fs.readdir(dirPath, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dirPath, entry.name);
     if (entry.isDirectory()) {

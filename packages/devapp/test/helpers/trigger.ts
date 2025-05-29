@@ -11,26 +11,29 @@ export async function getTrigger(triggerContainer: Locator) {
 }
 
 export async function getTransform(element: Locator) {
-  return await element.evaluate(el => {
+  return await element.evaluate((el) => {
     return window.getComputedStyle(el).transform;
   });
 }
 
 async function getBoundingClientRect(element: Locator) {
-  return await element.evaluate(el => {
+  return await element.evaluate((el) => {
     return (el as Element).getBoundingClientRect();
   });
 }
 
-export async function expectElementAndTriggerToBeAligned(element: Locator, triggerContainer: Locator) {
+export async function expectElementAndTriggerToBeAligned(
+  element: Locator,
+  triggerContainer: Locator,
+) {
   const elementRect = await getBoundingClientRect(element);
-  const direction = await element.evaluate(el => window.getComputedStyle(el).direction);
+  const direction = await element.evaluate((el) => window.getComputedStyle(el).direction);
   const side = direction === 'ltr' ? 'right' : 'left';
   const trigger = await getTrigger(triggerContainer);
 
   // For ease of testing, make the trigger button flush with the element's inline end and block start
   // (usually top right).
-  await trigger.evaluate(el => {
+  await trigger.evaluate((el) => {
     el.style.setProperty('margin-inline-end', '0');
     el.style.setProperty('margin-block-start', '0');
   });

@@ -1,5 +1,5 @@
-import type { Page, Locator } from '@playwright/test';
-import { getTriggerContainer, getTrigger } from './trigger';
+import type { Locator, Page } from '@playwright/test';
+import { getTrigger, getTriggerContainer } from './trigger';
 
 export async function openAccentedDialog(page: Page, element: string | Locator) {
   const elementWithIssues = typeof element === 'string' ? await page.locator(element) : element;
