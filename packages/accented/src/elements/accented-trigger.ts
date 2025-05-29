@@ -105,8 +105,8 @@ export default (name: string) => {
     visible: Signal<boolean> | undefined;
 
     constructor() {
+      super();
       try {
-        super();
         this.attachShadow({ mode: 'open' });
         const content = template.content.cloneNode(true);
         if (this.shadowRoot) {

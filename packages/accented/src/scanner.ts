@@ -19,7 +19,7 @@ export default function createScanner(
   callback: Callback,
 ) {
   const axeRunningWindowProp = `__${name}_axe_running__`;
-  const win: Record<string, any> = window;
+  const win = window as unknown as Record<string, boolean>;
   const taskQueue = new TaskQueue<Node>(async (nodes) => {
     // We may see errors coming from axe-core when Accented is toggled off and on in qiuck succession,
     // which I've seen happen with hot reloading of a React application.
@@ -35,7 +35,7 @@ export default function createScanner(
 
       const scanContext = getScanContext(nodes, context);
 
-      let result;
+      let result: axe.AxeResults | undefined;
 
       try {
         result = await axe.run(scanContext, {
@@ -52,19 +52,16 @@ export default function createScanner(
         });
       } catch (error) {
         console.error(
-          'Accented: axe-core (the accessibility testing engine) threw an error. ' +
-            'Check the `axeOptions` property that you’re passing to Accented. ' +
-            `If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
+          `Accented: axe-core (the accessibility testing engine) threw an error. Check the \`axeOptions\` property that you’re passing to Accented. If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
           error,
         );
-        result = { violations: [] };
       }
       win[axeRunningWindowProp] = false;
 
       const scanMeasure = performance.measure('scan', 'scan-start');
       const scanDuration = Math.round(scanMeasure.duration);
 
-      if (!enabled.value) {
+      if (!enabled.value || !result) {
         return;
       }
 

@@ -3,6 +3,7 @@ import { accentedUrl } from '../constants.js';
 import logAndRethrow from '../log-and-rethrow.js';
 import type { Issue } from '../types.ts';
 import getElementHtml from '../utils/get-element-html.js';
+import isNonEmpty from '../utils/is-non-empty.js';
 
 export interface AccentedDialog extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;
@@ -250,8 +251,8 @@ export default () => {
     open = false;
 
     constructor() {
+      super();
       try {
-        super();
         this.attachShadow({ mode: 'open' });
         const content = dialogTemplate.content.cloneNode(true);
         if (this.shadowRoot) {
@@ -319,18 +320,23 @@ export default () => {
                 const impact = issueContent.querySelector('.impact');
                 const description = issueContent.querySelector('.description');
                 if (title && impact && description) {
-                  title.textContent = issue.title + ' (' + issue.id + ')';
+                  title.textContent = `${issue.title} (${issue.id})`;
                   title.href = issue.url;
 
-                  impact.textContent = 'User impact: ' + issue.impact;
+                  impact.textContent = `User impact: ${issue.impact}`;
                   impact.setAttribute('data-impact', String(issue.impact));
 
                   const descriptionItems = issue.description.split(/\n\s*/);
                   const descriptionContent = descriptionTemplate.content.cloneNode(true) as Element;
                   const descriptionTitle = descriptionContent.querySelector('span');
                   const descriptionList = descriptionContent.querySelector('ul');
-                  if (descriptionTitle && descriptionList && descriptionItems.length > 1) {
-                    descriptionTitle.textContent = descriptionItems[0]!;
+                  if (
+                    descriptionTitle &&
+                    descriptionList &&
+                    isNonEmpty(descriptionItems) &&
+                    descriptionItems.length > 1
+                  ) {
+                    descriptionTitle.textContent = descriptionItems[0];
                     for (const descriptionItem of descriptionItems.slice(1)) {
                       const li = document.createElement('li');
                       li.textContent = descriptionItem;

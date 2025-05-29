@@ -82,13 +82,10 @@ if (searchParams.has('disable-rules')) {
   const rules = searchParams
     .get('disable-rules')!
     .split(',')
-    .reduce(
-      (acc: RuleObject, rule) => ({
-        ...acc,
-        [rule]: { enabled: false },
-      }),
-      {},
-    );
+    .reduce((acc: RuleObject, rule) => {
+      acc[rule] = { enabled: false };
+      return acc;
+    }, {});
   options.axeOptions = {
     ...options.axeOptions,
     rules,

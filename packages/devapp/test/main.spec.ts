@@ -53,7 +53,7 @@ test.describe('Accented', () => {
       test('an element with issues can still be interacted with', async ({ page }) => {
         await page.goto('?no-console');
         const buttonWithIssue = await page.locator(`#button-with-single-issue${accentedSelector}`);
-        let messageText;
+        let messageText: string | undefined;
         page.on('console', (message) => {
           messageText = message.text();
         });
@@ -197,7 +197,7 @@ test.describe('Accented', () => {
       ];
 
       for (const { baseFontSize, expectedTriggerSize, expectedIssueLinkFontSize } of sizes) {
-        await page.goto('?base-font-size=' + baseFontSize);
+        await page.goto(`?base-font-size=${baseFontSize}`);
         const buttonWithIssue = await page.locator('#button-with-single-issue');
         const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
         const trigger = await getTrigger(triggerContainer);
@@ -333,7 +333,6 @@ test.describe('Accented', () => {
     test('a trigger is positioned correctly on a fixed-positioned element', async ({ page }) => {
       const fixedPositionSection = await page.locator('section#fixed-position');
       const triggerContainer = await getTriggerContainer(page, fixedPositionSection);
-      const trigger = await getTrigger(triggerContainer);
       await page.mouse.wheel(0, 10);
       await expectElementAndTriggerToBeAligned(fixedPositionSection, triggerContainer);
     });
@@ -869,8 +868,8 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
 
-      let contextLength;
-      let contextElementId;
+      let contextLength: number | undefined;
+      let contextElementId: string | undefined;
 
       page.on('console', async (message) => {
         const args = message.args();
