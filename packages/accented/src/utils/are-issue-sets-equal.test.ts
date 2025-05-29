@@ -21,6 +21,7 @@ const issue2: Issue = {
 
 // @ts-expect-error
 const issue2Clone: Issue = Object.keys(issue2).reduce((obj, key) => {
+  // @ts-expect-error
   obj[key] = issue2[key];
   return obj;
 }, {});
