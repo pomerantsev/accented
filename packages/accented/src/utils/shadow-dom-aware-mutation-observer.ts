@@ -16,16 +16,14 @@ export default function createShadowDOMAwareMutationObserver(
         const childListMutations = mutations.filter((mutation) => mutation.type === 'childList');
 
         const newElements = childListMutations
-          .map((mutation) => [...mutation.addedNodes])
-          .flat()
+          .flatMap((mutation) => [...mutation.addedNodes])
           .filter((node) => isElement(node))
           .filter((node) => !accentedElementNames.includes(node.nodeName.toLowerCase()));
 
         this.#observeShadowRoots(newElements);
 
         const removedElements = childListMutations
-          .map((mutation) => [...mutation.removedNodes])
-          .flat()
+          .flatMap((mutation) => [...mutation.removedNodes])
           .filter((node) => isElement(node))
           .filter((node) => !accentedElementNames.includes(node.nodeName.toLowerCase()));
 
@@ -52,8 +50,7 @@ export default function createShadowDOMAwareMutationObserver(
 
     #observeShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
       const shadowRoots = elements
-        .map((element) => [...element.querySelectorAll('*')])
-        .flat()
+        .flatMap((element) => [...element.querySelectorAll('*')])
         .filter((element) => element.shadowRoot)
         .map((element) => element.shadowRoot!);
 
@@ -65,8 +62,7 @@ export default function createShadowDOMAwareMutationObserver(
 
     #deleteShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
       const shadowRoots = elements
-        .map((element) => [...element.querySelectorAll('*')])
-        .flat()
+        .flatMap((element) => [...element.querySelectorAll('*')])
         .filter((element) => element.shadowRoot)
         .map((element) => element.shadowRoot!);
 

@@ -23,11 +23,9 @@
     "rules": {
       "recommended": true,
       "complexity": {
-        "noForEach": "off",
-        "useFlatMap": "off"
+        "noForEach": "off"
       },
       "correctness": {
-        "noUnreachable": "off",
         "noUnreachableSuper": "off",
         "noUnusedImports": "error",
         "useImportExtensions": "error"
@@ -37,7 +35,6 @@
       },
       "style": {
         "noNonNullAssertion": "off",
-        "noUnusedTemplateLiteral": "off",
         "noUselessElse": "off",
         "useConst": "off",
         "useNumberNamespace": "off",

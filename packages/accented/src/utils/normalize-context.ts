@@ -30,9 +30,7 @@ function selectorToNodes(selector: Selector): Array<Node> {
 function contextPropToNodes(contextProp: ContextProp): Array<Node> {
   let nodes: Array<Node> = [];
   if (typeof contextProp === 'object' && (Array.isArray(contextProp) || isNodeList(contextProp))) {
-    nodes = Array.from(contextProp)
-      .map((item) => selectorToNodes(item))
-      .flat();
+    nodes = Array.from(contextProp).flatMap((item) => selectorToNodes(item));
   } else {
     nodes = selectorToNodes(contextProp);
   }

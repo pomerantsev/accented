@@ -198,7 +198,7 @@ test.describe('Accented', () => {
 
       for (const { baseFontSize, expectedTriggerSize, expectedIssueLinkFontSize } of sizes) {
         await page.goto('?base-font-size=' + baseFontSize);
-        const buttonWithIssue = await page.locator(`#button-with-single-issue`);
+        const buttonWithIssue = await page.locator('#button-with-single-issue');
         const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
         const trigger = await getTrigger(triggerContainer);
         const triggerInlineSize = await trigger.evaluate(
@@ -704,7 +704,7 @@ test.describe('Accented', () => {
     test('causes a single scan when the mutation list consists of more than one event', async ({
       page,
     }) => {
-      await page.goto(`?no-console&callback&throttle-wait=0`);
+      await page.goto('?no-console&callback&throttle-wait=0');
       // Wait for the first console message
       await page.waitForEvent('console');
 
@@ -722,78 +722,78 @@ test.describe('Accented', () => {
     test.describe('validations', () => {
       test('throws an error if options is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?options-invalid=foo`);
+        await page.goto('?options-invalid=foo');
       });
       test('throws an error if throttle is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?throttle-invalid=foo`);
+        await page.goto('?throttle-invalid=foo');
       });
       test('throws an error if throttle.wait is negative', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?throttle-wait=-1`);
+        await page.goto('?throttle-wait=-1');
       });
       test('throws an error if throttle.wait is not a number', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?throttle-wait-invalid=foo`);
+        await page.goto('?throttle-wait-invalid=foo');
       });
       test('throws an error if output is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?output-invalid=foo`);
+        await page.goto('?output-invalid=foo');
       });
       test('throws an error if callback is not a function', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?callback-invalid=foo`);
+        await page.goto('?callback-invalid=foo');
       });
       test('throws an error if name is invalid (starts with a number)', async ({
         page,
         expectErrors,
       }) => {
         expectErrors(1);
-        await page.goto(`?name=1foo`);
+        await page.goto('?name=1foo');
       });
       test('throws an error if name is invalid (contains an uppercase character)', async ({
         page,
         expectErrors,
       }) => {
         expectErrors(1);
-        await page.goto(`?name=baR`);
+        await page.goto('?name=baR');
       });
       test('throws an error if name is invalid (contains unicode)', async ({
         page,
         expectErrors,
       }) => {
         expectErrors(1);
-        await page.goto(`?name=hello-你好`);
+        await page.goto('?name=hello-你好');
       });
       test('throws an error if axeOptions is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?axe-options-invalid=foo`);
+        await page.goto('?axe-options-invalid=foo');
       });
       test('throws an error if axeOptions contains unsupported keys', async ({
         page,
         expectErrors,
       }) => {
         expectErrors(1);
-        await page.goto(`?axe-options-reporter=v1`);
+        await page.goto('?axe-options-reporter=v1');
       });
     });
 
     test('callback', async ({ page }) => {
-      await page.goto(`?callback&no-console`);
+      await page.goto('?callback&no-console');
       const consoleMessage = await page.waitForEvent('console');
       const arg1 = await consoleMessage.args()[0]?.jsonValue();
       await expect(arg1).toEqual('Elements from callback:');
     });
 
     test('name', async ({ page }) => {
-      await page.goto(`?name=my-name`);
+      await page.goto('?name=my-name');
       const count = await page.locator('[data-my-name]').count();
       await expect(count).toBeGreaterThan(0);
     });
 
     test.describe('throttle', () => {
       test('leading: false', async ({ page }) => {
-        await page.goto(`?throttle-wait=100&no-leading`);
+        await page.goto('?throttle-wait=100&no-leading');
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
         await page.waitForTimeout(1000);
@@ -802,7 +802,7 @@ test.describe('Accented', () => {
       });
 
       test('adding new elements with leading: true', async ({ page }) => {
-        await page.goto(`?throttle-wait=300`);
+        await page.goto('?throttle-wait=300');
         await page.waitForTimeout(350);
         const button = await page.getByRole('button', { name: 'Add one element with an issue' });
         await button.click();
@@ -817,7 +817,7 @@ test.describe('Accented', () => {
       });
 
       test('adding new elements with leading: false', async ({ page }) => {
-        await page.goto(`?throttle-wait=1000&no-leading`);
+        await page.goto('?throttle-wait=1000&no-leading');
         await page.waitForTimeout(1100);
         const button = await page.getByRole('button', { name: 'Add one element with an issue' });
         await button.click();
@@ -833,7 +833,7 @@ test.describe('Accented', () => {
     });
 
     test('runOnly', async ({ page }) => {
-      await page.goto(`?run-only=wcag21aa`);
+      await page.goto('?run-only=wcag21aa');
       const count = await page.locator(accentedSelector).count();
       // We only added one element with a WCAG 2.1 AA issue.
       await expect(count).toBe(1);
@@ -843,7 +843,7 @@ test.describe('Accented', () => {
       await page.goto('/');
       const totalCount = await page.locator(accentedSelector).count();
       await expect(totalCount).toBeGreaterThan(0);
-      await page.goto(`?disable-rules=button-name`);
+      await page.goto('?disable-rules=button-name');
       const countWithoutButtonName = await page.locator(accentedSelector).count();
       await expect(countWithoutButtonName).toBeGreaterThan(1);
       await expect(countWithoutButtonName).toBeLessThan(totalCount);
@@ -853,7 +853,7 @@ test.describe('Accented', () => {
       await page.goto('/');
       const totalCount = await page.locator(accentedSelector).count();
       await expect(totalCount).toBeGreaterThan(0);
-      await page.goto(`?axe-context-selector=button`);
+      await page.goto('?axe-context-selector=button');
       const countOnlyButtons = await page.locator(accentedSelector).count();
       await expect(countOnlyButtons).toBeGreaterThan(1);
       await expect(countOnlyButtons).toBeLessThan(totalCount);
@@ -862,7 +862,7 @@ test.describe('Accented', () => {
 
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`?disable&no-console&performance&throttle-wait=100&no-leading`);
+      await page.goto('?disable&no-console&performance&throttle-wait=100&no-leading');
     });
 
     test('uses expected scan context', async ({ page }) => {
