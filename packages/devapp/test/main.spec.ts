@@ -1,16 +1,22 @@
-import { test } from './fixtures/test';
 import { expect } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
+import { test } from './fixtures/test';
 
-import { expectElementAndTriggerToBeAligned, getTriggerContainer, getTrigger } from './helpers/trigger';
 import { openAccentedDialog } from './helpers/dialog';
+import {
+  expectElementAndTriggerToBeAligned,
+  getTrigger,
+  getTriggerContainer,
+} from './helpers/trigger';
 
 const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
 const accentedTriggerElementName = 'accented-trigger';
 
 const supportsAnchorPositioning = async (page: Page) =>
-  await page.evaluate(() => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'));
+  await page.evaluate(
+    () => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'),
+  );
 
 test.describe('Accented', () => {
   test.describe('basic functionality', () => {
@@ -21,7 +27,9 @@ test.describe('Accented', () => {
         await expect(adoptedStyleSheets).toHaveLength(1);
       });
 
-      test('adds its attributes to elements, and adds triggers in supporting browsers', async ({ page }) => {
+      test('adds its attributes to elements, and adds triggers in supporting browsers', async ({
+        page,
+      }) => {
         await page.goto('/');
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
@@ -32,9 +40,13 @@ test.describe('Accented', () => {
 
       test('triggers have meaningful accessible names', async ({ page }) => {
         await page.goto('/');
-        const htmlTriggerCount = await page.getByRole('button', { name: 'Accessibility issues in html' }).count();
+        const htmlTriggerCount = await page
+          .getByRole('button', { name: 'Accessibility issues in html' })
+          .count();
         await expect(htmlTriggerCount).toBe(1);
-        const buttonTriggerCount = await page.getByRole('button', { name: 'Accessibility issues in button' }).count();
+        const buttonTriggerCount = await page
+          .getByRole('button', { name: 'Accessibility issues in button' })
+          .count();
         await expect(buttonTriggerCount).toBeGreaterThan(1);
       });
 
@@ -49,7 +61,9 @@ test.describe('Accented', () => {
         expect(messageText).toBe('Button clicked');
       });
 
-      test('doesn’t report issues that may be caused by another Accented trigger', async ({ page }) => {
+      test('doesn’t report issues that may be caused by another Accented trigger', async ({
+        page,
+      }) => {
         await page.goto('?throttle-wait=100');
         await page.locator(`#low-contrast-list-item${accentedSelector}`);
         const addDivToListButton = await page.getByRole('button', { name: 'Add div to list' });
@@ -59,15 +73,21 @@ test.describe('Accented', () => {
         // We know that the list contains a div, but the structural issue on the list may also be caused
         // by the trigger that's set on the low-contrast element,
         // so we decided not to report such cases.
-        expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).not.toBeVisible();
-        const increaseListItemContrastButton = await page.getByRole('button', { name: 'Increase list item contrast' });
+        expect(
+          await page.locator(`#correctly-structured-list${accentedSelector}`),
+        ).not.toBeVisible();
+        const increaseListItemContrastButton = await page.getByRole('button', {
+          name: 'Increase list item contrast',
+        });
         await increaseListItemContrastButton.click();
         await page.waitForTimeout(500);
 
         // Now the only issue in the list is the structural one (a div as a child of a ul),
         // however on the last scan the issue trigger on the low-contrast item was still present,
         // so this time the issue on the parent will not be reported.
-        expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).not.toBeVisible();
+        expect(
+          await page.locator(`#correctly-structured-list${accentedSelector}`),
+        ).not.toBeVisible();
 
         await addDivToListButton.click();
         await page.waitForTimeout(500);
@@ -119,7 +139,9 @@ test.describe('Accented', () => {
       await page.goto('?no-console&callback&throttle-wait=0');
     });
 
-    test('adding an element with an issue results in one more element with issues displayed', async ({ page }) => {
+    test('adding an element with an issue results in one more element with issues displayed', async ({
+      page,
+    }) => {
       const initialCount = await page.locator(accentedSelector).count();
       const button = await page.getByRole('button', { name: 'Add one element with an issue' });
       await button.click();
@@ -131,7 +153,9 @@ test.describe('Accented', () => {
       expect(finalTriggerCount).toBe(finalCount);
     });
 
-    test('removing an element with an issue results in one fewer elements with issues displayed', async ({ page }) => {
+    test('removing an element with an issue results in one fewer elements with issues displayed', async ({
+      page,
+    }) => {
       const initialCount = await page.locator(accentedSelector).count();
       const button = await page.getByRole('button', { name: 'Remove button' });
       await button.click();
@@ -141,7 +165,9 @@ test.describe('Accented', () => {
       expect(finalTriggerCount).toBe(finalCount);
     });
 
-    test('removing an issue from an element with one issue results in one fewer elements with issues displayed', async ({ page }) => {
+    test('removing an issue from an element with one issue results in one fewer elements with issues displayed', async ({
+      page,
+    }) => {
       const initialCount = await page.locator(accentedSelector).count();
       const button = await page.getByRole('button', { name: 'Add text to button' });
       await button.click();
@@ -158,7 +184,7 @@ test.describe('Accented', () => {
     });
 
     test('sizes of Accented elements don’t fall below a certain threshold', async ({ page }) => {
-      const round = (value: string) => Math.round(parseFloat(value) * 10) / 10;
+      const round = (value: string) => Math.round(Number.parseFloat(value) * 10) / 10;
 
       const sizes = [
         // Default base font size, which in most browsers is 16px
@@ -167,25 +193,33 @@ test.describe('Accented', () => {
         { baseFontSize: '24px', expectedTriggerSize: 48, expectedIssueLinkFontSize: 28.8 },
         // When base font size shrinks, Accented elements stay at the base size
         // (so they don't become unreadable)
-        { baseFontSize: '8px', expectedTriggerSize: 32, expectedIssueLinkFontSize: 19.2 }
+        { baseFontSize: '8px', expectedTriggerSize: 32, expectedIssueLinkFontSize: 19.2 },
       ];
 
       for (const { baseFontSize, expectedTriggerSize, expectedIssueLinkFontSize } of sizes) {
         await page.goto('?base-font-size=' + baseFontSize);
-        const buttonWithIssue = await page.locator(`#button-with-single-issue`);
+        const buttonWithIssue = await page.locator('#button-with-single-issue');
         const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
         const trigger = await getTrigger(triggerContainer);
-        const triggerInlineSize = await trigger.evaluate(node => window.getComputedStyle(node).inlineSize);
+        const triggerInlineSize = await trigger.evaluate(
+          (node) => window.getComputedStyle(node).inlineSize,
+        );
         await expect(round(triggerInlineSize)).toBe(expectedTriggerSize);
 
         await trigger.click();
-        const issueLink = await page.getByRole('link', { name: 'Buttons must have discernible text' });
-        const issueLinkFontSize = await issueLink.evaluate(node => window.getComputedStyle(node).fontSize);
+        const issueLink = await page.getByRole('link', {
+          name: 'Buttons must have discernible text',
+        });
+        const issueLinkFontSize = await issueLink.evaluate(
+          (node) => window.getComputedStyle(node).fontSize,
+        );
         await expect(round(issueLinkFontSize)).toBe(expectedIssueLinkFontSize);
       }
     });
 
-    test('triggers are rendered in the correct positions, and are all interactable', async ({ page }) => {
+    test('triggers are rendered in the correct positions, and are all interactable', async ({
+      page,
+    }) => {
       const elements = await page.locator(accentedSelector).all();
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
@@ -218,7 +252,9 @@ test.describe('Accented', () => {
       }
     });
 
-    test('trigger positions get updated in scrollable regions and are hidden from view when scrolled out', async ({ page }) => {
+    test('trigger positions get updated in scrollable regions and are hidden from view when scrolled out', async ({
+      page,
+    }) => {
       const scrollableRegion = await page.locator('#scrollable-region');
       const button1 = await page.locator('#scrollable-test-button-1');
       const button1TriggerContainer = await getTriggerContainer(page, button1);
@@ -245,7 +281,7 @@ test.describe('Accented', () => {
       await expectElementAndTriggerToBeAligned(button1, button1TriggerContainer);
       await expectToBeHiddenOutsideScrollableRegion(button2Trigger);
 
-      await scrollableRegion.evaluate(element => element.scrollBy(0, 10));
+      await scrollableRegion.evaluate((element) => element.scrollBy(0, 10));
       await page.waitForTimeout(200);
       await expect(button1Trigger).toBeVisible();
       await expectElementAndTriggerToBeAligned(button1, button1TriggerContainer);
@@ -270,9 +306,12 @@ test.describe('Accented', () => {
 
     test('outlines change color if certain CSS props are set', async ({ page }) => {
       await page.goto('?name=green-accented');
-      const buttonWithIssue = await page.getByRole('button').and(page.locator('[data-green-accented]')).first();
-      const outlineColor = await buttonWithIssue.evaluate(buttonElement => {
-        const computedStyle = window.getComputedStyle(buttonElement)
+      const buttonWithIssue = await page
+        .getByRole('button')
+        .and(page.locator('[data-green-accented]'))
+        .first();
+      const outlineColor = await buttonWithIssue.evaluate((buttonElement) => {
+        const computedStyle = window.getComputedStyle(buttonElement);
         return computedStyle.getPropertyValue('outline-color');
       });
       await expect(outlineColor).toBe('rgb(0, 128, 0)');
@@ -332,7 +371,9 @@ test.describe('Accented', () => {
         if (!(await supportsAnchorPositioning(page))) {
           return;
         }
-        const element = await page.getByRole('button', { name: 'Button with anchors in a stylesheet' });
+        const element = await page.getByRole('button', {
+          name: 'Button with anchors in a stylesheet',
+        });
         const id = await element.getAttribute(accentedDataAttr);
         const style = await element.getAttribute('style');
         await expect(style).toBe(`anchor-name: --foo, --bar, --accented-anchor-${id};`);
@@ -347,7 +388,9 @@ test.describe('Accented', () => {
         if (!(await supportsAnchorPositioning(page))) {
           return;
         }
-        const element = await page.getByRole('button', { name: 'Button with anchors in a style attribute' });
+        const element = await page.getByRole('button', {
+          name: 'Button with anchors in a style attribute',
+        });
         const id = await element.getAttribute(accentedDataAttr);
         const style = await element.getAttribute('style');
         await expect(style).toBe(`anchor-name: --foo, --bar, --accented-anchor-${id};`);
@@ -363,7 +406,9 @@ test.describe('Accented', () => {
       await page.goto('?small-caps');
       await openAccentedDialog(page, '#over-2-issues');
       const heading = await page.getByRole('heading', { name: 'Accessibility issues' });
-      const fontVariant = await heading.evaluate(node => window.getComputedStyle(node).fontVariant);
+      const fontVariant = await heading.evaluate(
+        (node) => window.getComputedStyle(node).fontVariant,
+      );
       await expect(fontVariant).toBe('normal');
     });
   });
@@ -422,7 +467,9 @@ test.describe('Accented', () => {
       expect(hash).toBe('');
     });
 
-    test('when trigger is clicked, a click handler on an ancestor isn’t invoked', async ({ page }) => {
+    test('when trigger is clicked, a click handler on an ancestor isn’t invoked', async ({
+      page,
+    }) => {
       await page.goto('?throttle-wait=500&no-leading&no-console');
 
       let messageCount = 0;
@@ -523,20 +570,30 @@ test.describe('Accented', () => {
         await page.goto('/');
       });
 
-      test('the shadow root that contains elements with issues get the Accented styleshet', async ({ page }) => {
+      test('the shadow root that contains elements with issues get the Accented styleshet', async ({
+        page,
+      }) => {
         const shadowDOMContainer1 = await page.locator('#shadow-dom-container-1');
-        const adoptedStyleSheets = await shadowDOMContainer1.evaluate((element) => element.shadowRoot?.adoptedStyleSheets);
+        const adoptedStyleSheets = await shadowDOMContainer1.evaluate(
+          (element) => element.shadowRoot?.adoptedStyleSheets,
+        );
         await expect(adoptedStyleSheets).toHaveLength(1);
       });
 
-      test('the shadow root that doesn’t contain elements with issues doesn’t get the Accented stylesheet', async ({ page }) => {
+      test('the shadow root that doesn’t contain elements with issues doesn’t get the Accented stylesheet', async ({
+        page,
+      }) => {
         const shadowDOMContainer2 = await page.locator('#shadow-dom-container-2');
-        const adoptedStyleSheets = await shadowDOMContainer2.evaluate((element) => element.shadowRoot?.adoptedStyleSheets);
+        const adoptedStyleSheets = await shadowDOMContainer2.evaluate(
+          (element) => element.shadowRoot?.adoptedStyleSheets,
+        );
         await expect(adoptedStyleSheets).toHaveLength(0);
       });
     });
 
-    test('an issue in a nested SVG is reported in the console, but an outline and trigger are not rendered for it', async ({ page }) => {
+    test('an issue in a nested SVG is reported in the console, but an outline and trigger are not rendered for it', async ({
+      page,
+    }) => {
       await page.goto('?axe-context-selector=%23nested-svg');
 
       const consoleMessage = await page.waitForEvent('console');
@@ -551,7 +608,9 @@ test.describe('Accented', () => {
       await expect(triggerCount).toBe(0);
     });
 
-    test('an issue inside <head> is reported in the console, but a trigger is not rendered for it', async ({ page }) => {
+    test('an issue inside <head> is reported in the console, but a trigger is not rendered for it', async ({
+      page,
+    }) => {
       await page.goto('?axe-context-selector=head');
 
       const consoleMessage = await page.waitForEvent('console');
@@ -577,13 +636,15 @@ test.describe('Accented', () => {
 
       const rows = await tableSection.locator('tr').all();
       for (const row of rows) {
-        expect(await row.evaluate(node => node.children.length)).toBe(3);
+        expect(await row.evaluate((node) => node.children.length)).toBe(3);
       }
     });
   });
 
   test.describe('issue dialogs', () => {
-    test('dialog is displayed and contains the element HTML and the expected number of issue descriptions', async ({ page }) => {
+    test('dialog is displayed and contains the element HTML and the expected number of issue descriptions', async ({
+      page,
+    }) => {
       await page.goto('/');
       const dialog = await openAccentedDialog(page, '#over-2-issues');
       await expect(dialog).toBeVisible();
@@ -595,9 +656,11 @@ test.describe('Accented', () => {
     for (const url of [
       '?remove-some-issues-on-timeout',
       '?remove-all-issues-on-timeout',
-      '?remove-element-on-timeout'
+      '?remove-element-on-timeout',
     ]) {
-      test(`issue descriptions and element HTML are not updated when on ${url}`, async ({ page }) => {
+      test(`issue descriptions and element HTML are not updated when on ${url}`, async ({
+        page,
+      }) => {
         await page.goto(url);
         const dialog = await openAccentedDialog(page, '#over-2-issues');
         const initialIssueDescriptionCount = await dialog.locator('#issues > li').count();
@@ -620,7 +683,9 @@ test.describe('Accented', () => {
       await expect(dialog).not.toBeVisible();
     });
 
-    test('dialog can be dismissed by pressing Escape, and the keydown event doesn’t propagate', async ({ page }) => {
+    test('dialog can be dismissed by pressing Escape, and the keydown event doesn’t propagate', async ({
+      page,
+    }) => {
       await page.goto('?no-console');
       let messageCount = 0;
       page.on('console', (event) => {
@@ -632,12 +697,14 @@ test.describe('Accented', () => {
       await page.keyboard.press('Escape');
       await expect(dialog).not.toBeVisible();
       expect(messageCount).toBe(0);
-    })
+    });
   });
 
   test.describe('mutation observer', () => {
-    test('causes a single scan when the mutation list consists of more than one event', async ({ page }) => {
-      await page.goto(`?no-console&callback&throttle-wait=0`);
+    test('causes a single scan when the mutation list consists of more than one event', async ({
+      page,
+    }) => {
+      await page.goto('?no-console&callback&throttle-wait=0');
       // Wait for the first console message
       await page.waitForEvent('console');
 
@@ -655,66 +722,78 @@ test.describe('Accented', () => {
     test.describe('validations', () => {
       test('throws an error if options is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?options-invalid=foo`);
+        await page.goto('?options-invalid=foo');
       });
       test('throws an error if throttle is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?throttle-invalid=foo`);
+        await page.goto('?throttle-invalid=foo');
       });
       test('throws an error if throttle.wait is negative', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?throttle-wait=-1`);
+        await page.goto('?throttle-wait=-1');
       });
       test('throws an error if throttle.wait is not a number', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?throttle-wait-invalid=foo`);
+        await page.goto('?throttle-wait-invalid=foo');
       });
       test('throws an error if output is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?output-invalid=foo`);
+        await page.goto('?output-invalid=foo');
       });
       test('throws an error if callback is not a function', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?callback-invalid=foo`);
+        await page.goto('?callback-invalid=foo');
       });
-      test('throws an error if name is invalid (starts with a number)', async ({ page, expectErrors }) => {
+      test('throws an error if name is invalid (starts with a number)', async ({
+        page,
+        expectErrors,
+      }) => {
         expectErrors(1);
-        await page.goto(`?name=1foo`);
+        await page.goto('?name=1foo');
       });
-      test('throws an error if name is invalid (contains an uppercase character)', async ({ page, expectErrors }) => {
+      test('throws an error if name is invalid (contains an uppercase character)', async ({
+        page,
+        expectErrors,
+      }) => {
         expectErrors(1);
-        await page.goto(`?name=baR`);
+        await page.goto('?name=baR');
       });
-      test('throws an error if name is invalid (contains unicode)', async ({ page, expectErrors }) => {
+      test('throws an error if name is invalid (contains unicode)', async ({
+        page,
+        expectErrors,
+      }) => {
         expectErrors(1);
-        await page.goto(`?name=hello-你好`);
+        await page.goto('?name=hello-你好');
       });
       test('throws an error if axeOptions is not an object', async ({ page, expectErrors }) => {
         expectErrors(1);
-        await page.goto(`?axe-options-invalid=foo`);
+        await page.goto('?axe-options-invalid=foo');
       });
-      test('throws an error if axeOptions contains unsupported keys', async ({ page, expectErrors }) => {
+      test('throws an error if axeOptions contains unsupported keys', async ({
+        page,
+        expectErrors,
+      }) => {
         expectErrors(1);
-        await page.goto(`?axe-options-reporter=v1`);
+        await page.goto('?axe-options-reporter=v1');
       });
     });
 
     test('callback', async ({ page }) => {
-      await page.goto(`?callback&no-console`);
+      await page.goto('?callback&no-console');
       const consoleMessage = await page.waitForEvent('console');
       const arg1 = await consoleMessage.args()[0]?.jsonValue();
       await expect(arg1).toEqual('Elements from callback:');
     });
 
     test('name', async ({ page }) => {
-      await page.goto(`?name=my-name`);
+      await page.goto('?name=my-name');
       const count = await page.locator('[data-my-name]').count();
       await expect(count).toBeGreaterThan(0);
     });
 
     test.describe('throttle', () => {
       test('leading: false', async ({ page }) => {
-        await page.goto(`?throttle-wait=100&no-leading`);
+        await page.goto('?throttle-wait=100&no-leading');
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBe(0);
         await page.waitForTimeout(1000);
@@ -723,7 +802,7 @@ test.describe('Accented', () => {
       });
 
       test('adding new elements with leading: true', async ({ page }) => {
-        await page.goto(`?throttle-wait=300`);
+        await page.goto('?throttle-wait=300');
         await page.waitForTimeout(350);
         const button = await page.getByRole('button', { name: 'Add one element with an issue' });
         await button.click();
@@ -738,7 +817,7 @@ test.describe('Accented', () => {
       });
 
       test('adding new elements with leading: false', async ({ page }) => {
-        await page.goto(`?throttle-wait=1000&no-leading`);
+        await page.goto('?throttle-wait=1000&no-leading');
         await page.waitForTimeout(1100);
         const button = await page.getByRole('button', { name: 'Add one element with an issue' });
         await button.click();
@@ -754,7 +833,7 @@ test.describe('Accented', () => {
     });
 
     test('runOnly', async ({ page }) => {
-      await page.goto(`?run-only=wcag21aa`);
+      await page.goto('?run-only=wcag21aa');
       const count = await page.locator(accentedSelector).count();
       // We only added one element with a WCAG 2.1 AA issue.
       await expect(count).toBe(1);
@@ -764,7 +843,7 @@ test.describe('Accented', () => {
       await page.goto('/');
       const totalCount = await page.locator(accentedSelector).count();
       await expect(totalCount).toBeGreaterThan(0);
-      await page.goto(`?disable-rules=button-name`);
+      await page.goto('?disable-rules=button-name');
       const countWithoutButtonName = await page.locator(accentedSelector).count();
       await expect(countWithoutButtonName).toBeGreaterThan(1);
       await expect(countWithoutButtonName).toBeLessThan(totalCount);
@@ -774,7 +853,7 @@ test.describe('Accented', () => {
       await page.goto('/');
       const totalCount = await page.locator(accentedSelector).count();
       await expect(totalCount).toBeGreaterThan(0);
-      await page.goto(`?axe-context-selector=button`);
+      await page.goto('?axe-context-selector=button');
       const countOnlyButtons = await page.locator(accentedSelector).count();
       await expect(countOnlyButtons).toBeGreaterThan(1);
       await expect(countOnlyButtons).toBeLessThan(totalCount);
@@ -783,7 +862,7 @@ test.describe('Accented', () => {
 
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`?disable&no-console&performance&throttle-wait=100&no-leading`);
+      await page.goto('?disable&no-console&performance&throttle-wait=100&no-leading');
     });
 
     test('uses expected scan context', async ({ page }) => {
@@ -793,12 +872,12 @@ test.describe('Accented', () => {
       let contextLength;
       let contextElementId;
 
-      page.on('console', async message => {
+      page.on('console', async (message) => {
         const args = message.args();
         const { length, id } = await args[1]?.evaluate((perfObject) => {
           return {
             length: perfObject.scanContext.length,
-            id: perfObject.scanContext[0].id
+            id: perfObject.scanContext[0].id,
           };
         })!;
         contextLength = length;
@@ -815,7 +894,10 @@ test.describe('Accented', () => {
 
     type Duration = 'short' | 'long';
 
-    async function expectPerformance(page: Page, { scan, domUpdate }: { scan: Duration; domUpdate: Duration }) {
+    async function expectPerformance(
+      page: Page,
+      { scan, domUpdate }: { scan: Duration; domUpdate: Duration },
+    ) {
       const consoleMessage = await page.waitForEvent('console');
       const perfObject = await consoleMessage.args()[1]?.jsonValue();
       const scanDuration = perfObject.scan;
@@ -851,7 +933,9 @@ test.describe('Accented', () => {
       await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
-    test('does not take long to run when one element is added to many elements with issues', async ({ page }) => {
+    test('does not take long to run when one element is added to many elements with issues', async ({
+      page,
+    }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with issues' }).click();
@@ -867,7 +951,9 @@ test.describe('Accented', () => {
       await expectPerformance(page, { scan: 'long', domUpdate: 'short' });
     });
 
-    test('does not take long to run when one element is added to many elements with no issues', async ({ page }) => {
+    test('does not take long to run when one element is added to many elements with no issues', async ({
+      page,
+    }) => {
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       await page.waitForEvent('console');
       await page.getByRole('button', { name: 'Add many elements with no issues' }).click();

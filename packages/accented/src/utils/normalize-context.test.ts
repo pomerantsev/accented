@@ -1,6 +1,6 @@
-import { JSDOM } from 'jsdom';
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
+import { JSDOM } from 'jsdom';
 import normalizeContext from './normalize-context';
 
 suite('normalizeContext', () => {
@@ -11,7 +11,7 @@ suite('normalizeContext', () => {
 
     assert.deepEqual(normalizedContext, {
       include: [document],
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -23,7 +23,7 @@ suite('normalizeContext', () => {
 
     assert.deepEqual(normalizedContext, {
       include: [element],
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -41,7 +41,7 @@ suite('normalizeContext', () => {
     assert.equal(matchingElements.length, 2);
     assert.deepEqual(normalizedContext, {
       include: matchingElements,
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -57,7 +57,7 @@ suite('normalizeContext', () => {
 
     assert.deepEqual(normalizedContext, {
       include: [],
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -74,7 +74,7 @@ suite('normalizeContext', () => {
     assert.equal(matchingElements.length, 2);
     assert.deepEqual(normalizedContext, {
       include: Array.from(matchingElements),
-      exclude: []
+      exclude: [],
     });
   });
 
@@ -94,12 +94,12 @@ suite('normalizeContext', () => {
       shadowRoot.appendChild(matchingElement);
       matchingElements.push(matchingElement);
     }
-    const normalizedContext = normalizeContext({fromShadowDom: ['.host', '.matches']});
+    const normalizedContext = normalizeContext({ fromShadowDom: ['.host', '.matches'] });
 
     assert.equal(matchingElements.length, 2);
     assert.deepEqual(normalizedContext, {
       include: matchingElements,
-      exclude: []
+      exclude: [],
     });
   });
 });

@@ -1,5 +1,5 @@
-import accented from'accented';
-import type { DisableAccented, AccentedOptions } from 'accented';
+import accented from 'accented';
+import type { AccentedOptions, DisableAccented } from 'accented';
 import type { RuleObject } from 'axe-core';
 
 const searchParams = new URLSearchParams(location.search);
@@ -16,7 +16,7 @@ function toggleAccented(opts: AccentedOptions = {}) {
 }
 
 let options: AccentedOptions = {
-  axeOptions: {}
+  axeOptions: {},
 };
 
 if (searchParams.has('options-invalid')) {
@@ -25,7 +25,7 @@ if (searchParams.has('options-invalid')) {
 
 if (searchParams.has('callback')) {
   options.output = { console: false };
-  options.callback = ({elementsWithIssues}) => {
+  options.callback = ({ elementsWithIssues }) => {
     console.log('Elements from callback:', elementsWithIssues);
   };
 }
@@ -35,27 +35,27 @@ if (searchParams.has('callback-invalid')) {
 }
 
 if (searchParams.has('performance') && !searchParams.has('callback')) {
-  options.callback = ({performance}) => {
+  options.callback = ({ performance }) => {
     console.log('Performance:', performance);
   };
 }
 
 if (searchParams.has('throttle-wait')) {
   options.throttle = {
-    wait: parseInt(searchParams.get('throttle-wait')!, 10) ?? 1000,
-    leading: !searchParams.has('no-leading')
+    wait: Number.parseInt(searchParams.get('throttle-wait')!, 10) ?? 1000,
+    leading: !searchParams.has('no-leading'),
   };
 } else if (searchParams.has('throttle-invalid')) {
   options.throttle = searchParams.get('throttle-invalid') as any;
 } else if (searchParams.has('throttle-wait-invalid')) {
   options.throttle = {
-    wait: searchParams.get('throttle-wait-invalid') as any
+    wait: searchParams.get('throttle-wait-invalid') as any,
   };
 }
 
 if (searchParams.has('no-leading') && !searchParams.has('throttle-wait')) {
   options.throttle = {
-    leading: false
+    leading: false,
   };
 }
 
@@ -75,24 +75,30 @@ if (searchParams.has('run-only')) {
   options.axeOptions = {
     ...options.axeOptions,
     // Pass an array as `runOnly` (one of the available options in axe-core).
-    runOnly: searchParams.get('run-only')!.split(',')
-  }
+    runOnly: searchParams.get('run-only')!.split(','),
+  };
 }
 if (searchParams.has('disable-rules')) {
-  const rules = searchParams.get('disable-rules')!.split(',').reduce((acc: RuleObject, rule) => ({
-    ...acc,
-    [rule]: { enabled: false }
-  }), {});
+  const rules = searchParams
+    .get('disable-rules')!
+    .split(',')
+    .reduce(
+      (acc: RuleObject, rule) => ({
+        ...acc,
+        [rule]: { enabled: false },
+      }),
+      {},
+    );
   options.axeOptions = {
     ...options.axeOptions,
-    rules
-  }
+    rules,
+  };
 }
 if (searchParams.has('axe-options-reporter')) {
   options.axeOptions = {
     ...options.axeOptions,
     // @ts-expect-error `reporter` is not defined on AxeOptions.
-    reporter: searchParams.get('axe-options-reporter')
+    reporter: searchParams.get('axe-options-reporter'),
   };
 }
 if (searchParams.has('axe-options-invalid')) {
@@ -126,4 +132,6 @@ if (searchParams.has('small-caps')) {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
 }
 
-export default () => { toggleAccented(options); };
+export default () => {
+  toggleAccented(options);
+};

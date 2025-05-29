@@ -1,6 +1,6 @@
-import type { Context, ContextProp, Selector, ScanContext } from '../types';
-import { isNode, isNodeList } from './dom-helpers.js';
+import type { Context, ContextProp, ScanContext, Selector } from '../types.ts';
 import { deduplicateNodes } from './deduplicate-nodes.js';
+import { isNode, isNodeList } from './dom-helpers.js';
 
 function recursiveSelectAll(selectors: Array<string>, root: Document | ShadowRoot): Array<Node> {
   const nodesOnCurrentLevel = root.querySelectorAll(selectors[0]!);
@@ -30,7 +30,7 @@ function selectorToNodes(selector: Selector): Array<Node> {
 function contextPropToNodes(contextProp: ContextProp): Array<Node> {
   let nodes: Array<Node> = [];
   if (typeof contextProp === 'object' && (Array.isArray(contextProp) || isNodeList(contextProp))) {
-    nodes = Array.from(contextProp).map(item => selectorToNodes(item)).flat();
+    nodes = Array.from(contextProp).flatMap((item) => selectorToNodes(item));
   } else {
     nodes = selectorToNodes(contextProp);
   }
@@ -53,6 +53,6 @@ export default function normalizeContext(context: Context): ScanContext {
 
   return {
     include: contextInclude,
-    exclude: contextExclude
+    exclude: contextExclude,
   };
 }

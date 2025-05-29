@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {suite, test} from 'node:test';
+import { suite, test } from 'node:test';
 import transformViolations from './transform-violations';
 
 import type { AxeResults } from 'axe-core';
@@ -12,7 +12,7 @@ const commonViolationProps1: Omit<Violation, 'nodes'> = {
   helpUrl: 'http://example.com',
   description: 'description1',
   tags: [],
-  impact: 'serious'
+  impact: 'serious',
 };
 
 const commonViolationProps2: Omit<Violation, 'nodes'> = {
@@ -21,51 +21,51 @@ const commonViolationProps2: Omit<Violation, 'nodes'> = {
   helpUrl: 'http://example.com',
   description: 'description2',
   tags: [],
-  impact: 'serious'
+  impact: 'serious',
 };
 
-const getRootNode = (): Node => ({} as Node);
+const getRootNode = (): Node => ({}) as Node;
 
 // @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = {getRootNode};
+const element1: HTMLElement = { getRootNode };
 // @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = {getRootNode};
+const element2: HTMLElement = { getRootNode };
 // @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = {getRootNode};
+const element3: HTMLElement = { getRootNode };
 
 const commonNodeProps = {
   html: '<div></div>',
   any: [],
   all: [],
-  none: []
+  none: [],
 };
 
 const node1: Node = {
   ...commonNodeProps,
   element: element1,
   target: ['div'],
-  failureSummary: 'summary1'
+  failureSummary: 'summary1',
 };
 
 const node2: Node = {
   ...commonNodeProps,
   element: element2,
   target: ['div'],
-  failureSummary: 'summary2'
+  failureSummary: 'summary2',
 };
 
 const node3: Node = {
   ...commonNodeProps,
   element: element3,
   target: ['div'],
-  failureSummary: 'summary3'
+  failureSummary: 'summary3',
 };
 
 suite('transformViolations', () => {
   test('one violation, one element', () => {
     const violation: Violation = {
       ...commonViolationProps1,
-      nodes: [node1]
+      nodes: [node1],
     };
     const elementsWithIssues = transformViolations([violation], 'accented');
     assert.equal(elementsWithIssues.length, 1);
@@ -78,15 +78,17 @@ suite('transformViolations', () => {
   test('two violations, two elements each', () => {
     const violation1: Violation = {
       ...commonViolationProps1,
-      nodes: [node1, node2]
+      nodes: [node1, node2],
     };
     const violation2: Violation = {
       ...commonViolationProps2,
-      nodes: [node1, node3]
+      nodes: [node1, node3],
     };
     const elementsWithIssues = transformViolations([violation1, violation2], 'accented');
     assert.equal(elementsWithIssues.length, 3);
-    const elementWithTwoIssues = elementsWithIssues.find(elementWithIssues => elementWithIssues.element === element1);
+    const elementWithTwoIssues = elementsWithIssues.find(
+      (elementWithIssues) => elementWithIssues.element === element1,
+    );
     assert.equal(elementWithTwoIssues?.issues.length, 2);
   });
 
@@ -96,11 +98,11 @@ suite('transformViolations', () => {
       element: element1,
       // A target array whose length is > 1 signifies an element in an iframe
       target: ['iframe', 'div'],
-      failureSummary: 'summary1'
+      failureSummary: 'summary1',
     };
     const violation: Violation = {
       ...commonViolationProps1,
-      nodes: [node]
+      nodes: [node],
     };
 
     const elementsWithIssues = transformViolations([violation], 'accented');
@@ -113,11 +115,11 @@ suite('transformViolations', () => {
       element: element1,
       // A target that contains an array within the outer array signifies an element in shadow DOM
       target: [['div', 'div']],
-      failureSummary: 'summary1'
+      failureSummary: 'summary1',
     };
     const violation: Violation = {
       ...commonViolationProps1,
-      nodes: [node]
+      nodes: [node],
     };
 
     const elementsWithIssues = transformViolations([violation], 'accented');

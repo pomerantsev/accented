@@ -1,23 +1,36 @@
-import type { Position } from '../types';
+import type { Position } from '../types.ts';
+import { createsContainingBlock } from './containing-blocks.js';
 import { isHtmlElement } from './dom-helpers.js';
 import getParent from './get-parent.js';
-import { createsContainingBlock } from './containing-blocks.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
 function isContainingBlock(element: Element, win: Window): boolean {
   const style = win.getComputedStyle(element);
-  const { transform, perspective, contain, contentVisibility, containerType, filter, backdropFilter, willChange } = style;
+  const {
+    transform,
+    perspective,
+    contain,
+    contentVisibility,
+    containerType,
+    filter,
+    backdropFilter,
+    willChange,
+  } = style;
   const containItems = contain.split(' ');
   const willChangeItems = willChange.split(/\s*,\s*/);
 
-  return transform !== 'none'
-    || perspective !== 'none'
-    || containItems.some((item) => ['layout', 'paint', 'strict', 'content'].includes(item))
-    || contentVisibility === 'auto'
-    || (createsContainingBlock('containerType') && containerType !== 'normal')
-    || (createsContainingBlock('filter') && filter !== 'none')
-    || (createsContainingBlock('backdropFilter') && backdropFilter !== 'none')
-    || willChangeItems.some((item) => ['transform', 'perspective', 'contain', 'filter', 'backdrop-filter'].includes(item));
+  return (
+    transform !== 'none' ||
+    perspective !== 'none' ||
+    containItems.some((item) => ['layout', 'paint', 'strict', 'content'].includes(item)) ||
+    contentVisibility === 'auto' ||
+    (createsContainingBlock('containerType') && containerType !== 'normal') ||
+    (createsContainingBlock('filter') && filter !== 'none') ||
+    (createsContainingBlock('backdropFilter') && backdropFilter !== 'none') ||
+    willChangeItems.some((item) =>
+      ['transform', 'perspective', 'contain', 'filter', 'backdrop-filter'].includes(item),
+    )
+  );
 }
 
 function getNonInitialContainingBlock(element: Element, win: Window): Element | null {
@@ -67,7 +80,7 @@ export default function getElementPosition(element: Element, win: Window): Posit
         top: elementRect.top - nonInitialContainingBlockRect.top,
         height: elementRect.height,
         left: elementRect.left - nonInitialContainingBlockRect.left,
-        width: elementRect.width
+        width: elementRect.width,
       };
     }
   } else {

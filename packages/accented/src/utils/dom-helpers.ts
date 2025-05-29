@@ -1,6 +1,10 @@
 export function isNode(obj: object): obj is Node {
-  return 'nodeType' in obj && typeof obj.nodeType === 'number' &&
-    'nodeName' in obj && typeof obj.nodeName === 'string';
+  return (
+    'nodeType' in obj &&
+    typeof obj.nodeType === 'number' &&
+    'nodeName' in obj &&
+    typeof obj.nodeName === 'string'
+  );
 }
 
 export function isNodeList(obj: object): obj is NodeList {

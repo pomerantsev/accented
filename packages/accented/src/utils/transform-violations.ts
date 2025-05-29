@@ -1,5 +1,5 @@
 import type { AxeResults, ImpactValue } from 'axe-core';
-import type { Issue, ElementWithIssues } from '../types';
+import type { ElementWithIssues, Issue } from '../types.ts';
 
 // This is a list of axe-core violations (their ids) that may be flagged by axe-core
 // as false positives if an Accented trigger is a descendant of the element with the issue.
@@ -10,12 +10,14 @@ const violationsAffectedByAccentedTriggers = [
   'label-content-name-mismatch',
   'list',
   'nested-interactive',
-  'scrollable-region-focusable' // The Accented trigger might make the content grow such that scrolling is required.
+  'scrollable-region-focusable', // The Accented trigger might make the content grow such that scrolling is required.
 ];
 
 function maybeCausedByAccented(violationId: string, element: HTMLElement, name: string) {
-  return violationsAffectedByAccentedTriggers.includes(violationId)
-    && Boolean(element.querySelector(`${name}-trigger`));
+  return (
+    violationsAffectedByAccentedTriggers.includes(violationId) &&
+    Boolean(element.querySelector(`${name}-trigger`))
+  );
 }
 
 function impactCompare(a: ImpactValue, b: ImpactValue) {
@@ -23,7 +25,10 @@ function impactCompare(a: ImpactValue, b: ImpactValue) {
   return impactOrder.indexOf(a) - impactOrder.indexOf(b);
 }
 
-export default function transformViolations(violations: typeof AxeResults.violations, name: string) {
+export default function transformViolations(
+  violations: typeof AxeResults.violations,
+  name: string,
+) {
   const elementsWithIssues: Array<ElementWithIssues> = [];
 
   for (const violation of violations) {
@@ -44,14 +49,16 @@ export default function transformViolations(violations: typeof AxeResults.violat
           title: violation.help,
           description: node.failureSummary ?? violation.description,
           url: violation.helpUrl,
-          impact: violation.impact ?? null
+          impact: violation.impact ?? null,
         };
-        const existingElementIndex = elementsWithIssues.findIndex(elementWithIssues => elementWithIssues.element === element);
+        const existingElementIndex = elementsWithIssues.findIndex(
+          (elementWithIssues) => elementWithIssues.element === element,
+        );
         if (existingElementIndex === -1) {
           elementsWithIssues.push({
             element,
             rootNode: element.getRootNode(),
-            issues: [issue]
+            issues: [issue],
           });
         } else {
           elementsWithIssues[existingElementIndex]!.issues.push(issue);

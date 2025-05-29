@@ -1,7 +1,7 @@
 import { batch } from '@preact/signals-core';
+import logAndRethrow from '../log-and-rethrow.js';
 import { extendedElementsWithIssues } from '../state.js';
 import getElementPosition from './get-element-position.js';
-import logAndRethrow from '../log-and-rethrow.js';
 
 let frameRequested = false;
 

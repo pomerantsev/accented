@@ -3,26 +3,31 @@ import { extendedElementsWithIssues } from './state.js';
 import getElementPosition from './utils/get-element-position.js';
 
 export default function setupIntersectionObserver() {
-  const intersectionObserver = new IntersectionObserver((entries) => {
-    try {
-      for (const entry of entries) {
-        const extendedElementWithIssues = extendedElementsWithIssues.value.find(el => el.element === entry.target);
-        if (extendedElementWithIssues) {
-          extendedElementWithIssues.visible.value = entry.isIntersecting;
-          if (entry.isIntersecting) {
-            extendedElementWithIssues.position.value = getElementPosition(entry.target, window);
+  const intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      try {
+        for (const entry of entries) {
+          const extendedElementWithIssues = extendedElementsWithIssues.value.find(
+            (el) => el.element === entry.target,
+          );
+          if (extendedElementWithIssues) {
+            extendedElementWithIssues.visible.value = entry.isIntersecting;
+            if (entry.isIntersecting) {
+              extendedElementWithIssues.position.value = getElementPosition(entry.target, window);
+            }
           }
         }
+      } catch (error) {
+        logAndRethrow(error);
       }
-    } catch (error) {
-      logAndRethrow(error);
-    }
-  }, { threshold: 0 });
+    },
+    { threshold: 0 },
+  );
 
   return {
     intersectionObserver,
     disconnect: () => {
       intersectionObserver.disconnect();
-    }
+    },
   };
 }

@@ -1,10 +1,10 @@
 import { effect } from '@preact/signals-core';
 import { extendedElementsWithIssues, rootNodes } from './state.js';
-import type { ExtendedElementWithIssues } from './types';
+import type { ExtendedElementWithIssues } from './types.ts';
 import areElementsWithIssuesEqual from './utils/are-elements-with-issues-equal.js';
-import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 import { isDocument, isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';
 import getParent from './utils/get-parent.js';
+import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
 
 const shouldInsertTriggerInsideElement = (element: Element): boolean => {
   /**
@@ -30,17 +30,20 @@ const shouldInsertTriggerInsideElement = (element: Element): boolean => {
   return noParent || isTableCell || isSummary;
 };
 
-export default function createDomUpdater(name: string, intersectionObserver?: IntersectionObserver) {
+export default function createDomUpdater(
+  name: string,
+  intersectionObserver?: IntersectionObserver,
+) {
   const attrName = `data-${name}`;
 
-  function getAnchorNames (anchorNameValue: string) {
+  function getAnchorNames(anchorNameValue: string) {
     return anchorNameValue
       .split(',')
-      .map(anchorName => anchorName.trim())
-      .filter(anchorName => anchorName.startsWith('--'));
+      .map((anchorName) => anchorName.trim())
+      .filter((anchorName) => anchorName.startsWith('--'));
   }
 
-  function setAnchorName (elementWithIssues: ExtendedElementWithIssues) {
+  function setAnchorName(elementWithIssues: ExtendedElementWithIssues) {
     const { element, id, anchorNameValue } = elementWithIssues;
     const anchorNames = getAnchorNames(anchorNameValue);
     if (anchorNames.length > 0) {
@@ -50,7 +53,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     }
   }
 
-  function removeAnchorName (elementWithIssues: ExtendedElementWithIssues) {
+  function removeAnchorName(elementWithIssues: ExtendedElementWithIssues) {
     const { element, anchorNameValue } = elementWithIssues;
     const anchorNames = getAnchorNames(anchorNameValue);
     if (anchorNames.length > 0) {
@@ -60,7 +63,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     }
   }
 
-  function setIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
+  function setIssues(extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       if (elementWithIssues.skipRender) {
         continue;
@@ -81,7 +84,7 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
     }
   }
 
-  function removeIssues (extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
+  function removeIssues(extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
     for (const elementWithIssues of extendedElementsWithIssues) {
       if (elementWithIssues.skipRender) {
         continue;
@@ -124,8 +127,10 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
 
   const disposeOfStyleSheetsEffect = effect(() => {
     const newRootNodes = rootNodes.value;
-    const addedRootNodes = [...newRootNodes].filter(rootNode => !previousRootNodes.has(rootNode));
-    const removedRootNodes = [...previousRootNodes].filter(rootNode => !newRootNodes.has(rootNode));
+    const addedRootNodes = [...newRootNodes].filter((rootNode) => !previousRootNodes.has(rootNode));
+    const removedRootNodes = [...previousRootNodes].filter(
+      (rootNode) => !newRootNodes.has(rootNode),
+    );
     for (const rootNode of addedRootNodes) {
       if (isDocument(rootNode) || (isDocumentFragment(rootNode) && isShadowRoot(rootNode))) {
         rootNode.adoptedStyleSheets.push(stylesheet);
@@ -140,11 +145,15 @@ export default function createDomUpdater(name: string, intersectionObserver?: In
   });
 
   const disposeOfElementsEffect = effect(() => {
-    const added = extendedElementsWithIssues.value.filter(elementWithIssues => {
-      return !previousExtendedElementsWithIssues.some(previousElementWithIssues => areElementsWithIssuesEqual(previousElementWithIssues, elementWithIssues));
+    const added = extendedElementsWithIssues.value.filter((elementWithIssues) => {
+      return !previousExtendedElementsWithIssues.some((previousElementWithIssues) =>
+        areElementsWithIssuesEqual(previousElementWithIssues, elementWithIssues),
+      );
     });
-    const removed = previousExtendedElementsWithIssues.filter(previousElementWithIssues => {
-      return !extendedElementsWithIssues.value.some(elementWithIssues => areElementsWithIssuesEqual(elementWithIssues, previousElementWithIssues));
+    const removed = previousExtendedElementsWithIssues.filter((previousElementWithIssues) => {
+      return !extendedElementsWithIssues.value.some((elementWithIssues) =>
+        areElementsWithIssuesEqual(elementWithIssues, previousElementWithIssues),
+      );
     });
     removeIssues(removed);
     setIssues(added);

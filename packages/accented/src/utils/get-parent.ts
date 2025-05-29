@@ -1,6 +1,6 @@
 import { isDocumentFragment, isShadowRoot } from './dom-helpers.js';
 
-export default function getParent (element: Element): Element | null {
+export default function getParent(element: Element): Element | null {
   if (element.parentElement) {
     return element.parentElement;
   }

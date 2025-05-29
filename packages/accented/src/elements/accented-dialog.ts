@@ -1,8 +1,8 @@
-import type { Issue } from '../types';
 import type { Signal } from '@preact/signals-core';
-import getElementHtml from '../utils/get-element-html.js';
 import { accentedUrl } from '../constants.js';
 import logAndRethrow from '../log-and-rethrow.js';
+import type { Issue } from '../types.ts';
+import getElementHtml from '../utils/get-element-html.js';
 
 export interface AccentedDialog extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;
@@ -247,7 +247,7 @@ export default () => {
 
     element: Element | undefined;
 
-    open: boolean = false;
+    open = false;
 
     constructor() {
       try {
@@ -270,31 +270,43 @@ export default () => {
           const dialog = shadowRoot.querySelector('dialog');
           const closeButton = shadowRoot.querySelector('#close');
           this.#abortController = new AbortController();
-          closeButton?.addEventListener('click', () => {
-            try {
-              dialog?.close();
-            } catch (error) {
-              logAndRethrow(error);
-            }
-          }, { signal: this.#abortController.signal });
-
-          dialog?.addEventListener('click', (event) => {
-            try {
-              this.#onDialogClick(event);
-            } catch (error) {
-              logAndRethrow(error);
-            }
-          }, { signal: this.#abortController.signal });
-
-          dialog?.addEventListener('keydown', (event) => {
-            try {
-              if (event.key === 'Escape') {
-                event.stopPropagation();
+          closeButton?.addEventListener(
+            'click',
+            () => {
+              try {
+                dialog?.close();
+              } catch (error) {
+                logAndRethrow(error);
               }
-            } catch (error) {
-              logAndRethrow(error);
-            }
-          }, { signal: this.#abortController.signal });
+            },
+            { signal: this.#abortController.signal },
+          );
+
+          dialog?.addEventListener(
+            'click',
+            (event) => {
+              try {
+                this.#onDialogClick(event);
+              } catch (error) {
+                logAndRethrow(error);
+              }
+            },
+            { signal: this.#abortController.signal },
+          );
+
+          dialog?.addEventListener(
+            'keydown',
+            (event) => {
+              try {
+                if (event.key === 'Escape') {
+                  event.stopPropagation();
+                }
+              } catch (error) {
+                logAndRethrow(error);
+              }
+            },
+            { signal: this.#abortController.signal },
+          );
 
           if (this.issues) {
             const issues = this.issues.value;
@@ -339,14 +351,18 @@ export default () => {
             }
           }
 
-          dialog?.addEventListener('close', () => {
-            try {
-              this.open = false;
-              this.dispatchEvent(new Event('close'));
-            } catch (error) {
-              logAndRethrow(error);
-            }
-          }, { signal: this.#abortController.signal });
+          dialog?.addEventListener(
+            'close',
+            () => {
+              try {
+                this.open = false;
+                this.dispatchEvent(new Event('close'));
+              } catch (error) {
+                logAndRethrow(error);
+              }
+            },
+            { signal: this.#abortController.signal },
+          );
         }
       } catch (error) {
         logAndRethrow(error);
@@ -375,7 +391,11 @@ export default () => {
 
     #onDialogClick(event: MouseEvent) {
       const dialog = event.currentTarget as HTMLDialogElement;
-      if (!dialog || typeof dialog.getBoundingClientRect !== 'function' || typeof dialog.close !== 'function') {
+      if (
+        !dialog ||
+        typeof dialog.getBoundingClientRect !== 'function' ||
+        typeof dialog.close !== 'function'
+      ) {
         return;
       }
       const rect = dialog.getBoundingClientRect();

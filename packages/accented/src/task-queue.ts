@@ -1,4 +1,4 @@
-import type { Throttle } from './types';
+import type { Throttle } from './types.ts';
 
 type TaskCallback<T> = (items: Array<T>) => void;
 
