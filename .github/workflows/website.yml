@@ -37,7 +37,7 @@ jobs:
       - name: Publish website
         uses: netlify/actions/cli@master
         with:
-          args: deploy --filter docs --dir=dist --no-build --prod
+          args: deploy --filter docs --dir=packages/docs/dist --no-build --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
