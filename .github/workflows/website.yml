@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
 
       # TODO: how can we _not_ have to build Accented?
-      - name: Build
+      - name: Build Accented
         run: pnpm build
 
       - name: Build website
@@ -37,7 +37,7 @@ jobs:
       - name: Publish website
         uses: netlify/actions/cli@master
         with:
-          args: deploy --dir=packages/docs/dist
+          args: deploy --filter docs --dir=dist
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
