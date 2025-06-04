@@ -27,6 +27,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      # TODO: how can we _not_ have to build Accented?
+      - name: Build
+        run: pnpm build
+
       - name: Build website
         run: pnpm docs:build
 
