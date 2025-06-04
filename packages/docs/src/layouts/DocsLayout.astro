@@ -1,16 +1,27 @@
 ---
-const { title } = Astro.props;
-import "../styles/global.css";
+import Accented from '../components/Accented.astro';
+
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+const { headings } = Astro.props as { headings: Array<Heading> };
+const h1 = headings.find(h => h.depth === 1);
+
+const isDev = import.meta.env.DEV;
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{title ?? "Accented"}</title>
+    <title>{(h1 ? `${h1.text} | ` : '') + 'Accented'}</title>
+    <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
     <main>
       <slot />
     </main>
+    {isDev && <Accented />}
   </body>
 </html>

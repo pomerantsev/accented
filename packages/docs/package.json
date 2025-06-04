@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "astro": "^5.8.1"
+  },
+  "devDependencies": {
+    "accented": "workspace:*"
   }
 }

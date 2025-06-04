@@ -64,6 +64,10 @@ importers:
       astro:
         specifier: ^5.8.1
         version: 5.8.1(@types/node@22.14.1)(rollup@4.40.0)(tsx@4.19.3)(typescript@5.8.3)
+    devDependencies:
+      accented:
+        specifier: workspace:*
+        version: link:../accented
 
 packages:
 
