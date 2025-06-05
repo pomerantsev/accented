@@ -9,6 +9,8 @@ Continuous accessibility testing and issue highlighting for web development
 
 This is a work in progress.
 
+See [Getting started](./docs/getting-started/).
+
 ## Running locally
 
 - `pnpm dev`
