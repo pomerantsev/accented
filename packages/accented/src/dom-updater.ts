@@ -1,10 +1,10 @@
 import { effect } from '@preact/signals-core';
 import { extendedElementsWithIssues, rootNodes } from './state.js';
 import type { ExtendedElementWithIssues } from './types.ts';
-import areElementsWithIssuesEqual from './utils/are-elements-with-issues-equal.js';
+import { areElementsWithIssuesEqual } from './utils/are-elements-with-issues-equal.js';
 import { isDocument, isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';
-import getParent from './utils/get-parent.js';
-import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
+import { getParent } from './utils/get-parent.js';
+import { supportsAnchorPositioning } from './utils/supports-anchor-positioning.js';
 
 const shouldInsertTriggerInsideElement = (element: Element): boolean => {
   /**
@@ -30,10 +30,7 @@ const shouldInsertTriggerInsideElement = (element: Element): boolean => {
   return noParent || isTableCell || isSummary;
 };
 
-export default function createDomUpdater(
-  name: string,
-  intersectionObserver?: IntersectionObserver,
-) {
+export function createDomUpdater(name: string, intersectionObserver?: IntersectionObserver) {
   const attrName = `data-${name}`;
 
   function getAnchorNames(anchorNameValue: string) {

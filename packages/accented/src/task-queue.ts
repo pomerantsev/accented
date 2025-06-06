@@ -2,7 +2,7 @@ import type { Throttle } from './types.ts';
 
 type TaskCallback<T> = (items: Array<T>) => void;
 
-export default class TaskQueue<T> {
+export class TaskQueue<T> {
   #throttle: Throttle;
   #asyncCallback: TaskCallback<T> | null = null;
 

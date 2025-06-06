@@ -1,18 +1,18 @@
-import createDomUpdater from './dom-updater.js';
-import setupFullscreenListener from './fullscreen-listener.js';
-import setupIntersectionObserver from './intersection-observer.js';
-import logAndRethrow from './log-and-rethrow.js';
-import createLogger from './logger.js';
-import registerElements from './register-elements.js';
-import setupResizeListener from './resize-listener.js';
-import createScanner from './scanner.js';
-import setupScrollListeners from './scroll-listeners.js';
+import { createDomUpdater } from './dom-updater.js';
+import { setupResizeListener as setupFullscreenListener } from './fullscreen-listener.js';
+import { setupIntersectionObserver } from './intersection-observer.js';
+import { logAndRethrow } from './log-and-rethrow.js';
+import { createLogger } from './logger.js';
+import { registerElements } from './register-elements.js';
+import { setupResizeListener } from './resize-listener.js';
+import { createScanner } from './scanner.js';
+import { setupScrollListeners } from './scroll-listeners.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import type { AccentedOptions, DisableAccented } from './types.ts';
 import { initializeContainingBlockSupportSet } from './utils/containing-blocks.js';
-import deepMerge from './utils/deep-merge.js';
-import supportsAnchorPositioning from './utils/supports-anchor-positioning.js';
-import validateOptions from './validate-options.js';
+import { deepMerge } from './utils/deep-merge.js';
+import { supportsAnchorPositioning } from './utils/supports-anchor-positioning.js';
+import { validateOptions } from './validate-options.js';
 
 export type { AccentedOptions, DisableAccented };
 
@@ -41,7 +41,7 @@ export type { AccentedOptions, DisableAccented };
  *   }
  * });
  */
-export default function accented(options: AccentedOptions = {}): DisableAccented {
+export function accented(options: AccentedOptions = {}): DisableAccented {
   validateOptions(options);
 
   try {

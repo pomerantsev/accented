@@ -1,4 +1,4 @@
-import accented from 'accented';
+import { accented } from 'accented';
 import type { AccentedOptions, DisableAccented } from 'accented';
 import type { RuleObject } from 'axe-core';
 
@@ -6,7 +6,7 @@ const searchParams = new URLSearchParams(location.search);
 
 let stopAccented: DisableAccented | null = null;
 
-function toggleAccented(opts: AccentedOptions = {}) {
+function toggleAccentedInner(opts: AccentedOptions = {}) {
   if (stopAccented) {
     stopAccented();
     stopAccented = null;
@@ -107,13 +107,13 @@ if (searchParams.has('axe-context-selector')) {
 }
 
 if (!searchParams.has('disable')) {
-  toggleAccented(options);
+  toggleAccentedInner(options);
 
   if (searchParams.has('quick-toggle')) {
     queueMicrotask(() => {
-      toggleAccented(options);
+      toggleAccentedInner(options);
       queueMicrotask(() => {
-        toggleAccented(options);
+        toggleAccentedInner(options);
       });
     });
   }
@@ -129,6 +129,6 @@ if (searchParams.has('small-caps')) {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
 }
 
-export default () => {
-  toggleAccented(options);
+export const toggleAccented = () => {
+  toggleAccentedInner(options);
 };

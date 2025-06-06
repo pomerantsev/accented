@@ -1,8 +1,8 @@
 import { batch } from '@preact/signals-core';
 import { extendedElementsWithIssues } from '../state.js';
-import getScrollableAncestors from './get-scrollable-ancestors.js';
+import { getScrollableAncestors } from './get-scrollable-ancestors.js';
 
-export default function recalculateScrollableAncestors() {
+export function recalculateScrollableAncestors() {
   batch(() => {
     for (const { element, scrollableAncestors } of extendedElementsWithIssues.value) {
       if (element.isConnected) {

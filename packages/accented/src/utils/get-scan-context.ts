@@ -1,10 +1,10 @@
 import type { Context, ScanContext } from '../types.ts';
-import contains from './contains.js';
+import { contains } from './contains.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
-import isNodeInScanContext from './is-node-in-scan-context.js';
-import normalizeContext from './normalize-context.js';
+import { isNodeInScanContext } from './is-node-in-scan-context.js';
+import { normalizeContext } from './normalize-context.js';
 
-export default function getScanContext(nodes: Array<Node>, context: Context): ScanContext {
+export function getScanContext(nodes: Array<Node>, context: Context): ScanContext {
   const { include: contextInclude, exclude: contextExclude } = normalizeContext(context);
 
   // Filter only nodes that are included by context (see isNodeInContext above).

@@ -25,10 +25,7 @@ function impactCompare(a: ImpactValue, b: ImpactValue) {
   return impactOrder.indexOf(a) - impactOrder.indexOf(b);
 }
 
-export default function transformViolations(
-  violations: typeof AxeResults.violations,
-  name: string,
-) {
+export function transformViolations(violations: typeof AxeResults.violations, name: string) {
   const elementsWithIssues: Array<ElementWithIssues> = [];
 
   for (const violation of violations) {

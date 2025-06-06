@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import { JSDOM } from 'jsdom';
-import getScanContext from './get-scan-context';
+import { getScanContext } from './get-scan-context';
 
 suite('getScanContext', () => {
   test('when context doesn’t overlap with nodes, the result is empty', () => {

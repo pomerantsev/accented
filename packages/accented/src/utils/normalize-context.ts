@@ -1,7 +1,7 @@
 import type { Context, ContextProp, ScanContext, Selector } from '../types.ts';
 import { deduplicateNodes } from './deduplicate-nodes.js';
 import { isNode, isNodeList } from './dom-helpers.js';
-import isNonEmpty from './is-non-empty.js';
+import { isNonEmpty } from './is-non-empty.js';
 
 function recursiveSelectAll(
   selectors: [string, ...string[]],
@@ -44,7 +44,7 @@ function contextPropToNodes(contextProp: ContextProp): Array<Node> {
   return deduplicateNodes(nodes);
 }
 
-export default function normalizeContext(context: Context): ScanContext {
+export function normalizeContext(context: Context): ScanContext {
   let contextInclude: Array<Node> = [];
   let contextExclude: Array<Node> = [];
   if (typeof context === 'object' && ('include' in context || 'exclude' in context)) {

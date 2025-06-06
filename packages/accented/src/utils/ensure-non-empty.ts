@@ -1,4 +1,4 @@
-export default function ensureNonEmpty<T>(arr: T[]): [T, ...T[]] {
+export function ensureNonEmpty<T>(arr: T[]): [T, ...T[]] {
   if (arr.length === 0) {
     throw new Error('Array must not be empty');
   }
