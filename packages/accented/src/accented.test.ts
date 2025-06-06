@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import type { Mock } from 'node:test';
 
-import accented from './accented.js';
+import { accented } from './accented';
 
 suite('Accented', () => {
   test('runs without errors in NodeJS and issues a warning and a trace (it’s meant to be a no-op on the server side)', (t) => {

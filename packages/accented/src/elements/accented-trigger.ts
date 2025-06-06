@@ -1,8 +1,8 @@
 import { effect } from '@preact/signals-core';
 import type { Signal } from '@preact/signals-core';
-import logAndRethrow from '../log-and-rethrow.js';
+import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Position } from '../types.ts';
-import supportsAnchorPositioning from '../utils/supports-anchor-positioning.js';
+import { supportsAnchorPositioning } from '../utils/supports-anchor-positioning.js';
 import type { AccentedDialog } from './accented-dialog.ts';
 
 export interface AccentedTrigger extends HTMLElement {
@@ -14,7 +14,7 @@ export interface AccentedTrigger extends HTMLElement {
 
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
-export default (name: string) => {
+export const getAccentedTrigger = (name: string) => {
   const template = document.createElement('template');
 
   // I initially tried creating a CSSStyelSheet object with styles instead of having a <style> element in the template,

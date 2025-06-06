@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import { JSDOM } from 'jsdom';
-import normalizeContext from './normalize-context';
+import { normalizeContext } from './normalize-context';
 
 suite('normalizeContext', () => {
   test('when document is passed, only document is returned in include', () => {

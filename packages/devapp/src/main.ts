@@ -1,4 +1,4 @@
-import toggleAccented from './toggle-accented';
+import { toggleAccented } from './toggle-accented';
 
 const searchParams = new URLSearchParams(location.search);
 

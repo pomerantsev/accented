@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import { JSDOM } from 'jsdom';
-import contains from './contains';
+import { contains } from './contains';
 
 suite('contains', () => {
   test('an element contains itself', () => {

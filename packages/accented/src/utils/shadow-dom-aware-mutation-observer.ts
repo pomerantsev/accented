@@ -1,10 +1,7 @@
 import { getAccentedElementNames } from '../constants.js';
 import { isDocument, isDocumentFragment, isElement } from './dom-helpers.js';
 
-export default function createShadowDOMAwareMutationObserver(
-  name: string,
-  callback: MutationCallback,
-) {
+export function createShadowDOMAwareMutationObserver(name: string, callback: MutationCallback) {
   class ShadowDOMAwareMutationObserver extends MutationObserver {
     #shadowRoots = new Set();
 

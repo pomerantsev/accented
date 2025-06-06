@@ -1,7 +1,7 @@
-import getAccentedDialog from './elements/accented-dialog.js';
-import getAccentedTrigger from './elements/accented-trigger.js';
+import { getAccentedDialog } from './elements/accented-dialog.js';
+import { getAccentedTrigger } from './elements/accented-trigger.js';
 
-export default function registerElements(name: string): void {
+export function registerElements(name: string): void {
   const elements = [
     {
       elementName: `${name}-trigger`,

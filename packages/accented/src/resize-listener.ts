@@ -1,7 +1,7 @@
-import logAndRethrow from './log-and-rethrow.js';
-import recalculatePositions from './utils/recalculate-positions.js';
+import { logAndRethrow } from './log-and-rethrow.js';
+import { recalculatePositions } from './utils/recalculate-positions.js';
 
-export default function setupResizeListener() {
+export function setupResizeListener() {
   const abortController = new AbortController();
   window.addEventListener(
     'resize',
