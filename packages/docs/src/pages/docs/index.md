@@ -1,9 +1,8 @@
 ---
 layout: ../../layouts/DocsLayout.astro
-title: Accented
 ---
 
-# Accented
+# Documentation
 
 Continuous accessibility testing and issue highlighting for web development
 

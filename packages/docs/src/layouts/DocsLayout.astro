@@ -6,8 +6,9 @@ type Heading = {
   slug: string;
   text: string;
 };
-const { headings } = Astro.props as { headings: Array<Heading> };
-const h1 = headings.find(h => h.depth === 1);
+const { headings, title } = Astro.props as { title?: string, headings: Array<Heading> };
+const h1 = headings?.find(h => h.depth === 1);
+const renderedTitle = title ?? h1?.text;
 
 const isDev = import.meta.env.DEV;
 ---
@@ -15,7 +16,8 @@ const isDev = import.meta.env.DEV;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{(h1 ? `${h1.text} | ` : '') + 'Accented'}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{(renderedTitle ? `${renderedTitle} | ` : '') + 'Accented'}</title>
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
