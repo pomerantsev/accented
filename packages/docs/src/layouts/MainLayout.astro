@@ -1,0 +1,22 @@
+---
+import Accented from '../components/Accented.astro';
+
+const { title } = Astro.props;
+
+const isDev = import.meta.env.DEV;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{(title ? `${title} | ` : '') + 'Accented'}</title>
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+    {isDev && <Accented />}
+  </body>
+</html>
