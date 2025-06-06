@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
-import type { Signal } from '@preact/signals-core';
 import { signal } from '@preact/signals-core';
-import type { ExtendedElementWithIssues, Issue } from '../types';
-import updateElementsWithIssues from './update-elements-with-issues';
 
+import { updateElementsWithIssues } from './update-elements-with-issues';
+
+import type { Signal } from '@preact/signals-core';
 import type { AxeResults, ImpactValue } from 'axe-core';
 import type { AccentedTrigger } from '../elements/accented-trigger';
+import type { ExtendedElementWithIssues, Issue } from '../types';
 type Violation = AxeResults['violations'][number];
 type AxeNode = Violation['nodes'][number];
 

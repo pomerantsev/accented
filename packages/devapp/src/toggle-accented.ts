@@ -1,4 +1,4 @@
-import accented from 'accented';
+import { accented } from 'accented';
 import type { AccentedOptions, DisableAccented } from 'accented';
 import type { RuleObject } from 'axe-core';
 
@@ -129,6 +129,6 @@ if (searchParams.has('small-caps')) {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
 }
 
-export default () => {
+export const toggleAccentedHandler = () => {
   toggleAccented(options);
 };

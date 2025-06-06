@@ -1,9 +1,9 @@
 import type { Signal } from '@preact/signals-core';
 import { accentedUrl } from '../constants.js';
-import logAndRethrow from '../log-and-rethrow.js';
+import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Issue } from '../types.ts';
-import getElementHtml from '../utils/get-element-html.js';
-import isNonEmpty from '../utils/is-non-empty.js';
+import { getElementHtml } from '../utils/get-element-html.js';
+import { isNonEmpty } from '../utils/is-non-empty.js';
 
 export interface AccentedDialog extends HTMLElement {
   issues: Signal<Array<Issue>> | undefined;
@@ -14,7 +14,7 @@ export interface AccentedDialog extends HTMLElement {
 
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
-export default () => {
+export const getAccentedDialog = () => {
   const dialogTemplate = document.createElement('template');
   dialogTemplate.innerHTML = `
     <dialog dir="ltr" lang="en" aria-labelledby="title">

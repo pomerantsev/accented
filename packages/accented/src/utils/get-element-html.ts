@@ -1,4 +1,4 @@
-export default function getElementHtml(element: Element) {
+export function getElementHtml(element: Element) {
   const outerHtml = element.outerHTML;
   const innerHtml = element.innerHTML;
   if (!innerHtml) {

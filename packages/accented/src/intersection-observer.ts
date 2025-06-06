@@ -1,8 +1,8 @@
-import logAndRethrow from './log-and-rethrow.js';
+import { logAndRethrow } from './log-and-rethrow.js';
 import { extendedElementsWithIssues } from './state.js';
-import getElementPosition from './utils/get-element-position.js';
+import { getElementPosition } from './utils/get-element-position.js';
 
-export default function setupIntersectionObserver() {
+export function setupIntersectionObserver() {
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
       try {

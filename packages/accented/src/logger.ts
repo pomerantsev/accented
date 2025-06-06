@@ -7,7 +7,7 @@ function filterPropsForOutput(elements: Array<ElementWithIssues>) {
   return elements.map(({ element, issues }) => ({ element, issues }));
 }
 
-export default function createLogger() {
+export function createLogger() {
   let firstRun = true;
 
   return effect(() => {

@@ -117,7 +117,7 @@ function validateContext(context: Context) {
 // lowercase alphanumeric names that possibly contain dashes that start with a letter.
 const nameRegex = /^[a-z]([a-z0-9]|-)+$/;
 
-export default function validateOptions(options: AccentedOptions) {
+export function validateOptions(options: AccentedOptions) {
   if (typeof options !== 'object' || options === null) {
     throw new TypeError(
       `Accented: invalid argument. The options parameter must be an object if provided. It’s currently set to ${options}.`,

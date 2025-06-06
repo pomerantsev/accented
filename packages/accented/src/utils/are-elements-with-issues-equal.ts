@@ -1,6 +1,6 @@
 import type { BaseElementWithIssues } from '../types.ts';
 
-export default function areElementsWithIssuesEqual(
+export function areElementsWithIssuesEqual(
   elementWithIssues1: BaseElementWithIssues,
   elementWithIssues2: BaseElementWithIssues,
 ) {

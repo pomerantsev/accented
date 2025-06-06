@@ -58,6 +58,16 @@
           }
         }
       }
+    },
+    {
+      "include": ["packages/*/*/**/*.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "error"
+          }
+        }
+      }
     }
   ]
 }

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import { JSDOM } from 'jsdom';
-import isNodeInScanContext from './is-node-in-scan-context';
+
+import { isNodeInScanContext } from './is-node-in-scan-context';
 
 suite('isNodeInScanContext', () => {
   test('doesn’t include an element if scan context is empty', () => {

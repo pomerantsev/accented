@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
+
+import { areIssueSetsEqual } from './are-issue-sets-equal.js';
+
 import type { Issue } from '../types';
-import areIssueSetsEqual from './are-issue-sets-equal.js';
 
 const issue1: Issue = {
   id: 'id1',

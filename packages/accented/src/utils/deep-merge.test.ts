@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 
-import deepMerge from './deep-merge';
+import { deepMerge } from './deep-merge';
 
 suite('deepMerge', () => {
   test('merges two objects with overlapping keys', () => {

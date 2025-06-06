@@ -4,7 +4,7 @@ type AnyObject = Record<string, any>;
 const isObject = (obj: unknown): obj is AnyObject =>
   typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 
-export default function deepMerge(target: AnyObject, source: AnyObject): AnyObject {
+export function deepMerge(target: AnyObject, source: AnyObject): AnyObject {
   const output = { ...target };
   for (const key of Object.keys(source)) {
     if (isObject(source[key])) {
