@@ -1,8 +1,8 @@
-import getParent from './get-parent.js';
+import { getParent } from './get-parent.js';
 
 const scrollableOverflowValues = new Set(['auto', 'scroll', 'hidden']);
 
-export default function getScrollableAncestors(element: Element, win: Window) {
+export function getScrollableAncestors(element: Element, win: Window) {
   let currentElement: Element | null = element;
   const scrollableAncestors = new Set<Element>();
   while (true) {

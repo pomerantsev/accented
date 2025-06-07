@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mock, suite, test } from 'node:test';
 
-import TaskQueue from './task-queue.js';
+import { TaskQueue } from './task-queue';
 
 const wait = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));
 

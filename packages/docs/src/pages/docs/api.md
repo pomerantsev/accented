@@ -6,7 +6,7 @@ layout: ../../layouts/DocsLayout.astro
 
 ## Exports
 
-- `accented`: the default library export. It’s the function that enables the continuous scanning and highlighting
+- `accented`. It’s the function that enables the continuous scanning and highlighting
   on the page in whose context in was called. Example: `const disable = accented(options)`.
   - Parameters: the only parameter is `options`. See [Options](#options).
   - Returns: a `disable` function that takes no parameters. When called, disables the scanning and highlighting,

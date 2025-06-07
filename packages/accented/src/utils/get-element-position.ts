@@ -1,7 +1,7 @@
 import type { Position } from '../types.ts';
 import { createsContainingBlock } from './containing-blocks.js';
 import { isHtmlElement } from './dom-helpers.js';
-import getParent from './get-parent.js';
+import { getParent } from './get-parent.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
 function isContainingBlock(element: Element, win: Window): boolean {
@@ -52,7 +52,7 @@ function getNonInitialContainingBlock(element: Element, win: Window): Element | 
  * * The element itself, or one of the element's ancestors has a scale or rotate transform.
  * * The browser doesn't support anchor positioning.
  */
-export default function getElementPosition(element: Element, win: Window): Position {
+export function getElementPosition(element: Element, win: Window): Position {
   const nonInitialContainingBlock = getNonInitialContainingBlock(element, win);
   // If an element has a containing block as an ancestor,
   // and that containing block is not the <html> element (the initial containing block),
