@@ -9,8 +9,8 @@ export default defineConfig({
     build: {
       rollupOptions: {
         // In production, don't bundle Accented (it's not used anyway)
-        external: ['accented']
-      }
+        external: ['accented'],
+      },
     },
-  }
+  },
 });
