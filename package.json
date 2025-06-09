@@ -9,8 +9,9 @@
     "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo tsconfig.test.tsbuildinfo",
     "build": "pnpm clean-tsbuildinfo && pnpm --filter accented typecheckTests && pnpm --filter accented build && pnpm --filter accented-devapp typecheck && pnpm --filter accented checkBuiltFiles && pnpm --filter accented checkImportsInBuiltFiles",
     "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
-    "docs:dev": "pnpm --filter docs dev",
-    "docs:build": "pnpm --filter docs build",
+    "website:dev": "pnpm --filter website dev",
+    "website:build": "pnpm --filter website build",
+    "website:deploy": "pnpm --filter website deploy",
     "test:unit": "pnpm --filter accented test",
     "test:e2e": "pnpm --filter accented-devapp test"
   },
