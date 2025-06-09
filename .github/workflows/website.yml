@@ -2,8 +2,6 @@ name: Website
 
 on:
   push:
-    # branches:
-    # - main
 
 jobs:
   publish:
@@ -30,6 +28,7 @@ jobs:
         run: pnpm website:build
 
       - name: Deploy website
+        if: github.ref == 'refs/heads/main'
         run: pnpm website:deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
