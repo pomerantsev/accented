@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  publish:
+  build-and-publish:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
