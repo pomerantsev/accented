@@ -11,7 +11,7 @@
     "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
     "website:dev": "pnpm --filter website dev",
     "website:build": "pnpm --filter website build",
-    "website:deploy": "pnpm --filter website deploy",
+    "website:deploy": "pnpm --filter website website:deploy",
     "test:unit": "pnpm --filter accented test",
     "test:e2e": "pnpm --filter accented-devapp test"
   },

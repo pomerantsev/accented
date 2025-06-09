@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "netlify deploy --dir=dist --no-build --prod"
+    "website:deploy": "netlify deploy --dir=dist --no-build --prod"
   },
   "dependencies": {
     "astro": "^5.8.1"
