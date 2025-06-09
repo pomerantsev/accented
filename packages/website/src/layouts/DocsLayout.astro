@@ -1,0 +1,17 @@
+---
+import MainLayout from './MainLayout.astro';
+import {Content as TableOfContents} from '../components/table-of-contents.md';
+
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+const { headings } = Astro.props as { headings: Array<Heading> };
+const h1 = headings?.find(h => h.depth === 1);
+---
+
+<MainLayout title={h1?.text}>
+  <TableOfContents />
+  <slot />
+</MainLayout>

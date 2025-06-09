@@ -1,0 +1,19 @@
+{
+  "name": "website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod"
+  },
+  "dependencies": {
+    "astro": "^5.8.1"
+  },
+  "devDependencies": {
+    "accented": "workspace:*",
+    "netlify-cli": "^22.1.3"
+  }
+}
