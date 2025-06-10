@@ -10,10 +10,12 @@ layout: ../../layouts/DocsLayout.astro
 
 ## Development notes
 
-- Placeholder favicon generated with https://favicon.io/favicon-generator/.
+- Favicon generated with https://favicon.io/favicon-generator/ (the favicon.ico files contain the 16, 32, and 48 sizes — we are unlikely to need anything else).
   - Text: á
   - Font color: #ffffff
-  - Background color: #bb005e (the closest RGB to the primary oklch(0.5 0.3 0), according to https://oklch.com/)
+  - Background color:
+    - #bb005e for the website (the closest RGB to the primary oklch(0.5 0.3 0), according to https://oklch.com/)
+    - #005f87 for the devapp (the closest RGB to the focus color oklch(0.45 0.25 230), according to https://oklch.com/)
   - Background: rounded
   - Font family: Noto Sans
   - Font variant: Regular 400 Normal
