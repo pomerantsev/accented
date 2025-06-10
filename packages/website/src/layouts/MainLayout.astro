@@ -1,5 +1,6 @@
 ---
 import Accented from '../components/Accented.astro';
+import { primaryColor } from 'common/tokens';
 
 const { title } = Astro.props;
 
@@ -12,6 +13,11 @@ const isDev = import.meta.env.DEV;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{(title ? `${title} | ` : '') + 'Accented'}</title>
     <link rel="stylesheet" href="/styles/global.css" />
+    <style is:global define:vars={{ primaryColor}}>
+      :root {
+        --color-primary: var(--primaryColor);
+      }
+    </style>
   </head>
   <body>
     <main>

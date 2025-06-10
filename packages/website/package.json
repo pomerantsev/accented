@@ -10,7 +10,8 @@
     "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod"
   },
   "dependencies": {
-    "astro": "^5.8.1"
+    "astro": "^5.8.1",
+    "common": "workspace:*"
   },
   "devDependencies": {
     "accented": "workspace:*",

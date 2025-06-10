@@ -43,6 +43,8 @@ importers:
         specifier: ^26.0.0
         version: 26.0.0
 
+  packages/common: {}
+
   packages/devapp:
     dependencies:
       accented:
@@ -64,6 +66,9 @@ importers:
       astro:
         specifier: ^5.8.1
         version: 5.8.1(@netlify/blobs@9.1.5)(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.8.0)
+      common:
+        specifier: workspace:*
+        version: link:../common
     devDependencies:
       accented:
         specifier: workspace:*
