@@ -8,13 +8,13 @@
   "scripts": {
     "prepare": "cp ../../NOTICE ./NOTICE",
     "build": "pnpm copyCommon && tsc",
-    "copyCommon": "node --import tsx ./scripts/copy-common.ts",
-    "watchCommon": "node --import tsx ./scripts/watch-common.ts",
-    "checkBuiltFiles": "node --import tsx ./scripts/check-built-files.ts",
+    "copyCommon": "node ./scripts/copy-common.ts",
+    "watchCommon": "node ./scripts/watch-common.ts",
+    "checkBuiltFiles": "node ./scripts/check-built-files.ts",
     "checkImportsInBuiltFiles": "node ./dist/accented.js",
     "typecheckTests": "tsc -p ./tsconfig.test.json",
     "watch": "pnpm copyCommon && (pnpm watchCommon & tsc --watch)",
-    "test": "node --test --import tsx \"./**/*.test.ts\""
+    "test": "node --test \"./**/*.test.ts\""
   },
   "repository": {
     "type": "git",
