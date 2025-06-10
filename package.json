@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=23.6.0"
   },
   "scripts": {
     "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo tsconfig.test.tsbuildinfo",

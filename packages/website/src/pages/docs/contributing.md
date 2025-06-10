@@ -21,6 +21,7 @@ layout: ../../layouts/DocsLayout.astro
 - In the Contributing docs, mention that `pnpm` needs to be installed first.
 - To update dependencies, run `pnpm update --recursive --latest` (or `pnpm up -rL`) (TODO: try offloading this to dependabot)
 - For publishing, we're using Changesets that does everything automatically for us. We only need to run `pnpm changeset` on every changeset.
-- NodeJS >= 22 is required for development. We're using the native Node test runner.
+- NodeJS >= 23.6.0 is required for development. We're using the native Node test runner.
   - The globbing there is only supported in NodeJS 21+: https://github.com/nodejs/node/issues/50658#issuecomment-1806581766
   - The `suite` method was added in Node 22: https://nodejs.org/api/test.html#suitename-options-fn
+  - Native TypeScript support is only available since Node 23.6.0: https://nodejs.org/en/learn/typescript/run-natively
