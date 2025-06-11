@@ -178,3 +178,7 @@ h3 {
 .lede + * {
   --flow-space: 2em;
 }
+
+.note {
+  background-color: oklch(0.8 0.16 90);
+}

@@ -10,6 +10,7 @@
     "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
     "astro": "^5.8.1",
     "common": "workspace:*"
   },

@@ -1,3 +1,4 @@
+import mdx from '@astrojs/mdx';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
@@ -5,6 +6,7 @@ export default defineConfig({
   outDir: './dist',
   publicDir: './public',
   markdown: {},
+  integrations: [mdx()],
   vite: {
     build: {
       rollupOptions: {
