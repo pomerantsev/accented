@@ -1,9 +1,14 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+import { Content } from './index.md';
+import {Content as TableOfContents} from '../components/table-of-contents.md';
 ---
 
 <MainLayout>
-  <h1>Accented</h1>
-  <p>Coming soon</p>
-  <p>This paragraph will only become available on merge to main.</p>
+  <article class="flow">
+    <Content />
+  </article>
+
+  <TableOfContents />
 </MainLayout>

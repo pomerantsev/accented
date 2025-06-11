@@ -13,5 +13,7 @@ const h1 = headings?.find(h => h.depth === 1);
 
 <MainLayout title={h1?.text}>
   <TableOfContents />
-  <slot />
+  <article class="flow">
+    <slot />
+  </article>
 </MainLayout>
