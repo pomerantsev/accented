@@ -1,0 +1,208 @@
+---
+// TODO: this file got out of control quickly. I need to tidy it up.
+
+// TODO: We can likely do better than a bunch of radio buttons.
+
+type Bundler = {
+  name: string;
+  value: string;
+  condition: string;
+  checked?: boolean;
+};
+type Import = {
+  name: string;
+  value: string;
+  checked?: boolean;
+};
+type Source = {
+  name: string;
+  value: string;
+  module: string;
+  checked?: boolean;
+};
+type Options = {
+  bundlers: Array<Bundler>;
+  imports: Array<Import>;
+  sources: Array<Source>;
+};
+const options: Options = {
+  bundlers: [
+    {
+      name: 'Vite',
+      value: 'vite',
+      condition: 'import.meta.env.MODE === \'development\'',
+      checked: true,
+    },
+    {
+      name: 'Next.js',
+      value: 'next',
+      condition: 'process.env.NODE_ENV === \'development\'',
+    },
+  ],
+  imports: [
+    {
+      name: 'Dynamic (async / await)',
+      value: 'dynamicAsyncAwait',
+      checked: true,
+    },
+    {
+      name: 'Dynamic (promises)',
+      value: 'dynamicPromises',
+    },
+    {
+      name: 'Static',
+      value: 'static',
+    },
+  ],
+  sources: [
+    {
+      name: 'NPM (with bundler)',
+      value: 'npm',
+      module: 'accented',
+      checked: true,
+    },
+    {
+      name: 'CDN (no bundler required)',
+      // TODO: should we pin to a specific version?
+      module: 'https://esm.sh/accented',
+      value: 'cdn',
+    },
+  ]
+};
+
+function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'] | undefined, source: Source | undefined) {
+  if (!bundler || !importType || !source) {
+    return '';
+  }
+  if (importType === 'dynamicAsyncAwait') {
+    return `if (${bundler.condition}) {\n` +
+           `  const { accented } = await import('${source.module}');\n` +
+           `  accented();\n` +
+           '}';
+  } else if (importType === 'dynamicPromises') {
+    return `if (${bundler.condition}) {\n` +
+           `  import('${source.module}').then(({ accented }) => {\n` +
+           `    accented();\n` +
+           `  });\n` +
+           `}`;
+  } else if (importType === 'static') {
+    return `import { accented } from '${source.module}';\n` +
+           `if (${bundler.condition}) {\n` +
+           `  accented();\n` +
+           `}`;
+  }
+}
+
+const templateParts = [
+  'if (',
+  ') {\n  const { accented } = await import(\'',
+  '\');\n  accented();\n}',
+];
+---
+<starter-code>
+  <form>
+    <fieldset disabled>
+      <legend>Bundler / framework</legend>
+      {options.bundlers.map(bundler => (
+        <label>
+          <input
+            type="radio"
+            name="bundler"
+            value={bundler.value}
+            checked={bundler.checked}
+          />
+          {bundler.name}
+        </label>
+      ))}
+    </fieldset>
+    <fieldset disabled>
+      <legend>Import</legend>
+      {options.imports.map(importItem => (
+        <label>
+          <input
+            type="radio"
+            name="import"
+            value={importItem.value}
+            checked={importItem.checked}
+          />
+          {importItem.name}
+        </label>
+      ))}
+    </fieldset>
+    <fieldset disabled>
+      <legend>Source</legend>
+      {options.sources.map(source => (
+        <label>
+          <input
+            type="radio"
+            name="source"
+            value={source.value}
+            checked={source.checked}
+          />
+          {source.name}
+        </label>
+      ))}
+    </fieldset>
+    <!-- TODO: make sure the change in the output is communicated to a screen reader. -->
+    <div>
+      <!-- TODO: am I using the right tags here? -->
+      <pre><code>{getCodeSnippet(
+          options.bundlers.find(b => b.checked),
+          options.imports.find(i => i.checked)?.value,
+          options.sources.find(s => s.checked)
+        )}</code></pre>
+    </div>
+  </form>
+</starter-code>
+<script define:vars={{ options, templateParts }}>
+  function getCodeSnippet(bundler, importType, source) {
+    if (importType === 'dynamicAsyncAwait') {
+      return `if (${bundler.condition}) {\n` +
+            `  const { accented } = await import('${source.module}');\n` +
+            `  accented();\n` +
+            '}';
+    } else if (importType === 'dynamicPromises') {
+      return `if (${bundler.condition}) {\n` +
+            `  import('${source.module}').then(({ accented }) => {\n` +
+            `    accented();\n` +
+            `  });\n` +
+            `}`;
+    } else if (importType === 'static') {
+      return `import { accented } from '${source.module}';\n` +
+            `if (${bundler.condition}) {\n` +
+            `  accented();\n` +
+            `}`;
+    }
+  }
+
+  customElements.define('starter-code', class extends HTMLElement {
+    connectedCallback() {
+      this.form = this.querySelector('form');
+      if (this.form) {
+        const fieldsets = this.form.querySelectorAll('fieldset');
+        for (const fieldset of fieldsets) {
+          fieldset.disabled = false;
+
+          fieldset.addEventListener('change', () => {
+            this.updateCodeSnippet();
+          });
+        }
+      }
+    }
+
+    updateCodeSnippet() {
+      const codeSnippetElement = this.querySelector('code');
+      if (codeSnippetElement) {
+        const bundlerRadio = this.form?.querySelector('input[name="bundler"]:checked');
+        const bundler = options.bundlers.find(bundler => bundler.value === bundlerRadio.value);
+
+        const importRadio = this.form?.querySelector('input[name="import"]:checked');
+        const importType = options.imports.find(importItem => importItem.value === importRadio.value)?.value;
+
+        const sourceRadio = this.form?.querySelector('input[name="source"]:checked');
+        const source = options.sources.find(source => source.value === sourceRadio.value);
+        codeSnippetElement.textContent = getCodeSnippet(bundler, importType, source);
+      }
+    }
+  });
+</script>

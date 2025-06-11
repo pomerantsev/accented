@@ -2,6 +2,8 @@
 layout: ../../layouts/DocsLayout.astro
 ---
 
+import StarterCode from '../../components/StarterCode.astro';
+
 # Getting started
 
 Here’s how to get started with Accented.
@@ -39,22 +41,20 @@ import { accented } from 'https://esm.sh/accented';
 
 Run Accented in development only.
 
-You can achieve it differently depending on your frontend build or server setup.
+<div class="note">
+  Never run Accented in production:
 
-For example, for Vite, it may look like this:
+- It’s not your users who should be notified of accessibility issues, it’s you, the developer.
+- Accented’s browser support policy (TODO: link) may be different from that of your application,
+which may cause errors for some of your users.
+</div>
 
-```
-if (import.meta.env.MODE === 'development') {
-  accented();
-}
-```
+Depending on your setup, checking whether the code is running in development or in production may look differently.
 
-To guarantee that Accented is not included in your application’s production JavaScript bundle,
-consider importing it dynamically in development:
+Additionally, consider importing Accented dynamically, to ensure that its code is not included in the production bundle.
 
-```
-if (import.meta.env.MODE === 'development') {
-  const { accented } = await import('accented');
-  accented();
-}
-```
+## Starter code
+
+You can use this code as a starting point.
+
+<StarterCode />
