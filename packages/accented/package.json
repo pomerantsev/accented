@@ -20,13 +20,13 @@
     "type": "git",
     "url": "git+https://github.com/pomerantsev/accented.git"
   },
-  "keywords": ["accessibility", "a11y", "axe", "axe-core"],
+  "keywords": ["accessibility", "a11y", "a11y-testing", "axe", "axe-core"],
   "author": "Pavel Pomerantsev",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pomerantsev/accented/issues"
   },
-  "homepage": "https://github.com/pomerantsev/accented#readme",
+  "homepage": "https://www.accented.dev",
   "dependencies": {
     "@preact/signals-core": "^1.8.0",
     "axe-core": "^4.10.3"
