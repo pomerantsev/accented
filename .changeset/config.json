@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["accented-devapp"]
+  "ignore": ["accented-devapp", "common", "website"]
 }

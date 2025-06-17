@@ -33,8 +33,6 @@ export const getAccentedTrigger = (name: string) => {
         inset-block-start: anchor(self-start) !important;
         inset-block-end: anchor(self-end) !important;
 
-        position-visibility: anchors-visible !important;
-
         /* Revert potential effects of white-space: pre; set on a trigger's ancestor. */
         white-space: normal !important;
 
@@ -193,15 +191,14 @@ export const getAccentedTrigger = (name: string) => {
                 this.style.setProperty('height', `${position.height}px`, 'important');
               }
             });
-
-            this.#disposeOfVisibilityEffect = effect(() => {
-              this.style.setProperty(
-                'visibility',
-                this.visible?.value ? 'visible' : 'hidden',
-                'important',
-              );
-            });
           }
+          this.#disposeOfVisibilityEffect = effect(() => {
+            this.style.setProperty(
+              'visibility',
+              this.visible?.value ? 'visible' : 'hidden',
+              'important',
+            );
+          });
         }
       } catch (error) {
         logAndRethrow(error);
