@@ -96,13 +96,11 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
     registerElements(name);
 
     const { disconnect: cleanupIntersectionObserver, intersectionObserver } =
-      supportsAnchorPositioning(window) ? {} : setupIntersectionObserver();
+      setupIntersectionObserver();
     const cleanupScanner = createScanner(name, context, axeOptions, throttle, callback);
     const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
     const cleanupLogger = output.console ? createLogger() : () => {};
-    const cleanupScrollListeners = supportsAnchorPositioning(window)
-      ? () => {}
-      : setupScrollListeners();
+    const cleanupScrollListeners = setupScrollListeners();
     const cleanupResizeListener = supportsAnchorPositioning(window)
       ? () => {}
       : setupResizeListener();

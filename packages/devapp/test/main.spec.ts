@@ -264,15 +264,7 @@ test.describe('Accented', () => {
       const button2Trigger = await getTrigger(button2TriggerContainer);
 
       async function expectToBeHiddenOutsideScrollableRegion(element: Locator) {
-        if (await supportsAnchorPositioning(page)) {
-          // I'm not sure how to really test the button for visibility here.
-          // It's hidden using position-visibility: anchors-visible,
-          // but that doesn't seem to affect how Playwright calculates visibility.
-          // Hopefully in a future version of Playwright this is addressed.
-          await expect(element).toBeVisible();
-        } else {
-          await expect(element).not.toBeVisible();
-        }
+        await expect(element).not.toBeVisible();
       }
 
       await scrollableRegion.scrollIntoViewIfNeeded();
