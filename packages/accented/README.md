@@ -8,7 +8,7 @@ Accented is a visual library based on [axe-core](https://github.com/dequelabs/ax
 
 TODO: screenshot: without Accented / with Accented.
 
-[Try it out on StackBlitz.](https://stackblitz.com/edit/vitejs-vite-sy4bom3s?file=src%2Fmain.tsx)
+[Try it out on StackBlitz.](https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx)
 
 Accented is different from most of the existing approaches to accessibility testing,
 and it can complement other tools:
