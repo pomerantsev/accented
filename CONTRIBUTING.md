@@ -99,6 +99,10 @@ That's even true for cases where the specificity of a host app selector is highe
 - In Firefox, when "Zoom text only" setting is on, zooming does not lead to trigger repositioning.
   I don't know if there's any event that fires when such zoom happens, so there may be no way to address it.
 
+## Development
+
+TODO: Biome configuration in editor
+
 ## Testing
 
 ### Running unit tests
@@ -112,6 +116,8 @@ TODO
 ## Versioning and releasing
 
 We’re using [Changesets](https://github.com/changesets/changesets) to automate the version and release process of Accented as much as possible.
+
+See Versioning policy (TODO: link) when making versioning decisions.
 
 ### Marking a change that requires a version bump
 

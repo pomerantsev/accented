@@ -14,4 +14,6 @@ This monorepo hosts:
 
 ## Contributing
 
-TODO
+Contributions are welcome!
+
+See [CONTRIBUTING.md](https://github.com/pomerantsev/accented/blob/main/CONTRIBUTING.md) for setup instructions and guidelines.
