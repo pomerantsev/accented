@@ -10,16 +10,15 @@ TODO: screenshot: without Accented / with Accented.
 
 [Try it out on StackBlitz.](https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx)
 
-Accented is different from most of the existing approaches to accessibility testing,
-and it can complement other tools:
+Accented can complement other tools commonly used for accessibility testing:
 
-- **It can find more issues than source code linting.** The popular [`eslint-plugin-jsx-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) is great, but some types of issues can only be found on the rendered page. For example, the linter cannot find issues with color contrast or heading order.
+- **It can find more issues than source code linting.** The popular [`eslint-plugin-jsx-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) is great, and linters validate the whole codebase, but some types of issues can only be found on the rendered page. For example, the linter cannot find issues with color contrast or heading order. Besides, Accented is not framework-specific.
 - **It’s embedded into the project code, with no setup required in the browser or code editor.** You get a similar accessibility audit using [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) or [axe DevTools](https://www.deque.com/axe/devtools/), but with Accented, you don’t need a browser extension, the results are always up-to-date, and all team members are guaranteed to see the same issues.
 - **You don’t need to write any extra code, unlike with adding accessibility tests to a test suite.** You can test for accessibility issues in your test suite, for example using [`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright). For that, however, you need to write a test case for every state of the application that you want to test. Accented instead automatically tests anything that’s currently on the page in your browser.
 
 Learn more about Accented at [accented.dev](https://www.accented.dev).
 
-## Getting started
+## Installation and usage
 
 Install:
 
@@ -27,7 +26,7 @@ Install:
 npm install --save-dev accented
 ```
 
-Import and run:
+Import and run at any moment during your app’s initialization:
 
 ```js
 if (isDevelopment) {
@@ -37,15 +36,26 @@ if (isDevelopment) {
 ```
 
 ⚠️ **Heads up!**
-Don’t use Accented in production.
+Don’t expose Accented to your users.
+It’s only meant to be used in development.
 
 See the docs for your bundler or framework for how to run code only in the development environment.
 
-See more examples at https://www.accented.dev/docs/getting-started/
+- [More detailed installation and usage guide](https://www.accented.dev/docs/installation-and-usage/)
+- [Full API](https://www.accented.dev/docs/api/)
+
+## More info
+
+- [Accessibility](https://www.accented.dev/docs/accessibility/) (how accessible is Accented itself?)
+- [Performance](https://www.accented.dev/docs/performance/) (does Accented affect runtime performance of my app?)
+- [Browser support](https://www.accented.dev/docs/browser-support/) (will Accented work for me and my teammates?)
+- [Versioning policy](https://www.accented.dev/docs/versioning-policy/) (Accented follows [SemVer](https://semver.org/))
+- [Changelog](https://github.com/pomerantsev/accented/blob/main/packages/accented/CHANGELOG.md)
 
 ## Contributing
 
 Contributions are welcome!
-See [CONTRIBUTING.md](https://github.com/pomerantsev/accented/blob/main/CONTRIBUTING.md) for setup instructions and guidelines.
 
-If you spot a bug or want to propose a new feature, feel free to open an [issue](https://github.com/pomerantsev/accented/issues) or pull request.
+- See [CONTRIBUTING.md](https://github.com/pomerantsev/accented/blob/main/CONTRIBUTING.md) for setup instructions and guidelines.
+- Open an [issue](https://github.com/pomerantsev/accented/issues) or pull request if you spot a bug or want to propose a new feature.
+- See [Milestones](https://github.com/pomerantsev/accented/milestones) to learn about our plans for Accented.
