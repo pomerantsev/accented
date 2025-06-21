@@ -1,8 +1,6 @@
-<div align="center">
-  <a href="https://www.accented.dev">
-    <img alt="Accented" src="https://raw.githubusercontent.com/pomerantsev/accented/actual-docs/.github/assets/icon.svg" width="100" />
-  </a>
-</div>
+<a href="https://www.accented.dev">
+  <img alt="Accented" src="https://raw.githubusercontent.com/pomerantsev/accented/actual-docs/.github/assets/icon.svg" width="100" />
+</a>
 
 # Accented
 
@@ -12,7 +10,11 @@ Continuous accessibility testing and issue highlighting for web development.
 
 Accented is a visual library based on [axe-core](https://github.com/dequelabs/axe-core) that helps identify issues as soon as they are introduced.
 
-TODO: screenshot: without Accented / with Accented.
+It adds visual interactive callouts for all accessibility issues that axe-core identifies.
+
+Example (without Accented / with Accented):
+
+![Two screenshots of the same web application side by side. On the left, the regular state of the application. On the right, the same state but with bright outlines and buttons added to some page elements.](https://raw.githubusercontent.com/pomerantsev/accented/actual-docs/.github/assets/side-by-side.png)
 
 [Try it out on StackBlitz.](https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx)
 
