@@ -92,12 +92,6 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
            `}`;
   }
 }
-
-const templateParts = [
-  'if (',
-  ') {\n  const { accented } = await import(\'',
-  '\');\n  accented();\n}',
-];
 ---
 <starter-code>
   <form>
@@ -154,7 +148,7 @@ const templateParts = [
     </div>
   </form>
 </starter-code>
-<script define:vars={{ options, templateParts }}>
+<script define:vars={{ options }}>
   function getCodeSnippet(bundler, importType, source) {
     if (importType === 'dynamicAsyncAwait') {
       return `if (${bundler.condition}) {\n` +
