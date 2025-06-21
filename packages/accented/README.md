@@ -1,3 +1,9 @@
+<div align="center">
+  <a href="https://www.accented.dev">
+    <img alt="Accented" src="https://raw.githubusercontent.com/pomerantsev/accented/actual-docs/.github/assets/icon.svg" width="100" />
+  </a>
+</div>
+
 # Accented
 
 Continuous accessibility testing and issue highlighting for web development.
