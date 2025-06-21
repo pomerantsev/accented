@@ -1,5 +1,5 @@
 <a href="https://www.accented.dev">
-  <img alt="Accented" src="https://raw.githubusercontent.com/pomerantsev/accented/main/.github/assets/icon.svg" width="100" />
+  <img alt="Accented" src="https://www.accented.dev/images/logo.svg" width="100" />
 </a>
 
 # Accented
@@ -14,7 +14,7 @@ It adds visual interactive callouts for all accessibility issues that axe-core i
 
 Example (without Accented / with Accented):
 
-![Two screenshots of the same web application side by side. On the left, the regular state of the application. On the right, the same state but with bright outlines and buttons added to some page elements.](https://raw.githubusercontent.com/pomerantsev/accented/main/.github/assets/side-by-side.png)
+![Two screenshots of the same web application side by side. On the left, the regular state of the application. On the right, the same state but with bright outlines and buttons added to some page elements.](https://www.accented.dev/images/side-by-side.png)
 
 [Try it out on StackBlitz.](https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx)
 
