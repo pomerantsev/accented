@@ -4,16 +4,28 @@ import type { AccentedTrigger } from './elements/accented-trigger.ts';
 
 export type Throttle = {
   /**
-   * The minimal time between scans.
+   * How long Accented must wait (in milliseconds) to run a scan after a mutation or after the previous scan (whichever finished last).
+   *
+   * If the page you’re scanning has a lot of nodes,
+   * scanning may take a noticeable time (~ a few hundred milliseconds),
+   * during which time the main thread will be blocked most of the time.
+   *
+   * You may want to experiment with this value if your page contents change frequently
+   * or if it has JavaScript-based animations running on the main thread.
    *
    * @default 1000
    * */
   wait?: number;
 
   /**
-   * When to run the scan on Accented initialization or on a mutation.
+   * If `leading` is set to `true`, the scan runs immediately after a mutation.
+   * In this case, `wait` only applies to subsequent scans,
+   * giving the page at least `wait` milliseconds between the end of the previous scan
+   * and the beginning of the next one.
    *
-   * If `true`, the scan will run immediately. If `false`, the scan will run after the first throttle delay.
+   * If `leading` is set to `false`, the wait applies to mutations as well,
+   * delaying the output.
+   * This may be useful if you’re expecting quick bursts of mutations on your page.
    *
    * @default true
    * */
@@ -61,12 +73,6 @@ export type AxeOptions = Pick<axe.RunOptions, (typeof allowedAxeOptions)[number]
 
 type CallbackParams = {
   /**
-   * Nodes that got scanned. Either an array of nodes,
-   * or an object with `include` and `exclude` properties (if any nodes were excluded).
-   */
-  scanContext: ScanContext | Array<Node>;
-
-  /**
    * The most up-to-date array of all elements with accessibility issues.
    * */
   elementsWithIssues: Array<ElementWithIssues>;
@@ -83,6 +89,12 @@ type CallbackParams = {
     scan: number;
     domUpdate: number;
   };
+
+  /**
+   * Nodes that got scanned. Either an array of nodes,
+   * or an object with `include` and `exclude` properties (if any nodes were excluded).
+   */
+  scanContext: ScanContext | Array<Node>;
 };
 
 export type Callback = (params: CallbackParams) => void;
@@ -110,7 +122,7 @@ export type AccentedOptions = {
    * Potential uses:
 
    * - do something with the scan results,
-   * for example send them to a backend for analysis;
+   * for example send them to a backend for storage and analysis;
    * - analyze Accented’s performance.
    *
    * @default () => {}
@@ -118,9 +130,10 @@ export type AccentedOptions = {
    * @example
    *
    * accented({
-   *   callback: ({ elementsWithIssues, performance }) => {
+   *   callback: ({ elementsWithIssues, performance, scanContext }) => {
    *     console.log('Elements with issues:', elementsWithIssues);
    *     console.log('Total blocking time:', performance.totalBlockingTime);
+   *     console.log('Scan context:', scanContext);
    *   }
    * });
    *
@@ -161,8 +174,11 @@ export type AccentedOptions = {
 
   /**
    * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
+   *
+   * You shouldn’t have to provide this prop unless some of the names on your page have "accented" in it and conflict with what Accented provides by default.
+   *
    * * The data attribute that’s added to elements with issues (default: `data-accented`).
-   * * The custom elements for the button and the dialog that get created for each element with issues
+   * * The names of custom elements for the button and the dialog that get created for each element with issues
    *   (default: `accented-trigger`, `accented-dialog`).
    * * The CSS cascade layer containing page-wide Accented-specific styles (default: `accented`).
    * * The prefix for some of the CSS custom properties used by Accented (default: `--accented-`).
@@ -173,16 +189,24 @@ export type AccentedOptions = {
    * and it must start with a lowercase letter.
    *
    * @default 'accented'
+   *
+   * @example
+   *
+   * accented({name: 'my-name'});
+   *
+   * With the above option provided, the attribute set on elements with issues will be `data-my-name`,
+   * a custom element will be called `my-name-trigger`, and so on.
+   *
    */
   name?: string;
 
   /**
-   * An object controlling how the results of scans will be presented.
+   * An object controlling how the results of scans are presented.
    * */
   output?: Output;
 
   /**
-   * Scan throttling options object.
+   * An object controlling at what moments Accented will run its scans.
    * */
   throttle?: Throttle;
 };
