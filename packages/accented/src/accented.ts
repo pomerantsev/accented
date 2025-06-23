@@ -19,7 +19,7 @@ export type { AccentedOptions, DisableAccented };
 /**
  * Enables the continuous scanning and highlighting of accessibility issues on the page.
  *
- * @param {AccentedOptions} options - The options object.
+ * @param {AccentedOptions} options - The options object (optional).
  *
  * @returns A `disable` function that takes no parameters. When called, disables the scanning and highlighting, and cleans up any changes that Accented has made to the page.
  *
@@ -36,8 +36,8 @@ export type { AccentedOptions, DisableAccented };
  *     leading: false
  *   },
  *   callback: ({ elementsWithIssues, performance }) => {
- *    console.log('Elements with issues:', elementsWithIssues);
- *    console.log('Total blocking time:', performance.totalBlockingTime);
+ *     console.log('Elements with issues:', elementsWithIssues);
+ *     console.log('Total blocking time:', performance.totalBlockingTime);
  *   }
  * });
  */

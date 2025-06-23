@@ -9,7 +9,7 @@ layout: ../../layouts/DocsLayout.astro
 - `accented`. The function that enables the continuous scanning and highlighting of accessibility issues
   on the page.
   Example: `const disable = accented(options)`.
-  - Parameters: the only parameter is `options`. See [Options](#options).
+  - Parameters: the only parameter (optional) is `options`. See [Options](#options).
   - Returns: a `disable` function that takes no parameters. When called, disables the scanning and highlighting,
     and cleans up any changes that Accented has made to the page.
     TODO: add link to a deeper dive that explains what changes may not be reverted (if any).
@@ -51,27 +51,28 @@ A function that will be called after each scan.
 Potential uses:
 
 - do something with the scan results,
-  for example send them to a backend for analysis;
+  for example send them to a backend for storage and analysis;
 - analyze Accented’s performance.
 
 It accepts a single `params` object with the following properties:
 
-- `scanContext`: nodes that got scanned. Either an array of nodes,
-  or an object with `include` and `exclude` properties (if any nodes were excluded).
 - `elementsWithIssues`: the most up-to-date array of all elements with accessibility issues.
 - `performance`: runtime performance of the last scan. An object with the following props:
   - `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
     It’s further divided into the `scan` and `domUpdate` phases.
   - `scan`: how long scanning (the execution of `axe.run()`) took, in milliseconds.
   - `domUpdate`: how long the DOM update (adding / removing outlines and dialog trigger buttons) took, in milliseconds.
+- `scanContext`: nodes that got scanned. Either an array of nodes,
+  or an object with `include` and `exclude` properties (if any nodes were excluded).
 
 **Example:**
 
 ```
 accented({
-  callback: ({ elementsWithIssues, performance }) => {
+  callback: ({ elementsWithIssues, performance, scanContext }) => {
     console.log('Elements with issues:', elementsWithIssues);
     console.log('Total blocking time:', performance.totalBlockingTime);
+    console.log('Scan context:', scanContext);
   }
 });
 ```
@@ -117,10 +118,10 @@ which the `context` option from Accented mostly mirrors
 
 The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
 
-You shouldn’t have to use this attribute unless some of the names on your page conflict with what Accented provides by default.
+You shouldn’t have to provide this prop unless some of the names on your page have "accented" in it and conflict with what Accented provides by default.
 
 - The data attribute that’s added to elements with issues (default: `data-accented`).
-- The custom elements for the button and the dialog that get created for each element with issues
+- The names of custom elements for the button and the dialog that get created for each element with issues
   (default: `accented-trigger`, `accented-dialog`).
 - The CSS cascade layer containing page-wide Accented-specific styles (default: `accented`).
 - The prefix for some of the CSS custom properties used by Accented (default: `--accented-`).
@@ -141,9 +142,9 @@ a custom element will be called `my-name-trigger`, and so on.
 
 ### `output`
 
-An object controlling how the results of scans will be presented.
+An object controlling how the results of scans are presented.
 
-### `output.console`
+#### `output.console`
 
 **Type:** boolean.
 
@@ -153,15 +154,15 @@ Whether the list of elements with issues should be printed to the browser consol
 
 ### `throttle`
 
-An object controlling when Accented will run its scans.
+An object controlling at what moments Accented will run its scans.
 
-### `throttle.wait`
+#### `throttle.wait`
 
 **Type:** number.
 
 **Default:** 1000.
 
-The delay (in milliseconds) after a mutation or after the last Accented scan.
+How long Accented must wait (in milliseconds) to run a scan after a mutation or after the previous scan (whichever finished last).
 
 If the page you’re scanning has a lot of nodes,
 scanning may take a noticeable time (~ a few hundred milliseconds),
@@ -170,28 +171,48 @@ during which time the main thread will be blocked most of the time.
 You may want to experiment with this value if your page contents change frequently
 or if it has JavaScript-based animations running on the main thread.
 
-### `throttle.leading`
+#### `throttle.leading`
 
 **Type:** boolean.
 
 **Default:** `true`.
 
-If set to true, the scan runs immediately after a mutation.
+If `leading` is set to `true`, the scan runs immediately after a mutation.
 In this case, `wait` only applies to subsequent scans,
 giving the page at least `wait` milliseconds between the end of the previous scan
 and the beginning of the next one.
 
-If set to false, the wait applies to mutations as well,
+If `leading` is set to `false`, the wait applies to mutations as well,
 delaying the output.
-This may be useful if you’re expecting bursts of mutations on your page.
+This may be useful if you’re expecting quick bursts of mutations on your page.
 
 ## Styling
 
-TODO: Create a separate doc with info on using `:root` and CSS layers to control some aspects of styling.
+You can change some styling aspects of the elements that are added by Accented.
+It’s usually desirable to make such elements stand out on the page,
+so consider doing it if the defaults don’t provide enough contrast in your application.
 
-Documented CSS custom props:
+You can make the changes by setting certain CSS properties in your app, for example:
 
-- `--accented-primary-color`
-- `--accented-secondary-color`
-- `--accented-outline-width`
-- `--accented-outline-style`
+```css
+:root {
+  --accented-primary-color: darkgreen;
+  --accented-outline-width: 3px;
+}
+```
+
+Accented uses the following props:
+
+- `--accented-primary-color`. The color of the outlines and of the trigger button background. Default: violet-red (`oklch(0.5 0.3 0)`).
+- `--accented-secondary-color`. Trigger button text color. Default: white (`oklch(0.98 0 0)`).
+- `--accented-outline-width`. Default: `2px`.
+- `--accented-outline-style`. Default: `solid`.
+
+**Note:** Accented’s default values are defined within `@layer accented`, so if you use the default layer to define your custom properties, they’re guaranteed to take precedence over the default ones.
+[Learn more about CSS layers.](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
+
+**Note:** when using the [`name` option](#name),
+the custom properties will start with that name, and the CSS layer will equal the name value.
+
+For example, if `name: 'my-name'`, then the CSS custom properties will be `--my-name-primary-color`, `--my-name-secondary-color`, and so on,
+and those will be defined within `@layer my-name`.
