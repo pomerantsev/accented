@@ -6,7 +6,7 @@ export type Throttle = {
   /**
    * The minimal time between scans.
    *
-   * Default: `1000`.
+   * @default 1000
    * */
   wait?: number;
 
@@ -15,16 +15,16 @@ export type Throttle = {
    *
    * If `true`, the scan will run immediately. If `false`, the scan will run after the first throttle delay.
    *
-   * Default: `true`.
+   * @default true
    * */
   leading?: boolean;
 };
 
 export type Output = {
   /**
-   * Whether to output the issues to the console.
+   * Whether the list of elements with issues should be printed to the browser console whenever issues are added, removed, or changed.
    *
-   * Default: `true`.
+   * @default true
    * */
   console?: boolean;
 };
@@ -61,48 +61,33 @@ export type AxeOptions = Pick<axe.RunOptions, (typeof allowedAxeOptions)[number]
 
 type CallbackParams = {
   /**
-   * The most current array of elements with issues.
+   * Nodes that got scanned. Either an array of nodes,
+   * or an object with `include` and `exclude` properties (if any nodes were excluded).
+   */
+  scanContext: ScanContext | Array<Node>;
+
+  /**
+   * The most up-to-date array of all elements with accessibility issues.
    * */
   elementsWithIssues: Array<ElementWithIssues>;
 
   /**
-   * * `performance`: runtime performance of the last scan. An object:
-   * * `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
+   * Runtime performance of the last scan. An object with the following props:
+   * - `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
    *   It’s further divided into the `scan` and `domUpdate` phases.
-   * * `scan`: how long the `scan` phase took, in milliseconds.
-   * * `domUpdate`: how long the `domUpdate` phase took, in milliseconds.
-   * * `scanContext`: nodes that got scanned. Either an array of nodes,
-   *   or an object with `include` and `exclude` properties (if any nodes were excluded).
+   * - `scan`: how long scanning (the execution of `axe.run()`) took, in milliseconds.
+   * - `domUpdate`: how long the DOM update (adding / removing outlines and dialog trigger buttons) took, in milliseconds.
    * */
   performance: {
     totalBlockingTime: number;
     scan: number;
     domUpdate: number;
-    scanContext: ScanContext | Array<Node>;
   };
 };
 
 export type Callback = (params: CallbackParams) => void;
 
 export type AccentedOptions = {
-  /**
-   * The `context` parameter for `axe.run()`.
-   *
-   * Determines what element(s) to scan for accessibility issues.
-   *
-   * Accepts a variety of shapes:
-   * * an element reference;
-   * * a selector;
-   * * a `NodeList`;
-   * * an include / exclude object;
-   * * and more.
-   *
-   * See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter
-   *
-   * Default: `document`.
-   */
-  context?: Context;
-
   /**
    * The `options` parameter for `axe.run()`.
    *
@@ -115,9 +100,64 @@ export type AccentedOptions = {
    *
    * See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter
    *
-   * Default: `{}`.
+   * @default {}
    */
   axeOptions?: AxeOptions;
+
+  /**
+   * A function that will be called after each scan.
+   *
+   * Potential uses:
+
+   * - do something with the scan results,
+   * for example send them to a backend for analysis;
+   * - analyze Accented’s performance.
+   *
+   * @default () => {}
+   *
+   * @example
+   *
+   * accented({
+   *   callback: ({ elementsWithIssues, performance }) => {
+   *     console.log('Elements with issues:', elementsWithIssues);
+   *     console.log('Total blocking time:', performance.totalBlockingTime);
+   *   }
+   * });
+   *
+   * */
+  callback?: Callback;
+
+  /**
+   * The `context` parameter for `axe.run()`.
+   *
+   * Determines what part(s) of the page to scan for accessibility issues.
+   *
+   * Accepts a variety of shapes:
+   *
+   * - a [`Node`](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in practice it will likely be an instance of [`Element`](https://developer.mozilla.org/en-US/docs/Web/API/Element), [`Document`](https://developer.mozilla.org/en-US/docs/Web/API/Document), or [`DocumentFragment`](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment));
+   * - a valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors);
+   * - an object for selecting elements within shadow DOM,
+   *   whose shape is `{ fromShadowDom: [selector1, selector2, ...] }`,
+   *   where `selector1`, `selector2`, etc. select shadow hosts, and the last selector selects the actual context.
+   *   `selector2` in this example is _within_ the shadow root created on the element(s) that match `selector1`,
+   *   so in practice you shouldn’t have more than two elements in such an array
+   *   unless you have a very complex structure with multiple shadow DOM layers;
+   * - a [`NodeList`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList) (likely a result of a [`querySelectorAll()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) call);
+   * - an array containing any combination of selectors, nodes, or shadow DOM objects (described above);
+   * - an object containing `include` and / or `exclude` properties.
+   *   It’s useful if you’d like to exclude certain elements or parts of the page.
+   *   The values for `include` and `exclude` can take any of the above shapes.
+   *   It’s unlikely that you’d want to have complex `include` / `exclude` rules,
+   *   but if you do, the exact behavior is documented by the relevant tests:
+   *   [`is-node-in-scan-context.test.ts`](https://github.com/pomerantsev/accented/blob/main/packages/accented/src/utils/is-node-in-scan-context.test.ts).
+   *
+   * See also the documentation for the [`context` parameter of `axe.run()`](https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter),
+   * which the `context` option from Accented mostly mirrors
+   * (note that Accented doesn’t support the `fromFrames` object shape).
+   *
+   * @default document
+   */
+  context?: Context;
 
   /**
    * The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
@@ -132,12 +172,12 @@ export type AccentedOptions = {
    * Only lowercase alphanumeric characters and dashes (-) are allowed in the name,
    * and it must start with a lowercase letter.
    *
-   * Default: `accented`.
+   * @default 'accented'
    */
   name?: string;
 
   /**
-   * Output options object.
+   * An object controlling how the results of scans will be presented.
    * */
   output?: Output;
 
@@ -145,13 +185,6 @@ export type AccentedOptions = {
    * Scan throttling options object.
    * */
   throttle?: Throttle;
-
-  /**
-   * A callback that will be called after each scan.
-   *
-   * Default: `() => {}`.
-   * */
-  callback?: Callback;
 };
 
 /**

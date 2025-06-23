@@ -30,6 +30,12 @@ if (searchParams.has('callback')) {
   };
 }
 
+if (searchParams.has('scan-context') && !searchParams.has('callback')) {
+  options.callback = ({ scanContext }) => {
+    console.log('Scan context:', scanContext);
+  };
+}
+
 if (searchParams.has('callback-invalid')) {
   options.callback = searchParams.get('output-invalid') as any;
 }

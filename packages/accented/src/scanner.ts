@@ -79,15 +79,15 @@ export function createScanner(
       const domUpdateDuration = Math.round(domUpdateMeasure.duration);
 
       callback({
+        // Assuming that the {include, exclude} shape of the context object will be used less often
+        // than other variants, we'll output just the `include` array in case nothing is excluded
+        // in the scan.
+        scanContext: scanContext.exclude.length > 0 ? scanContext : scanContext.include,
         elementsWithIssues: elementsWithIssues.value,
         performance: {
           totalBlockingTime: scanDuration + domUpdateDuration,
           scan: scanDuration,
           domUpdate: domUpdateDuration,
-          // Assuming that the {include, exclude} shape of the context object will be used less often
-          // than other variants, we'll output just the `include` array in case nothing is excluded
-          // in the scan.
-          scanContext: scanContext.exclude.length > 0 ? scanContext : scanContext.include,
         },
       });
     } catch (error) {
