@@ -17,11 +17,11 @@ import { validateOptions } from './validate-options.js';
 export type { AccentedOptions, DisableAccented };
 
 /**
- * Enables highlighting of elements with accessibility issues.
+ * Enables the continuous scanning and highlighting of accessibility issues on the page.
  *
  * @param {AccentedOptions} options - The options object.
  *
- * @returns A `disable` function that can be called to stop the scanning and highlighting.
+ * @returns A `disable` function that takes no parameters. When called, disables the scanning and highlighting, and cleans up any changes that Accented has made to the page.
  *
  * @example
  * accented();

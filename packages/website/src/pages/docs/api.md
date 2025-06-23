@@ -6,11 +6,13 @@ layout: ../../layouts/DocsLayout.astro
 
 ## Exports
 
-- `accented`. It’s the function that enables the continuous scanning and highlighting
-  on the page in whose context in was called. Example: `const disable = accented(options)`.
+- `accented`. The function that enables the continuous scanning and highlighting of accessibility issues
+  on the page.
+  Example: `const disable = accented(options)`.
   - Parameters: the only parameter is `options`. See [Options](#options).
   - Returns: a `disable` function that takes no parameters. When called, disables the scanning and highlighting,
     and cleans up any changes that Accented has made to the page.
+    TODO: add link to a deeper dive that explains what changes may not be reverted (if any).
 
 ### Type exports
 
@@ -20,28 +22,6 @@ The following types are exported for TypeScript consumers:
 - `DisableAccented`: the type of the function returned by `accented`.
 
 ## Options
-
-### `context`
-
-TODO: update
-
-**Type:** see [documentation](https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter).
-
-**Default:** `document`.
-
-The `context` parameter for `axe.run()`.
-
-Determines what element(s) to scan for accessibility issues.
-
-Accepts a variety of shapes:
-
-- an element reference;
-- a selector;
-- a `NodeList`;
-- an include / exclude object;
-- and more.
-
-See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter
 
 ### `axeOptions`
 
@@ -60,35 +40,30 @@ Both properties are optional, and both control which accessibility rules your pa
 
 See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter
 
-### `output`
-
-An object controlling how the results of scans will be presented.
-
-### `output.console`
-
-**Type:** boolean.
-
-**Default:** `true`.
-
-Whether the list of elements with issues should be printed to the browser console whenever issues are added, removed, or changed.
-
 ### `callback`
 
 **Type:** function.
 
 **Default:** no-op (`() => {}`).
 
-A function that Accented will call after every scan.
+A function that will be called after each scan.
+
+Potential uses:
+
+- do something with the scan results,
+  for example send them to a backend for analysis;
+- analyze Accented’s performance.
+
 It accepts a single `params` object with the following properties:
 
+- `scanContext`: nodes that got scanned. Either an array of nodes,
+  or an object with `include` and `exclude` properties (if any nodes were excluded).
 - `elementsWithIssues`: the most up-to-date array of all elements with accessibility issues.
-- `performance`: runtime performance of the last scan. An object:
+- `performance`: runtime performance of the last scan. An object with the following props:
   - `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
     It’s further divided into the `scan` and `domUpdate` phases.
-  - `scan`: how long the `scan` phase took, in milliseconds.
-  - `domUpdate`: how long the `domUpdate` phase took, in milliseconds.
-  - `scanContext`: nodes that got scanned. Either an array of nodes,
-    or an object with `include` and `exclude` properties (if any nodes were excluded).
+  - `scan`: how long scanning (the execution of `axe.run()`) took, in milliseconds.
+  - `domUpdate`: how long the DOM update (adding / removing outlines and dialog trigger buttons) took, in milliseconds.
 
 **Example:**
 
@@ -100,6 +75,39 @@ accented({
   }
 });
 ```
+
+### `context`
+
+**Type:** see details below.
+
+**Default:** `document`.
+
+The `context` parameter for `axe.run()`.
+
+Determines what part(s) of the page to scan for accessibility issues.
+
+Accepts a variety of shapes:
+
+- a [`Node`](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in practice it will likely be an instance of [`Element`](https://developer.mozilla.org/en-US/docs/Web/API/Element), [`Document`](https://developer.mozilla.org/en-US/docs/Web/API/Document), or [`DocumentFragment`](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment));
+- a valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors);
+- an object for selecting elements within shadow DOM,
+  whose shape is `{ fromShadowDom: [selector1, selector2, ...] }`,
+  where `selector1`, `selector2`, etc. select shadow hosts, and the last selector selects the actual context.
+  `selector2` in this example is _within_ the shadow root created on the element(s) that match `selector1`,
+  so in practice you shouldn’t have more than two elements in such an array
+  unless you have a very complex structure with multiple shadow DOM layers;
+- a [`NodeList`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList) (likely a result of a [`querySelectorAll()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) call);
+- an array containing any combination of selectors, nodes, or shadow DOM objects (described above);
+- an object containing `include` and / or `exclude` properties.
+  It’s useful if you’d like to exclude certain elements or parts of the page.
+  The values for `include` and `exclude` can take any of the above shapes.
+  It’s unlikely that you’d want to have complex `include` / `exclude` rules,
+  but if you do, the exact behavior is documented by the relevant tests:
+  [`is-node-in-scan-context.test.ts`](https://github.com/pomerantsev/accented/blob/main/packages/accented/src/utils/is-node-in-scan-context.test.ts).
+
+See also the documentation for the [`context` parameter of `axe.run()`](https://www.deque.com/axe/core-documentation/api-documentation/#context-parameter),
+which the `context` option from Accented mostly mirrors
+(note that Accented doesn’t support the `fromFrames` object shape).
 
 ### `name`
 
@@ -130,6 +138,18 @@ accented({name: 'my-name'});
 
 With the above option provided, the attribute set on elements with issues will be `data-my-name`,
 a custom element will be called `my-name-trigger`, and so on.
+
+### `output`
+
+An object controlling how the results of scans will be presented.
+
+### `output.console`
+
+**Type:** boolean.
+
+**Default:** `true`.
+
+Whether the list of elements with issues should be printed to the browser console whenever issues are added, removed, or changed.
 
 ### `throttle`
 

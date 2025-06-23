@@ -2,7 +2,9 @@
 
 Continuous accessibility testing and issue highlighting for web development.
 
-TODO: visual demo.
+TODO: explanation of what it is. Copy from the NPM readme.
+
+TODO: screenshot + Stackblitz. Copy from the NPM readme.
 
 Accented helps you spot accessibility issues as they’re introduced in code.
 

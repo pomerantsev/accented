@@ -769,11 +769,41 @@ test.describe('Accented', () => {
       });
     });
 
-    test('callback', async ({ page }) => {
-      await page.goto('?callback&no-console');
-      const consoleMessage = await page.waitForEvent('console');
-      const arg1 = await consoleMessage.args()[0]?.jsonValue();
-      await expect(arg1).toEqual('Elements from callback:');
+    test.describe('callback', () => {
+      test('elements with issues', async ({ page }) => {
+        await page.goto('?callback&no-console');
+        const consoleMessage = await page.waitForEvent('console');
+        const arg1 = await consoleMessage.args()[0]?.jsonValue();
+        await expect(arg1).toEqual('Elements from callback:');
+      });
+
+      test('uses expected scan context', async ({ page }) => {
+        await page.goto('?disable&no-console&scan-context&throttle-wait=100&no-leading');
+        await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        await page.waitForEvent('console');
+
+        let contextLength: number | undefined;
+        let contextElementId: string | undefined;
+
+        page.on('console', async (message) => {
+          const args = message.args();
+          const { length, id } = await args[1]?.evaluate((scanContext) => {
+            return {
+              length: scanContext.length,
+              id: scanContext[0].id,
+            };
+          })!;
+          contextLength = length;
+          contextElementId = id;
+        });
+
+        await page.getByRole('button', { name: 'Add one element with an issue' }).click();
+
+        await page.waitForTimeout(500);
+
+        expect(contextLength).toBe(1);
+        expect(contextElementId).toBe('few-elements');
+      });
     });
 
     test('name', async ({ page }) => {
@@ -854,33 +884,6 @@ test.describe('Accented', () => {
   test.describe('performance', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('?disable&no-console&performance&throttle-wait=100&no-leading');
-    });
-
-    test('uses expected scan context', async ({ page }) => {
-      await page.getByRole('button', { name: 'Toggle Accented' }).click();
-      await page.waitForEvent('console');
-
-      let contextLength: number | undefined;
-      let contextElementId: string | undefined;
-
-      page.on('console', async (message) => {
-        const args = message.args();
-        const { length, id } = await args[1]?.evaluate((perfObject) => {
-          return {
-            length: perfObject.scanContext.length,
-            id: perfObject.scanContext[0].id,
-          };
-        })!;
-        contextLength = length;
-        contextElementId = id;
-      });
-
-      await page.getByRole('button', { name: 'Add one element with an issue' }).click();
-
-      await page.waitForTimeout(500);
-
-      expect(contextLength).toBe(1);
-      expect(contextElementId).toBe('few-elements');
     });
 
     type Duration = 'short' | 'long';
