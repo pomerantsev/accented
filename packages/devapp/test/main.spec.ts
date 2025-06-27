@@ -870,14 +870,30 @@ test.describe('Accented', () => {
       await expect(countWithoutButtonName).toBeLessThan(totalCount);
     });
 
-    test('context', async ({ page }) => {
-      await page.goto('/');
-      const totalCount = await page.locator(accentedSelector).count();
-      await expect(totalCount).toBeGreaterThan(0);
-      await page.goto('?axe-context-selector=button');
-      const countOnlyButtons = await page.locator(accentedSelector).count();
-      await expect(countOnlyButtons).toBeGreaterThan(1);
-      await expect(countOnlyButtons).toBeLessThan(totalCount);
+    test.describe('context', () => {
+      test('selector', async ({ page }) => {
+        await page.goto('/');
+        const totalCount = await page.locator(accentedSelector).count();
+        await expect(totalCount).toBeGreaterThan(0);
+        await page.goto('?axe-context-selector=button');
+        const countOnlyButtons = await page.locator(accentedSelector).count();
+        await expect(countOnlyButtons).toBeGreaterThan(1);
+        await expect(countOnlyButtons).toBeLessThan(totalCount);
+      });
+
+      test('element', async ({ page }) => {
+        await page.goto('/');
+        const totalCount = await page.locator(accentedSelector).count();
+        await expect(totalCount).toBeGreaterThan(0);
+        await page.goto('?axe-context-body');
+        const countOnlyButtons = await page.locator(accentedSelector).count();
+        await expect(countOnlyButtons).toBeGreaterThan(1);
+        await expect(countOnlyButtons).toBeLessThan(totalCount);
+
+        // Also implicitly testing that passing an element as context
+        // doesn't throw an error.
+        // This was happening when deepMerge was trying to merge two Node instances.
+      });
     });
   });
 
