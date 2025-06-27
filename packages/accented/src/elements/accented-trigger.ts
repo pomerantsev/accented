@@ -42,6 +42,8 @@ export const getAccentedTrigger = (name: string) => {
       #trigger {
         pointer-events: auto;
 
+        user-select: none;
+
         margin-inline-start: auto;
         margin-inline-end: 4px;
         margin-block-start: 4px;
