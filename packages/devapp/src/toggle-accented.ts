@@ -112,6 +112,10 @@ if (searchParams.has('axe-context-selector')) {
   options.context = searchParams.get('axe-context-selector')!;
 }
 
+if (searchParams.has('axe-context-body')) {
+  options.context = document.body;
+}
+
 if (!searchParams.has('disable')) {
   toggleAccentedInner(options);
 
