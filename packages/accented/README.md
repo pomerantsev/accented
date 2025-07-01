@@ -54,9 +54,9 @@ See the docs for your bundler or framework for how to run code only in the devel
 
 ## More info
 
-- [Accessibility](https://www.accented.dev/docs/accessibility/) (how accessible is Accented itself?)
-- [Performance](https://www.accented.dev/docs/performance/) (does Accented affect runtime performance of my app?)
-- [Browser support](https://www.accented.dev/docs/browser-support/) (will Accented work for me and my teammates?)
+- [Accessibility](https://www.accented.dev/docs/accessibility-statement/) (how accessible is Accented itself?)
+- [Performance](https://www.accented.dev/docs/how-accented-works/#performance) (does Accented affect runtime performance of my app?)
+- [Browser support](https://www.accented.dev/docs/browser-support-policy/) (will Accented work for me and my teammates?)
 - [Versioning policy](https://www.accented.dev/docs/versioning-policy/) (Accented follows [SemVer](https://semver.org/))
 - [Changelog](https://github.com/pomerantsev/accented/blob/main/packages/accented/CHANGELOG.md)
 
