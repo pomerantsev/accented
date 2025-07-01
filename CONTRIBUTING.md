@@ -149,7 +149,7 @@ TODO
 
 We’re using [Changesets](https://github.com/changesets/changesets) to automate the version and release process of Accented as much as possible.
 
-See Versioning policy (TODO: link) when making versioning decisions.
+See [Versioning policy](https://www.accented.dev/docs/versioning-policy/) when making versioning decisions.
 
 ### Marking a change that requires a version bump
 
