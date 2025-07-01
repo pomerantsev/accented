@@ -38,7 +38,7 @@ Accented only supports two keys of the `options` object:
 
 Both properties are optional, and both control which accessibility rules your page is tested against.
 
-See documentation: https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter
+See [axe-core `options` documentation](https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter).
 
 ### `callback`
 
@@ -67,13 +67,13 @@ It accepts a single `params` object with the following properties:
 
 **Example:**
 
-```
+```js
 accented({
   callback: ({ elementsWithIssues, performance, scanContext }) => {
-    console.log('Elements with issues:', elementsWithIssues);
-    console.log('Total blocking time:', performance.totalBlockingTime);
-    console.log('Scan context:', scanContext);
-  }
+    console.log("Elements with issues:", elementsWithIssues);
+    console.log("Total blocking time:", performance.totalBlockingTime);
+    console.log("Scan context:", scanContext);
+  },
 });
 ```
 
@@ -133,8 +133,10 @@ and it must start with a lowercase letter.
 
 **Example:**
 
-```
-accented({name: 'my-name'});
+```js
+accented({
+  name: "my-name",
+});
 ```
 
 With the above option provided, the attribute set on elements with issues will be `data-my-name`,
@@ -188,20 +190,8 @@ This may be useful if you’re expecting quick bursts of mutations on your page.
 
 ## Styling
 
-You can change some styling aspects of the elements that are added by Accented.
-It’s usually desirable to make such elements stand out on the page,
-so consider doing it if the defaults don’t provide enough contrast in your application.
-
-You can make the changes by setting certain CSS properties in your app, for example:
-
-```css
-:root {
-  --accented-primary-color: darkgreen;
-  --accented-outline-width: 3px;
-}
-```
-
-Accented uses the following props:
+You can control what some aspects of Accented UI look like
+by setting the following props in your application (see [Styling](/docs/installation-and-usage/#styling) in [Installation and usage](/docs/installation-and-usage/) for a discussion of when you might need this):
 
 - `--accented-primary-color`. The color of the outlines and of the trigger button background. Default: violet-red (`oklch(0.5 0.3 0)`).
 - `--accented-secondary-color`. Trigger button text color. Default: white (`oklch(0.98 0 0)`).

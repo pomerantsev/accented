@@ -84,8 +84,7 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
     if (enabled.value) {
       // Add link to the recipes section of the docs (#56).
       console.warn(
-        'You are trying to run the Accented library more than once. ' +
-          'This will likely lead to errors.',
+        'You are trying to run the Accented library more than once, which may lead to errors.',
       );
       console.trace();
     }

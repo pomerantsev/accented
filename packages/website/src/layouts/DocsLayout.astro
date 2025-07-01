@@ -12,7 +12,9 @@ const h1 = headings?.find(h => h.depth === 1);
 ---
 
 <MainLayout title={h1?.text}>
-  <TableOfContents />
+  <nav aria-label="Table of contents">
+    <TableOfContents />
+  </nav>
   <article class="flow">
     <slot />
   </article>

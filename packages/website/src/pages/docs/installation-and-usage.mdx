@@ -1,0 +1,270 @@
+---
+layout: ../../layouts/DocsLayout.astro
+---
+
+import StarterCode from '../../components/StarterCode.astro';
+
+# Installation and usage
+
+## Getting started
+
+### Install
+
+You have two main options for installing Accented.
+
+- As an NPM module (if you’re using a bundler).
+- From an ES module registry (no build step required).
+
+#### NPM
+
+Install with NPM (or with another package manager, such as PNPM or Yarn).
+
+```bash
+npm install --save-dev accented
+```
+
+Then import the package.
+
+```js
+import { accented } from 'accented';
+```
+
+#### ES module registry
+
+If you prefer to load Accented without a build step, consider using [esm.sh](https://esm.sh/) as a CDN:
+
+```js
+import { accented } from 'https://esm.sh/accented';
+```
+
+### Run in development mode
+
+Run Accented in development only.
+
+<div class="note">
+  Never run Accented in production:
+
+- It’s not your users who should be notified of accessibility issues, it’s you, the developer.
+- Accented’s browser support policy (TODO: link) may be different from that of your application,
+which may cause errors for some of your users.
+</div>
+
+Depending on your setup, checking whether the code is running in development or in production may look differently.
+
+Additionally, consider importing Accented dynamically, to ensure that its code is not included in the production bundle.
+
+### Starter code
+
+You can use this code as a starting point.
+
+<StarterCode />
+
+## Using in large projects
+
+Introducing Accented to a large codebase may present an organizational challenge.
+
+Similar to introducing linting, if initialized with no options (`accented();`),
+the output may be overwhelming, with dozens of issues reported per page.
+
+To avoid this, introduce Accented gradually, with a combination of the following:
+
+- **Use the [`context` option](/docs/api/#context) to limit scans to certain parts of the page.**
+  For example, you can start by scanning only certain components,
+  and then gradually expand the context to include more components.
+- **Use the [`axeOptions` option](/docs/api/#axeoptions) to include or exclude some axe rules.**
+  This can be useful if your app has many instances of a certain type of issue.
+  By initially excluding the rule for that issue,
+  you can make the output more manageable.
+
+In the future, Accented may have a console-only mode
+(see [issue #28](https://github.com/pomerantsev/accented/issues/28)),
+which would also make it easier to introduce Accented.
+If interested, please upvote the issue.
+
+## Using with frameworks (React, Vue, Angular, Svelte, etc.)
+
+Accented is fully framework-agnostic.
+It uses a mutation observer to detect changes in the DOM,
+and it doesn’t matter what causes those changes
+or how your application’s codebase is structured.
+
+That said, when using a framework, you have options:
+
+- **Call once during initialization (the simple option).**
+  Call `accented()` at any point during your app’s initialization. That’s it.
+- **Create a reusable component.**
+  Consider it if you need to scan different parts on different pages.
+  Here’s what such a component may look like in React:
+```jsx
+import { accented } from 'accented';
+import { useEffect, useRef } from 'react';
+
+// This component should only be used once per page.
+export function Accented({ children }) {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) {
+      /**
+       * containerRef.current is going to be null if we’re not in development mode,
+       * given what the component returns.
+       */
+      return;
+    }
+
+    const disable = accented({
+      // Initialize Accented only for the descendants of this element.
+      context: containerRef.current,
+    });
+
+    return () => {
+      /**
+       * It’s important to clean up when component is unmounted.
+       * If we don’t, Accented may be initialized more than once,
+       * potentially leading to unpredictable behavior.
+       */
+      disable();
+    };
+  }, []);
+
+  /**
+   * How `isDevelopment` is calculated depends on your setup.
+   * See https://www.accented.dev/docs/installation-and-usage/#run-in-development-mode
+   */
+  if (isDevelopment) {
+    return (
+      <div ref={containerRef}>
+        {children}
+      </div>
+    );
+  }
+
+  return children;
+}
+```
+
+## Using in CI (continuous integration)
+
+Accented is only meant for local development.
+It runs accessibility tests on the page
+that’s currently in the developer’s browser.
+
+However, if you additionally need something similar for CI,
+consider using [axe-core](https://www.npmjs.com/package/axe-core) in your automated test suite,
+either directly, or through wrappers such as [jest-axe](https://www.npmjs.com/package/jest-axe)
+or [axe-playwright](https://www.npmjs.com/package/axe-playwright)
+(depending on your test framework).
+
+## Improving performance
+
+Accented _may_ [negatively affect the performance](/docs/how-accented-works/#performance) of your application in development,
+however there are ways to make performance issues less perceptible.
+
+### Confirm that the issues are caused by Accented
+
+The following may indicate that Accented takes too long to run:
+
+- The page becomes slower to respond to user input.
+- Animations become choppy.
+
+To verify that the cause of these issues is indeed Accented,
+and not something else in your application,
+you can use the [`callback` option](/docs/api/#callback):
+
+```js
+accented({
+  callback: ({ performance }) => {
+    const { totalBlockingTime, scan, domUpdate } = performance;
+    console.log(
+      `Accented run took ${totalBlockingTime}ms (scan: ${scan}ms, DOM update: ${domUpdate}ms)`
+    );
+  },
+});
+```
+
+If `totalBlockingTime` is low (less than 100 ms),
+then Accented is probably not the cause of the performance issues.
+
+If it’s high (a few hundred milliseconds),
+try [changing run frequency (using `throttle`)](#change-run-frequency)
+or [disabling some axe rules (using `axeOptions`)](#disable-some-axe-rules).
+
+### Change run frequency
+
+Use the [`throttle` option](/docs/api/#throttle)
+to control the minimal timeout between consecutive scans
+and whether there should be a timeout between a mutation and a scan.
+
+For example, if your page has lots of elements,
+and user interactions are followed by JS-driven animations,
+consider offsetting the scan by the duration of the animation:
+```js
+accented({
+  throttle: {
+    wait: 500, // wait 500 ms to let animations finish
+    leading: false // don’t run the scan immediately after a mutation
+  }
+});
+```
+
+By changing `wait` and `leading` values,
+you can find a balance between Accented responsiveness and app performance.
+
+### Disable some axe rules
+
+If you find that even with a high `wait` value,
+Accented still takes too long to run,
+consider disabling some axe rules.
+
+You can do so if you don’t expect some types of issues to arise.
+
+For example, if you know you have a color scheme with high enough contrast,
+you may get a noticeable performance boost by disabling the [`color-contrast` rule](https://dequeuniversity.com/rules/axe/4.10/color-contrast)
+which is expensive to test for:
+```js
+accented({
+  axeOptions: {
+    rules: {
+      'color-contrast': { enabled: false }
+    }
+  }
+});
+```
+
+See [`axeOptions` documentation](/docs/api/#axeoptions) for more details.
+
+## Styling
+
+You can change some styling aspects of the elements that are added by Accented.
+It’s usually desirable to make such elements stand out on the page,
+so consider doing it if the defaults don’t provide enough contrast in your application.
+
+You can make the changes by setting certain CSS properties in your app, for example:
+
+```css
+:root {
+  --accented-primary-color: darkgreen;
+  --accented-outline-width: 3px;
+}
+```
+
+TODO: add screenshot.
+
+See full CSS API in the [Styling section](/docs/api/#styling) of the [API docs](/docs/api/).
+
+## Using Accented with iframes
+
+Accented doesn’t scan iframe contents.
+
+If you wish to scan the document that’s rendered inside an iframe,
+and you have control over that document,
+initialize Accented in that document.
+
+There will be no interference between the instances of Accented
+running in the parent and child documents.
+
+If you don’t control the child document,
+you won’t be able to run Accented there,
+and it wouldn’t be helpful anyway
+(because without controlling the document’s source,
+you wouldn’t be able to fix whatever issues Accented finds).

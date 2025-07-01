@@ -1,5 +1,9 @@
 ## Table of contents
 
-- [Getting started](/docs/getting-started/)
+- [Home](/)
+- [Installation and usage](/docs/installation-and-usage/)
 - [API reference](/docs/api/)
-- [Contributing](/docs/contributing/)
+- [How Accented works](/docs/how-accented-works/)
+- [Accessibility statement](/docs/accessibility-statement/)
+- [Versioning policy](/docs/versioning-policy/)
+- [Browser support policy](/docs/browser-support-policy/)
