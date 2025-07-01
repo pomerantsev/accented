@@ -5,7 +5,11 @@ export default defineConfig({
   srcDir: './src',
   outDir: './dist',
   publicDir: './public',
-  markdown: {},
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark-high-contrast',
+    },
+  },
   integrations: [mdx()],
   vite: {
     build: {

@@ -894,6 +894,9 @@ test.describe('Accented', () => {
         // doesn't throw an error.
         // This was happening when deepMerge was trying to merge two Node instances.
       });
+
+      // TODO: test other context types. They need to be tested,
+      // deepMerge is likely still not working correctly.
     });
   });
 

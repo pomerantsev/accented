@@ -1,3 +1,7 @@
+---
+layout: ../../layouts/DocsLayout.astro
+---
+
 # Versioning policy
 
 Accented strives to adhere to [SemVer](https://semver.org/).

@@ -40,12 +40,14 @@ export function createScanner(
       try {
         result = await axe.run(scanContext, {
           elementRef: true,
-          // Although axe-core can perform iframe scanning, I haven't succeeded in it,
-          // and the docs suggest that the axe-core script should be explicitly included
-          // in each of the iframed documents anyway.
-          // It seems preferable to disallow iframe scanning and not report issues in elements within iframes
-          // in the case that such issues are for some reason reported by axe-core.
-          // A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
+          /**
+           * Although axe-core can perform iframe scanning, I haven't succeeded in it,
+           * and the docs suggest that the axe-core script should be explicitly included
+           * in each of the iframed documents anyway.
+           * It seems preferable to disallow iframe scanning and not report issues in elements within iframes
+           * in the case that such issues are for some reason reported by axe-core.
+           * A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
+           */
           iframes: false,
           resultTypes: ['violations'],
           ...axeOptions,

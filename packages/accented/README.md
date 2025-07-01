@@ -67,3 +67,5 @@ Contributions are welcome!
 - See [CONTRIBUTING.md](https://github.com/pomerantsev/accented/blob/main/CONTRIBUTING.md) for setup instructions and guidelines.
 - Open an [issue](https://github.com/pomerantsev/accented/issues) or pull request if you spot a bug or want to propose a new feature.
 - See [Milestones](https://github.com/pomerantsev/accented/milestones) to learn about our plans for Accented.
+
+Have other ideas or feedback? Contact Pavel at [hello@pavelpomerantsev.com](mailto:hello@pavelpomerantsev.com).
