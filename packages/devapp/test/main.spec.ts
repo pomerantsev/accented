@@ -895,8 +895,10 @@ test.describe('Accented', () => {
         // This was happening when deepMerge was trying to merge two Node instances.
       });
 
-      // TODO: test other context types. They need to be tested,
-      // deepMerge is likely still not working correctly.
+      // TODO: test other context types.
+      // deepMerge may now be working correctly,
+      // but if `document` is no longer the default,
+      // things may break without us knowing.
     });
   });
 
