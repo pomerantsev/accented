@@ -84,9 +84,20 @@ body {
   background: var(--color-light);
   color: var(--color-dark);
   padding: 2em;
-  font-family: Georgia, serif;
+
+  font-family: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+
   font-size: var(--size-step-0);
   line-height: 1.7;
+}
+
+strong {
+  font-weight: 600;
 }
 
 a {
@@ -99,11 +110,24 @@ a {
 
 h1,
 h2,
-h3 {
-  font-family: Inter, sans-serif;
-  font-weight: 800;
+h3,
+h4 {
+  font-family: "Lora", Georgia, serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
   line-height: 1.1;
   text-wrap: balance;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h3,
+h4 {
+  font-weight: 500;
 }
 
 h1 {
@@ -131,6 +155,18 @@ blockquote {
   border-inline-start: 0.3em solid;
   font-style: italic;
   font-size: var(--size-step-1);
+}
+
+code {
+  font-family: "IBM Plex Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  font-weight: 400;
+  font-style: normal;
+
+  color: var(--color-primary);
+}
+
+:is(strong, h1, h2, h3, h4) code {
+  font-weight: 600;
 }
 
 /* Utilities */
@@ -163,7 +199,8 @@ h1 {
 }
 
 h2,
-h3 {
+h3,
+h4 {
   max-width: 28ch;
 }
 

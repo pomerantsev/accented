@@ -18,5 +18,9 @@ export default defineConfig({
         external: ['accented'],
       },
     },
+    server: {
+      // Allow ngrok access (I’m using it to allow access for ChatGPT)
+      allowedHosts: ['.accented.dev', 'localhost', '.ngrok-free.app'],
+    },
   },
 });

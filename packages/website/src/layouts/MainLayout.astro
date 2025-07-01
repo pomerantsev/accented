@@ -9,13 +9,24 @@ const isDev = import.meta.env.DEV;
 
 <html lang="en">
   <head>
+
     <meta charset="UTF-8" />
+
     <!-- Disallow indexing until I'm happy with the content. -->
     <meta name="robots" content="noindex">
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>{(title ? `${title} | ` : '') + 'Accented'}</title>
+
     <link rel="icon" href="/favicon.ico"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&IBM+Plex+Sans:wght@400,600&family=Lora:wght@500,600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="/styles/global.css" />
+
     <style is:global define:vars={{ primaryColor }}>
       :root {
         --color-primary: var(--primaryColor);
