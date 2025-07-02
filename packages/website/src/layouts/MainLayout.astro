@@ -1,6 +1,6 @@
 ---
 import Accented from '../components/Accented.astro';
-import { primaryColor } from 'common/tokens';
+import { primaryColorDark, primaryColorLight } from 'common/tokens';
 
 const { title } = Astro.props;
 
@@ -21,15 +21,16 @@ const isDev = import.meta.env.DEV;
 
     <link rel="icon" href="/favicon.ico"/>
 
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&IBM+Plex+Sans:wght@400,600&family=Lora:wght@500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&IBM+Plex+Sans:wght@400;600&family=Lora:wght@500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/styles/global.css" />
 
-    <style is:global define:vars={{ primaryColor }}>
+    <style is:global define:vars={{ primaryColorDark, primaryColorLight }}>
       :root {
-        --color-primary: var(--primaryColor);
+        --color-primary: light-dark(var(--primaryColorDark), var(--primaryColorLight));
       }
     </style>
   </head>

@@ -1,5 +1,5 @@
 import { effect } from '@preact/signals-core';
-import { primaryColor } from './common/tokens.js';
+import { primaryColorDark } from './common/tokens.js';
 import { extendedElementsWithIssues, rootNodes } from './state.js';
 import type { ExtendedElementWithIssues } from './types.ts';
 import { areElementsWithIssuesEqual } from './utils/are-elements-with-issues-equal.js';
@@ -104,7 +104,7 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
       :root {
         /* Ensure that the primary / secondary color combination meets WCAG 1.4.3 Contrast (Minimum) */
         /* OKLCH stuff: https://oklch.com/ */
-        --${name}-primary-color: ${primaryColor};
+        --${name}-primary-color: ${primaryColorDark};
         --${name}-secondary-color: oklch(0.98 0 0);
         --${name}-outline-width: 2px;
         --${name}-outline-style: solid;

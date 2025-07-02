@@ -67,22 +67,46 @@ select {
   }
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 0.3ex;
+}
+
 /* @link https://utopia.fyi/type/calculator?c=320,18,1.25,1240,18,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
 :root {
-  --color-dark: #252525;
-  --color-light: #efefef;
-  --color-primary: #1a8fe3;
-  --size-step-0: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
-  --size-step-1: clamp(1.25rem, calc(1.16rem + 0.43vw), 1.5rem);
-  --size-step-2: clamp(1.56rem, calc(1.41rem + 0.76vw), 2rem);
-  --size-step-3: clamp(1.95rem, calc(1.71rem + 1.24vw), 2.66rem);
-  --size-step-4: clamp(2.44rem, calc(2.05rem + 1.93vw), 3.55rem);
+  color-scheme: light dark;
+
+  /* TODO: share these with the library */
+  --color-dark: oklch(0.22 0 0);
+  --color-light: oklch(0.98 0 0);
+
+  --color-text: light-dark(var(--color-dark), var(--color-light));
+  --color-background: light-dark(var(--color-light), var(--color-dark));
+
+  --base-size: max(1rem, 16px);
+  --ratio: 1.2;
+  --size-step-0: var(--base-size);
+  --size-step-1: calc(var(--size-step-0) * var(--ratio));
+  --size-step-2: calc(var(--size-step-1) * var(--ratio));
+  --size-step-3: calc(var(--size-step-2) * var(--ratio));
+  --size-step-4: calc(var(--size-step-3) * var(--ratio));
+  --size-step--1: calc(var(--size-step-0) / var(--ratio));
+
+  --space-3xs: calc(0.25 * var(--base-size));
+  --space-2xs: calc(0.5 * var(--base-size));
+  --space-xs: calc(0.75 * var(--base-size));
+  --space-s: var(--base-size);
+  --space-m: calc(1.5 * var(--base-size));
+  --space-l: calc(2 * var(--base-size));
+  --space-xl: calc(3 * var(--base-size));
+  --space-2xl: calc(4 * var(--base-size));
+  --space-3xl: calc(6 * var(--base-size));
 }
 
 body {
-  background: var(--color-light);
-  color: var(--color-dark);
+  background: var(--color-background);
+  color: var(--color-text);
   padding: 2em;
 
   font-family: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -102,10 +126,13 @@ strong {
 
 a {
   color: currentColor;
-  -webkit-text-decoration-color: var(--color-primary);
   text-decoration-color: var(--color-primary);
-  text-decoration-thickness: 0.3ex;
+  text-decoration-thickness: 0.2ex;
   text-underline-offset: 0.3ex;
+}
+
+a:hover {
+  text-decoration-thickness: 0.4ex;
 }
 
 h1,
@@ -216,6 +243,28 @@ h4 {
   --flow-space: 2em;
 }
 
+.note,
+.astro-code {
+  border-radius: 0.5rem;
+  padding: var(--space-s);
+  margin-inline: calc(-1 * var(--space-s));
+}
+
 .note {
-  background-color: oklch(0.8 0.16 90);
+  /* TODO: can we reuse some color constants here? */
+  background-color: light-dark(oklch(0.98 0.16 90), oklch(0.3 0.16 90));
+  border: 1px solid oklch(0.7 0.16 90);
+
+  &::before {
+    content: "Note";
+    display: block;
+    font-size: var(--size-step-1);
+    font-weight: 600;
+  }
+}
+
+.astro-code {
+  @media (prefers-color-scheme: dark) {
+    border: 1px solid var(--color-text);
+  }
 }
