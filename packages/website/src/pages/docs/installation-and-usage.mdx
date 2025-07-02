@@ -6,6 +6,8 @@ import StarterCode from '../../components/StarterCode.astro';
 
 # Installation and usage
 
+Learn the basics of using Accented in your web application.
+
 ## Getting started
 
 ### Install
@@ -15,7 +17,7 @@ You have two main options for installing Accented.
 - As an NPM module (if you’re using a bundler).
 - From an ES module registry (no build step required).
 
-#### NPM
+**NPM:**
 
 Install with NPM (or with another package manager, such as PNPM or Yarn).
 
@@ -29,7 +31,7 @@ Then import the package.
 import { accented } from 'accented';
 ```
 
-#### ES module registry
+**ES module registry:**
 
 If you prefer to load Accented without a build step, consider using [esm.sh](https://esm.sh/) as a CDN:
 
@@ -45,8 +47,8 @@ Run Accented in development only.
   Never run Accented in production:
 
 - It’s not your users who should be notified of accessibility issues, it’s you, the developer.
-- Accented’s browser support policy (TODO: link) may be different from that of your application,
-which may cause errors for some of your users.
+- Accented’s [browser support policy](/docs/browser-support-policy/) may be different from that of your application,
+which in turn may cause errors for some of your users on older browsers.
 </div>
 
 Depending on your setup, checking whether the code is running in development or in production may look differently.
