@@ -39,7 +39,13 @@ export function createScanner(
 
       try {
         result = await axe.run(scanContext, {
+          /**
+           * By default, axe-core doesn't include element refs
+           * in the violations array,
+           * and we need those element refs.
+           */
           elementRef: true,
+
           /**
            * Although axe-core can perform iframe scanning, I haven't succeeded in it,
            * and the docs suggest that the axe-core script should be explicitly included
@@ -49,7 +55,24 @@ export function createScanner(
            * A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
            */
           iframes: false,
+
+          /**
+           * The `preload` docs are not clear to me,
+           * but when it's set to `true` by default,
+           * axe-core tries to fetch cross-origin CSS,
+           * which fails in the absence of CORS headers.
+           * I'm not sure why axe-core needs to preload
+           * those resources in the first place,
+           * so disabling it seems to be the safe option.
+           */
+          preload: false,
+
+          /**
+           * We're only interested in violations,
+           * not in passes or incomplete results.
+           */
           resultTypes: ['violations'],
+
           ...axeOptions,
         });
       } catch (error) {
