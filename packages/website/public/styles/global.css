@@ -216,6 +216,7 @@ code {
 article {
   max-width: 65ch;
   margin-inline: auto;
+  margin-block-start: var(--space-3xl);
 }
 
 blockquote {
