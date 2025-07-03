@@ -1,14 +1,71 @@
-<style>
+---
+const { pathname } = Astro.url;
 
+const menuItems = [
+  { href: '/getting-started/', text: 'Getting started' },
+  { href: '/api/', text: 'API' },
+  { href: '/how-it-works/', text: 'How it works' },
+  { href: '/about/', text: 'About' },
+];
+---
+<style>
+  header {
+    padding: var(--space-s) var(--space-l);
+  }
+
+  nav {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: var(--space-s);
+
+    @media (min-width: 50em) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  nav > :first-child {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+
+    font-weight: 600;
+
+    img {
+      inline-size: var(--size-step-2);
+    }
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2xs) var(--space-m);
+    flex-wrap: wrap;
+  }
+
+  a:not([aria-current="page"]):not(:hover) {
+    text-decoration: none;
+  }
 </style>
 <header>
   <nav aria-label="Menu">
-    <ul>
-      <li><a href="/">(TODO: logo) Accented</a></li>
-      <li><a href="/getting-started/">Getting started</a></li>
-      <li><a href="/api/">API</a></li>
-      <li><a href="/how-it-works/">How it works</a></li>
-      <li><a href="/about/">About</a></li>
+    <a href="/">
+      <img src="/images/logo.svg" alt="" width="32">
+      Accented
+    </a>
+    <ul role="list">
+      {menuItems.map(item => (
+        <li>
+          <a href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>
+            {item.text}
+          </a>
+        </li>
+      ))}
     </ul>
   </nav>
 </header>

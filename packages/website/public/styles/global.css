@@ -30,6 +30,8 @@ html:focus-within {
 }
 
 body {
+  max-width: 60rem;
+  margin-inline: auto;
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
@@ -107,7 +109,6 @@ select {
 body {
   background: var(--color-background);
   color: var(--color-text);
-  padding: 2em;
 
   font-family: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", sans-serif;
