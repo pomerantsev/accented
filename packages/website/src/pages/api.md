@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/DocsLayout.astro
+layout: ../layouts/DocsLayout.astro
 ---
 
 # API
@@ -191,7 +191,7 @@ This may be useful if you’re expecting quick bursts of mutations on your page.
 ## Styling
 
 You can control what some aspects of Accented UI look like
-by setting the following props in your application (see [Styling](/docs/installation-and-usage/#styling) in [Installation and usage](/docs/installation-and-usage/) for a discussion of when you might need this):
+by setting the following props in your application (see [Styling](/getting-started/#styling) in [Installation and usage](/getting-started/) for a discussion of when you might need this):
 
 - `--accented-primary-color`. The color of the outlines and of the trigger button background. Default: violet-red (`oklch(0.5 0.3 0)`).
 - `--accented-secondary-color`. Trigger button text color. Default: white (`oklch(0.98 0 0)`).

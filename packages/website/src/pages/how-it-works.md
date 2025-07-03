@@ -1,8 +1,8 @@
 ---
-layout: ../../layouts/DocsLayout.astro
+layout: ../layouts/DocsLayout.astro
 ---
 
-# How Accented works
+# How it works
 
 This document discusses how Accented works under the hood,
 why it’s built in a certain way,

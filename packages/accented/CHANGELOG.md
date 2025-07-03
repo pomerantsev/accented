@@ -2,7 +2,7 @@
 
 Accented strives to adhere to [SemVer](https://semver.org/).
 
-See [Versioning policy](https://www.accented.dev/docs/versioning-policy/).
+See [Versioning policy](https://www.accented.dev/about/#versioning).
 
 ## 0.0.2
 

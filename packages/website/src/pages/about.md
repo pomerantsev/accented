@@ -1,0 +1,73 @@
+---
+layout: ../layouts/DocsLayout.astro
+---
+
+# About
+
+## Accessibility
+
+Accented adds its own user interface elements to a host application:
+for each element with accessibility issues within the host application,
+it adds a button which opens a dialog with issue descriptions.
+
+We strive to make those elements as accessible as possible.
+
+- Elements added by Accented are easy to navigate with keyboard only.
+- Elements have logical semantic structures.
+- Interactive elements (including links and buttons) have meaningful names.
+- Language of elements (currently only English) is properly specified.
+- Color combinations have sufficient contrast.
+- Interactive elements are large enough for touch navigation,
+  and no content is presented only on hover.
+- Content can be resized without requiring horizontal scrolling.
+- Browser font size settings are respected (all font sizes are defined in `em` / `rem` units).
+
+We take accessibility seriously, using [WCAG 2.2](https://www.w3.org/TR/WCAG22/) (level AA) as the baseline
+and going beyond it to follow relevant best practices and community feedback.
+
+If you encounter an accessibility issue within Accented itself or have suggestions,
+please open [an issue on GitHub](https://github.com/pomerantsev/accented/issues)
+or contact Pavel directly at [hello@pavelpomerantsev.com](mailto:hello@pavelpomerantsev.com).
+
+## Browser support
+
+Accented aims to support the **2 latest major versions** of **Chrome, Safari, and Firefox.**
+
+Specifically for **Safari** (the only major browser in which minor versions differ in the level of Web Platform feature support),
+**2 latest minor versions** will be supported **within each supported major version.**
+For example, if 18.5 is the latest version, Accented will support 17.5, 17.6, 18.4, and 18.5.
+
+Accented has a suite of [Playwright](https://playwright.dev/) tests that run in the latest Chrome, Safari, and Firefox before a new version of the library is published.
+
+Accented maintainers may explicitly choose to remove fallback code for a modern browser feature as soon as all supported browsers support such a feature.
+We assume that most developers keep their development browsers up to date.
+At the same time, if the major browser version is tied to the OS version (as is the case with Safari),
+staying up to date may be more challenging,
+hence the necessity to support a browser that may be more than a year old.
+
+## Versioning
+
+Accented strives to adhere to [SemVer](https://semver.org/).
+
+In practice, here’s how we decide whether to make a major, minor, or patch version bump.
+
+**Major:**
+
+- A breaking API change.
+
+**Minor:**
+
+- A non-breaking (additive) API change.
+- A change in behavior that’s not a bug fix (for example, when Accented starts reporting a new class of issues).
+
+**Patch:**
+
+- A bug fix.
+- A performance improvement.
+- A UI improvement.
+- A runtime or build-time dependency bump (presuming that an upgrade of a build-time dependency, such as TypeScript, may affect the code that’s surfaced to consumers).
+- A fix in the Readme that's published on NPM.
+
+**No version change:**
+
+- Bumping a dependency that only affects the development or testing workflow (for example, JSDOM).
