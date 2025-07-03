@@ -3,6 +3,8 @@
 
 // TODO: We can likely do better than a bunch of radio buttons.
 
+import { Code } from 'astro:components';
+
 type Bundler = {
   name: string;
   value: string;
@@ -90,6 +92,8 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
            `if (${bundler.condition}) {\n` +
            `  accented();\n` +
            `}`;
+  } else {
+    throw new Error('Unknown import type: ' + importType);
   }
 }
 ---
@@ -139,12 +143,14 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
     </fieldset>
     <!-- TODO: make sure the change in the output is communicated to a screen reader. -->
     <div>
-      <!-- TODO: am I using the right tags here? -->
-      <pre><code>{getCodeSnippet(
+      <Code
+        code={getCodeSnippet(
           options.bundlers.find(b => b.checked),
           options.imports.find(i => i.checked)?.value,
           options.sources.find(s => s.checked)
-        )}</code></pre>
+        )}
+        lang="js"
+      />
     </div>
   </form>
 </starter-code>
@@ -166,6 +172,8 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
             `if (${bundler.condition}) {\n` +
             `  accented();\n` +
             `}`;
+    } else {
+      throw new Error('Unknown import type: ' + importType);
     }
   }
 

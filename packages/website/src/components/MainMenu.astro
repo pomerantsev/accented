@@ -10,7 +10,10 @@ const menuItems = [
 ---
 <style>
   header {
-    padding: var(--space-s) var(--space-l);
+    padding-block: var(--space-s);
+    @media (min-width: 50em) {
+      padding-block: var(--space-l);
+    }
   }
 
   nav {
