@@ -1,4 +1,5 @@
 ---
+import MainMenu from '../components/MainMenu.astro';
 import Accented from '../components/Accented.astro';
 import { primaryColorDark, primaryColorLight } from 'common/tokens';
 
@@ -35,9 +36,11 @@ const isDev = import.meta.env.DEV;
     </style>
   </head>
   <body>
+    <MainMenu />
     <main>
       <slot />
     </main>
+    <!-- TODO: footer -->
     {isDev && <Accented />}
   </body>
 </html>

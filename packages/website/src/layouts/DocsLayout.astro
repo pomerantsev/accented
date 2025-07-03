@@ -1,6 +1,6 @@
 ---
 import MainLayout from './MainLayout.astro';
-import {Content as TableOfContents} from '../components/table-of-contents.md';
+import TableOfContents from '../components/TableOfContents.astro';
 
 type Heading = {
   depth: number;
@@ -13,7 +13,7 @@ const h1 = headings?.find(h => h.depth === 1);
 
 <MainLayout title={h1?.text}>
   <nav aria-label="Table of contents">
-    <TableOfContents />
+    <TableOfContents headings={headings} />
   </nav>
   <article class="flow">
     <slot />

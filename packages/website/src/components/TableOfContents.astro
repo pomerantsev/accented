@@ -1,0 +1,57 @@
+---
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+const { headings } = Astro.props as { headings: Array<Heading> };
+
+type TocItem = {
+  text: string;
+  slug: string;
+  children?: Array<TocItem>;
+}
+
+let currentIndex = 0;
+
+function createTocItem(heading: Heading, parent: TocItem | null): TocItem {
+  const item: TocItem = {
+    text: heading.text,
+    slug: heading.slug,
+  };
+
+  if (parent) {
+    parent.children ??= [];
+    parent.children.push(item);
+  }
+
+  currentIndex += 1;
+
+  while (currentIndex < headings.length && headings[currentIndex].depth > heading.depth) {
+    const childHeading = headings[currentIndex];
+    createTocItem(childHeading, item);
+  }
+
+  return item;
+}
+
+const toc = createTocItem(headings[currentIndex], null);
+---
+
+<p>On this page:</p>
+<ul>
+  {toc.children?.map(item => (
+    <li>
+      <a href={`#${item.slug}`}>{item.text}</a>
+      {item.children && item.children.length > 0 && (
+        <ul>
+          {item.children.map(child => (
+            <li>
+              <a href={`#${child.slug}`}>{child.text}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>
