@@ -35,6 +35,10 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  padding-inline: var(--space-l);
+  @media (min-width: 50em) {
+    padding-inline: var(--space-2xl);
+  }
 }
 
 a:not([class]) {
@@ -197,6 +201,13 @@ code {
   font-weight: 600;
 }
 
+main {
+  margin-block-start: var(--space-l);
+  @media (min-width: 50em) {
+    margin-block-start: var(--space-2xl);
+  }
+}
+
 /* Utilities */
 .flow > * + * {
   -webkit-margin-before: var(--flow-space, 1em);
@@ -216,7 +227,6 @@ code {
 article {
   max-width: 65ch;
   margin-inline: auto;
-  margin-block-start: var(--space-3xl);
 }
 
 blockquote {

@@ -7,15 +7,8 @@ type Heading = {
 
 const matches = await import.meta.glob('../pages/*.md(x)?', {eager: true});
 const pages = Object.values(matches) as Array<{url: string, getHeadings: () => Array<Heading>}>;
-// console.log('url', pages[0].url);
-// console.log('Astro.url.pathname', Astro.url.pathname);
 const currentPage = pages.find(page => page.url === Astro.url.pathname.replace(/^(.+)\/$/, '$1'));
-// console.log('currentPage', currentPage);
 const headings = currentPage?.getHeadings() || [];
-// console.log('headings', headings);
-
-
-// const { headings } = Astro.props as { headings: Array<Heading> };
 
 type TocItem = {
   text: string;
@@ -48,7 +41,15 @@ function createTocItem(heading: Heading, parent: TocItem | null): TocItem {
 
 const toc = createTocItem(headings[currentIndex], null);
 ---
-
+<style>
+  a {
+    /* TODO: share these values with the rest of the site. */
+    color: light-dark(oklch(0.45 0.25 230), oklch(0.8 0.25 230));
+  }
+  a:not(:hover) {
+    text-decoration: none;
+  }
+</style>
 <p>On this page:</p>
 <nav aria-label="Table of contents">
   <ul>
