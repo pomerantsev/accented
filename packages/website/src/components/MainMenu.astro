@@ -10,9 +10,29 @@ const menuItems = [
 ---
 <style>
   header {
+    position: relative;
+
     padding-block: var(--space-s);
     @media (min-width: 50em) {
       padding-block: var(--space-l);
+    }
+  }
+
+  #skip-link {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    text-decoration-color: currentColor;
+    font-weight: 600;
+
+    padding: var(--space-2xs) var(--space-s);
+
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: 100%;
+
+    &:focus {
+      inset-block-end: unset;
+      inset-block-start: var(--space-s);
     }
   }
 
@@ -52,16 +72,17 @@ const menuItems = [
     flex-wrap: wrap;
   }
 
-  a:where(:not([aria-current="page"])) {
+  nav a:where(:not([aria-current="page"])) {
     text-decoration-line: none;
   }
   @media (hover: hover) {
-    a:hover {
+    nav a:hover {
       text-decoration-line: underline;
     }
   }
 </style>
 <header>
+  <a id="skip-link" href="#main-content">Skip to main content</a>
   <nav aria-label="Menu">
     <a href="/">
       <img src="/images/logo.svg" alt="" width="32">
