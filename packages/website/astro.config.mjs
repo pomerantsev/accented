@@ -5,6 +5,7 @@ export default defineConfig({
   srcDir: './src',
   outDir: './dist',
   publicDir: './public',
+  site: 'https://www.accented.dev',
   markdown: {
     shikiConfig: {
       theme: 'github-dark-high-contrast',
