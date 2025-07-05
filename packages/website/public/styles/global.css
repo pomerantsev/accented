@@ -136,8 +136,16 @@ a {
   text-underline-offset: 0.3ex;
 }
 
-a:hover {
-  text-decoration-thickness: 0.4ex;
+a:active {
+  --background-color: oklch(from currentColor l c h / 0.2);
+  background-color: var(--background-color);
+  box-shadow: 0 0 0 0.3em var(--background-color);
+}
+
+@media (hover: hover) {
+  a:hover {
+    text-decoration-thickness: 0.4ex;
+  }
 }
 
 h1,

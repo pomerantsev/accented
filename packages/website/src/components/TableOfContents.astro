@@ -42,15 +42,22 @@ function createTocItem(heading: Heading, parent: TocItem | null): TocItem {
 const toc = createTocItem(headings[currentIndex], null);
 ---
 <style>
-  a {
+  nav {
+    border-inline-start: 0.2em solid oklch(from var(--color-text) l c h / 0.5);
+    padding-inline-start: var(--space-s);
+
     /* TODO: share these values with the rest of the site. */
     color: light-dark(oklch(0.45 0.25 230), oklch(0.8 0.25 230));
   }
-  a:not(:hover) {
-    text-decoration: none;
+  a {
+    text-decoration-line: none;
+  }
+  @media (hover: hover) {
+    a:hover {
+      text-decoration-line: underline;
+    }
   }
 </style>
-<p>On this page:</p>
 <nav aria-label="Table of contents">
   <ul>
     {toc.children?.map(item => (

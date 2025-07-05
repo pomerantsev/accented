@@ -77,6 +77,7 @@ export const getAccentedTrigger = (name: string) => {
           outline-style: solid;
         }
 
+        /* We should probably be comfortable with showing these styles on non-hover devices. */
         &:hover:not(:focus-visible) {
           outline-style: dashed;
         }

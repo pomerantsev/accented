@@ -51,8 +51,13 @@ const menuItems = [
     flex-wrap: wrap;
   }
 
-  a:not([aria-current="page"]):not(:hover) {
-    text-decoration: none;
+  a:where(:not([aria-current="page"])) {
+    text-decoration-line: none;
+  }
+  @media (hover: hover) {
+    a:hover {
+      text-decoration-line: underline;
+    }
   }
 </style>
 <header>
