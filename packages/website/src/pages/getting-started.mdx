@@ -50,7 +50,7 @@ Run Accented in development only.
   Never run Accented in production:
 
 - It’s not your users who should be notified of accessibility issues, it’s you, the developer.
-- Accented’s [browser support policy](/about/#browser-support) may be different from that of your application,
+- Accented’s [browser support policy](/about#browser-support) may be different from that of your application,
 which in turn may cause errors for some of your users on older browsers.
 </div>
 
@@ -73,10 +73,10 @@ the output may be overwhelming, with dozens of issues reported per page.
 
 To avoid this, introduce Accented gradually, with a combination of the following:
 
-- **Use the [`context` option](/api/#context) to limit scans to certain parts of the page.**
+- **Use the [`context` option](/api#context) to limit scans to certain parts of the page.**
   For example, you can start by scanning only certain components,
   and then gradually expand the context to include more components.
-- **Use the [`axeOptions` option](/api/#axeoptions) to include or exclude some axe rules.**
+- **Use the [`axeOptions` option](/api#axeoptions) to include or exclude some axe rules.**
   This can be useful if your app has many instances of a certain type of issue.
   By initially excluding the rule for that issue,
   you can make the output more manageable.
@@ -134,7 +134,7 @@ export function Accented({ children }) {
 
   /**
    * How `isDevelopment` is calculated depends on your setup.
-   * See https://www.accented.dev/getting-started/#run-in-development-mode
+   * See https://www.accented.dev/getting-started#run-in-development-mode
    */
   if (isDevelopment) {
     return (
@@ -162,7 +162,7 @@ or [axe-playwright](https://www.npmjs.com/package/axe-playwright)
 
 ## Improving performance
 
-Accented _may_ [negatively affect the performance](/how-it-works/#performance) of your application in development,
+Accented _may_ [negatively affect the performance](/how-it-works#performance) of your application in development,
 however there are ways to make performance issues less perceptible.
 
 ### Confirm that the issues are caused by Accented
@@ -174,7 +174,7 @@ The following may indicate that Accented takes too long to run:
 
 To verify that the cause of these issues is indeed Accented,
 and not something else in your application,
-you can use the [`callback` option](/api/#callback):
+you can use the [`callback` option](/api#callback):
 
 ```js
 accented({
@@ -196,7 +196,7 @@ or [disabling some axe rules (using `axeOptions`)](#disable-some-axe-rules).
 
 ### Change run frequency
 
-Use the [`throttle` option](/api/#throttle)
+Use the [`throttle` option](/api#throttle)
 to control the minimal timeout between consecutive scans
 and whether there should be a timeout between a mutation and a scan.
 
@@ -236,7 +236,7 @@ accented({
 });
 ```
 
-See [`axeOptions` documentation](/api/#axeoptions) for more details.
+See [`axeOptions` documentation](/api#axeoptions) for more details.
 
 ## Styling
 
@@ -255,7 +255,7 @@ You can make the changes by setting certain CSS properties in your app, for exam
 
 TODO: add screenshot.
 
-See full CSS API in the [Styling section](/api/#styling) of the [API docs](/api/).
+See full CSS API in the [Styling section](/api#styling) of the [API docs](/api).
 
 ## Using Accented with iframes
 

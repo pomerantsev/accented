@@ -49,15 +49,15 @@ It’s only meant to be used in development.
 
 See the docs for your bundler or framework for how to run code only in the development environment.
 
-- [More detailed installation and usage guide](https://www.accented.dev/getting-started/)
-- [Full API](https://www.accented.dev/api/)
+- [More detailed installation and usage guide](https://www.accented.dev/getting-started)
+- [Full API](https://www.accented.dev/api)
 
 ## More info
 
-- [Accessibility](https://www.accented.dev/about/#accessibility) (how accessible is Accented itself?)
-- [Performance](https://www.accented.dev/how-it-works/#performance) (does Accented affect runtime performance of my app?)
-- [Browser support](https://www.accented.dev/about/#browser-support) (will Accented work for me and my teammates?)
-- [Versioning policy](https://www.accented.dev/about/#versioning) (Accented follows [SemVer](https://semver.org/))
+- [Accessibility](https://www.accented.dev/about#accessibility) (how accessible is Accented itself?)
+- [Performance](https://www.accented.dev/how-it-works#performance) (does Accented affect runtime performance of my app?)
+- [Browser support](https://www.accented.dev/about#browser-support) (will Accented work for me and my teammates?)
+- [Versioning policy](https://www.accented.dev/about#versioning) (Accented follows [SemVer](https://semver.org/))
 - [Changelog](https://github.com/pomerantsev/accented/blob/main/packages/accented/CHANGELOG.md)
 
 ## Contributing
