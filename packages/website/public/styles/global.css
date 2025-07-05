@@ -257,9 +257,8 @@ h4 {
 
 .note,
 .astro-code {
-  border-radius: 0.5rem;
+  scrollbar-width: thin;
   padding: var(--space-s);
-  margin-inline: calc(-1 * var(--space-s));
 }
 
 .note {
@@ -276,7 +275,5 @@ h4 {
 }
 
 .astro-code {
-  @media (prefers-color-scheme: dark) {
-    border: 1px solid var(--color-text);
-  }
+  border: 1px solid var(--color-text);
 }
