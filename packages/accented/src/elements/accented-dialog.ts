@@ -124,6 +124,7 @@ export const getAccentedDialog = () => {
         outline-style: solid;
       }
 
+      /* We should probably be comfortable with showing these styles on non-hover devices. */
       &:hover:not(:focus-visible) {
         outline-style: dashed;
       }
