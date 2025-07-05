@@ -134,6 +134,8 @@ a {
   text-decoration-color: var(--color-primary);
   text-decoration-thickness: 0.2ex;
   text-underline-offset: 0.3ex;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 a:active {
