@@ -1,11 +1,16 @@
 ---
 const { pathname } = Astro.url;
 
+import Github from './icons/Github.astro';
+
 const menuItems = [
   { href: '/getting-started', text: 'Getting started' },
   { href: '/api', text: 'API' },
   { href: '/how-it-works', text: 'How it works' },
   { href: '/about', text: 'About' },
+  /* TODO: { href: '/blog', text: 'Blog' }, */
+  { href: 'https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx', text: 'Playground', external: true },
+  { href: 'https://github.com/pomerantsev/accented', icon: 'Github' },
 ];
 ---
 <style>
@@ -42,7 +47,7 @@ const menuItems = [
     flex-direction: column;
     align-items: center;
 
-    gap: var(--space-s);
+    gap: var(--space-2xs);
 
     @media (min-width: 50em) {
       flex-direction: row;
@@ -72,13 +77,27 @@ const menuItems = [
     flex-wrap: wrap;
   }
 
-  nav a:where(:not([aria-current="page"])) {
+  nav a {
     text-decoration-line: none;
+  }
+
+  nav a[aria-current="page"] {
+    border-bottom: 2px solid var(--color-primary);
   }
   @media (hover: hover) {
     nav a:hover {
-      text-decoration-line: underline;
+      color: var(--color-primary);
     }
+  }
+
+  .icon {
+    display: inline-block;
+    inline-size: 1em;
+    vertical-align: middle;
+  }
+
+  a.external::after {
+    content: '↗';
   }
 </style>
 <header>
@@ -91,9 +110,26 @@ const menuItems = [
     <ul role="list">
       {menuItems.map(item => (
         <li>
-          <a href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>
-            {item.text}
-          </a>
+          {(() => {
+            if (item.icon === 'Github') {
+              return (
+                <a href={item.href} aria-label="Github">
+                  <span class="icon">
+                    <Github />
+                  </span>
+                </a>
+              );
+            }
+            return (
+              <a
+                href={item.href}
+                aria-current={pathname === item.href ? 'page' : undefined}
+                class={item.external ? 'external' : ''}
+              >
+                {item.text}
+              </a>
+            );
+          })()}
         </li>
       ))}
     </ul>
