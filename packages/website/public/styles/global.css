@@ -45,10 +45,8 @@ a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
-img,
-picture {
-  max-width: 100%;
-  display: block;
+article :is(img, picture) {
+  border: 2px solid currentColor;
 }
 
 input,
