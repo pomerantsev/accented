@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
-    "astro": "^5.8.1",
-    "common": "workspace:*"
+    "astro": "^5.11.0",
+    "common": "workspace:*",
+    "sharp": "^0.34.2"
   },
   "devDependencies": {
     "accented": "workspace:*",
