@@ -208,10 +208,20 @@ code {
   font-weight: 600;
 }
 
-main {
+main,
+footer {
   margin-block-start: var(--space-l);
   @media (min-width: 50em) {
     margin-block-start: var(--space-2xl);
+  }
+}
+
+footer {
+  border-block-start: 1px solid gray;
+
+  padding-block: var(--space-s);
+  @media (min-width: 50em) {
+    padding-block: var(--space-l);
   }
 }
 
