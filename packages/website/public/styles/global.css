@@ -227,17 +227,16 @@ footer {
 
 /* Utilities */
 .flow > * + * {
-  -webkit-margin-before: var(--flow-space, 1em);
-  margin-block-start: var(--flow-space, 1em);
+  margin-block-start: var(--flow-space, 1rem);
 }
 
-/* Flow and rythm */
-:is(h1, h2, h3, blockquote) {
-  --flow-space: 1.5em;
+/* Flow and rhythm */
+:not(h1, h2, h3) + h2 {
+  --flow-space: 2rem;
 }
 
-:is(h1, h2, h3) + * {
-  --flow-space: 0.5em;
+:not(h1, h2, h3) + h3 {
+  --flow-space: 1.5rem;
 }
 
 /* Line lengths */
