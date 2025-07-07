@@ -89,7 +89,7 @@ select {
   --color-background: light-dark(var(--color-light), var(--color-dark));
 
   --base-size: max(1rem, 16px);
-  --ratio: 1.2;
+  --ratio: 1.25;
   --size-step-0: var(--base-size);
   --size-step-1: calc(var(--size-step-0) * var(--ratio));
   --size-step-2: calc(var(--size-step-1) * var(--ratio));
