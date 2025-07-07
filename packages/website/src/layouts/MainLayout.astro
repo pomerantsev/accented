@@ -40,7 +40,9 @@ const isDev = import.meta.env.DEV;
     <main id="main-content">
       <slot />
     </main>
-    <!-- TODO: footer -->
+    <footer>
+      <p>Made by <a href="https://www.pavelpomerantsev.com">Pavel Pomerantsev</a>.</p>
+    </footer>
     {isDev && <Accented />}
   </body>
 </html>
