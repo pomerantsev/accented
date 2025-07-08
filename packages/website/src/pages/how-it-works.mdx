@@ -12,27 +12,89 @@ and what limitations it has.
 
 <TableOfContents />
 
-## Design principles (TODO)
+## Design principles
 
-- Make it performant. TODO: runtime performance, with link to relevant section.
-- Minimize DOM changes.
-- Make it accessible. (colors, keyboard, etc.) (link to the Accessibility page).
-- Make it work on every web page. (supports latest web technologies)
-- Support only latest browsers. (link to the browser support page)
+- **Make the highlights stand out, but don’t break the page.**
+  It should be apparent to the developer what elements have accessibility issues.
+  At the same time, we should strive to make minimal changes to the DOM,
+  so that the page still looks and behaves as expected.
+- **Make it work everywhere.**
+  No matter how simple or complex the page is,
+  whether it’s static or highly dynamic,
+  or what HTML and CSS features it uses,
+  Accented should work there correctly.
+- **Performance matters.**
+  We want developers to be able to use Accented in their applications
+  without worrying that it will slow down the page.
+  With axe-core running on the main thread, some performance impact is inevitable,
+  but we will provide tools to measure and optimize it
+  (see [Improving performance](/getting-started#improving-performance)).
+- **Accessibility matters, too.**
+  Accented has a UI of its own, and that has to be accessible.
+  See [Accessibility](/about#accessibility).
+
+## Architecture overview
+
+Accented consists of a few core components.
+
+- **The [axe-core](https://github.com/dequelabs/axe-core) runner.**
+  Accented doesn’t have its own logic for finding accessibility issues,
+  it rather delegates that to axe-core by calling [`axe.run()`](https://www.deque.com/axe/core-documentation/api-documentation/#api-name-axerun).
+- **The DOM mutation observer.**
+  Accented uses a [mutation observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
+  to detect changes in the DOM and re-run the axe-core script whenever such changes happen.
+  That way, Accented can find accessibility issues as soon as they are introduced.
+- **The task queue** that ensures that all mutations are processed correctly,
+  even if they happen in quick succession, and that throttles the calls
+  to the axe-core script to avoid performance issues.
+- **The DOM updater.**
+  This component is responsible for adding highlights
+  (outlines, dialogs, and dialog trigger buttons) to the DOM
+  and keeping them up to date.
+
+## Known limitations
+
+We try to make Accented as helpful and reliable as possible,
+but it has its quirks and limitations.
+
+- Most importantly, **no automated tool can make an application perfectly accessible,**
+  and Accented is no exception.
+  Accented can help you avoid a lot of issues, but it’s not a substitute
+  for [manual testing](https://accessibility.huit.harvard.edu/manual-testing-accessibility)
+  or for [usability testing with people with disabilities](https://www.section508.gov/test/usability-testing-with-people-with-disabilities/).
+- **Accented changes the DOM of the page** (adding outlines, buttons, and dialogs),
+  and that in turn may impact the results of subsequent runs of the axe-core script,
+  **leading to false positives or false negatives.**
+  That should not be a major issue, though: as accessibility issues are fixed,
+  the DOM changes introduced by Accented are reverted,
+  and the potential for false positives and false negatives decreases.
+- **Not all page changes will trigger a re-scan.**
+  Accented uses a mutation observer to detect changes on the page,
+  but not all changes are mutations.
+  For example, when a pseudo class is applied to an element (`:hover`, `:focus`, and so on)
+  or when the media changes (say, dark mode is enabled or disabled), the page styles may change,
+  but a scan will not be triggered.
+- **Some issue dialogs may not be easy to open.**
+  Accented adds a trigger button for each element with accessibility issues,
+  and that button opens the issue dialog.
+  There may be cases, however, when the button is hard or impossible to activate,
+  such as when the element with the issue is inside a small container with hidden overflow,
+  or when the element’s visibility depends on mouse cursor position.
+  In such cases, the issue details can be obtained [in the console](/api#output).
+- **Accented is only as good as axe-core** at accessibility testing,
+  and axe-core itself may have bugs and flag accessibility issues unreliably.
+  [Open an issue with axe-core](https://github.com/dequelabs/axe-core/issues) if you find a bug in it.
 
 ## Performance
 
 Accented strives to affect the host application’s performance
 as little as possible,
-but it runs on the main thread,
+but it still runs on the main thread,
 and some of its operations may still take hundreds of milliseconds
 (especially on pages with lots of elements).
 
-Accented keeps a [mutation observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
-active until Accented is explicitly disabled (TODO: link to the relevant place in the API docs).
-On every DOM mutation, two things happen:
+Running the axe-core script on a DOM mutation is by far the most expensive part.
 
-1. Accented runs axe-core to check for accessibility issues.
-2. Accented makes necessary updates to the DOM to ensure that all issue highlights are up to date.
+To make it as fast as possible, Accented only runs `axe.run()` on the parts of the page that changed.
 
-TODO: describe what Accented itself does to improve performance.
+Accented also [provides APIs to help users measure and tweak its performance impact](/getting-started#improving-performance).
