@@ -1,6 +1,6 @@
 # Accented
 
-Continuous accessibility testing and issue highlighting for web development.
+A frontend library for continuous accessibility testing and issue highlighting.
 
 Published as [accented](https://www.npmjs.com/package/accented) on NPM.
 
