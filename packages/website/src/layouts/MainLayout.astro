@@ -1,7 +1,7 @@
 ---
 import MainMenu from '../components/MainMenu.astro';
 import Accented from '../components/Accented.astro';
-import { primaryColorDark, primaryColorLight } from 'common/tokens';
+import { primaryColorDark, primaryColorLight, colorLight, colorDark, fontSystemSans, fontSystemMono } from 'common/tokens';
 
 const { title } = Astro.props;
 
@@ -27,13 +27,18 @@ const isDev = import.meta.env.DEV;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Lora:wght@500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/styles/global.css" />
-
-    <style is:global define:vars={{ primaryColorDark, primaryColorLight }}>
-      :root {
-        --color-primary: light-dark(var(--primaryColorDark), var(--primaryColorLight));
-      }
+    <style
+      is:global
+      define:vars={{
+        primaryColorDark,
+        primaryColorLight,
+        colorLight,
+        colorDark,
+        fontSystemSans,
+        fontSystemMono,
+      }}>
     </style>
+    <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
     <MainMenu />

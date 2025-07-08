@@ -1,4 +1,5 @@
 import type { Signal } from '@preact/signals-core';
+import { colorDark, colorLight, fontSystemMono, fontSystemSans } from '../common/tokens.js';
 import { accentedUrl } from '../constants.js';
 import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Issue } from '../types.ts';
@@ -58,8 +59,8 @@ export const getAccentedDialog = () => {
       all: initial !important;
 
       /* OKLCH stuff: https://oklch.com/ */
-      --light-color: oklch(0.98 0 0);
-      --dark-color: oklch(0.22 0 0);
+      --light-color: ${colorLight};
+      --dark-color: ${colorDark};
 
       --background-color: light-dark(var(--light-color), var(--dark-color));
       --text-color: light-dark(var(--dark-color), var(--light-color));
@@ -141,7 +142,7 @@ export const getAccentedDialog = () => {
     dialog {
       box-sizing: border-box;
       overflow-wrap: break-word;
-      font-family: system-ui;
+      font-family: ${fontSystemSans};
       line-height: 1.5;
       text-wrap: pretty;
       background-color: var(--background-color);
@@ -181,8 +182,7 @@ export const getAccentedDialog = () => {
     }
 
     code {
-      /* https://systemfontstack.com/ */
-      font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+      font-family: ${fontSystemMono};
       font-size: var(--step--1);
     }
 
