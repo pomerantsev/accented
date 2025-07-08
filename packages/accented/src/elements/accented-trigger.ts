@@ -1,5 +1,6 @@
 import { effect } from '@preact/signals-core';
 import type { Signal } from '@preact/signals-core';
+import { fontSystemSans } from '../common/tokens.js';
 import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Position } from '../types.ts';
 import { supportsAnchorPositioning } from '../utils/supports-anchor-positioning.js';
@@ -49,7 +50,7 @@ export const getAccentedTrigger = (name: string) => {
         margin-block-start: 4px;
 
         box-sizing: border-box;
-        font-family: system-ui;
+        font-family: ${fontSystemSans};
         font-size: calc(var(--ratio) * var(--ratio) * var(--base-size));
         inline-size: calc(2 * var(--base-size));
         block-size: calc(2 * var(--base-size));

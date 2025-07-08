@@ -1,4 +1,4 @@
-/* Using Andy Bell's CSS as a starting point. */
+/* Using Andy Bell's CSS as a starting point, adapting it to my needs. */
 /* https://piccalil.li/blog/some-simple-ways-to-make-content-look-good/ */
 
 *,
@@ -12,11 +12,7 @@ h1,
 h2,
 h3,
 h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
+p {
   margin: 0;
 }
 
@@ -27,25 +23,32 @@ ol[role="list"] {
 
 html:focus-within {
   scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 body {
   max-width: 60rem;
   margin-inline: auto;
   min-height: 100vh;
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
   padding-inline: var(--space-l);
   @media (min-width: 50em) {
     padding-inline: var(--space-2xl);
   }
+
+  background: var(--color-background);
+  color: var(--color-text);
+
+  font-family: var(--font-sans);
+  font-weight: 400;
+
+  font-size: var(--size-step-0);
+  line-height: 1.7;
 }
 
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
-
-article :is(img, picture) {
+main :is(img, picture) {
   /* A subtle box shadow to ensure that images don't blend with the background. */
   box-shadow: 0 0.1rem 0.5rem oklch(from var(--color-text) l c h / 0.1);
 
@@ -54,13 +57,6 @@ article :is(img, picture) {
   }
 }
 
-/* .image-frame {
-  background-color: #ccc;
-  padding: 0.5rem;
-  border-radius: 6px;
-  display: inline-block;
-} */
-
 input,
 button,
 textarea,
@@ -68,39 +64,22 @@ select {
   font: inherit;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 0.3ex;
 }
 
-/* @link https://utopia.fyi/type/calculator?c=320,18,1.25,1240,18,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-
 :root {
   color-scheme: light dark;
 
-  /* TODO: share these with the library */
-  --color-dark: oklch(0.22 0 0);
-  --color-light: oklch(0.98 0 0);
+  --color-primary: light-dark(var(--primaryColorDark), var(--primaryColorLight));
+  --color-light: var(--colorLight);
+  --color-dark: var(--colorDark);
 
   --color-text: light-dark(var(--color-dark), var(--color-light));
   --color-background: light-dark(var(--color-light), var(--color-dark));
 
-  --base-size: max(1rem, 16px);
+  --base-size: 1rem;
   --ratio: 1.25;
   --size-step-0: var(--base-size);
   --size-step-1: calc(var(--size-step-0) * var(--ratio));
@@ -118,21 +97,11 @@ select {
   --space-xl: calc(3 * var(--base-size));
   --space-2xl: calc(4 * var(--base-size));
   --space-3xl: calc(6 * var(--base-size));
-}
 
-body {
-  background: var(--color-background);
-  color: var(--color-text);
-
-  font-family: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings: "wdth" 100;
-
-  font-size: var(--size-step-0);
-  line-height: 1.7;
+  /* Font families */
+  --font-sans: "IBM Plex Sans", var(--fontSystemSans);
+  --font-mono: "IBM Plex Mono", SFMono-Regular, var(--fontSystemMono);
+  --font-serif: "Lora", Georgia, serif;
 }
 
 strong {
@@ -163,9 +132,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "Lora", Georgia, serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  font-family: var(--font-serif);
 
   line-height: 1.1;
   text-wrap: balance;
@@ -202,15 +169,8 @@ ol {
   padding-inline-start: 1em;
 }
 
-blockquote {
-  padding-inline-start: 1em;
-  border-inline-start: 0.3em solid;
-  font-style: italic;
-  font-size: var(--size-step-1);
-}
-
 code {
-  font-family: "IBM Plex Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-weight: 400;
   font-style: normal;
 
@@ -263,10 +223,6 @@ article {
   margin-inline: auto;
 }
 
-blockquote {
-  max-width: 50ch;
-}
-
 h1 {
   max-width: 20ch;
 }
@@ -278,17 +234,6 @@ h4 {
 }
 
 /* Blocks */
-.lede {
-  font-size: var(--size-step-1);
-  font-style: italic;
-  max-width: 50ch;
-  text-wrap: balance;
-}
-
-.lede + * {
-  --flow-space: 2em;
-}
-
 .note,
 .astro-code {
   scrollbar-width: thin;
@@ -296,7 +241,6 @@ h4 {
 }
 
 .note {
-  /* TODO: can we reuse some color constants here? */
   background-color: light-dark(oklch(0.98 0.16 90), oklch(0.3 0.16 90));
 
   @media (forced-colors: active) {
