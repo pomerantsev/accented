@@ -70,6 +70,15 @@ const toc = createTocItem(headings[currentIndex], null);
             {item.children.map(child => (
               <li>
                 <a href={`#${child.slug}`}>{child.text}</a>
+                {child.children && child.children.length > 0 && (
+                  <ul>
+                    {child.children.map(grandchild => (
+                      <li>
+                        <a href={`#${grandchild.slug}`}>{grandchild.text}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
