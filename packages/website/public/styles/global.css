@@ -46,8 +46,20 @@ a:not([class]) {
 }
 
 article :is(img, picture) {
-  border: 2px solid currentColor;
+  /* A subtle box shadow to ensure that images don't blend with the background. */
+  box-shadow: 0 0.1rem 0.5rem oklch(from var(--color-text) l c h / 0.1);
+
+  @media (forced-colors: active) {
+    border: 1px solid;
+  }
 }
+
+/* .image-frame {
+  background-color: #ccc;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: inline-block;
+} */
 
 input,
 button,
@@ -220,6 +232,11 @@ footer {
   @media (min-width: 50em) {
     padding-block: var(--space-l);
   }
+}
+
+/* Space out first-level list items */
+article li:not(:first-child):not(:is(ul, ol) :is(ul, ol) li) {
+  margin-block-start: var(--space-2xs);
 }
 
 /* Utilities */
