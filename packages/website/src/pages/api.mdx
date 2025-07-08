@@ -12,7 +12,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 
 - `accented`. The function that enables the continuous scanning and highlighting of accessibility issues
   on the page.
-  Example: `const disable = accented(options)`.
+  Example: `const disable = accented(options);`
   - Parameters: the only parameter (optional) is `options`. See [Options](#options).
   - Returns: a `disable` function that takes no parameters. When called, disables the scanning and highlighting,
     and cleans up any changes that Accented has made to the page.
@@ -26,9 +26,9 @@ The following types are exported for TypeScript consumers:
 
 ## Options
 
-### `axeOptions`
+### axeOptions
 
-**Type:** object.
+**Type:** `object`.
 
 **Default:** `{}`.
 
@@ -43,9 +43,9 @@ Both properties are optional, and both control which accessibility rules your pa
 
 See [axe-core `options` documentation](https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter).
 
-### `callback`
+### callback
 
-**Type:** function.
+**Type:** `function`.
 
 **Default:** no-op (`() => {}`).
 
@@ -80,7 +80,7 @@ accented({
 });
 ```
 
-### `context`
+### context
 
 **Type:** see details below.
 
@@ -113,9 +113,9 @@ See also the documentation for the [`context` parameter of `axe.run()`](https://
 which the `context` option from Accented mostly mirrors
 (note that Accented doesn’t support the `fromFrames` object shape).
 
-### `name`
+### name
 
-**Type:** string.
+**Type:** `string`.
 
 **Default:** `"accented"`.
 
@@ -145,27 +145,27 @@ accented({
 With the above option provided, the attribute set on elements with issues will be `data-my-name`,
 a custom element will be called `my-name-trigger`, and so on.
 
-### `output`
+### output
 
 An object controlling how the results of scans are presented.
 
-#### `output.console`
+#### output.console
 
-**Type:** boolean.
+**Type:** `boolean`.
 
 **Default:** `true`.
 
 Whether the list of elements with issues should be printed to the browser console whenever issues are added, removed, or changed.
 
-### `throttle`
+### throttle
 
 An object controlling at what moments Accented will run its scans.
 
-#### `throttle.wait`
+#### throttle.wait
 
-**Type:** number.
+**Type:** `number`.
 
-**Default:** 1000.
+**Default:** `1000`.
 
 How long Accented must wait (in milliseconds) to run a scan after a mutation or after the previous scan (whichever finished last).
 
@@ -176,9 +176,9 @@ during which time the main thread will be blocked most of the time.
 You may want to experiment with this value if your page contents change frequently
 or if it has JavaScript-based animations running on the main thread.
 
-#### `throttle.leading`
+#### throttle.leading
 
-**Type:** boolean.
+**Type:** `boolean`.
 
 **Default:** `true`.
 

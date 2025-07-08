@@ -193,6 +193,10 @@ h3 {
   font-size: var(--size-step-2);
 }
 
+h4 {
+  font-size: var(--size-step-1);
+}
+
 ul,
 ol {
   padding-inline-start: 1em;
@@ -211,10 +215,6 @@ code {
   font-style: normal;
 
   color: var(--color-primary);
-}
-
-:is(strong, h1, h2, h3, h4) code {
-  font-weight: 600;
 }
 
 main,
@@ -241,16 +241,20 @@ article li:not(:first-child):not(:is(ul, ol) :is(ul, ol) li) {
 
 /* Utilities */
 .flow > * + * {
-  margin-block-start: var(--flow-space, 1rem);
+  margin-block-start: var(--flow-space, var(--space-s));
 }
 
 /* Flow and rhythm */
-:not(h1, h2, h3) + h2 {
-  --flow-space: 2rem;
+:not(h1, h2, h3, h4) + h2 {
+  --flow-space: var(--space-xl);
 }
 
-:not(h1, h2, h3) + h3 {
-  --flow-space: 1.5rem;
+:not(h1, h2, h3, h4) + h3 {
+  --flow-space: var(--space-l);
+}
+
+:not(h1, h2, h3, h4) + h4 {
+  --flow-space: var(--space-m);
 }
 
 /* Line lengths */
