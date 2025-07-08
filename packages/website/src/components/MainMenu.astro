@@ -78,16 +78,14 @@ const menuItems = [
     flex-wrap: wrap;
   }
 
-  nav a {
+  nav a:not([aria-current="page"]) {
     text-decoration-line: none;
   }
 
-  nav a[aria-current="page"] {
-    border-bottom: 2px solid var(--color-primary);
-  }
   @media (hover: hover) {
     nav a:hover {
       color: var(--color-primary);
+      text-decoration-color: currentColor;
     }
   }
 

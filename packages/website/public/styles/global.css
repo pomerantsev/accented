@@ -136,7 +136,7 @@ a {
 }
 
 a:active {
-  --background-color: oklch(from currentColor l c h / 0.2);
+  --background-color: oklch(from var(--color-text) l c h / 0.1);
   background-color: var(--background-color);
   box-shadow: 0 0 0 0.3em var(--background-color);
 }
