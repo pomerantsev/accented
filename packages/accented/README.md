@@ -1,5 +1,5 @@
 <a href="https://www.accented.dev">
-  <img alt="Accented" src="https://www.accented.dev/images/logo.svg" width="100" />
+  <img alt="Accented" src="https://www.accented.dev/images/logo.svg" width="100" height="100" />
 </a>
 
 # Accented
