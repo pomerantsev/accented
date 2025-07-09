@@ -260,3 +260,23 @@ h4 {
     border: 1px solid;
   }
 }
+
+.subtitle {
+  font-size: var(--size-step-1);
+  text-wrap: balance;
+}
+
+.call-to-action {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  text-decoration-line: none;
+  @media (hover: hover) {
+    &:hover {
+      text-decoration-line: underline;
+      text-decoration-color: currentColor;
+    }
+  }
+  font-weight: 600;
+
+  padding: var(--space-2xs) var(--space-s);
+}

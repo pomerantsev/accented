@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+
+import withoutAccented from '../pages/images/without-accented.png';
+import withAccented from '../pages/images/with-accented.png';
+---
+
+<script>
+  import 'https://esm.sh/@cloudfour/image-compare';
+</script>
+<image-compare>
+  <Image
+    src={withoutAccented}
+    alt="Screenshot of a web application in the regular state."
+    slot="image-1"
+    width="682"
+  />
+  <Image
+    src={withAccented}
+    alt="Screenshot of the same application, but with bright outlines and buttons added to some page elements."
+    slot="image-2"
+    width="682"
+  />
+</image-compare>
