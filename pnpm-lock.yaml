@@ -66,6 +66,9 @@ importers:
       '@astrojs/mdx':
         specifier: ^4.3.0
         version: 4.3.0(astro@5.11.0(@netlify/blobs@9.1.5)(@types/node@24.0.0)(jiti@2.4.2)(rollup@4.40.0)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.8.0))
+      '@cloudfour/image-compare':
+        specifier: ^1.0.5
+        version: 1.0.5
       astro:
         specifier: ^5.11.0
         version: 5.11.0(@netlify/blobs@9.1.5)(@types/node@24.0.0)(jiti@2.4.2)(rollup@4.40.0)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.8.0)
@@ -274,6 +277,9 @@ packages:
 
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
+
+  '@cloudfour/image-compare@1.0.5':
+    resolution: {integrity: sha512-2rYQphoQ6eqIjxmBfaWAAkuHFZ5ziT/vCcaijh0SAtCTPOMyP5guklHsQpMQymTBWsQ4FtT5tPqNDVC+orI4kQ==}
 
   '@colors/colors@1.6.0':
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
@@ -6001,6 +6007,8 @@ snapshots:
       fs-extra: 7.0.1
       human-id: 4.1.1
       prettier: 2.8.8
+
+  '@cloudfour/image-compare@1.0.5': {}
 
   '@colors/colors@1.6.0': {}
 
