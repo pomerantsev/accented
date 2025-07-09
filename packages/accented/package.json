@@ -1,6 +1,6 @@
 {
   "name": "accented",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A frontend library for continuous accessibility testing and issue highlighting",
   "type": "module",
   "main": "dist/accented.js",

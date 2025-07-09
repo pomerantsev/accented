@@ -1,5 +1,0 @@
----
-"accented": patch
----
-
-Update appearance
