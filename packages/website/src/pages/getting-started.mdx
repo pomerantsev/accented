@@ -4,7 +4,10 @@ layout: ../layouts/DocsLayout.astro
 
 import { Image } from 'astro:assets';
 
-import stylingExample from './images/styling-example.png';
+import ImageCompare from '../components/ImageCompare.astro';
+
+import screenshotDefaultColor from './images/screenshot-default-color.png';
+import screenshotGreen from './images/screenshot-green.png';
 
 import StarterCode from '../components/StarterCode.astro';
 import TableOfContents from '../components/TableOfContents.astro';
@@ -281,17 +284,18 @@ You can make the changes by setting certain CSS properties in your app, for exam
 
 Here’s what the updated styles would look like compared to the defaults:
 
-<div class="image-frame">
+<ImageCompare>
   <Image
-    src={stylingExample}
-    alt="
-      Two screenshots of the same web application side by side, both with the same highlights by Accented.
-      On the left, the highlights have the regular styles.
-      On the right, the highlights are dark green instead of violet red, and the outlines are dashed instead of solid.
-    "
+    src={screenshotDefaultColor}
+    alt="Screenshot of a web application, with highlights by Accented, having regular styles."
     layout="full-width"
   />
-</div>
+  <Image
+    src={screenshotGreen}
+    alt="Screenshot of the same web application, also with highlights by Accented. The highlights are dark green instead of violet red, and the outlines are dashed instead of solid."
+    layout="full-width"
+  />
+</ImageCompare>
 
 See full CSS API in the [Styling section](/api#styling) of the [API docs](/api).
 

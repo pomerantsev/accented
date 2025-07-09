@@ -48,7 +48,7 @@ body {
   line-height: 1.7;
 }
 
-main :is(img, picture) {
+main :is(img, image-compare) {
   /* A subtle box shadow to ensure that images don't blend with the background. */
   box-shadow: 0 0.1rem 0.5rem oklch(from var(--color-text) l c h / 0.1);
 
@@ -283,4 +283,9 @@ h4 {
   font-weight: 600;
 
   padding: var(--space-2xs) var(--space-s);
+}
+
+image-compare {
+  --focus-color: var(--color-primary);
+  --thumb-size: var(--size-step-4);
 }

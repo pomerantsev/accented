@@ -1,24 +1,20 @@
----
-import { Image } from 'astro:assets';
-
-import withoutAccented from '../pages/images/without-accented.png';
-import withAccented from '../pages/images/with-accented.png';
----
-
 <script>
   import '@cloudfour/image-compare';
+
+  // We have to jump through these hoops because I don't know
+  // how to pass through the `slot` value in Astro,
+  // and the image-compare component expects specific values for `slot`.
+  customElements.define('image-compare-wrapper', class extends HTMLElement {
+    connectedCallback() {
+      const images = this.querySelectorAll('img');
+      for (const [index, image] of images.entries()) {
+        image.setAttribute('slot', `image-${index + 1}`);
+      }
+    }
+  });
 </script>
-<image-compare>
-  <Image
-    src={withoutAccented}
-    alt="Screenshot of a web application in the regular state."
-    slot="image-1"
-    width="682"
-  />
-  <Image
-    src={withAccented}
-    alt="Screenshot of the same application, but with bright outlines and buttons added to some page elements."
-    slot="image-2"
-    width="682"
-  />
-</image-compare>
+<image-compare-wrapper>
+  <image-compare>
+    <slot />
+  </image-compare>
+</image-compare-wrapper>
