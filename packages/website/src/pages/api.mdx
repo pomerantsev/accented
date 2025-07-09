@@ -73,9 +73,9 @@ It accepts a single `params` object with the following properties:
 ```js
 accented({
   callback: ({ elementsWithIssues, performance, scanContext }) => {
-    console.log("Elements with issues:", elementsWithIssues);
-    console.log("Total blocking time:", performance.totalBlockingTime);
-    console.log("Scan context:", scanContext);
+    console.log('Elements with issues:', elementsWithIssues);
+    console.log('Total blocking time:', performance.totalBlockingTime);
+    console.log('Scan context:', scanContext);
   },
 });
 ```
@@ -117,7 +117,7 @@ which the `context` option from Accented mostly mirrors
 
 **Type:** `string`.
 
-**Default:** `"accented"`.
+**Default:** `'accented'`.
 
 The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
 
@@ -138,7 +138,7 @@ and it must start with a lowercase letter.
 
 ```js
 accented({
-  name: "my-name",
+  name: 'my-name',
 });
 ```
 

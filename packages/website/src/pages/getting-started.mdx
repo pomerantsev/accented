@@ -68,6 +68,26 @@ You can use this code as a starting point.
 
 <StarterCode />
 
+### Run once per page
+
+Accented should only be initialized once per page.
+It uses `axe.run()` under the hood,
+which throws an error if called multiple times simultaneously.
+
+If `accented()` may be called multiple times (for example,
+in a component by a framework that supports hot reloading),
+make sure to disable Accented when the component is unmounted.
+
+```js
+/* Initialize on component mount */
+const disable = accented();
+
+...
+
+/* Disable on component unmount */
+disable();
+```
+
 ## Using in large projects
 
 Introducing Accented to a large codebase may present an organizational challenge.
@@ -131,6 +151,7 @@ export function Accented({ children }) {
        * It’s important to clean up when component is unmounted.
        * If we don’t, Accented may be initialized more than once,
        * potentially leading to unpredictable behavior.
+       * See https://www.accented.dev/getting-started#run-once-per-page
        */
       disable();
     };
