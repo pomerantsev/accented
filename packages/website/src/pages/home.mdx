@@ -1,5 +1,10 @@
 import ImageCompare from '../components/ImageCompare.astro';
 
+import { Image } from 'astro:assets';
+
+import withoutAccented from './images/without-accented.png';
+import withAccented from './images/with-accented.png';
+
 # Accented
 
 <p class="subtitle">A frontend library for continuous accessibility testing and issue highlighting.</p>
@@ -13,7 +18,18 @@ and you’ll see interactive callouts next to the elements containing accessibil
 
 An example of an application without Accented / with Accented:
 
-<ImageCompare />
+<ImageCompare>
+  <Image
+    src={withoutAccented}
+    alt="Screenshot of a web application in the regular state."
+    layout="full-width"
+  />
+  <Image
+    src={withAccented}
+    alt="Screenshot of the same application, but with bright outlines and buttons added to some page elements."
+    layout="full-width"
+  />
+</ImageCompare>
 
 ## Features
 
