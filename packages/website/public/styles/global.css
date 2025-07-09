@@ -266,6 +266,10 @@ h4 {
   text-wrap: balance;
 }
 
+.extra-space {
+  margin-block: var(--space-l);
+}
+
 .call-to-action {
   background-color: var(--color-primary);
   color: var(--color-background);
