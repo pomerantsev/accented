@@ -48,7 +48,6 @@ suite('contains', () => {
     const shadowRoot = host.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = '<div id="descendant"></div>';
     const descendant = shadowRoot.querySelector('#descendant')!;
-    console.log(descendant);
 
     assert.equal(contains(ancestor, descendant), true);
   });
