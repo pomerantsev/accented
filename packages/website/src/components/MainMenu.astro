@@ -24,13 +24,6 @@ const menuItems = [
   }
 
   #skip-link {
-    background-color: var(--color-primary);
-    color: var(--color-background);
-    text-decoration-color: currentColor;
-    font-weight: 600;
-
-    padding: var(--space-2xs) var(--space-s);
-
     position: absolute;
     inset-inline-start: 0;
     inset-block-end: 100%;
@@ -100,7 +93,7 @@ const menuItems = [
   }
 </style>
 <header>
-  <a id="skip-link" href="#main-content">Skip to main content</a>
+  <a class="call-to-action" id="skip-link" href="#main-content">Skip to main content</a>
   <nav aria-label="Menu">
     <a href="/">
       <img src="/images/logo.svg" alt="" width="32">
