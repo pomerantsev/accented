@@ -2,65 +2,57 @@
 import { Code } from 'astro:components';
 import { theme, options, getCodeSnippet } from './starterCodeUtils';
 ---
-<starter-code>
-  <form>
-    <fieldset disabled>
-      <legend>Bundler / framework</legend>
-      {options.bundlers.map(bundler => (
-        <label>
-          <input
-            type="radio"
-            name="bundler"
-            value={bundler.value}
-            checked={bundler.checked}
-          />
-          {bundler.name}
-        </label>
-      ))}
-    </fieldset>
-    <fieldset disabled>
-      <legend>Import</legend>
-      {options.imports.map(importItem => (
-        <label>
-          <input
-            type="radio"
-            name="import"
-            value={importItem.value}
-            checked={importItem.checked}
-          />
-          {importItem.name}
-        </label>
-      ))}
-    </fieldset>
-    <fieldset disabled>
-      <legend>Source</legend>
-      {options.sources.map(source => (
-        <label>
-          <input
-            type="radio"
-            name="source"
-            value={source.value}
-            checked={source.checked}
-          />
-          {source.name}
-        </label>
-      ))}
-    </fieldset>
-    <!-- TODO: make sure the change in the output is communicated to a screen reader. -->
-    <div class="container">
-      <Code
-        code={getCodeSnippet(
-          options.bundlers.find(b => b.checked),
-          options.imports.find(i => i.checked)?.value,
-          options.sources.find(s => s.checked)
-        )}
-        lang="js"
-        theme={theme}
-        wrap
-      />
-    </div>
-  </form>
-</starter-code>
+<style>
+  starter-code {
+    display: block;
+  }
+
+  form {
+    --line-height: 1.3;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    @media (min-width: 40em) {
+      grid-template-columns: max-content 1fr;
+    }
+    align-items: start;
+    gap: var(--space-s);
+    line-height: var(--line-height);
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin-inline: 0;
+
+    display: contents;
+  }
+
+  legend {
+    display: inline;
+    padding-inline: 0;
+    text-align: end;
+    font-weight: 600;
+  }
+
+  .radio-group {
+    display: flex;
+    align-items: center;
+    column-gap: var(--space-s);
+    row-gap: var(--space-3xs);
+    flex-wrap: wrap;
+  }
+
+  label {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  input {
+    accent-color: var(--color-primary);
+    margin: 0;
+    block-size: calc(var(--line-height) * 1em);
+  }
+</style>
 <script>
   import { createHighlighter } from 'shiki';
   import { theme, options, getCodeSnippet } from './starterCodeUtils';
@@ -107,11 +99,80 @@ import { theme, options, getCodeSnippet } from './starterCodeUtils';
 
         const codeSnippetPre = codeSnippetContainer.querySelector('pre');
         if (codeSnippetPre) {
+          // Reimplementing the <Code> component's `wrap` prop functionality
           codeSnippetPre.style.overflowX = 'auto';
           codeSnippetPre.style.whiteSpace = 'pre-wrap';
-          codeSnippetPre.style.wordWrap = 'break-word';
+          codeSnippetPre.style.overflowWrap = 'break-word';
         }
       }
     }
   });
 </script>
+
+<!--
+  If JavaScript isn't working for any reason, something meaningful will be shown, but the form will be disabled.
+-->
+<starter-code>
+  <form class="flow">
+    <fieldset disabled>
+      <legend>Bundler / framework</legend>
+      <div class="radio-group">
+        {options.bundlers.map(bundler => (
+          <label>
+            <input
+              type="radio"
+              name="bundler"
+              value={bundler.value}
+              checked={bundler.checked}
+            />
+            {bundler.name}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+    <fieldset disabled>
+      <legend>Import</legend>
+      <div class="radio-group">
+        {options.imports.map(importItem => (
+          <label>
+            <input
+              type="radio"
+              name="import"
+              value={importItem.value}
+              checked={importItem.checked}
+            />
+            {importItem.name}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+    <fieldset disabled>
+      <legend>Source</legend>
+      <div class="radio-group">
+        {options.sources.map(source => (
+          <label>
+            <input
+              type="radio"
+              name="source"
+              value={source.value}
+              checked={source.checked}
+            />
+            {source.name}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  </form>
+  <div class="container">
+    <Code
+      code={getCodeSnippet(
+        options.bundlers.find(b => b.checked),
+        options.imports.find(i => i.checked)?.value,
+        options.sources.find(s => s.checked)
+      )}
+      lang="js"
+      theme={theme}
+      wrap
+    />
+  </div>
+</starter-code>
