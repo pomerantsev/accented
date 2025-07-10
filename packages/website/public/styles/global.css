@@ -235,7 +235,8 @@ h4 {
 
 /* Blocks */
 .note,
-.astro-code {
+.astro-code,
+.shiki {
   scrollbar-width: thin;
   padding: var(--space-s);
 }
@@ -255,7 +256,8 @@ h4 {
   }
 }
 
-.astro-code {
+.astro-code,
+.shiki {
   @media (forced-colors: active) {
     border: 1px solid;
   }

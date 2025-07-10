@@ -4,98 +4,7 @@
 // TODO: We can likely do better than a bunch of radio buttons.
 
 import { Code } from 'astro:components';
-
-type Bundler = {
-  name: string;
-  value: string;
-  condition: string;
-  checked?: boolean;
-};
-type Import = {
-  name: string;
-  value: string;
-  checked?: boolean;
-};
-type Source = {
-  name: string;
-  value: string;
-  module: string;
-  checked?: boolean;
-};
-type Options = {
-  bundlers: Array<Bundler>;
-  imports: Array<Import>;
-  sources: Array<Source>;
-};
-const options: Options = {
-  bundlers: [
-    {
-      name: 'Vite',
-      value: 'vite',
-      condition: 'import.meta.env.MODE === \'development\'',
-      checked: true,
-    },
-    {
-      name: 'Next.js',
-      value: 'next',
-      condition: 'process.env.NODE_ENV === \'development\'',
-    },
-  ],
-  imports: [
-    {
-      name: 'Dynamic (async / await)',
-      value: 'dynamicAsyncAwait',
-      checked: true,
-    },
-    {
-      name: 'Dynamic (promises)',
-      value: 'dynamicPromises',
-    },
-    {
-      name: 'Static',
-      value: 'static',
-    },
-  ],
-  sources: [
-    {
-      name: 'NPM (with bundler)',
-      value: 'npm',
-      module: 'accented',
-      checked: true,
-    },
-    {
-      name: 'CDN (no bundler required)',
-      // TODO: should we pin to a specific version?
-      module: 'https://esm.sh/accented',
-      value: 'cdn',
-    },
-  ]
-};
-
-function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'] | undefined, source: Source | undefined) {
-  if (!bundler || !importType || !source) {
-    return '';
-  }
-  if (importType === 'dynamicAsyncAwait') {
-    return `if (${bundler.condition}) {\n` +
-           `  const { accented } = await import('${source.module}');\n` +
-           `  accented();\n` +
-           '}';
-  } else if (importType === 'dynamicPromises') {
-    return `if (${bundler.condition}) {\n` +
-           `  import('${source.module}').then(({ accented }) => {\n` +
-           `    accented();\n` +
-           `  });\n` +
-           `}`;
-  } else if (importType === 'static') {
-    return `import { accented } from '${source.module}';\n` +
-           `if (${bundler.condition}) {\n` +
-           `  accented();\n` +
-           `}`;
-  } else {
-    throw new Error('Unknown import type: ' + importType);
-  }
-}
+import { options, getCodeSnippet } from './starterCodeUtils';
 ---
 <starter-code>
   <form>
@@ -142,7 +51,7 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
       ))}
     </fieldset>
     <!-- TODO: make sure the change in the output is communicated to a screen reader. -->
-    <div>
+    <div class="container">
       <Code
         code={getCodeSnippet(
           options.bundlers.find(b => b.checked),
@@ -150,34 +59,20 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
           options.sources.find(s => s.checked)
         )}
         lang="js"
+        theme="github-dark-high-contrast"
+        wrap
       />
     </div>
   </form>
 </starter-code>
-<script define:vars={{ options }}>
-  function getCodeSnippet(bundler, importType, source) {
-    if (importType === 'dynamicAsyncAwait') {
-      return `if (${bundler.condition}) {\n` +
-            `  const { accented } = await import('${source.module}');\n` +
-            `  accented();\n` +
-            '}';
-    } else if (importType === 'dynamicPromises') {
-      return `if (${bundler.condition}) {\n` +
-            `  import('${source.module}').then(({ accented }) => {\n` +
-            `    accented();\n` +
-            `  });\n` +
-            `}`;
-    } else if (importType === 'static') {
-      return `import { accented } from '${source.module}';\n` +
-            `if (${bundler.condition}) {\n` +
-            `  accented();\n` +
-            `}`;
-    } else {
-      throw new Error('Unknown import type: ' + importType);
-    }
-  }
+<script>
+  import { createHighlighter } from 'shiki';
+  import { options, getCodeSnippet } from './starterCodeUtils';
 
   customElements.define('starter-code', class extends HTMLElement {
+
+    form: HTMLFormElement | null = null;
+
     connectedCallback() {
       this.form = this.querySelector('form');
       if (this.form) {
@@ -192,18 +87,34 @@ function getCodeSnippet(bundler: Bundler | undefined, importType: Import['value'
       }
     }
 
-    updateCodeSnippet() {
-      const codeSnippetElement = this.querySelector('code');
-      if (codeSnippetElement) {
-        const bundlerRadio = this.form?.querySelector('input[name="bundler"]:checked');
-        const bundler = options.bundlers.find(bundler => bundler.value === bundlerRadio.value);
+    async updateCodeSnippet() {
+      const codeSnippetContainer = this.querySelector('.container');
+      if (codeSnippetContainer && this.form) {
+        const bundlerRadio: HTMLInputElement | null = this.form.querySelector('input[name="bundler"]:checked');
+        const bundler = options.bundlers.find(bundler => bundler.value === bundlerRadio?.value);
 
-        const importRadio = this.form?.querySelector('input[name="import"]:checked');
-        const importType = options.imports.find(importItem => importItem.value === importRadio.value)?.value;
+        const importRadio: HTMLInputElement | null = this.form.querySelector('input[name="import"]:checked');
+        const importType = options.imports.find(importItem => importItem.value === importRadio?.value)?.value;
 
-        const sourceRadio = this.form?.querySelector('input[name="source"]:checked');
-        const source = options.sources.find(source => source.value === sourceRadio.value);
-        codeSnippetElement.textContent = getCodeSnippet(bundler, importType, source);
+        const sourceRadio: HTMLInputElement | null = this.form.querySelector('input[name="source"]:checked');
+        const source = options.sources.find(source => source.value === sourceRadio?.value);
+
+        const highlighter = await createHighlighter({
+          langs: ['js'],
+          themes: ['github-dark-high-contrast'],
+        });
+
+        codeSnippetContainer.innerHTML = highlighter.codeToHtml(getCodeSnippet(bundler, importType, source), {
+          lang: 'js',
+          theme: 'github-dark-high-contrast',
+        });
+
+        const codeSnippetPre = codeSnippetContainer.querySelector('pre');
+        if (codeSnippetPre) {
+          codeSnippetPre.style.overflowX = 'auto';
+          codeSnippetPre.style.whiteSpace = 'pre-wrap';
+          codeSnippetPre.style.wordWrap = 'break-word';
+        }
       }
     }
   });
