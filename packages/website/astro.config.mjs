@@ -1,5 +1,6 @@
 import mdx from '@astrojs/mdx';
 import { defineConfig } from 'astro/config';
+import { theme } from './src/components/starterCodeUtils';
 
 export default defineConfig({
   srcDir: './src',
@@ -12,7 +13,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: 'github-dark-high-contrast',
+      theme,
       wrap: true,
     },
   },
