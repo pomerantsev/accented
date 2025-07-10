@@ -1,3 +1,5 @@
+export const theme = 'github-dark-high-contrast';
+
 type Bundler = {
   name: string;
   value: string;

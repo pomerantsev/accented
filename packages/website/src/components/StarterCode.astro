@@ -1,10 +1,6 @@
 ---
-// TODO: this file got out of control quickly. I need to tidy it up.
-
-// TODO: We can likely do better than a bunch of radio buttons.
-
 import { Code } from 'astro:components';
-import { options, getCodeSnippet } from './starterCodeUtils';
+import { theme, options, getCodeSnippet } from './starterCodeUtils';
 ---
 <starter-code>
   <form>
@@ -59,7 +55,7 @@ import { options, getCodeSnippet } from './starterCodeUtils';
           options.sources.find(s => s.checked)
         )}
         lang="js"
-        theme="github-dark-high-contrast"
+        theme={theme}
         wrap
       />
     </div>
@@ -67,7 +63,12 @@ import { options, getCodeSnippet } from './starterCodeUtils';
 </starter-code>
 <script>
   import { createHighlighter } from 'shiki';
-  import { options, getCodeSnippet } from './starterCodeUtils';
+  import { theme, options, getCodeSnippet } from './starterCodeUtils';
+
+  const highlighter = await createHighlighter({
+    langs: ['js'],
+    themes: [theme],
+  });
 
   customElements.define('starter-code', class extends HTMLElement {
 
@@ -99,14 +100,9 @@ import { options, getCodeSnippet } from './starterCodeUtils';
         const sourceRadio: HTMLInputElement | null = this.form.querySelector('input[name="source"]:checked');
         const source = options.sources.find(source => source.value === sourceRadio?.value);
 
-        const highlighter = await createHighlighter({
-          langs: ['js'],
-          themes: ['github-dark-high-contrast'],
-        });
-
         codeSnippetContainer.innerHTML = highlighter.codeToHtml(getCodeSnippet(bundler, importType, source), {
           lang: 'js',
-          theme: 'github-dark-high-contrast',
+          theme,
         });
 
         const codeSnippetPre = codeSnippetContainer.querySelector('pre');
