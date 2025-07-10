@@ -69,6 +69,8 @@ Additionally, consider importing Accented dynamically, to ensure that its code i
 
 You can use the following code as a starting point.
 
+Run it on the client side only. Accented doesn’t do anything on the server side.
+
 <StarterCode />
 
 ### Run once per page
@@ -123,7 +125,7 @@ or how your application’s codebase is structured.
 That said, when using a framework, you have options:
 
 - **Call once during initialization (the simple option).**
-  Call `accented()` at any point during your app’s initialization. That’s it.
+  Call `accented()` at any point during your app’s client-side initialization. That’s it.
 - **Create a reusable component.**
   Consider it if you need to scan different parts on different pages.
   Here’s what such a component may look like in React:
