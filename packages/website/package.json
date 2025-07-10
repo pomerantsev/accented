@@ -14,7 +14,8 @@
     "@cloudfour/image-compare": "^1.0.5",
     "astro": "^5.11.0",
     "common": "workspace:*",
-    "sharp": "^0.34.2"
+    "sharp": "^0.34.2",
+    "shiki": "^3.7.0"
   },
   "devDependencies": {
     "accented": "workspace:*",
