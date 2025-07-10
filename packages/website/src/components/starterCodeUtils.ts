@@ -26,15 +26,20 @@ type Options = {
 export const options: Options = {
   bundlers: [
     {
-      name: 'Vite',
+      name: 'Vite / Astro',
       value: 'vite',
       condition: "import.meta.env.MODE === 'development'",
       checked: true,
     },
     {
-      name: 'Next.js',
+      name: 'Next.js / React Router / Gatsby',
       value: 'next',
       condition: "process.env.NODE_ENV === 'development'",
+    },
+    {
+      name: 'Nuxt',
+      value: 'nuxt',
+      condition: 'process.dev',
     },
   ],
   imports: [
