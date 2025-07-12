@@ -10,7 +10,7 @@ const { headings } = Astro.props as { headings: Array<Heading> };
 const h1 = headings?.find(h => h.depth === 1);
 ---
 
-<MainLayout title={h1?.text}>
+<MainLayout title={h1?.text} description={Astro.props.frontmatter.description}>
   <article class="flow">
     <slot />
   </article>

@@ -3,7 +3,9 @@ import MainMenu from '../components/MainMenu.astro';
 import Accented from '../components/Accented.astro';
 import { primaryColorDark, primaryColorLight, colorLight, colorDark, fontSystemSans, fontSystemMono } from 'common/tokens';
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
+
+const fullTitle = (title ? `${title} | ` : '') + 'Accented';
 
 const isDev = import.meta.env.DEV;
 ---
@@ -15,7 +17,10 @@ const isDev = import.meta.env.DEV;
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>{(title ? `${title} | ` : '') + 'Accented'}</title>
+    <meta name="author" content="Pavel Pomerantsev" />
+
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
 
     <link rel="icon" href="/favicon.ico"/>
 
@@ -36,6 +41,21 @@ const isDev = import.meta.env.DEV;
       }}>
     </style>
     <link rel="stylesheet" href="/styles/global.css" />
+
+    <meta property="og:image" content="https://www.accented.dev/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={`https://www.accented.dev${Astro.url.pathname}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Accented" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content="https://www.accented.dev/images/og-image.png" />
   </head>
   <body>
     <MainMenu />
