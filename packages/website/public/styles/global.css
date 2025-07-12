@@ -69,6 +69,11 @@ select {
   outline-offset: 0.3ex;
 }
 
+::selection {
+  background-color: var(--color-toc);
+  color: var(--color-background);
+}
+
 :root {
   color-scheme: light dark;
 
@@ -78,6 +83,10 @@ select {
 
   --color-text: light-dark(var(--color-dark), var(--color-light));
   --color-background: light-dark(var(--color-light), var(--color-dark));
+
+  --color-toc-dark: oklch(0.45 0.25 230);
+  --color-toc-light: oklch(0.8 0.25 230);
+  --color-toc: light-dark(var(--color-toc-dark), var(--color-toc-light));
 
   --base-size: 1rem;
   --ratio: 1.25;
