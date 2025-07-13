@@ -1,0 +1,25 @@
+---
+import MainLayout from '~/layouts/MainLayout.astro';
+import { getEntry, render, getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({ params: { post: post.id } }));
+}
+
+const { post: postId } = Astro.params;
+
+const post = await getEntry('blog', postId);
+if (!post) {
+  throw new Error(`Post with ID "${postId}" not found.`);
+}
+
+const { Content } = await render(post);
+---
+
+<MainLayout>
+  <article class="flow">
+    <Content />
+  </article>
+  <!-- TODO: output date and author. -->
+</MainLayout>
