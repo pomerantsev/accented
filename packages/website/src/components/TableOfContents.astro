@@ -5,7 +5,7 @@ type Heading = {
   text: string;
 };
 
-const matches = await import.meta.glob('../pages/*.md(x)?', {eager: true});
+const matches = await import.meta.glob('~/pages/*.md(x)?', {eager: true});
 const pages = Object.values(matches) as Array<{url: string, getHeadings: () => Array<Heading>}>;
 const currentPage = pages.find(page => page.url === Astro.url.pathname.replace(/^(.+)\/$/, '$1'));
 const headings = currentPage?.getHeadings() || [];
