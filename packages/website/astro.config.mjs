@@ -21,6 +21,9 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   vite: {
     build: {
+      // We know that axe-core is larger than 500 KB,
+      // so let's suppress the warning.
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         // In production, don't bundle Accented (it's not used anyway)
         external: ['accented'],
