@@ -1,4 +1,5 @@
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import { theme } from './src/components/starterCodeUtils';
 
@@ -17,7 +18,7 @@ export default defineConfig({
       wrap: true,
     },
   },
-  integrations: [mdx()],
+  integrations: [mdx(), sitemap()],
   vite: {
     build: {
       rollupOptions: {
