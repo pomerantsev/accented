@@ -1,10 +1,19 @@
 ---
+import { getCollection } from 'astro:content';
 import MainLayout from '~/layouts/MainLayout.astro';
+
+const posts = await getCollection('blog');
 ---
 
 <MainLayout>
   <h1>Blog</h1>
   <p>Welcome to the blog!</p>
-</MainLayout>
-
+  {posts.map(post => (
+    <article>
+      <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+      <p>{post.data.description}</p>
+      <!-- TODO: display date consistently, regardless of timezone. -->
+      <time datetime={post.data.date}>{new Date(post.data.date).toLocaleDateString()}</time>
+    </article>
+  ))}
 </MainLayout>
