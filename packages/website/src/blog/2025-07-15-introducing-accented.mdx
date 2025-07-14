@@ -5,7 +5,14 @@ author: Pavel Pomerantsev
 ---
 Accented is a new tool that helps developers identify accessibility issues on web pages. It is based on axe-core.
 
+TODO: alternative (suggested by ChatGPT): Accented is a new frontend library that helps developers catch accessibility issues right in the browser — automatically, and in real time — with no browser extensions or manual audits.
+
+TODO: explain who this is for (by ChatGPT):
+Whether you’re just beginning to think about accessibility, already lint your JSX for issues, or write custom a11y test suites, Accented was designed to help you catch more issues sooner — and fix them while they’re still top-of-mind.
+
 Those who are familiar with the crowded landscape of web accessibility tooling, will rightfully ask: “Does the world really need yet another accessibility issue checker? Especially one that’s based on primitive algorithms, now that we live in an AI age.”
+
+TODO: maybe add the screenshot here as the biggest aha moment.
 
 My answer is yes.
 
@@ -40,7 +47,22 @@ Lastly, there are AI-powered bots that can review your pull requests. While AI c
 
 TODO: maybe AI deserves a separate dimension in this conversation? AI is expensive and non-deterministic.
 
+TODO: maybe a table in addition to, or instead of, the above text?
+
+| Tool type                          | Real-time? | Page context? | Setup effort | Framework-agnostic? |
+| ---------------------------------- | ---------- | ------------- | ------------ | ------------------- |
+| Linting (eslint-plugin-jsx-a11y)   | ✅          | ❌             | Low          | ❌ (JSX only)        |
+| Browser DevTools (axe, Lighthouse) | ❌          | ✅             | Medium       | ✅                   |
+| Tests (`@axe-core/playwright`)     | ❌          | ✅             | High         | ✅                   |
+| **Accented**                       | ✅          | ✅             | **Low**      | ✅                   |
+
+
 ## What is Accented?
+
+TODO: consider renaming. "How Accented Works" or "A Different Approach to Accessibility Auditing".
+According to ChatGPT, "This frames the section as a novel approach rather than just a product intro."
+
+TODO: Add something like "Just a few lines added to your dev environment — no browser extensions, no CLI, no config."
 
 Accented is a zero-maintenance tool that continuously tests the page that’s rendered in the developer’s browser and notifies of accessibility issues as soon as they’re introduced.
 
@@ -75,6 +97,19 @@ As a result, accessibility auditing happens automatically, and the components th
 
 For example, [Accented is used to develop the website that this blog is part of](https://github.com/pomerantsev/accented/blob/3107b9106a330539df8d6d59e5cf1479b1eb33b5/packages/website/src/components/Accented.astro), and it helped me spot a low-contrast theme in code blocks.
 
+## FAQ
+
+TODO
+
+✅ Address “How noisy is it?” or “Will it break my app?”
+These are common developer anxieties. You've already said it's dev-only and uses axe-core — great — but explicitly addressing those questions gives confidence.
+
+Consider a brief reassurance section or callout like:
+
+✅ Accented runs only in development mode
+✅ It uses non-blocking overlays and doesn’t interfere with page behavior
+✅ It has zero impact on production bundles
+
 ## Using Accented alongside other tools
 
 To be clear, I’m not suggesting that Accented is a replacement for any of the existing accessibility testing tools.
@@ -90,3 +125,4 @@ I believe that any web project can benefit from using Accented, including the on
 Try it out and let me know what you think at [hello@pavelpomerantsev.com](mailto:hello@pavelpomerantsev.com).
 
 Happy accenting.
+TODO: add a link to "Getting started".

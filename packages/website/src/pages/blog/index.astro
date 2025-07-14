@@ -15,7 +15,7 @@ const posts = await getCollection('blog');
     padding-inline-start: 0;
   }
 
-  :is(nav, h2) a {
+  nav a {
     text-decoration-line: none;
   }
 
@@ -27,7 +27,7 @@ const posts = await getCollection('blog');
   }
 
   @media (hover: hover) {
-    :is(nav, h2) a:hover {
+    nav a:hover {
       color: var(--color-primary);
     }
   }

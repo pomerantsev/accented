@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import withoutAccented from '~/assets/images/without-accented.png';
 import withAccented from '~/assets/images/with-accented.png';
 import { description } from 'common/strings';
+import { playgroundUrl } from '~/constants';
 
 # Accented
 
@@ -17,7 +18,7 @@ and you’ll see interactive callouts next to the elements containing accessibil
 
 <p class="extra-space"><a class="call-to-action" style="display: inline-block; margin-block-end: var(--space-xs);" href="/getting-started">Get started with Accented →</a><br />
   or
-  <a href="https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx">try it out in the playground</a>.</p>
+  <a href={playgroundUrl}>try it out in the playground</a>.</p>
 
 An example of an application without Accented / with Accented:
 

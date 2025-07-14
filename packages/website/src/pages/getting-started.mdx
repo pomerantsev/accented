@@ -4,14 +4,12 @@ description: "Learn the basics of using Accented in your web application."
 ---
 
 import { Image } from 'astro:assets';
-
 import ImageCompare from '~/components/ImageCompare.astro';
-
 import screenshotDefaultColor from '~/assets/images/screenshot-default-color.png';
 import screenshotGreen from '~/assets/images/screenshot-green.png';
-
 import StarterCode from '~/components/StarterCode.astro';
 import TableOfContents from '~/components/TableOfContents.astro';
+import { playgroundUrl } from '~/constants';
 
 # Getting started
 
@@ -20,6 +18,10 @@ Learn the basics of using Accented in your web application.
 <TableOfContents />
 
 ## First steps
+
+<div class="note">
+  To see Accented in action without installing it in your project, check it out in the <a href={playgroundUrl}>playground</a>.
+</div>
 
 ### Install
 
