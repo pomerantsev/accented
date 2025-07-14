@@ -3,19 +3,50 @@ const { pathname } = Astro.url;
 
 import Github from '~/components/icons/Github.astro';
 
-const menuItems = [
-  { href: '/getting-started', text: 'Getting started' },
-  { href: '/api', text: 'API' },
-  { href: '/how-it-works', text: 'How it works' },
-  { href: '/about', text: 'About' },
-  { href: '/blog', text: 'Blog' },
+type Icon = 'Github';
+
+type MenuItemBase = {
+  id: string;
+  href: string;
+  external?: boolean;
+};
+
+type MenuItemText = MenuItemBase & {
+  text: string;
+  icon?: never;
+};
+
+type MenuItemIcon = MenuItemBase & {
+  text?: never;
+  icon: Icon;
+};
+
+type MenuItem = MenuItemText | MenuItemIcon;
+
+const menuItems: Array<MenuItem> = [
+  { id: 'getting-started', href: '/getting-started', text: 'Getting started' },
+  { id: 'api', href: '/api', text: 'API' },
+  { id: 'how-it-works', href: '/how-it-works', text: 'How it works' },
+  { id: 'about', href: '/about', text: 'About' },
+  { id: 'blog', href: '/blog', text: 'Blog' },
   {
+    id: 'playground',
     href: 'https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx',
     text: 'Playground',
     external: true,
   },
-  { href: 'https://github.com/pomerantsev/accented', icon: 'Github' },
+  { id: 'github', href: 'https://github.com/pomerantsev/accented', icon: 'Github' },
 ];
+
+function isCurrent(item: MenuItem, pathname: string): boolean {
+  if ('text' in item) {
+    if (item.id === 'blog' && pathname.startsWith('/blog/')) {
+      return true;
+    }
+    return pathname === item.href;
+  }
+  return false;
+}
 ---
 <style>
   header {
@@ -120,7 +151,7 @@ const menuItems = [
             return (
               <a
                 href={item.href}
-                aria-current={pathname === item.href ? 'page' : undefined}
+                aria-current={isCurrent(item, pathname) ? 'page' : undefined}
                 class={item.external ? 'external' : ''}
               >
                 {item.text}
