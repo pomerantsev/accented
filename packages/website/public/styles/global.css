@@ -302,6 +302,7 @@ image-compare {
 }
 
 .icon {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   inline-size: 1em;
 }
