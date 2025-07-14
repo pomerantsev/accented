@@ -157,7 +157,7 @@ export function Accented({ children }) {
        * It’s important to clean up when component is unmounted.
        * If we don’t, Accented may be initialized more than once,
        * potentially leading to unpredictable behavior.
-       * See https://www.accented.dev/getting-started#run-once-per-page
+       * See https://accented.dev/getting-started#run-once-per-page
        */
       disable();
     };
@@ -165,7 +165,7 @@ export function Accented({ children }) {
 
   /**
    * How `isDevelopment` is calculated depends on your setup.
-   * See https://www.accented.dev/getting-started#run-in-development-mode
+   * See https://accented.dev/getting-started#run-in-development-mode
    */
   if (isDevelopment) {
     return (

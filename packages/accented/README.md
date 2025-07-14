@@ -1,5 +1,5 @@
-<a href="https://www.accented.dev">
-  <img alt="Accented" src="https://www.accented.dev/images/logo.svg" width="100" height="100" />
+<a href="https://accented.dev">
+  <img alt="Accented" src="https://accented.dev/images/logo.svg" width="100" height="100" />
 </a>
 
 # Accented
@@ -14,7 +14,7 @@ It adds interactive visual callouts for all accessibility issues that axe-core i
 
 Example — without Accented vs. with Accented:
 
-![Two screenshots of the same web application side by side. On the left, the regular state of the application. On the right, the same state but with bright outlines and buttons added to some page elements.](https://www.accented.dev/images/side-by-side.png)
+![Two screenshots of the same web application side by side. On the left, the regular state of the application. On the right, the same state but with bright outlines and buttons added to some page elements.](https://accented.dev/images/side-by-side.png)
 
 [Try it out at the Playground (StackBlitz).](https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx)
 
@@ -24,7 +24,7 @@ Accented can complement other tools commonly used for accessibility testing:
 - **It’s embedded into the project code, with no setup required in the browser or code editor.** You’d get a similar audit from [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) or [axe DevTools](https://www.deque.com/axe/devtools/), but with Accented, you don’t need a browser extension, and the results are always up to date.
 - **You don’t need to write any extra code, unlike with adding accessibility tests to a test suite.** You can test for accessibility issues in your test suite, for example using [`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright). For that, however, you need to write a test case for every state of the application that you want to test. Accented instead automatically tests anything that’s currently on the page in your browser.
 
-Learn more about Accented at [accented.dev](https://www.accented.dev).
+Learn more about Accented at [accented.dev](https://accented.dev).
 
 ## Installation and usage
 
@@ -49,15 +49,15 @@ It’s for development use only.
 
 See the docs for your bundler or framework for how to run code only in the development environment.
 
-- [More detailed installation and usage guide](https://www.accented.dev/getting-started)
-- [Full API](https://www.accented.dev/api)
+- [More detailed installation and usage guide](https://accented.dev/getting-started)
+- [Full API](https://accented.dev/api)
 
 ## More info
 
-- [Accessibility](https://www.accented.dev/about#accessibility) (how accessible is Accented itself?)
-- [Performance](https://www.accented.dev/how-it-works#performance) (does Accented affect runtime performance of my app?)
-- [Browser support](https://www.accented.dev/about#browser-support) (will Accented work for me and my teammates?)
-- [Versioning policy](https://www.accented.dev/about#versioning) (Accented follows [SemVer](https://semver.org/))
+- [Accessibility](https://accented.dev/about#accessibility) (how accessible is Accented itself?)
+- [Performance](https://accented.dev/how-it-works#performance) (does Accented affect runtime performance of my app?)
+- [Browser support](https://accented.dev/about#browser-support) (will Accented work for me and my teammates?)
+- [Versioning policy](https://accented.dev/about#versioning) (Accented follows [SemVer](https://semver.org/))
 - [Changelog](https://github.com/pomerantsev/accented/blob/main/packages/accented/CHANGELOG.md)
 
 ## Contributing
