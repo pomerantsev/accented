@@ -19,6 +19,9 @@ const { Content } = await render(post);
 ---
 
 <MainLayout description={post.data.description}>
+  <nav aria-label="Breadcrumbs">
+    <a href="/blog">← All posts</a>
+  </nav>
   <article class="flow">
     <h1>{post.data.title}</h1>
     <p>
