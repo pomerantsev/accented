@@ -32,6 +32,14 @@ const { Content } = await render(post);
       color: var(--color-primary);
     }
   }
+
+  .subtitle {
+    margin-block: var(--space-xl);
+  }
+
+  .metadata {
+    margin-block-start: var(--space-xl);
+  }
 </style>
 
 <MainLayout description={post.data.description}>
@@ -40,7 +48,7 @@ const { Content } = await render(post);
   </nav>
   <article class="flow">
     <h1>{post.data.title}</h1>
-    <p>
+    <p class="metadata">
       <time datetime={getPostDate(post)}>{formatPostDate(post)}</time>, by {
         post.data.author
       }
