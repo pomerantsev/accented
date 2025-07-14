@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import RSS from '~/components/icons/RSS.astro';
 import MainLayout from '~/layouts/MainLayout.astro';
 import { formatPostDate, getPostDate, getPostUrl } from '~/pages/blog/helpers';
 
@@ -8,6 +9,9 @@ const posts = await getCollection('blog');
 
 <MainLayout>
   <h1>Blog</h1>
+  <p>
+    <a href="/blog/rss.xml"><span class="icon"><RSS /></span> RSS</a>
+  </p>
   {
     posts.map((post) => (
       <article>

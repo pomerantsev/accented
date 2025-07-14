@@ -300,3 +300,8 @@ image-compare {
   --focus-color: var(--color-primary);
   --thumb-size: var(--size-step-4);
 }
+
+.icon {
+  display: inline-block;
+  inline-size: 1em;
+}
