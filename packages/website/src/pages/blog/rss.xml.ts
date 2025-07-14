@@ -1,6 +1,5 @@
 import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
-import { description } from 'common/strings';
 import { getPostDate, getPostUrl } from '~/pages/blog/helpers';
 
 export async function GET({ site }: { site: URL }) {
@@ -17,7 +16,8 @@ export async function GET({ site }: { site: URL }) {
 
   return rss({
     title: 'Accented blog',
-    description,
+    description:
+      'What’s going on with Accented, the frontend library for continuous accessibility testing and issue highlighting.',
     site,
     trailingSlash: false,
     items,
