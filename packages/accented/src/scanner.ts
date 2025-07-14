@@ -77,7 +77,7 @@ export function createScanner(
         });
       } catch (error) {
         console.error(
-          `Accented: axe-core (the accessibility testing engine) threw an error. Check the \`axeOptions\` property (https://www.accented.dev/api#axeoptions) that you’re passing to Accented. If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
+          `Accented: axe-core (the accessibility testing engine) threw an error. Check the \`axeOptions\` property (https://accented.dev/api#axeoptions) that you’re passing to Accented. If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
           error,
         );
       }

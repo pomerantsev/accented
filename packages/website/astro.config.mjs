@@ -7,7 +7,7 @@ export default defineConfig({
   srcDir: './src',
   outDir: './dist',
   publicDir: './public',
-  site: 'https://www.accented.dev',
+  site: 'https://accented.dev',
   trailingSlash: 'never',
   image: {
     responsiveStyles: true,

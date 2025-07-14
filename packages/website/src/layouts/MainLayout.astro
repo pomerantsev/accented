@@ -51,12 +51,12 @@ const isDev = import.meta.env.DEV;
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <meta property="og:image" content="https://www.accented.dev/images/og-image.png" />
+    <meta property="og:image" content="https://accented.dev/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
-    <meta property="og:url" content={`https://www.accented.dev${Astro.url.pathname}`} />
+    <meta property="og:url" content={`https://accented.dev${Astro.url.pathname}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Accented" />
     <meta property="og:locale" content="en_US" />
@@ -64,7 +64,7 @@ const isDev = import.meta.env.DEV;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     {description && <meta name="twitter:description" content={description} />}
-    <meta name="twitter:image" content="https://www.accented.dev/images/og-image.png" />
+    <meta name="twitter:image" content="https://accented.dev/images/og-image.png" />
   </head>
   <body>
     <MainMenu />

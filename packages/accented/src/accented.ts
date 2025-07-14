@@ -83,7 +83,7 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
 
     if (enabled.value) {
       console.warn(
-        'You are trying to run the Accented library more than once, which may lead to errors. See https://www.accented.dev/getting-started#run-once-per-page',
+        'You are trying to run the Accented library more than once, which may lead to errors. See https://accented.dev/getting-started#run-once-per-page',
       );
       console.trace();
     }

@@ -116,7 +116,7 @@ That's even true for cases where the specificity of a host app selector is highe
 
 ### Browser support
 
-In the [browser support policy](https://www.accented.dev/about#browser-support),
+In the [browser support policy](https://accented.dev/about#browser-support),
 we decided to list specific browser versions,
 as opposed to supporting a certain year’s [baseline](https://web.dev/baseline).
 
@@ -149,7 +149,7 @@ TODO
 
 We’re using [Changesets](https://github.com/changesets/changesets) to automate the version and release process of Accented as much as possible.
 
-See [Versioning policy](https://www.accented.dev/about#versioning) when making versioning decisions.
+See [Versioning policy](https://accented.dev/about#versioning) when making versioning decisions.
 
 ### Marking a change that requires a version bump
 
