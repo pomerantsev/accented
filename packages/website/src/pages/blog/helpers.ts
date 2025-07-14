@@ -19,3 +19,8 @@ export function formatPostDate(post: CollectionEntry<'blog'>): string {
     day: 'numeric',
   });
 }
+
+export function getPostUrl(post: CollectionEntry<'blog'>): string {
+  const { id } = post;
+  return `/blog/${id}`;
+}
