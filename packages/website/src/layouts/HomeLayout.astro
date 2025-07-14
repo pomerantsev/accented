@@ -1,11 +1,10 @@
 ---
 import { description } from 'common/strings';
 import MainLayout from '~/layouts/MainLayout.astro';
-import { Content } from '~/pages/home.mdx';
 ---
 
 <MainLayout description={description}>
   <article class="flow">
-    <Content />
+    <slot />
   </article>
 </MainLayout>
