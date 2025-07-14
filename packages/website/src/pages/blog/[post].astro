@@ -17,6 +17,22 @@ if (!post) {
 
 const { Content } = await render(post);
 ---
+<style>
+  nav {
+    margin-block-end: var(--space-l);
+  }
+
+  nav a {
+    text-decoration-line: none;
+    font-weight: 600;
+  }
+
+  @media (hover: hover) {
+    nav a:hover {
+      color: var(--color-primary);
+    }
+  }
+</style>
 
 <MainLayout description={post.data.description}>
   <nav aria-label="Breadcrumbs">
