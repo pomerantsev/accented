@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    "./tokens": "./src/tokens.ts"
+    "./tokens": "./src/tokens.ts",
+    "./strings": "./src/strings.ts"
   }
 }

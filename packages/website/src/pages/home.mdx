@@ -1,13 +1,12 @@
 import ImageCompare from '~/components/ImageCompare.astro';
-
 import { Image } from 'astro:assets';
-
 import withoutAccented from '~/assets/images/without-accented.png';
 import withAccented from '~/assets/images/with-accented.png';
+import { description } from 'common/strings';
 
 # Accented
 
-<p class="subtitle">A frontend library for continuous accessibility testing and issue highlighting.</p>
+<p class="subtitle">{description}.</p>
 
 [Add a few lines of code](/getting-started#first-steps) to your web application,
 and you’ll see interactive callouts next to the elements containing accessibility issues.

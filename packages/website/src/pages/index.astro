@@ -1,10 +1,10 @@
 ---
+import { description } from 'common/strings';
 import MainLayout from '~/layouts/MainLayout.astro';
-
 import { Content } from '~/pages/home.mdx';
 ---
 
-<MainLayout description="A frontend library for continuous accessibility testing and issue highlighting">
+<MainLayout description={description}>
   <article class="flow">
     <Content />
   </article>

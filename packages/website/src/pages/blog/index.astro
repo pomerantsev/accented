@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import MainLayout from '~/layouts/MainLayout.astro';
-import { formatPostDate, getPostDate } from '~/pages/blog/helpers';
+import { formatPostDate, getPostDate, getPostUrl } from '~/pages/blog/helpers';
 
 const posts = await getCollection('blog');
 ---
@@ -12,7 +12,7 @@ const posts = await getCollection('blog');
     posts.map((post) => (
       <article>
         <h2>
-          <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          <a href={getPostUrl(post)}>{post.data.title}</a>
         </h2>
         <p>{post.data.description}</p>
         <time datetime={getPostDate(post)}>{formatPostDate(post)}</time>
