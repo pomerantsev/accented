@@ -1,7 +1,8 @@
 ---
-const { pathname } = Astro.url;
-
 import Github from '~/components/icons/Github.astro';
+import { playgroundUrl } from '~/constants';
+
+const { pathname } = Astro.url;
 
 type Icon = 'Github';
 
@@ -31,7 +32,7 @@ const menuItems: Array<MenuItem> = [
   { id: 'blog', href: '/blog', text: 'Blog' },
   {
     id: 'playground',
-    href: 'https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx',
+    href: playgroundUrl,
     text: 'Playground',
     external: true,
   },
