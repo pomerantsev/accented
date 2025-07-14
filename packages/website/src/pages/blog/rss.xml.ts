@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
-import { getPostDate, getPostUrl } from '~/pages/blog/helpers';
+import { getPostDate, getPostUrl } from '~/blog-helpers';
 
 export async function GET({ site }: { site: URL }) {
   const posts = await getCollection('blog');

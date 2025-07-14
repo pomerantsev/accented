@@ -1,10 +1,11 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
+import { formatPostDate, getPostDate } from '~/blog-helpers';
 import MainLayout from '~/layouts/MainLayout.astro';
-import { formatPostDate, getPostDate } from '~/pages/blog/helpers';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
+  console.log('Posts:', posts);
   return posts.map((post) => ({ params: { post: post.id } }));
 }
 
