@@ -7,7 +7,7 @@ type Heading = {
   text: string;
 };
 const { headings } = Astro.props as { headings: Array<Heading> };
-const h1 = headings?.find(h => h.depth === 1);
+const h1 = headings?.find((h) => h.depth === 1);
 ---
 
 <MainLayout title={h1?.text} description={Astro.props.frontmatter.description}>

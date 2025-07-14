@@ -1,19 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
 import MainLayout from '~/layouts/MainLayout.astro';
+import { formatPostDate, getPostDate } from '~/pages/blog/helpers';
 
 const posts = await getCollection('blog');
 ---
 
 <MainLayout>
   <h1>Blog</h1>
-  <p>Welcome to the blog!</p>
-  {posts.map(post => (
-    <article>
-      <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
-      <p>{post.data.description}</p>
-      <!-- TODO: display date consistently, regardless of timezone. -->
-      <time datetime={post.data.date}>{new Date(post.data.date).toLocaleDateString()}</time>
-    </article>
-  ))}
+  {
+    posts.map((post) => (
+      <article>
+        <h2>
+          <a href={`/blog/${post.id}`}>{post.data.title}</a>
+        </h2>
+        <p>{post.data.description}</p>
+        <time datetime={getPostDate(post)}>{formatPostDate(post)}</time>
+      </article>
+    ))
+  }
 </MainLayout>
