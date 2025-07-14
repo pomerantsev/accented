@@ -6,8 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": ["**/*.astro"]
+    "ignoreUnknown": false
   },
   "formatter": {
     "enabled": true,
@@ -65,6 +64,17 @@
         "rules": {
           "style": {
             "noDefaultExport": "error"
+          }
+        }
+      }
+    },
+    {
+      "include": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
           }
         }
       }

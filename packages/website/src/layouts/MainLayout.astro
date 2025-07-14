@@ -1,11 +1,18 @@
 ---
-import MainMenu from '~/components/MainMenu.astro';
+import {
+  colorDark,
+  colorLight,
+  fontSystemMono,
+  fontSystemSans,
+  primaryColorDark,
+  primaryColorLight,
+} from 'common/tokens';
 import Accented from '~/components/Accented.astro';
-import { primaryColorDark, primaryColorLight, colorLight, colorDark, fontSystemSans, fontSystemMono } from 'common/tokens';
+import MainMenu from '~/components/MainMenu.astro';
 
 const { title, description } = Astro.props;
 
-const fullTitle = (title ? `${title} | ` : '') + 'Accented';
+const fullTitle = `${title ? `${title} | ` : ''}Accented`;
 
 const isDev = import.meta.env.DEV;
 ---

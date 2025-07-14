@@ -1,10 +1,11 @@
 ---
+import { getCollection, getEntry, render } from 'astro:content';
 import MainLayout from '~/layouts/MainLayout.astro';
-import { getEntry, render, getCollection } from 'astro:content';
+import { formatPostDate, getPostDate } from '~/pages/blog/helpers';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({ params: { post: post.id } }));
+  return posts.map((post) => ({ params: { post: post.id } }));
 }
 
 const { post: postId } = Astro.params;
@@ -17,9 +18,17 @@ if (!post) {
 const { Content } = await render(post);
 ---
 
-<MainLayout>
+<MainLayout description={post.data.description}>
   <article class="flow">
+    <h1>{post.data.title}</h1>
+    <p>
+      <time datetime={getPostDate(post)}>{formatPostDate(post)}</time>, by {
+        post.data.author
+      }
+    </p>
+    <p class="subtitle">
+      {post.data.description}
+    </p>
     <Content />
   </article>
-  <!-- TODO: output date and author. -->
 </MainLayout>
