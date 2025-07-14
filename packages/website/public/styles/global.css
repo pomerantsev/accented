@@ -227,7 +227,7 @@ article li:not(:first-child):not(:is(ul, ol) :is(ul, ol) li) {
 }
 
 /* Line lengths */
-article {
+main {
   max-width: 65ch;
   margin-inline: auto;
 }
@@ -273,7 +273,7 @@ h4 {
 }
 
 .subtitle {
-  font-size: var(--size-step-1);
+  font-size: var(--size-step-2);
   text-wrap: balance;
 }
 
