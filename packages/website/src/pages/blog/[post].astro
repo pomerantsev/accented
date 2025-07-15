@@ -5,7 +5,6 @@ import MainLayout from '~/layouts/MainLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  console.log('Posts:', posts);
   return posts.map((post) => ({ params: { post: post.id } }));
 }
 

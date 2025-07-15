@@ -20,7 +20,7 @@ Learn the basics of using Accented in your web application.
 ## First steps
 
 <div class="note">
-  To see Accented in action without installing it in your project, check it out in the <a href={playgroundUrl}>playground</a>.
+  To try Accented without installing it, head over to the <a href={playgroundUrl}>playground</a>.
 </div>
 
 ### Install
@@ -32,7 +32,7 @@ You have two main options for installing Accented.
 
 **NPM:**
 
-Install with NPM (or with another package manager, such as PNPM or Yarn).
+Install via NPM (or with a different package manager like PNPM or Yarn).
 
 ```bash
 npm install --save-dev accented
@@ -54,14 +54,14 @@ import { accented } from 'https://esm.sh/accented';
 
 ### Run in development mode
 
-Run Accented in development only.
+Only run Accented in development.
 
 <div class="note">
-  Never run Accented in production:
+  It’s not a great idea to have Accented running in production:
 
-- It’s not your users who should be notified of accessibility issues, it’s you, the developer.
-- Accented’s [browser support policy](/about#browser-support) may be different from that of your application,
-which in turn may cause errors for some of your users on older browsers.
+- Accessibility issues should be surfaced to you — not your users.
+- Accented’s [browser support policy](/about#browser-support) might differ from your app’s,
+and that may cause errors for some of your users on older browsers.
 </div>
 
 Depending on your setup, checking whether the code is running in development or in production may look differently.
@@ -72,7 +72,7 @@ Additionally, consider importing Accented dynamically, to ensure that its code i
 
 You can use the following code as a starting point.
 
-Run it on the client side only. Accented doesn’t do anything on the server side.
+Run this on the client only — Accented doesn’t do anything server-side.
 
 <StarterCode />
 
@@ -82,8 +82,8 @@ Accented should only be initialized once per page.
 It uses `axe.run()` under the hood,
 which throws an error if called multiple times simultaneously.
 
-If `accented()` may be called multiple times (for example,
-in a component by a framework that supports hot reloading),
+If there’s a chance `accented()` could be called more than once
+(for example, in a component by a framework that supports hot reloading),
 make sure to disable Accented when the component is unmounted.
 
 ```js
@@ -100,7 +100,7 @@ disable();
 
 Introducing Accented to a large codebase may present an organizational challenge.
 
-Similar to introducing linting, if initialized with no options (`accented();`),
+Similar to introducing linting, if you call `accented()` with no options,
 the output may be overwhelming, with dozens of issues reported per page.
 
 To avoid this, introduce Accented gradually, with a combination of the following:
@@ -109,14 +109,14 @@ To avoid this, introduce Accented gradually, with a combination of the following
   For example, you can start by scanning only certain components,
   and then gradually expand the context to include more components.
 - **Use the [`axeOptions` option](/api#axeoptions) to include or exclude some axe rules.**
-  This can be useful if your app has many instances of a certain type of issue.
+  Helpful if your app has lots of the same type of issue.
   By initially excluding the rule for that issue,
   you can make the output more manageable.
 
 In the future, Accented may have a console-only mode
 (see [issue #28](https://github.com/pomerantsev/accented/issues/28)),
 which would also make it easier to introduce Accented.
-If interested, please upvote the issue.
+If that sounds useful, consider upvoting the issue.
 
 ## Using with frameworks (React, Vue, Angular, Svelte, etc.)
 
@@ -128,7 +128,7 @@ or how your application’s codebase is structured.
 That said, when using a framework, you have options:
 
 - **Call once during initialization (the simple option).**
-  Call `accented()` at any point during your app’s client-side initialization. That’s it.
+  Just call `accented()` during client-side initialization — that’s it.
 - **Create a reusable component.**
   Consider it if you need to scan different parts on different pages.
   Here’s what such a component may look like in React:
@@ -143,8 +143,8 @@ export function Accented({ children }) {
   useEffect(() => {
     if (!containerRef.current) {
       /**
-       * containerRef.current is going to be null if we’re not in development mode,
-       * given what the component returns.
+       * containerRef.current will be null in production,
+       * based on what this component returns.
        */
       return;
     }
@@ -156,9 +156,9 @@ export function Accented({ children }) {
 
     return () => {
       /**
-       * It’s important to clean up when component is unmounted.
-       * If we don’t, Accented may be initialized more than once,
-       * potentially leading to unpredictable behavior.
+       * Be sure to clean up on unmount.
+       * Without this, Accented could be initialized multiple times,
+       * which may lead to unpredictable behavior.
        * See https://accented.dev/getting-started#run-once-per-page
        */
       disable();
@@ -188,15 +188,15 @@ It runs accessibility tests on the page
 that’s currently in the developer’s browser.
 
 However, if you additionally need something similar for CI,
-consider using [axe-core](https://www.npmjs.com/package/axe-core) in your automated test suite,
-either directly, or through wrappers such as [jest-axe](https://www.npmjs.com/package/jest-axe)
+consider using [axe-core](https://www.npmjs.com/package/axe-core) in your test suite —
+either directly or through wrappers such as [jest-axe](https://www.npmjs.com/package/jest-axe)
 or [axe-playwright](https://www.npmjs.com/package/axe-playwright)
 (depending on your test framework).
 
 ## Improving performance
 
 Accented _may_ [negatively affect the performance](/how-it-works#performance) of your application in development,
-however there are ways to make performance issues less perceptible.
+however there are ways to reduce the performance impact.
 
 ### Confirm that the issues are caused by Accented
 
@@ -224,7 +224,7 @@ If `totalBlockingTime` is low (less than 100 ms),
 then Accented is probably not the cause of the performance issues.
 
 If it’s high (a few hundred milliseconds),
-try [changing run frequency (using `throttle`)](#change-run-frequency)
+try [adjusting the run frequency (using `throttle`)](#change-run-frequency)
 or [disabling some axe rules (using `axeOptions`)](#disable-some-axe-rules).
 
 ### Change run frequency
@@ -236,6 +236,7 @@ and whether there should be a timeout between a mutation and a scan.
 For example, if your page has lots of elements,
 and user interactions are followed by JS-driven animations,
 consider offsetting the scan by the duration of the animation:
+
 ```js
 accented({
   throttle: {
@@ -245,8 +246,8 @@ accented({
 });
 ```
 
-By changing `wait` and `leading` values,
-you can find a balance between Accented responsiveness and app performance.
+You can tweak `wait` and `leading` values to find the right balance
+between Accented responsiveness and app performance.
 
 ### Disable some axe rules
 
@@ -254,11 +255,12 @@ If you find that even with a high `wait` value,
 Accented still takes too long to run,
 consider disabling some axe rules.
 
-You can do so if you don’t expect some types of issues to arise.
+This makes sense if you don’t expect certain types of issues.
 
 For example, if you know you have a color scheme with high enough contrast,
 you may get a noticeable performance boost by disabling the [`color-contrast` rule](https://dequeuniversity.com/rules/axe/4.10/color-contrast)
 which is expensive to test for:
+
 ```js
 accented({
   axeOptions: {
@@ -275,7 +277,7 @@ See [`axeOptions` documentation](/api#axeoptions) for more details.
 
 You can change some styling aspects of the elements that are added by Accented.
 It’s usually desirable to make such elements stand out on the page,
-so consider doing it if the defaults don’t provide enough contrast in your application.
+so styles are worth adjusting if the Accented elements don’t stand out enough in your app.
 
 You can make the changes by setting certain CSS properties in your app, for example:
 
@@ -315,8 +317,7 @@ initialize Accented in that document.
 There will be no interference between the instances of Accented
 running in the parent and child documents.
 
-If you don’t control the child document,
-you won’t be able to run Accented there,
-and it wouldn’t be helpful anyway
-(because without controlling the document’s source,
-you wouldn’t be able to fix whatever issues Accented finds).
+If you don’t control the iframe’s content,
+you can’t run Accented there —
+and even if you could, it wouldn’t be useful,
+since you wouldn’t be able to fix the issues it finds.
