@@ -14,8 +14,8 @@ import TableOfContents from '~/components/TableOfContents.astro';
   on the page.
   Example: `const disable = accented(options);`
   - Parameters: the only parameter (optional) is `options`. See [Options](#options).
-  - Returns: a `disable` function that takes no parameters. When called, disables the scanning and highlighting,
-    and cleans up any changes that Accented has made to the page.
+  - Returns: a `disable` function (no parameters). When called, it stops scanning and highlighting
+    and cleans up any changes made to the page.
 
 ### Type exports
 
@@ -34,12 +34,12 @@ The following types are exported for TypeScript consumers:
 
 The `options` parameter for `axe.run()`.
 
-Accented only supports two keys of the `options` object:
+Accented supports only two keys of the original `options` object:
 
 - `rules`;
 - `runOnly`.
 
-Both properties are optional, and both control which accessibility rules your page is tested against.
+Both are optional and control which accessibility rules Accented tests against.
 
 See [axe-core `options` documentation](https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter).
 
@@ -51,16 +51,12 @@ See [axe-core `options` documentation](https://www.deque.com/axe/core-documentat
 
 A function that will be called after each scan.
 
-Potential uses:
-
-- do something with the scan results,
-  for example send them to a backend for storage and analysis;
-- analyze Accented’s performance.
+Potential uses include sending results to a backend or measuring performance.
 
 It accepts a single `params` object with the following properties:
 
 - `elementsWithIssues`: the most up-to-date array of all elements with accessibility issues.
-- `performance`: runtime performance of the last scan. An object with the following props:
+- `performance`: performance metrics from the last scan. Includes:
   - `totalBlockingTime`: how long the main thread was blocked by Accented during the last scan, in milliseconds.
     It’s further divided into the `scan` and `domUpdate` phases.
   - `scan`: how long scanning (the execution of `axe.run()`) took, in milliseconds.
@@ -97,7 +93,7 @@ Accepts a variety of shapes:
 - an object for selecting elements within shadow DOM,
   whose shape is `{ fromShadowDom: [selector1, selector2, ...] }`,
   where `selector1`, `selector2`, etc. select shadow hosts, and the last selector selects the actual context.
-  `selector2` in this example is _within_ the shadow root created on the element(s) that match `selector1`,
+  In this example, `selector2` targets an element _within_ the shadow root created on element(s) matched by `selector1`,
   so in practice you shouldn’t have more than two elements in such an array
   unless you have a very complex structure with multiple shadow DOM layers;
 - a [`NodeList`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList) (likely a result of a [`querySelectorAll()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) call);
@@ -105,7 +101,7 @@ Accepts a variety of shapes:
 - an object containing `include` and / or `exclude` properties.
   It’s useful if you’d like to exclude certain elements or parts of the page.
   The values for `include` and `exclude` can take any of the above shapes.
-  It’s unlikely that you’d want to have complex `include` / `exclude` rules,
+  Complex `include` / `exclude` rules are rarely needed,
   but if you do, the exact behavior is documented by the relevant tests:
   [`is-node-in-scan-context.test.ts`](https://github.com/pomerantsev/accented/blob/main/packages/accented/src/utils/is-node-in-scan-context.test.ts).
 
@@ -121,7 +117,7 @@ which the `context` option from Accented mostly mirrors
 
 The character sequence that’s used in various elements, attributes and stylesheets that Accented adds to the page.
 
-You shouldn’t have to provide this prop unless some of the names on your page have "accented" in it and conflict with what Accented provides by default.
+You likely don’t need to set this unless your page already uses "accented" in element names or attributes, which could cause conflicts.
 
 - The data attribute that’s added to elements with issues (default: `data-accented`).
 - The names of custom elements for the button and the dialog that get created for each element with issues
@@ -147,7 +143,7 @@ a custom element will be called `my-name-trigger`, and so on.
 
 ### output
 
-An object controlling how the results of scans are presented.
+Controls how scan results are presented.
 
 #### output.console
 
@@ -167,7 +163,7 @@ An object controlling at what moments Accented will run its scans.
 
 **Default:** `1000`.
 
-How long Accented must wait (in milliseconds) to run a scan after a mutation or after the previous scan (whichever finished last).
+How long (in ms) Accented waits to run a scan after a mutation or after the previous scan finishes — whichever is later.
 
 If the page you’re scanning has a lot of nodes,
 scanning may take a noticeable time (~ a few hundred milliseconds),
@@ -187,16 +183,15 @@ In this case, `wait` only applies to subsequent scans,
 giving the page at least `wait` milliseconds between the end of the previous scan
 and the beginning of the next one.
 
-If `leading` is set to `false`, the wait applies to mutations as well,
-delaying the output.
-This may be useful if you’re expecting quick bursts of mutations on your page.
+If `false`, Accented waits before the first scan too —
+useful if you expect batches of rapid mutations.
 
 ## Styling
 
 You can control what some aspects of Accented UI look like
 by setting the following props in your application (see [Styling](/getting-started#styling) in [Getting started](/getting-started) for a discussion of when you might need this):
 
-- `--accented-primary-color`. The color of the outlines and of the trigger button background. Default: violet-red (`oklch(0.5 0.3 0)`).
+- `--accented-primary-color`. Color of outlines and trigger button background. Default: violet-red (`oklch(0.5 0.3 0)`).
 - `--accented-secondary-color`. Trigger button text color. Default: white (`oklch(0.98 0 0)`).
 - `--accented-outline-width`. Default: `2px`.
 - `--accented-outline-style`. Default: `solid`.
@@ -204,8 +199,8 @@ by setting the following props in your application (see [Styling](/getting-start
 **Note:** Accented’s default values are defined within `@layer accented`, so if you use the default layer to define your custom properties, they’re guaranteed to take precedence over the default ones.
 [Learn more about CSS layers.](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
 
-**Note:** when using the [`name` option](#name),
-the custom properties will start with that name, and the CSS layer will equal the name value.
+**Note:** when you set the [`name` option](#name),
+the custom property names and CSS layer will follow that value.
 
 For example, if `name: 'my-name'`, then the CSS custom properties will be `--my-name-primary-color`, `--my-name-secondary-color`, and so on,
 and those will be defined within `@layer my-name`.
