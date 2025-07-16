@@ -42,7 +42,7 @@ const { Content } = await render(post);
   }
 </style>
 
-<MainLayout description={post.data.description}>
+<MainLayout title={`${post.data.title} | Blog`} description={post.data.description}>
   <nav aria-label="Breadcrumbs">
     <a href="/blog">← All posts</a>
   </nav>
