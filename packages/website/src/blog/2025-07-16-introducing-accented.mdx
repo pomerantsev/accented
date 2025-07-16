@@ -11,7 +11,7 @@ import dialogImage from '~/assets/images/dialog.png';
 
 Here’s what Accented is all about.
 
-You add a few lines of code to your web app, for example:
+You add a bit of code to your web app, for example:
 
 ```js
 if (process.env.NODE_ENV === 'development') {
@@ -52,7 +52,7 @@ shows enough information to understand what the issue is and how to fix it.
 The issues are updated when page contents or styles change
 (Accented uses a [mutation observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) to detect changes),
 which is common in apps of all kinds —
-from mostly static pages to full-blown single-page applications (SPAs).
+from mostly static pages to full-blown single-page apps (SPAs).
 
 ## Accessibility testing tools: an overview
 
@@ -79,7 +79,7 @@ They’re simply an entirely different category of tools.
 These tools operate on a limited test surface —
 there’s a finite amount of source code in any project.
 
-Unfortunately, they’re limited in the types of issues they can detect.
+The downside is that they’re limited in the types of issues they can detect.
 
 For example, they can help with missing alt attributes
 or inputs not having correctly associated labels.
@@ -93,13 +93,13 @@ which is a plugin for [ESLint](https://eslint.org/).
 As its name suggests, if you author your app using JSX,
 it checks your whole codebase against a set of accessibility rules.
 
-It’s great as the first line of defense, is very easy to set up,
-and requires virtually no maintenance.
+It’s great as the first line of defense, it’s very easy to set up,
+and it requires virtually no maintenance.
 
 
 ### Rendered-page-based tools
 
-The test surface here is limitless: even in the simplest cases,
+Such tools can never test all the surfaces: even in the simplest cases,
 the page may be presented to the user in a multitude of ways,
 depending on their device, OS, browser, preferences, and so on,
 and with every new input, the number of possibilities grows exponentially.
@@ -117,13 +117,12 @@ such as contrast issues, heading structure problems, and list semantics.
   it catches issues in real time (similar to linters),
   and it’s completely framework-agnostic.
 - There are **on-demand auditing tools**, such as browser extensions or [Lighthouse]((https://developer.chrome.com/docs/lighthouse)).
-  Their major downside is that the developer needs to take an explicit action to get the results of the audit.
-  Since any developer is focused on writing the software,
-  such audits are likely performed irregularly and infrequently.
+  Their major downside is that such audits are not triggered automatically —
+  running them requires developer involvement.
 - The [**Astro framework**](https://astro.build/) (and possibly others too)
-  has an **accessibility auditing tool** built into their development process,
-  and its output is similar to that of Accented (overlays and hints on the page).
-  That, however, also requires an explicit action to be taken to run the audit,
+  has an [**accessibility auditing tool**](https://docs.astro.build/en/guides/dev-toolbar/#audit) built into their dev toolbar,
+  and its output is similar to what Accented provides (overlays and hints on the page).
+  Showing the overlays, however, also requires an explicit action,
   reducing the impact of the tool.
 - Accessibility testing can be performed in **automated test suites**.
   Such tests can be valuable, as they prevent accessibility regressions.
@@ -132,8 +131,7 @@ such as contrast issues, heading structure problems, and list semantics.
 - There’s also **[@axe-core/react](https://github.com/dequelabs/axe-core-npm/blob/b374159a9e63c4dad0135fb2353163ffe8c04453/packages/react/README.md)**,
   which is very similar in spirit to Accented.
   It also scans the rendered page and outputs scan results (only to the console).
-  Unfortunately, it’s only meant for React applications, and most importantly,
-  it doesn’t support modern versions of React,
+  Unfortunately, it’s only meant for React applications, it doesn’t support modern versions of React,
   and overall it’s in maintenance mode, with no further development plans.
 
 ### Comparison
@@ -143,18 +141,18 @@ Here’s a summary to help you choose the right tools.
 - **Linting.**
   - **Pros:** checks the whole codebase in real time, easy to set up, can be used in CI.
   - **Cons:** tests only code, JSX-specific.
-- **Browser devtools (axe, Lighthouse).**
-  - **Pros:** zero setup required.
-  - **Cons:** requires an explicit action to run the audit.
-- **Tests (`jest-axe`, `@axe-core/playwright`, etc.).**
-  - **Pros:** prevent regressions, can be used in CI.
-  - **Cons:** high cost (tests need to be written and maintained).
-- **Framework devtools.**
-  - **Pros:** zero setup required.
-  - **Cons:** framework-specific by definition, may require an explicit action to run the audit.
 - **Accented.**
   - **Pros:** tests current page in real time, easy to set up, framework-agnostic.
   - **Cons:** [modifies the page](#page-modifications), [may impact runtime performance](#runtime-performance).
+- **Browser devtools (axe, Lighthouse).**
+  - **Pros:** zero setup required.
+  - **Cons:** requires an explicit action to run the audit.
+- **Framework devtools.**
+  - **Pros:** zero setup required.
+  - **Cons:** framework-specific by definition, may require an explicit action to run the audit.
+- **Tests ([jest-axe](https://www.npmjs.com/package/jest-axe), [@axe-core/playwright](https://www.npmjs.com/package/@axe-core/playwright), etc.).**
+  - **Pros:** prevent regressions, can be used in CI.
+  - **Cons:** high cost (tests need to be written and maintained).
 
 Overall, I think of Accented as an additional safety net
 that can further strengthen the accessibility posture of your application,
@@ -207,13 +205,13 @@ That said, developers may have legitimate concerns.
 Accented modifies the DOM of the host application:
 it adds stylesheets, attributes, and elements.
 
-We strive to minimize its impact:
-for instance, we use shadow DOM to isolate the styles.
+It strives to minimize the impact:
+for instance, it uses shadow DOM to isolate the styles.
 
 Still, some changes are unavoidable,
 so whenever there’s an accessibility issue on the page,
-there is a chance that when Accented makes its modifications,
-something else on the page may change.
+there is a also chance that when Accented makes its modifications,
+something else on the page changes as well.
 
 For example, if your JavaScript assumes a specific number of child elements, or if styles rely on sibling selectors, Accented’s DOM changes might interfere.
 
@@ -230,15 +228,15 @@ potentially overwhelming the developer with its output.
 On one hand, those are all legitimate issues that need to be addressed.
 
 On the other, we want things to be manageable,
-and the strategy here is to use the [`axeOptions`](/api#axeoptions)
-and [`context`](/api#context) options
+and the strategy here is to use [`axeOptions`](/api#axeoptions)
+and [`context`](/api#context)
 to start small and then gradually expand the scope of the tests
 (see [Using in large projects](/getting-started#using-in-large-projects)).
 
 ### Runtime performance
 
 Accented runs axe-core in the browser,
-and that may be an expensive operation.
+and that may be an expensive operation (especially on large, complex pages).
 
 Accented [runs the minimum necessary axe-core tests](/how-it-works#performance) to ensure accurate output,
 but in some cases the slowdown to the host application may still be noticeable.
