@@ -45,7 +45,7 @@ shows enough information to understand what the issue is and how to fix it.
 
 <Image
   src={dialogImage}
-  alt="Screenshot of the same application with Accented highlighting accessibility issues."
+  alt="Screenshot of the same application with an open dialog displaying accessibility issue information."
   layout="full-width"
 />
 
@@ -136,27 +136,35 @@ such as contrast issues, heading structure problems, and list semantics.
   it doesn’t support modern versions of React,
   and overall it’s in maintenance mode, with no further development plans.
 
-### Comparison table
+### Comparison
 
-Here’s a summary table to help you choose the right tools.
+Here’s a summary to help you choose the right tools.
 
-I think of Accented as an additional safety net
+- **Linting.**
+  - **Pros:** checks the whole codebase in real time, easy to set up, can be used in CI.
+  - **Cons:** tests only code, JSX-specific.
+- **Browser devtools (axe, Lighthouse).**
+  - **Pros:** zero setup required.
+  - **Cons:** requires an explicit action to run the audit.
+- **Tests (`jest-axe`, `@axe-core/playwright`, etc.).**
+  - **Pros:** prevent regressions, can be used in CI.
+  - **Cons:** high cost (tests need to be written and maintained).
+- **Framework devtools.**
+  - **Pros:** zero setup required.
+  - **Cons:** framework-specific by definition, may require an explicit action to run the audit.
+- **Accented.**
+  - **Pros:** tests current page in real time, easy to set up, framework-agnostic.
+  - **Cons:** [modifies the page](#page-modifications), [may impact runtime performance](#runtime-performance).
+
+Overall, I think of Accented as an additional safety net
 that can further strengthen the accessibility posture of your application,
 even if it’s already relying on a few other tools.
 And it does so at very low cost
-(just a few lines added to your codebase, as demonstrated above).
-
-| Tool type                                       | Real-time?  | Context       | Setup effort   | Framework-agnostic? | Can be used in CI? |
-| ----------------------------------------------- | ----------- | ------------- | -------------- | ------------------- | ------------------ |
-| Linting (eslint-plugin-jsx-a11y)                | ✅          | 👎 Code        | 👍 Low          | ❌ (JSX only)        | ✅                  |
-| Browser devtools (axe, Lighthouse)              | ❌          | 👍 Page        | 👍 Low          | ✅                   | ❌                  |
-| Tests (`jest-axe`, `@axe-core/playwright`, etc.)| ❌          | 👍 Code / Page | 👎 High         | 🟡 Maybe             | ✅                  |
-| Framework devtools                              | 🟡 Maybe    | 👍 Page        | 👍 Low          | ❌                   | ❌                  |
-| **Accented**                                    | ✅          | 👍 Page        | 👍 Low          | ✅                   | ❌                  |
+(just a few lines added to your codebase, as demonstrated earlier).
 
 ## Success stories
 
-The benefits are not just theoretical.
+The benefits are not purely theoretical.
 
 Accented just launched, but I’m already seeing real results.
 
@@ -209,9 +217,9 @@ something else on the page may change.
 
 For example, if your JavaScript assumes a specific number of child elements, or if styles rely on sibling selectors, Accented’s DOM changes might interfere.
 
-Fortunately, as soon as the underlying accessibility issue is fixed
+Fortunately, **as soon as the underlying accessibility issue is fixed**
 (which is the whole point of using Accented),
-the changes will be reverted, and the page will return to its original state.
+the changes will be reverted, and **the page will return to its original state.**
 
 ### Noisy output
 
