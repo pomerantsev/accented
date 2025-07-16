@@ -2,15 +2,15 @@
 
 A frontend library for continuous accessibility testing and issue highlighting.
 
-Published as [accented](https://www.npmjs.com/package/accented) on NPM.
+**Website:** [accented.dev](https://accented.dev).
 
-Learn more at [accented.dev](https://accented.dev/) (official website).
+**NPM:** [accented](https://www.npmjs.com/package/accented).
 
-This monorepo hosts:
+**In this monorepo:**
 
-- The [Accented](/packages/accented) library ([published on NPM](https://www.npmjs.com/package/accented)).
+- The [Accented](/packages/accented) library itself.
 - [accented.dev website code](/packages/website).
-- A few internal packages.
+- A couple of internal packages.
 
 ## Contributing
 

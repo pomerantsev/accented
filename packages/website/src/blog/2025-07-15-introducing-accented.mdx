@@ -1,0 +1,185 @@
+---
+title: Introducing Accented
+description: Accented is a new accessibility testing tool that is meant to complement, not replace, existing solutions, and to make it even easier to catch many accessibility issues as soon as they get introduced.
+author: Pavel Pomerantsev
+---
+Here’s what Accented is all about.
+
+You add a few lines of code to your web app, for example:
+
+```js
+if (process.env.NODE_ENV === 'development') {
+  const { accented } = await import('accented');
+  accented();
+}
+```
+
+That’s all the setup you need to get real-time accessibility auditing
+of the page that’s rendered in your browser,
+using [axe-core](https://github.com/dequelabs/axe-core),
+the most popular accessibility testing engine.
+
+Each element that has accessibility issues gets highlighted.
+
+TODO: image with before / after.
+
+If we click on one of the buttons that are added to the page,
+we’ll see enough information to be able to understand what the issue is and how to fix it.
+
+TODO: screenshot with the dialog open.
+
+The issues are updated when page contents or styles change, which may happen often in interactive applications or when hot reloading is enabled.
+
+[TODO: ideally, a video demonstrating this]
+
+## Accessibility testing tools: an overview
+
+There are many tools today that help developers identify accessibility issues.
+Accented has its own approach which in many cases
+can help identify issues earlier and with less effort.
+
+**Disclaimer:** I’m only reviewing automated approaches here.
+Many types of issues may only be correctly identified by a human,
+so none of these tools are intended to replace manual audits.
+
+All the tools fall into two broad categories:
+
+- **The ones that audit the source code.**
+- **The ones that audit the rendered page.**
+
+I will leave AI-based tools out of the conversation.
+They can potentially identify more issues than the algorithmic approaches
+(they can sometimes even catch what human auditors may miss),
+but they’re not free and are by nature unreliable.
+They’re simply an entirely different category of tools.
+
+### Source-code-based tools
+
+The tools in this category operate on a limited test surface —
+there’s a finite amount of source code in any project.
+
+Unfortunately, they’re limited in the types of issues they can detect.
+
+For example, they can help with missing alt attributes
+or inputs not having correctly associated labels.
+
+They won’t tell you if your headings are in an incorrect order —
+that requires a rendered page to test.
+
+The only widely used tool in this category is **eslint-plugin-jsx-a11y**,
+which is a plugin for [ESLint](https://eslint.org/).
+
+As its name suggests, if you author your app using JSX,
+it checks your whole codebase against a set of accessibility rules.
+
+It’s great as the first line of defense, is very easy to set up,
+and costs almost nothing to maintain.
+
+
+### Rendered-page-based tools
+
+The test surface here is limitless: even in the simplest cases,
+the page may be presented to the user in a multitude of ways,
+depending on their device, OS, browser, preferences, and so on,
+and with every new input, the number of possibilities grows exponentially.
+
+The potential to be able to correctly identify issues is also higher because,
+unlike with the source code,
+your test script actually perceives the page the way your user may perceive it.
+
+- **Accented** belongs to this category.
+  It costs very little to set up and maintain,
+  it catches issues in real time (similar to linters),
+  and it’s completely framework-agnostic.
+- There are **on-demand auditing tools**, such as browser extensions or [Lighthouse]((https://developer.chrome.com/docs/lighthouse)).
+  Their major downside is that the developer needs to take an explicit action to get the results of the audit.
+  Since any developer is focused on writing the software,
+  such audits must be performed irregularly and infrequently.
+- The [**Astro framework**](https://astro.build/) (and possibly others too)
+  has an **accessibility auditing tool** built into their development process,
+  and its output is similar to that of Accented (overlays and hints on the page).
+  That, however, also requires an explicit action to be taken to run the audit,
+  reducing the long-term impact of such audits.
+- Accessibility testing can be performed in **automated test suites**.
+  Such tests can be valuable, as they prevent accessibility regressions.
+  We have to keep in mind, however, that testing is a high-friction approach:
+  every test needs to be written and maintained.
+- There’s also **[@axe-core/react](https://github.com/dequelabs/axe-core-npm/blob/b374159a9e63c4dad0135fb2353163ffe8c04453/packages/react/README.md)**,
+  which is very similar in spirit to Accented.
+  It also scans the rendered page and outputs scan results (only to the console).
+  However, it’s only meant for React applications, and most importantly,
+  it doesn’t support modern versions of React,
+  and overall it’s in maintenance mode, with no further development plans.
+
+### Comparison table
+
+Here’s a table that summarizes the differences
+and that may help you choose the tools that are right for your project.
+
+I think of Accented as an additional safety net
+that can further strengthen the accessibility posture of your application,
+even if it’s already relying on a few other tools.
+And it can do that at a very low cost
+(just a few lines added to your codebase, as demonstrated above).
+
+| Tool type                                       | Real-time?  | Context       | Setup effort   | Framework-agnostic? | Can be used in CI? |
+| ----------------------------------------------- | ----------- | ------------- | -------------- | ------------------- | ------------------ |
+| Linting (eslint-plugin-jsx-a11y)                | ✅          | 👎 Code        | 👍 Low          | ❌ (JSX only)        | ✅                  |
+| Browser devtools (axe, Lighthouse)              | ❌          | 👍 Page        | 👍 Low          | ✅                   | ❌                  |
+| Tests (`jest-axe`, `@axe-core/playwright`, etc.)| ❌          | 👍 Code / Page | 👎 High         | 🟡 Maybe             | ✅                  |
+| Framework devtools                              | 🟡 Maybe    | 👍 Page        | 👍 Low          | ❌                   | ❌                  |
+| **Accented**                                    | ✅          | 👍 Page        | 👍 Low          | ✅                   | ❌                  |
+
+## Success stories
+
+Accented just launched, but I’m already happy to share a couple of stories about how its approach proved useful.
+
+### accented.dev
+
+Dogfooding is great, so I used Accented while developing this website.
+
+I literally [set it up](https://github.com/pomerantsev/accented/blob/26d2d45b7009198b6dfc0c42c0854ef805d3380a/packages/website/src/components/Accented.astro#L2-L3)
+and forgot about it.
+
+Then one day it flagged a contrast issue in the code blocks,
+which I was able to quickly fix by [choosing a different theme](https://github.com/pomerantsev/accented/blob/26d2d45b7009198b6dfc0c42c0854ef805d3380a/packages/website/astro.config.mjs#L17).
+
+I don’t know of any other tool that would help me catch this issue
+automatically (without me explicitly running an audit on a specific page),
+and with so little setup.
+
+### squarespace.com
+
+I was fortunate to spend a few years (2021–2024) leading accessibility engineering at Squarespace,
+and our team built an internal library that was functionally very similar to Accented.
+
+That library (unpretentiously called “a11y-hint”) was used by the developers of
+Squarespace’s main user-facing website ([squarespace.com](https://squarespace.com)),
+and I’m happy to report that most marketing pages on the website still have very few issues
+at the [WCAG](https://www.w3.org/TR/WCAG22/) 2.1 AA level that axe-core can detect.
+
+You can verify it yourself with a tool like
+[Lighthouse](https://developer.chrome.com/docs/lighthouse)
+or the [axe DevTools extension](https://chromewebstore.google.com/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd).
+
+## Common concerns
+
+Accented is easy to set up, and its maintenance cost is negligible.
+
+Still, developers may have legitimate concerns.
+
+### Modifies the page
+
+### May be noisy
+
+### Performance (including bundle size)
+
+TODO: tree shaking
+
+## In closing
+
+I believe that any web project can benefit from using Accented, including the one you’re working on right now or the one that you’re just planning to start. No matter what frameworks you use or how much you know about accessibility, this tool can help your users have a smoother experience with your application.
+
+[Try it out](/getting-started) and let me know what you think at [hello@pavelpomerantsev.com](mailto:hello@pavelpomerantsev.com).
+
+Happy accenting.
