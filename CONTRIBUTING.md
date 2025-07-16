@@ -1,5 +1,7 @@
 # Contributing
 
+TODO: clean up and expand this doc, see #177.
+
 ## Running locally
 
 - `pnpm dev`
@@ -24,6 +26,10 @@
   - The `suite` method was added in Node 22: https://nodejs.org/api/test.html#suitename-options-fn
 
 ## Principles
+
+### Design principles
+
+TODO
 
 ### Error handling
 
@@ -146,6 +152,8 @@ TODO
 TODO
 
 ## Versioning and releasing
+
+TODO: link to versioning doc
 
 We’re using [Changesets](https://github.com/changesets/changesets) to automate the version and release process of Accented as much as possible.
 
