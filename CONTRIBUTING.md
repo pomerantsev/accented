@@ -223,3 +223,12 @@ The CI server publishes a new snapshot release on every push to such a branch.
 
 The version can then be installed by a consumer either by its version number (`accented@0.0.0-<timestamp>`)
 or by the `snapshot` tag (`accented@snapshot`).
+
+### Known issues
+
+#### Incorrect trigger positioning when pinch-zooming in Safari
+
+- It may be hard to fix it in Safari, so we may as well ignore it.
+- This may be related: [https://bugs.webkit.org/show_bug.cgi?id=207089](https://bugs.webkit.org/show_bug.cgi?id=207089)
+- In Safari, top CSS prop doesn’t match what’s returned for the trigger element by getBoundingClientRect() when zoomed.
+- Can we maybe get zoom level somehow? Or maybe this will not help?
