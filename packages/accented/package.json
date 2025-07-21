@@ -4,7 +4,11 @@
   "description": "A frontend library for continuous accessibility testing and issue highlighting",
   "type": "module",
   "main": "dist/accented.js",
-  "files": ["dist", "src", "NOTICE"],
+  "files": [
+    "dist",
+    "src",
+    "NOTICE"
+  ],
   "scripts": {
     "prepare": "cp ../../NOTICE ./NOTICE",
     "build": "pnpm copyCommon && tsc",
@@ -20,7 +24,13 @@
     "type": "git",
     "url": "git+https://github.com/pomerantsev/accented.git"
   },
-  "keywords": ["accessibility", "a11y", "a11y-testing", "axe", "axe-core"],
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "a11y-testing",
+    "axe",
+    "axe-core"
+  ],
   "author": "Pavel Pomerantsev",
   "license": "MIT",
   "bugs": {
