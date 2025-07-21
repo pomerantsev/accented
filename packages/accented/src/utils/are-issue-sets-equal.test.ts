@@ -19,12 +19,7 @@ const issue2: Issue = {
   impact: 'serious',
 };
 
-// @ts-expect-error
-const issue2Clone: Issue = Object.keys(issue2).reduce((obj, key) => {
-  // @ts-expect-error
-  obj[key] = issue2[key];
-  return obj;
-}, {});
+const issue2Clone: Issue = structuredClone(issue2);
 
 const issue3: Issue = {
   id: 'id3',
