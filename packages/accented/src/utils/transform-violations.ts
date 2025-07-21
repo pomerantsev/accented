@@ -44,8 +44,10 @@ export function transformViolations(violations: typeof AxeResults.violations, na
         const issue: Issue = {
           id: violation.id,
           title: violation.help,
+          // See https://github.com/pomerantsev/accented/issues/203
           description: node.failureSummary ?? violation.description,
           url: violation.helpUrl,
+          // See https://github.com/pomerantsev/accented/issues/203
           impact: violation.impact ?? null,
         };
         const existingElement = elementsWithIssues.find(
