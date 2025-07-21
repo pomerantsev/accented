@@ -10,6 +10,10 @@
     </main>
 
     <script type="module">
+      /**
+       * This is run on a schedule, so we will know if there's something wrong
+       * with a newly published version.
+       */
       const { accented } = await import('https://esm.sh/accented');
       accented();
     </script>
