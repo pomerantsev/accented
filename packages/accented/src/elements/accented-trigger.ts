@@ -1,5 +1,5 @@
-import { effect } from '@preact/signals-core';
 import type { Signal } from '@preact/signals-core';
+import { effect } from '@preact/signals-core';
 import { fontSystemSans } from '../common/tokens.js';
 import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Position } from '../types.ts';

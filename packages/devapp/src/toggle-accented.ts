@@ -1,5 +1,5 @@
-import { accented } from 'accented';
-import type { AccentedOptions, DisableAccented } from 'accented';
+import type { AccentedOptions } from 'accented';
+import { accented, type DisableAccented } from 'accented';
 import type { RuleObject } from 'axe-core';
 
 const searchParams = new URLSearchParams(location.search);

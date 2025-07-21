@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
+import type { AxeResults } from 'axe-core';
 import { transformViolations } from './transform-violations';
 
-import type { AxeResults } from 'axe-core';
 type Violation = AxeResults['violations'][number];
 type Node = Violation['nodes'][number];
 
