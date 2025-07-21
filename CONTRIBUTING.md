@@ -49,6 +49,26 @@ it may not need explicit error handling.
 
 ## Decisions
 
+- MIT license: https://choosealicense.com/licenses/mit/ (simple and permissive)
+- ESM, not CJS (at least, for now): https://www.reddit.com/r/node/comments/19ctbee/esm_cjs_or_both/ (folks say that for newer projects, it makes sense to go with ESM)
+  - Sindre Sorhus does that for all his packages: https://github.com/sindresorhus/meta/discussions/15
+  - I encountered at least one among styled-components.com’s dependencies: https://www.npmjs.com/package/ansi-regex — and it builds well
+- package-lock inclusion: should likely not be included in a library
+- Distribution:
+  - Latest-version JS, with TS type files alongside it (so the consumer can import the type if they want to)
+  - NPM or CDN are both legitimate and supported cases (see readme)
+- Use pnpm: [I Finally Changed Package Managers](https://www.youtube.com/watch?v=ZIKDJBrk56k)
+- Stick with the main field for defining the package entry for now. Only change this if there is demand for legacy bundler support, I guess..
+- Use Github Actions for all CI / CD needs (testing, building, publishing)
+- Use anchor positioning in supporting browsers
+  - Pros:
+    - Looks nicer on scroll
+    - No positioning computations on the main thread
+    - Anchor positioning (when implemented in Safari) will hopefully not be affected by Webkit bug 207089, which messes positioning on pinch zoom (seems like there’s no fix for it in userland)
+  - Cons:
+    - It doesn’t work that well with transforms
+    - It changes the anchor-name property of the elements on the page since there’s currently no targeted way to add or remove a single anchor name.
+
 ### Trigger placement in the DOM
 
 **Decision:** Place the triggers next to their respective elements (as opposed to placing them all in one HTML element).
