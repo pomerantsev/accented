@@ -10,7 +10,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "prepare": "cp ../../NOTICE ./NOTICE",
+    "prepare": "node --import tsx ./scripts/copy-notice.ts",
     "build": "pnpm copyCommon && tsc",
     "copyCommon": "node --import tsx ./scripts/copy-common.ts",
     "watchCommon": "node --import tsx ./scripts/watch-common.ts",
