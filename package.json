@@ -6,7 +6,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "clean-tsbuildinfo": "rm -f packages/accented/tsconfig.tsbuildinfo tsconfig.test.tsbuildinfo",
+    "clean-tsbuildinfo": "rimraf packages/accented/tsconfig.tsbuildinfo tsconfig.test.tsbuildinfo",
     "build": "pnpm clean-tsbuildinfo && pnpm --filter accented build && pnpm --filter accented typecheckTests && pnpm --filter accented-devapp typecheck && pnpm --filter accented checkBuiltFiles && pnpm --filter accented checkImportsInBuiltFiles",
     "dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented watch & pnpm --filter accented-devapp dev)",
     "website:dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented build & pnpm --filter website dev)",
@@ -24,6 +24,7 @@
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.28.1",
     "@types/node": "^24.0.0",
+    "rimraf": "^6.0.1",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }
