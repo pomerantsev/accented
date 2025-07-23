@@ -18,6 +18,9 @@ jobs:
       - name: Build website
         run: pnpm website:build
 
+      - name: Check links
+        run: pnpm website:dev & DEV_PID=$! ./scripts/checkLinks.sh kill $DEV_PID
+
       - name: Deploy website
         if: github.ref == 'refs/heads/main'
         run: pnpm website:deploy
