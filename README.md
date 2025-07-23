@@ -1,10 +1,10 @@
 # Accented
 
+![NPM Version](https://img.shields.io/npm/v/accented)
+
 A frontend library for continuous accessibility testing and issue highlighting.
 
 **Website:** [accented.dev](https://accented.dev).
-
-**NPM:** [accented](https://www.npmjs.com/package/accented).
 
 **In this monorepo:**
 
