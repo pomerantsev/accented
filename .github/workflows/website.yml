@@ -22,7 +22,7 @@ jobs:
         run: pnpm website:build
 
       - name: Check links
-        run: ./packages/website/scripts/checkLinks.mjs
+        run: ./packages/website/scripts/checkLinks.mjs --local
 
       - name: Deploy website
         if: github.ref == 'refs/heads/main'

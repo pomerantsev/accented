@@ -24,3 +24,6 @@ jobs:
 
       - name: Run end-to-end tests
         run: pnpm --filter accented-devapp test-bundlerless
+
+      - name: Check links
+        run: ./packages/website/scripts/checkLinks.mjs --live
