@@ -19,7 +19,7 @@ jobs:
         run: pnpm website:build
 
       - name: Install lychee
-        run: curl -sSf https://sh.rustup.rs | sh && apt install gcc pkg-config libc6-dev libssl-dev && cargo install lychee
+        run: curl -sSf https://sh.rustup.rs | sh -s -- -y && apt install gcc pkg-config libc6-dev libssl-dev && cargo install lychee
 
       - name: Check links
         run: ./packages/website/scripts/checkLinks.mjs
