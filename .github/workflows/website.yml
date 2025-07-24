@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Install lychee
-        run: curl -sSf https://sh.rustup.rs | sh -s -- -y && sudo apt install gcc pkg-config libc6-dev libssl-dev && cargo install lychee
+        run: ./.github/actions/installLychee
 
       - name: Build website
         run: pnpm website:build
