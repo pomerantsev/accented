@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Install lychee
-        run: ./.github/actions/installLychee
+        uses: ./.github/actions/installLychee
 
       - name: Build website
         run: pnpm website:build

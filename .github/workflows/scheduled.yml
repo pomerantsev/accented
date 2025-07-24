@@ -26,7 +26,7 @@ jobs:
         run: pnpm --filter accented-devapp test-bundlerless
 
       - name: Install lychee
-        run: ./.github/actions/installLychee
+        uses: ./.github/actions/installLychee
 
       - name: Check links
         run: ./packages/website/scripts/checkLinks.mjs --live
