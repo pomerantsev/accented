@@ -1,0 +1,130 @@
+#!/usr/bin/env node
+
+import { spawn } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
+
+// Track the dev process for cleanup
+let previewProcess = null;
+
+// Cleanup function
+async function cleanup() {
+  if (previewProcess && !previewProcess.killed) {
+    console.log('Stopping preview process...');
+    previewProcess.kill('SIGTERM');
+
+    // Wait a bit for graceful shutdown, then force kill if needed
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    if (!previewProcess.killed) {
+      previewProcess.kill('SIGKILL');
+    }
+  }
+}
+
+// Handle process exit and signals
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+process.on('beforeExit', cleanup);
+
+async function extractUrlsFromSitemap() {
+  try {
+    // Read the sitemap file
+    const sitemapContent = await readFile('./packages/website/dist/sitemap-0.xml', 'utf8');
+
+    // Find all <loc> tags and extract URLs
+    const locRegex = /<loc>([^<]+)<\/loc>/g;
+    const urls = [];
+
+    let match = locRegex.exec(sitemapContent);
+    while (match !== null) {
+      urls.push(match[1]);
+      match = locRegex.exec(sitemapContent);
+    }
+
+    return urls;
+  } catch (error) {
+    throw new Error(`Failed to read sitemap: ${error.message}`);
+  }
+}
+
+async function runToCompletion(process, args) {
+  return new Promise((resolve, reject) => {
+    const spawnedProcess = spawn(process, args, {
+      stdio: 'inherit',
+    });
+
+    spawnedProcess.on('close', (code) => {
+      resolve(code);
+    });
+
+    spawnedProcess.on('error', (error) => {
+      reject(error);
+    });
+  });
+}
+
+try {
+  previewProcess = spawn('pnpm', ['--filter', 'website', 'preview'], {
+    stdio: ['pipe', 'pipe', 'inherit'],
+  });
+
+  let port;
+
+  // Monitor stdout for "Waiting"
+  previewProcess.stdout.setEncoding('utf8');
+
+  for await (const chunk of previewProcess.stdout) {
+    const lines = chunk.split('\n').filter((line) => line.trim());
+
+    for (const line of lines) {
+      console.log(line);
+
+      const portMatch = line.match(/http:\/\/localhost:(\d+)\//);
+
+      if (portMatch) {
+        port = portMatch[1];
+        console.log(`Detected port: ${port}`);
+
+        const urls = (await extractUrlsFromSitemap()).map((url) =>
+          url.replace('https://accented.dev', `http://localhost:${port}`),
+        );
+
+        try {
+          let exitCode;
+          exitCode = await runToCompletion('lychee', [
+            '--exclude',
+            '/sitemap-index\.xml$',
+            ...urls,
+            '-v',
+          ]);
+
+          if (exitCode === 0) {
+            exitCode = await runToCompletion('lychee', [
+              '--exclude',
+              '/sitemap-index\.xml$',
+              '--exclude',
+              '^https',
+              '--include-fragments',
+              ...urls,
+              '-v',
+            ]);
+          }
+          // Cleanup and exit with script2's exit code
+          await cleanup();
+          process.exit(exitCode);
+        } catch (error) {
+          console.error('Error running script2:', error.message);
+          await cleanup();
+          process.exit(1);
+        }
+      }
+    }
+  }
+
+  // If we get here, script1 ended without printing "Waiting"
+  console.error('Script1 ended without printing "Waiting"');
+  process.exit(1);
+} catch (error) {
+  console.error('Error:', error.message);
+  await cleanup();
+  process.exit(1);
+}
