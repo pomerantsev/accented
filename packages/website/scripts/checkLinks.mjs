@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * This script is gross, but looks like it works as expected.
+ * It's meant to verify if all the links on the website work.
+ */
+
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 
@@ -98,6 +103,12 @@ try {
           ]);
 
           if (exitCode === 0) {
+            /**
+             * Some of the fragment URLs are dynamic (as is the case with Github and Deque),
+             * so we'll just be checking local fragment URLs (hence the "https" exclusion).
+             * And yes, some links are checked twice.
+             * I couldn't find a way to avoid this, but I think it's fine.
+             */
             exitCode = await runToCompletion('lychee', [
               '--exclude',
               '/sitemap-index\.xml$',
@@ -108,11 +119,10 @@ try {
               '-v',
             ]);
           }
-          // Cleanup and exit with script2's exit code
           await cleanup();
           process.exit(exitCode);
         } catch (error) {
-          console.error('Error running script2:', error.message);
+          console.error('Error running lychee:', error.message);
           await cleanup();
           process.exit(1);
         }
