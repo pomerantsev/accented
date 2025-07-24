@@ -15,8 +15,14 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: Install lychee
+        uses: ./.github/actions/installLychee
+
       - name: Build website
         run: pnpm website:build
+
+      - name: Check links
+        run: ./packages/website/scripts/checkLinks.mjs --local
 
       - name: Deploy website
         if: github.ref == 'refs/heads/main'
