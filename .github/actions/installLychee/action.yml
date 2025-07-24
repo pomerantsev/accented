@@ -4,5 +4,7 @@ runs:
   using: "composite"
   steps:
     - name: Install lychee
+      # From the lychee installation guide: https://lychee.cli.rs/installation/
+      # (I had to tweak it to ensure it runs non-interactively, and installs in sudo mode)
       run: curl -sSf https://sh.rustup.rs | sh -s -- -y && sudo apt install gcc pkg-config libc6-dev libssl-dev && cargo install lychee
       shell: bash
