@@ -78,6 +78,15 @@ importers:
       '@cloudfour/image-compare':
         specifier: ^1.0.5
         version: 1.0.5
+      '@fontsource-variable/ibm-plex-sans':
+        specifier: ^5.2.6
+        version: 5.2.6
+      '@fontsource-variable/lora':
+        specifier: ^5.2.6
+        version: 5.2.6
+      '@fontsource/ibm-plex-mono':
+        specifier: ^5.2.6
+        version: 5.2.6
       astro:
         specifier: ^5.11.0
         version: 5.11.0(@netlify/blobs@9.1.5)(@types/node@24.0.0)(jiti@2.4.2)(rollup@4.40.0)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.8.0)
@@ -673,6 +682,15 @@ packages:
 
   '@fastify/static@7.0.4':
     resolution: {integrity: sha512-p2uKtaf8BMOZWLs6wu+Ihg7bWNBdjNgCwDza4MJtTqg+5ovKmcbgbR9Xs5/smZ1YISfzKOCNYmZV8LaCj+eJ1Q==}
+
+  '@fontsource-variable/ibm-plex-sans@5.2.6':
+    resolution: {integrity: sha512-hnuya7tsdaEiub463GFrhKDnmViTFKkJb9S+H+Fk6sMnr5dL/5DlAxeCZyXMK8WfjHktDiaEOIWPRZBQVKV0dw==}
+
+  '@fontsource-variable/lora@5.2.6':
+    resolution: {integrity: sha512-jBiQEQXX6jUgdOhJwcHaJFXT+Zozu2zMMoqcamdJaHxF3cc+ZBUbvcNpD2vL7J24KypLKwvEIYVaU+FjPdr9MQ==}
+
+  '@fontsource/ibm-plex-mono@5.2.6':
+    resolution: {integrity: sha512-LTZJNTcpoT19fmwERZNMDI+ljHueuyhF2Qn+bICJ4Y4hxBLAAoJ2MRsGnyp0QNutW6t/25eyZpvaUK1LDrCo7Q==}
 
   '@humanwhocodes/momoa@2.0.4':
     resolution: {integrity: sha512-RE815I4arJFtt+FVeU1Tgp9/Xvecacji8w/V6XtXsWWH/wz/eNkNbhb+ny/+PlVZjV0rxQpRSQKNKE3lcktHEA==}
@@ -6333,6 +6351,12 @@ snapshots:
       fastify-plugin: 4.5.1
       fastq: 1.19.1
       glob: 10.4.5
+
+  '@fontsource-variable/ibm-plex-sans@5.2.6': {}
+
+  '@fontsource-variable/lora@5.2.6': {}
+
+  '@fontsource/ibm-plex-mono@5.2.6': {}
 
   '@humanwhocodes/momoa@2.0.4': {}
 
