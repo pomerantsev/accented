@@ -108,9 +108,9 @@ select {
   --space-3xl: calc(6 * var(--base-size));
 
   /* Font families */
-  --font-sans: "IBM Plex Sans", var(--fontSystemSans);
+  --font-sans: "IBM Plex Sans Variable", var(--fontSystemSans);
   --font-mono: "IBM Plex Mono", SFMono-Regular, var(--fontSystemMono);
-  --font-serif: "Lora", Georgia, serif;
+  --font-serif: "Lora Variable", Georgia, serif;
 }
 
 strong {
@@ -228,7 +228,7 @@ article li:not(:first-child):not(:is(ul, ol) :is(ul, ol) li) {
 
 /* Line lengths */
 main {
-  max-width: 65ch;
+  max-width: 40rem;
   margin-inline: auto;
 }
 
