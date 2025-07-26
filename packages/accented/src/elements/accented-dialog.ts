@@ -18,7 +18,7 @@ export interface AccentedDialog extends HTMLElement {
 export const getAccentedDialog = () => {
   const dialogTemplate = document.createElement('template');
   dialogTemplate.innerHTML = `
-    <dialog dir="ltr" lang="en" aria-labelledby="title">
+    <dialog dir="ltr" lang="en" aria-labelledby="title" closedby="any">
       <div id="button-container">
         <button id="close" aria-label="Close">✕</button>
       </div>
@@ -396,6 +396,11 @@ export const getAccentedDialog = () => {
       }
     }
 
+    /**
+     * This can be removed once the closedBy attribute
+     * is available in all supported browsers:
+     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/closedBy
+     */
     #onDialogClick(event: MouseEvent) {
       const dialog = event.currentTarget as HTMLDialogElement;
       if (
