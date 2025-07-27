@@ -17,7 +17,7 @@
     "@fontsource-variable/ibm-plex-sans": "^5.2.6",
     "@fontsource-variable/lora": "^5.2.6",
     "@fontsource/ibm-plex-mono": "^5.2.6",
-    "astro": "^5.11.0",
+    "astro": "^5.12.3",
     "common": "workspace:*",
     "sharp": "^0.34.3",
     "shiki": "^3.8.1"
