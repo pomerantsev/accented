@@ -18,8 +18,8 @@ importers:
         specifier: ^2.29.5
         version: 2.29.5
       '@types/node':
-        specifier: ^24.0.0
-        version: 24.0.0
+        specifier: ^24.1.0
+        version: 24.1.0
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -1897,9 +1897,6 @@ packages:
 
   '@types/node@22.14.1':
     resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
-
-  '@types/node@24.0.0':
-    resolution: {integrity: sha512-yZQa2zm87aRVcqDyH5+4Hv9KYgSdgwX1rFnGvpbzMaC7YAljmhBET93TPiTd3ObwTL+gSpIzPKg5BqVxdCvxKg==}
 
   '@types/node@24.1.0':
     resolution: {integrity: sha512-ut5FthK5moxFKH2T1CUOC6ctR67rQRvvHdFLCD2Ql6KXmMuCrjsSsRI9UsLCm9M18BMwClv4pn327UvB7eeO1w==}
@@ -7720,7 +7717,7 @@ snapshots:
 
   '@types/fontkit@2.0.8':
     dependencies:
-      '@types/node': 24.0.0
+      '@types/node': 24.1.0
 
   '@types/hast@3.0.4':
     dependencies:
@@ -7758,10 +7755,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@24.0.0':
-    dependencies:
-      undici-types: 7.8.0
-
   '@types/node@24.1.0':
     dependencies:
       undici-types: 7.8.0
@@ -7772,7 +7765,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 24.0.0
+      '@types/node': 24.1.0
 
   '@types/tough-cookie@4.0.5': {}
 
