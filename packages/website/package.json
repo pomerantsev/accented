@@ -19,7 +19,7 @@
     "@fontsource/ibm-plex-mono": "^5.2.6",
     "astro": "^5.11.0",
     "common": "workspace:*",
-    "sharp": "^0.34.2",
+    "sharp": "^0.34.3",
     "shiki": "^3.7.0"
   },
   "devDependencies": {
