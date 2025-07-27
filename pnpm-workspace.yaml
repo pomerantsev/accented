@@ -1,2 +1,7 @@
 packages:
-  - "packages/*"
+  - packages/*
+
+onlyBuiltDependencies:
+  - esbuild
+  - netlify-cli
+  - sharp
