@@ -5,3 +5,4 @@ onlyBuiltDependencies:
   - esbuild
   - netlify-cli
   - sharp
+  - unix-dgram
