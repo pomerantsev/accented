@@ -20,7 +20,7 @@ let currentIndex = 0;
 
 function createTocItem(heading: Heading, parent: TocItem | null): TocItem {
   const item: TocItem = {
-    text: heading.text,
+    text: heading.text.replace(/#$/, ''),
     slug: heading.slug,
   };
 
