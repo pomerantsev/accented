@@ -83,15 +83,21 @@ async function runToCompletion(process, args) {
   });
 }
 
+const commonLycheeArgs = [
+  '--exclude',
+  '/sitemap-index\.xml$',
+  '--verbose',
+  '--cache',
+  '--max-retries',
+  '3',
+  '--retry-wait-time',
+  '5',
+];
+
 async function runLychee(urls) {
   try {
     let exitCode;
-    exitCode = await runToCompletion('lychee', [
-      '--exclude',
-      '/sitemap-index\.xml$',
-      ...urls,
-      '-v',
-    ]);
+    exitCode = await runToCompletion('lychee', [...commonLycheeArgs, ...urls]);
 
     if (exitCode === 0) {
       /**
@@ -101,13 +107,11 @@ async function runLychee(urls) {
        * I couldn't find a way to avoid this, but I think it's fine.
        */
       exitCode = await runToCompletion('lychee', [
-        '--exclude',
-        '/sitemap-index\.xml$',
+        ...commonLycheeArgs,
         '--exclude',
         '^https',
         '--include-fragments',
         ...urls,
-        '-v',
       ]);
     }
     await cleanup();
