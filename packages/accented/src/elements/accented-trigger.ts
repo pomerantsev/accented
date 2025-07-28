@@ -29,10 +29,16 @@ export const getAccentedTrigger = (name: string) => {
         --ratio: 1.2;
         --base-size: max(1rem, 16px);
         position: fixed !important;
-        inset-inline-start: anchor(self-start) !important;
-        inset-inline-end: anchor(self-end) !important;
-        inset-block-start: anchor(self-start) !important;
-        inset-block-end: anchor(self-end) !important;
+        ${
+          supportsAnchorPositioning(window)
+            ? `
+          inset-inline-start: anchor(self-start) !important;
+          inset-inline-end: anchor(self-end) !important;
+          inset-block-start: anchor(self-start) !important;
+          inset-block-end: anchor(self-end) !important;
+        `
+            : ''
+        }
 
         /* Revert potential effects of white-space: pre; set on a trigger's ancestor. */
         white-space: normal !important;

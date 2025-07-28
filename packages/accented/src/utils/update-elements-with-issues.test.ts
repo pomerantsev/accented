@@ -31,6 +31,10 @@ const win: Window & { CSS: typeof CSS } = {
   CSS: {
     supports: () => true,
   },
+  // @ts-expect-error we're missing a lot of properties
+  navigator: {
+    userAgent: '',
+  },
 };
 
 const getBoundingClientRect = () => ({});
