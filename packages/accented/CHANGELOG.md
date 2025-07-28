@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- [#229](https://github.com/pomerantsev/accented/pull/229) [`f503408`](https://github.com/pomerantsev/accented/commit/f503408d59f47d5b2f9737d058ad7a61213dea1a) Thanks [@dependabot](https://github.com/apps/dependabot)! - Fix trigger positioning in Safari Technology Preview
+- Fix trigger positioning in Safari Technology Preview ([`f503408`](https://github.com/pomerantsev/accented/commit/f503408d59f47d5b2f9737d058ad7a61213dea1a))
 
-- [#214](https://github.com/pomerantsev/accented/pull/214) [`702783c`](https://github.com/pomerantsev/accented/commit/702783cb7d743b2896b689a9c77b11e6f07d747d) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.11.0 (no functional changes)
+- Bump @preact/signals-core to 1.11.0 (no functional changes) ([#214](https://github.com/pomerantsev/accented/pull/214))
 
 ## 1.0.0
 
