@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-padding-block: var(--space-l);
+}
+
 body,
 h1,
 h2,
@@ -133,6 +137,26 @@ a:active {
 
 @media (hover: hover) {
   a:hover {
+    text-decoration-color: var(--color-text);
+  }
+}
+
+:target {
+  color: var(--color-primary);
+}
+
+:is(h2, h3, h4) a {
+  text-decoration-line: none;
+}
+
+.hash {
+  margin-inline-start: var(--space-2xs);
+  color: var(--color-primary);
+}
+
+@media (hover: hover) {
+  a:hover .hash {
+    text-decoration-line: underline;
     text-decoration-color: var(--color-text);
   }
 }

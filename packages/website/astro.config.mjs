@@ -1,6 +1,8 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+import rehypeSlug from 'rehype-slug';
+import { rehypeWrapHeadings } from './plugins/rehype-wrap-headings.mjs';
 import { theme } from './src/components/starterCodeUtils';
 
 export default defineConfig({
@@ -18,7 +20,15 @@ export default defineConfig({
       wrap: true,
     },
   },
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx({
+      rehypePlugins: [
+        rehypeSlug, // Ensure IDs are added first
+        rehypeWrapHeadings, // Then wrap with anchors
+      ],
+    }),
+    sitemap(),
+  ],
   vite: {
     build: {
       // We know that axe-core is larger than 500 KB,
