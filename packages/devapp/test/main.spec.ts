@@ -14,9 +14,18 @@ const accentedSelector = `[${accentedDataAttr}]`;
 const accentedTriggerElementName = 'accented-trigger';
 
 const supportsAnchorPositioning = async (page: Page) =>
-  await page.evaluate(
-    () => CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo'),
-  );
+  await page.evaluate(() => {
+    function isWebKit() {
+      const ua = navigator.userAgent;
+      return (/AppleWebKit/.test(ua) && !/Chrome/.test(ua)) || /\b(iPad|iPhone|iPod)\b/.test(ua);
+    }
+    // ATTENTION: sync with the implementation in the library.
+    // I didn't find a way to sync this with automatically with the implementation of supportsAnchorPositioning
+    // in the library, so it has to be synced manually.
+    return (
+      CSS.supports('anchor-name: --foo') && CSS.supports('position-anchor: --foo') && !isWebKit()
+    );
+  });
 
 test.describe('Accented', () => {
   test.describe('basic functionality', () => {
