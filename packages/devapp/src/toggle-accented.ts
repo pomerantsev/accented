@@ -112,8 +112,31 @@ if (searchParams.has('axe-context-selector')) {
   options.context = searchParams.get('axe-context-selector')!;
 }
 
+if (searchParams.has('axe-context-nodelist')) {
+  options.context = document.querySelectorAll(searchParams.get('axe-context-nodelist')!);
+}
+
+if (searchParams.has('axe-context-selector-array')) {
+  options.context = searchParams.get('axe-context-selector-array')!.split(',');
+}
+
 if (searchParams.has('axe-context-body')) {
   options.context = document.body;
+}
+
+if (
+  searchParams.has('axe-context-selector-include') ||
+  searchParams.has('axe-context-selector-exclude')
+) {
+  options.context = {
+    include: searchParams.get('axe-context-selector-include')?.split(',') || document,
+    exclude: searchParams.get('axe-context-selector-exclude')?.split(',') || undefined,
+  };
+  console.log(options.context);
+}
+
+if (searchParams.has('axe-context-shadow-dom')) {
+  options.context = { fromShadowDom: ['#shadow-dom-container-1', 'button'] };
 }
 
 if (!searchParams.has('disable')) {
