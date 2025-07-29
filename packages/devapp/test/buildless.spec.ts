@@ -5,7 +5,7 @@ const accentedDataAttr = 'data-accented';
 const accentedSelector = `[${accentedDataAttr}]`;
 
 // This test suite runs both on pushes and on a schedule
-test.describe('Bundlerless importing of Accented', () => {
+test.describe('Buildless importing of Accented', () => {
   test('adds its attributes to elements and doesn’t produce any console errors', async ({
     page,
   }) => {
@@ -17,7 +17,7 @@ test.describe('Bundlerless importing of Accented', () => {
         errors.push(message);
       }
     });
-    await page.goto('/bundlerless.html');
+    await page.goto('/buildless.html');
     const elementWithIssue = await page.locator(accentedSelector);
     await expect(elementWithIssue).toBeVisible();
     await expect(allMessages.length).toBeGreaterThan(0);
