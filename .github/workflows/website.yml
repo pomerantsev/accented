@@ -23,6 +23,8 @@ jobs:
 
       - name: Check links
         run: ./packages/website/scripts/checkLinks.mjs --local
+        env:
+          GITHUB_TOKEN: ${{ secrets.LINK_CHECK_TOKEN }}
 
       - name: Deploy website
         if: github.ref == 'refs/heads/main'
