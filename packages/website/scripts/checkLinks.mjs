@@ -92,6 +92,8 @@ const commonLycheeArgs = [
   '3',
   '--retry-wait-time',
   '5',
+  // Use GitHub token if available
+  ...(process.env.GITHUB_TOKEN ? ['--github-token', process.env.GITHUB_TOKEN] : []),
 ];
 
 async function runLychee(urls) {
