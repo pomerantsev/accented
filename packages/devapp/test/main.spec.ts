@@ -895,19 +895,69 @@ test.describe('Accented', () => {
         const totalCount = await page.locator(accentedSelector).count();
         await expect(totalCount).toBeGreaterThan(0);
         await page.goto('?axe-context-body');
-        const countOnlyButtons = await page.locator(accentedSelector).count();
-        await expect(countOnlyButtons).toBeGreaterThan(1);
-        await expect(countOnlyButtons).toBeLessThan(totalCount);
+        const countOnlyBody = await page.locator(accentedSelector).count();
+        await expect(countOnlyBody).toBeGreaterThan(1);
+        await expect(countOnlyBody).toBeLessThan(totalCount);
 
         // Also implicitly testing that passing an element as context
         // doesn't throw an error.
         // This was happening when deepMerge was trying to merge two Node instances.
       });
 
-      // TODO: test other context types (https://github.com/pomerantsev/accented/issues/179).
-      // deepMerge may now be working correctly,
-      // but if `document` is no longer the default,
-      // things may break without us knowing.
+      test('shadow DOM selector', async ({ page }) => {
+        await page.goto('/');
+        const totalCount = await page.locator(accentedSelector).count();
+        await expect(totalCount).toBeGreaterThan(0);
+        await page.goto('?axe-context-shadow-dom');
+        const countOnlyShadowDom = await page.locator(accentedSelector).count();
+        await expect(countOnlyShadowDom).toBeGreaterThan(0);
+        await expect(countOnlyShadowDom).toBeLessThan(totalCount);
+      });
+
+      test('node list', async ({ page }) => {
+        await page.goto('/');
+        const totalCount = await page.locator(accentedSelector).count();
+        await expect(totalCount).toBeGreaterThan(0);
+        /**
+         * This is not the same test as the one with axe-context-selector.
+         * The axe-context-nodelist query param is used to pass a NodeList
+         * to the axe context, which is then used to filter the elements
+         * that are scanned.
+         * The axe-context-selector query param is used to pass a selector instead.
+         */
+        await page.goto('?axe-context-nodelist=button');
+        const countOnlyButtons = await page.locator(accentedSelector).count();
+        await expect(countOnlyButtons).toBeGreaterThan(1);
+        await expect(countOnlyButtons).toBeLessThan(totalCount);
+      });
+
+      test('selector array', async ({ page }) => {
+        await page.goto('/');
+        const totalCount = await page.locator(accentedSelector).count();
+        await expect(totalCount).toBeGreaterThan(0);
+
+        await page.goto('?axe-context-selector=button');
+        const buttonCount = await page.locator(accentedSelector).count();
+        await expect(buttonCount).toBeGreaterThan(0);
+
+        await page.goto('?axe-context-selector-array=button,input');
+        const buttonAndInputCount = await page.locator(accentedSelector).count();
+        await expect(buttonAndInputCount).toBeGreaterThan(buttonCount);
+        await expect(buttonAndInputCount).toBeLessThan(totalCount);
+      });
+
+      test('include / exclude', async ({ page }) => {
+        await page.goto('?axe-context-selector=%23non-initial-content-blocks');
+        const countWithinSection = await page.locator(accentedSelector).count();
+        await expect(countWithinSection).toBeGreaterThan(0);
+
+        await page.goto(
+          '?axe-context-selector-include=%23non-initial-content-blocks&axe-context-selector-exclude=%23non-initial-content-blocks-contain',
+        );
+        const countWithinSectionAfterExclude = await page.locator(accentedSelector).count();
+        await expect(countWithinSectionAfterExclude).toBeGreaterThan(0);
+        await expect(countWithinSectionAfterExclude).toBeLessThan(countWithinSection);
+      });
     });
   });
 
