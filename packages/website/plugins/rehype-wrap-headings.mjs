@@ -5,7 +5,6 @@ import { visit } from 'unist-util-visit';
  */
 export function rehypeWrapHeadings() {
   return (tree) => {
-    // console.log('rehypeWrapHeadings plugin is running');
     visit(tree, (node) => {
       // Only process h2, h3, and h4 elements that have an id
       if (['h2', 'h3', 'h4'].includes(node.tagName) && node.properties?.id) {
