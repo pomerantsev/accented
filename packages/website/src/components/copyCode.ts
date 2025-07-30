@@ -3,6 +3,7 @@ const defaultButtonText = 'Copy';
 class CopyCodeElement extends HTMLElement {
   connectedCallback() {
     this.style.position = 'relative';
+    this.style.display = 'block';
     // Create the button element
     const button = document.createElement('button');
     button.className = 'copy';
