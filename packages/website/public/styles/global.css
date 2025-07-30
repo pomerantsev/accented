@@ -271,7 +271,9 @@ h4 {
 .astro-code,
 .shiki {
   scrollbar-width: thin;
-  padding: var(--space-s);
+  padding-inline: var(--space-s);
+  /* Make space for the copy button */
+  padding-block: calc(1em + var(--space-s)) var(--space-s);
 }
 
 .note {
@@ -329,4 +331,21 @@ image-compare {
   display: inline-flex;
   align-items: center;
   inline-size: 1em;
+}
+
+copy-code button.copy {
+  position: absolute;
+  inset-block-start: var(--space-2xs);
+  inset-inline-end: var(--space-2xs);
+  background-color: transparent;
+  color: var(--color-light);
+  border: 1px solid var(--color-light);
+  line-height: 1.3;
+
+  @media (hover: hover) {
+    &:hover {
+      outline: 2px dashed var(--color-primary);
+      outline-offset: 0.3ex;
+    }
+  }
 }

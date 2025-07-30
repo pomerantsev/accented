@@ -81,7 +81,7 @@ import { getCodeSnippet, options, theme } from '~/components/starterCodeUtils';
     }
 
     async updateCodeSnippet() {
-      const codeSnippetContainer = this.querySelector('.container');
+      const codeSnippetContainer = this.querySelector('copy-code');
       if (codeSnippetContainer && this.form) {
         const bundlerRadio: HTMLInputElement | null = this.form.querySelector('input[name="bundler"]:checked');
         const bundler = options.bundlers.find(bundler => bundler.value === bundlerRadio?.value);
@@ -92,18 +92,22 @@ import { getCodeSnippet, options, theme } from '~/components/starterCodeUtils';
         const sourceRadio: HTMLInputElement | null = this.form.querySelector('input[name="source"]:checked');
         const source = options.sources.find(source => source.value === sourceRadio?.value);
 
-        codeSnippetContainer.innerHTML = highlighter.codeToHtml(getCodeSnippet(bundler, importType, source), {
+        const newPreElementHtml = highlighter.codeToHtml(getCodeSnippet(bundler, importType, source), {
           lang: 'js',
           theme,
         });
 
-        const codeSnippetPre = codeSnippetContainer.querySelector('pre');
-        if (codeSnippetPre) {
-          // Reimplementing the <Code> component's `wrap` prop functionality
-          codeSnippetPre.style.overflowX = 'auto';
-          codeSnippetPre.style.whiteSpace = 'pre-wrap';
-          codeSnippetPre.style.overflowWrap = 'break-word';
-        }
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = newPreElementHtml;
+        const newPreElement = tempContainer.querySelector('pre')!;
+        // Reimplementing the <Code> component's `wrap` prop functionality
+        newPreElement.style.overflowX = 'auto';
+        newPreElement.style.whiteSpace = 'pre-wrap';
+        newPreElement.style.overflowWrap = 'break-word';
+
+        const prevPreElement = codeSnippetContainer.querySelector('pre');
+        prevPreElement?.remove();
+        codeSnippetContainer.appendChild(newPreElement);
       }
     }
   });
@@ -164,15 +168,17 @@ import { getCodeSnippet, options, theme } from '~/components/starterCodeUtils';
     </fieldset>
   </form>
   <div class="container">
-    <Code
-      code={getCodeSnippet(
-        options.bundlers.find(b => b.checked),
-        options.imports.find(i => i.checked)?.value,
-        options.sources.find(s => s.checked)
-      )}
-      lang="js"
-      theme={theme}
-      wrap
-    />
+    <copy-code>
+      <Code
+        code={getCodeSnippet(
+          options.bundlers.find(b => b.checked),
+          options.imports.find(i => i.checked)?.value,
+          options.sources.find(s => s.checked)
+        )}
+        lang="js"
+        theme={theme}
+        wrap
+      />
+    </copy-code>
   </div>
 </starter-code>
