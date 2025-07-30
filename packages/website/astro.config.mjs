@@ -2,6 +2,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import rehypeSlug from 'rehype-slug';
+import { rehypeWrapCodeBlocks } from './plugins/rehype-wrap-code-blocks.mjs';
 import { rehypeWrapHeadings } from './plugins/rehype-wrap-headings.mjs';
 import { theme } from './src/components/starterCodeUtils';
 
@@ -25,6 +26,7 @@ export default defineConfig({
       rehypePlugins: [
         rehypeSlug, // Ensure IDs are added first
         rehypeWrapHeadings, // Then wrap with anchors
+        rehypeWrapCodeBlocks, // Wrap code blocks in custom element
       ],
     }),
     sitemap(),
