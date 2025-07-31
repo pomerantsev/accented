@@ -92,6 +92,8 @@ const commonLycheeArgs = [
   '3',
   '--retry-wait-time',
   '5',
+  '--max-concurrency',
+  '10',
   // Use GitHub token if available
   ...(process.env.GITHUB_TOKEN ? ['--github-token', process.env.GITHUB_TOKEN] : []),
 ];
