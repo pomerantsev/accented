@@ -44,7 +44,7 @@
 
 - Prevent click handlers on ancestors of triggers from being invoked ([#123](https://github.com/pomerantsev/accented/pull/123))
 
-- Stop rendering issues on <head> and its descendants ([#139](https://github.com/pomerantsev/accented/pull/139))
+- Stop rendering issues on `<head>` and its descendants ([#139](https://github.com/pomerantsev/accented/pull/139))
 
 - Small fixes to satisfy new linter ([#154](https://github.com/pomerantsev/accented/pull/154))
 
@@ -56,7 +56,7 @@
 
 - Increase text-to-background contrast ratio in triggers ([#123](https://github.com/pomerantsev/accented/pull/123))
 
-- Ensure the Accented trigger is always visible on a <summary> ([#144](https://github.com/pomerantsev/accented/pull/144))
+- Ensure the Accented trigger is always visible on a `<summary>` ([#144](https://github.com/pomerantsev/accented/pull/144))
 
 - Fix deep-merge (nodes must not be merged) ([#162](https://github.com/pomerantsev/accented/pull/162))
 

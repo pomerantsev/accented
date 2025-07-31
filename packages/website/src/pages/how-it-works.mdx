@@ -93,3 +93,28 @@ The most expensive operation is running `axe.run()` after a DOM mutation.
 To make it as fast as possible, Accented only runs `axe.run()` on the parts of the page that changed.
 
 Accented [provides APIs to help you measure and tune its performance](/getting-started#improving-performance).
+
+## Throttling
+
+Calls to `axe.run()` are throttled, unless you explicitly set [`wait`](/api#throttlewait) to `0`.
+
+Throttling ensures that if mutations happen frequently in your app,
+the main thread will still have periods during which the axe-core script is guaranteed not to run.
+This can help your app stay responsive.
+
+Here’s how it works:
+
+1. Accented is initialized (`accented()` is called) or a DOM mutation happens.
+1. If [`leading`](/api#throttleleading) is `false`, Accented does nothing for [`wait`](/api#throttlewait) milliseconds.
+   If `leading` is `true`, Accented runs a scan immediately.
+1. Axe-core runs its scan, and depending on its findings,
+   Accented may add or remove some outlines and dialog triggers.
+1. Accented waits for [`wait`](/api#throttlewait) milliseconds
+   after scanning and page updates are complete.
+1. If there have been other mutations during the scan or the wait time,
+   Accented goes back to step 3.
+
+No matter how many mutations occurred during the previous scan or the `wait` period,
+the current scan accounts for all of them.
+This guarantees that the issues are always up to date,
+with a maximum delay of the wait time + the scan time.
