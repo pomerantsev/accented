@@ -4,6 +4,13 @@
   color-scheme: light dark;
 }
 
+:root.custom-props {
+  --accented-primary-color: black;
+  --accented-secondary-color: white;
+  --accented-outline-width: 3px;
+  --accented-outline-style: dotted;
+}
+
 :target {
   background-color: yellow;
 }

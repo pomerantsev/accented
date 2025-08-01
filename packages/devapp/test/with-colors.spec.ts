@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import axe from 'axe-core';
 import { test } from './fixtures/test';
 import { openAccentedDialog } from './helpers/dialog';
-import { expectElementToHaveOutline } from './helpers/element';
+import { expectElementStyles } from './helpers/element';
 import { isDarkMode } from './helpers/env';
 import { expectElementAndTriggerToBeAligned, getTriggerContainer } from './helpers/trigger';
 
@@ -11,13 +11,27 @@ const accentedSelector = `[${accentedDataAttr}]`;
 
 test.describe('Accented', () => {
   test.describe('rendering', () => {
-    test('outlines with certain properties are added to elements', async ({ page }) => {
+    test('outline and trigger with certain styles are added to element', async ({ page }) => {
       await page.goto('/');
       const buttonWithIssue = await page
         .getByRole('button')
         .and(page.locator(accentedSelector))
         .first();
-      await expectElementToHaveOutline(buttonWithIssue);
+      await expectElementStyles(page, buttonWithIssue);
+    });
+
+    test('outline and trigger styles can be changed with custom props', async ({ page }) => {
+      await page.goto('?custom-props');
+      const buttonWithIssue = await page
+        .getByRole('button')
+        .and(page.locator(accentedSelector))
+        .first();
+      await expectElementStyles(page, buttonWithIssue, {
+        primaryColor: 'rgb(0, 0, 0)',
+        secondaryColor: 'rgb(255, 255, 255)',
+        outlineWidth: '3px',
+        outlineStyle: 'dotted',
+      });
     });
   });
 
@@ -80,7 +94,7 @@ test.describe('Accented', () => {
         await page.waitForTimeout(200);
         const triggerContainer = await getTriggerContainer(page, elementWithIssue);
         await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
-        await expectElementToHaveOutline(elementWithIssue);
+        await expectElementStyles(page, elementWithIssue);
       });
 
       test('when an element is moved to a different shadow root, it gets a trigger that is aligned with the element', async ({
@@ -93,7 +107,7 @@ test.describe('Accented', () => {
         await elementWithIssue.scrollIntoViewIfNeeded();
         const triggerContainer = await getTriggerContainer(page, elementWithIssue);
         await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);
-        await expectElementToHaveOutline(elementWithIssue);
+        await expectElementStyles(page, elementWithIssue);
       });
     });
   });
