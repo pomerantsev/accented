@@ -162,6 +162,10 @@ if (searchParams.has('small-caps')) {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
 }
 
+if (searchParams.has('custom-props')) {
+  document.documentElement.classList.add('custom-props');
+}
+
 export const toggleAccented = () => {
   toggleAccentedInner(options);
 };
