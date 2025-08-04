@@ -26,6 +26,6 @@
   },
   "devDependencies": {
     "accented": "workspace:*",
-    "netlify-cli": "^22.4.0"
+    "netlify-cli": "^23.0.0"
   }
 }
