@@ -18,8 +18,8 @@ importers:
         specifier: ^2.29.5
         version: 2.29.5
       '@types/node':
-        specifier: ^24.1.0
-        version: 24.1.0
+        specifier: ^24.2.0
+        version: 24.2.0
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -1680,9 +1680,6 @@ packages:
 
   '@types/node@22.14.1':
     resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
-
-  '@types/node@24.1.0':
-    resolution: {integrity: sha512-ut5FthK5moxFKH2T1CUOC6ctR67rQRvvHdFLCD2Ql6KXmMuCrjsSsRI9UsLCm9M18BMwClv4pn327UvB7eeO1w==}
 
   '@types/node@24.2.0':
     resolution: {integrity: sha512-3xyG3pMCq3oYCNg7/ZP+E1ooTaGB4cG8JWRsqqOYQdbWNY4zbaV0Ennrd7stjiJEFZCaybcIgpTjJWHRfBSIDw==}
@@ -5314,9 +5311,6 @@ packages:
   undici-types@7.10.0:
     resolution: {integrity: sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag==}
 
-  undici-types@7.8.0:
-    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
-
   unicode-properties@1.4.1:
     resolution: {integrity: sha512-CLjCCLQ6UuMxWnbIylkisbRj31qxHPAurvena/0iwSVbQ2G1VY5/HjV0IRabOEbDHlzZlRdCrD4NhB0JtU40Pg==}
 
@@ -7364,7 +7358,7 @@ snapshots:
 
   '@types/http-proxy@1.17.16':
     dependencies:
-      '@types/node': 24.1.0
+      '@types/node': 24.2.0
 
   '@types/jsdom@21.1.7':
     dependencies:
@@ -7392,10 +7386,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@24.1.0':
-    dependencies:
-      undici-types: 7.8.0
-
   '@types/node@24.2.0':
     dependencies:
       undici-types: 7.10.0
@@ -7406,7 +7396,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 24.1.0
+      '@types/node': 24.2.0
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -7418,7 +7408,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 24.1.0
+      '@types/node': 24.2.0
     optional: true
 
   '@typescript-eslint/project-service@8.38.0(supports-color@10.1.0)(typescript@5.9.2)':
@@ -11860,8 +11850,6 @@ snapshots:
   undici-types@6.21.0: {}
 
   undici-types@7.10.0: {}
-
-  undici-types@7.8.0: {}
 
   unicode-properties@1.4.1:
     dependencies:
