@@ -11,3 +11,6 @@ dist
 
 # Lychee
 .lycheecache
+
+# Workspace VSCode settings
+.vscode/settings.json
