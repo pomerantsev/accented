@@ -1,0 +1,23 @@
+// Create a settings.json file in this folder and copy the contents below to that new file
+// to enable fixing / formatting on save for this project.
+
+{
+  /* Sets Biome as the default formatter for all supported file types */
+  "editor.defaultFormatter": "biomejs.biome",
+
+  /* Enables running formatters (including Biome’s) on save */
+  "editor.formatOnSave": true,
+
+  "editor.codeActionsOnSave": {
+    /* Enables running Biome linter’s auto-fix on save */
+    "source.fixAll.biome": "explicit",
+
+    /* Enables sorting imports in JS / TS files with Biome on save */
+    "source.organizeImports.biome": "explicit"
+  },
+
+  /* Allows comments in the example file, which prevents VS Code's default validator from flagging issues in it. */
+  "files.associations": {
+    "settings.example.json": "jsonc"
+  }
+}
