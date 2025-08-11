@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaBox, FaShoppingCart, FaPlus, FaHome } from 'react-icons/fa';
+import type React from 'react';
+import { FaBox, FaHome, FaPlus, FaShoppingCart } from 'react-icons/fa';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,13 +16,14 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
               {/* Intentional a11y issue: missing alt text */}
-              <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=50" className="w-8 h-8 rounded mr-3" />
+              <img
+                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=50"
+                className="w-8 h-8 rounded mr-3"
+              />
               <h1 className="text-xl sm:text-2xl font-bold">MerchantHub Admin</h1>
             </div>
             {/* Intentional a11y issue: low contrast text */}
-            <div className="text-blue-200 text-sm hidden sm:block">
-              Welcome back, Admin
-            </div>
+            <div className="text-blue-200 text-sm hidden sm:block">Welcome back, Admin</div>
           </div>
         </div>
       </div>
@@ -38,8 +39,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
                   tabIndex={5}
                   onClick={() => onNavigate('dashboard')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
-                    currentPage === 'dashboard' 
-                      ? 'bg-blue-100 text-blue-700' 
+                    currentPage === 'dashboard'
+                      ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
@@ -51,8 +52,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
                 <button
                   onClick={() => onNavigate('products')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
-                    currentPage === 'products' 
-                      ? 'bg-blue-100 text-blue-700' 
+                    currentPage === 'products'
+                      ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
@@ -64,8 +65,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
                 <button
                   onClick={() => onNavigate('add-product')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
-                    currentPage === 'add-product' 
-                      ? 'bg-blue-100 text-blue-700' 
+                    currentPage === 'add-product'
+                      ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
@@ -77,8 +78,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
                 <button
                   onClick={() => onNavigate('orders')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
-                    currentPage === 'orders' 
-                      ? 'bg-blue-100 text-blue-700' 
+                    currentPage === 'orders'
+                      ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
@@ -91,9 +92,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
         </div>
 
         {/* Intentional a11y issue: using div instead of main landmark */}
-        <div className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
-          {children}
-        </div>
+        <div className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">{children}</div>
       </div>
     </div>
   );

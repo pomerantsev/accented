@@ -1,5 +1,5 @@
-import type { Product, Order } from '../types';
-import { mockProducts, mockOrders } from '../data/mockData';
+import { mockOrders, mockProducts } from '../data/mockData';
+import type { Order, Product } from '../types';
 
 const PRODUCTS_KEY = 'merchanthub_products';
 const ORDERS_KEY = 'merchanthub_orders';
@@ -16,19 +16,19 @@ export const getProducts = (): Product[] => {
 
 export const saveProduct = (product: Product): void => {
   const products = getProducts();
-  const existingIndex = products.findIndex(p => p.id === product.id);
-  
+  const existingIndex = products.findIndex((p) => p.id === product.id);
+
   if (existingIndex >= 0) {
     products[existingIndex] = product;
   } else {
     products.push(product);
   }
-  
+
   localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
 };
 
 export const deleteProduct = (id: string): void => {
-  const products = getProducts().filter(p => p.id !== id);
+  const products = getProducts().filter((p) => p.id !== id);
   localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
 };
 
@@ -44,8 +44,8 @@ export const getOrders = (): Order[] => {
 
 export const updateOrderStatus = (orderId: string, status: Order['status']): void => {
   const orders = getOrders();
-  const orderIndex = orders.findIndex(o => o.id === orderId);
-  
+  const orderIndex = orders.findIndex((o) => o.id === orderId);
+
   if (orderIndex >= 0) {
     orders[orderIndex].status = status;
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));

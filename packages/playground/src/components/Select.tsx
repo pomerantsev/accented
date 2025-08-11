@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
 interface Option {
@@ -14,12 +15,12 @@ interface SelectProps {
   label?: string;
 }
 
-export const Select: React.FC<SelectProps> = ({ 
-  options, 
-  value, 
-  onChange, 
-  placeholder = "Select an option",
-  label 
+export const Select: React.FC<SelectProps> = ({
+  options,
+  value,
+  onChange,
+  placeholder = 'Select an option',
+  label,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -35,15 +36,11 @@ export const Select: React.FC<SelectProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const selectedOption = options.find(option => option.value === value);
+  const selectedOption = options.find((option) => option.value === value);
 
   return (
     <div className="relative" ref={selectRef}>
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          {label}
-        </label>
-      )}
+      {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
       {/* Intentional a11y issue: div used as button without proper ARIA attributes */}
       <div
         onClick={() => setIsOpen(!isOpen)}

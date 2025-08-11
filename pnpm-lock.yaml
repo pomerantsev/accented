@@ -76,6 +76,9 @@ importers:
         specifier: ^5.0.1
         version: 5.5.0(react@19.1.1)
     devDependencies:
+      '@playwright/test':
+        specifier: ^1.54.2
+        version: 1.54.2
       '@types/react':
         specifier: ^19.1.8
         version: 19.1.9

@@ -10,6 +10,7 @@ A frontend library for continuous accessibility testing and issue highlighting.
 
 - The [Accented](/packages/accented) library itself.
 - [accented.dev website code](/packages/website).
+- The [Playground code](/packages/playground).
 - A couple of internal packages.
 
 ## Contributing
