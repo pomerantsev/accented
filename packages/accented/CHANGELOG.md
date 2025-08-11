@@ -1,5 +1,11 @@
 # accented
 
+## 1.0.2
+
+### Patch Changes
+
+- [#252](https://github.com/pomerantsev/accented/pull/252) [`13c4166`](https://github.com/pomerantsev/accented/commit/13c41665e5afc4c4297d8d7a8dafc5f5232d29cc) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump typescript from 5.8.3 to 5.9.2 (no functional changes)
+
 ## 1.0.1
 
 ### Patch Changes
