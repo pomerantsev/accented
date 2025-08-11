@@ -12,8 +12,8 @@ import App from './App.tsx';
  * * fix it and see the Accented outline and button disappear;
  * * repeat with other issues.
  *
- * You can use this application as your personal playground.
- * The original one will automatically get forked if you start editing the code.
+ * This application is forked from the original,
+ * and you can use it as your personal playground.
  *
  * Learn more:
  * * Installation and usage: https://accented.dev/getting-started
