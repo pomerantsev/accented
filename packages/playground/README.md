@@ -1,6 +1,8 @@
 # Playground
 
-This app is fully vibe-coded using [Bolt.new](https://bolt.new/)
+This app is fully vibe-coded using [Bolt.new](https://bolt.new/) and [Claude Code](https://www.anthropic.com/claude-code).
+
+It may be ugly or inefficient. Its main purpose is to work and to be able to showcase how Accented works.
 
 It purposefully contains some accessibility issues that can be detected with Accented.
 
