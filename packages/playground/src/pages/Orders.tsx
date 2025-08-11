@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { FaEye, FaBox, FaTruck, FaCheckCircle } from 'react-icons/fa';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { FaBox, FaCheckCircle, FaEye, FaTruck } from 'react-icons/fa';
+import { Modal } from '../components/Modal';
 import type { Order } from '../types';
 import { getOrders, updateOrderStatus } from '../utils/localStorage';
-import { Modal } from '../components/Modal';
 
 interface OrdersProps {
   onShowToast: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void;
@@ -34,14 +35,16 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
       processing: { color: 'bg-blue-100 text-blue-800', icon: FaBox },
       shipped: { color: 'bg-purple-100 text-purple-800', icon: FaTruck },
       delivered: { color: 'bg-green-100 text-green-800', icon: FaCheckCircle },
-      cancelled: { color: 'bg-red-100 text-red-800', icon: FaBox }
+      cancelled: { color: 'bg-red-100 text-red-800', icon: FaBox },
     };
 
     const config = statusConfig[status as keyof typeof statusConfig];
     const Icon = config.icon;
 
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
+      <span
+        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}
+      >
         <Icon className="w-3 h-3 mr-1" />
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
@@ -54,14 +57,14 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
   return (
     <div className="w-full">
       <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Orders</h1>
-      
+
       {/* Desktop Table View - Hidden on mobile */}
       <div className="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
@@ -69,22 +72,40 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Order ID
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Customer
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Total
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Date
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Actions
                 </th>
               </tr>
@@ -102,9 +123,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     ${order.total.toFixed(2)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(order.status)}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(order.status)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {formatDate(order.createdAt)}
                   </td>
@@ -120,7 +139,9 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                       {/* Intentional a11y issue: select without label */}
                       <select
                         value={order.status}
-                        onChange={(e) => handleStatusUpdate(order.id, e.target.value as Order['status'])}
+                        onChange={(e) =>
+                          handleStatusUpdate(order.id, e.target.value as Order['status'])
+                        }
                         className="text-xs border border-gray-300 rounded px-2 py-1"
                       >
                         <option value="pending">Pending</option>
@@ -147,30 +168,32 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                 <h3 className="text-sm font-medium text-gray-900 truncate">{order.id}</h3>
                 <p className="text-xs text-gray-500 mt-1">{formatDate(order.createdAt)}</p>
               </div>
-              <div className="ml-2 flex-shrink-0">
-                {getStatusBadge(order.status)}
-              </div>
+              <div className="ml-2 flex-shrink-0">{getStatusBadge(order.status)}</div>
             </div>
-            
+
             <div className="space-y-2 mb-4">
               <div>
                 <span className="text-xs text-gray-500">Customer:</span>
                 <div className="text-sm font-medium text-gray-900">{order.customerName}</div>
                 <div className="text-xs text-gray-500">{order.customerEmail}</div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <span className="text-xs text-gray-500">Total:</span>
-                  <div className="text-lg font-semibold text-gray-900">${order.total.toFixed(2)}</div>
+                  <div className="text-lg font-semibold text-gray-900">
+                    ${order.total.toFixed(2)}
+                  </div>
                 </div>
                 <div>
                   <span className="text-xs text-gray-500">Items:</span>
-                  <div className="text-sm text-gray-900">{order.items.length} item{order.items.length !== 1 ? 's' : ''}</div>
+                  <div className="text-sm text-gray-900">
+                    {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                  </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between pt-3 border-t border-gray-200">
               <button
                 onClick={() => handleViewDetails(order)}
@@ -179,7 +202,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                 <FaEye className="w-4 h-4 mr-1" />
                 View Details
               </button>
-              
+
               <div className="flex items-center space-x-2">
                 <span className="text-xs text-gray-500">Status:</span>
                 {/* Intentional a11y issue: select without label */}
@@ -238,7 +261,9 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                       <p className="text-sm font-medium truncate">{item.productName}</p>
                       <p className="text-xs text-gray-500">Quantity: {item.quantity}</p>
                     </div>
-                    <p className="text-sm font-medium ml-2">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-sm font-medium ml-2">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </p>
                   </div>
                 ))}
               </div>

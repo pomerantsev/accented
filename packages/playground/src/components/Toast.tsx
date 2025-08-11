@@ -1,5 +1,12 @@
-import React, { useEffect } from 'react';
-import { FaTimes, FaCheckCircle, FaExclamationCircle, FaExclamationTriangle, FaInfoCircle } from 'react-icons/fa';
+import type React from 'react';
+import { useEffect } from 'react';
+import {
+  FaCheckCircle,
+  FaExclamationCircle,
+  FaExclamationTriangle,
+  FaInfoCircle,
+  FaTimes,
+} from 'react-icons/fa';
 import type { ToastMessage } from '../types';
 
 interface ToastProps {
@@ -47,10 +54,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
       {getIcon()}
       <span className="ml-3 flex-1">{toast.message}</span>
       {/* Intentional a11y issue: button without accessible name */}
-      <button
-        onClick={() => onClose(toast.id)}
-        className="ml-4 text-gray-400 hover:text-gray-600"
-      >
+      <button onClick={() => onClose(toast.id)} className="ml-4 text-gray-400 hover:text-gray-600">
         <FaTimes className="w-4 h-4" />
       </button>
     </div>
@@ -65,7 +69,7 @@ interface ToastContainerProps {
 export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onClose }) => {
   return (
     <div className="fixed top-4 right-4 z-50 space-y-2">
-      {toasts.map(toast => (
+      {toasts.map((toast) => (
         <Toast key={toast.id} toast={toast} onClose={onClose} />
       ))}
     </div>

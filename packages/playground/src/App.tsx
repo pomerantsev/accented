@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Layout } from './components/Layout';
 import { ToastContainer } from './components/Toast';
-import { Dashboard } from './pages/Dashboard';
-import { Products } from './pages/Products';
 import { AddProduct } from './pages/AddProduct';
+import { Dashboard } from './pages/Dashboard';
 import { Orders } from './pages/Orders';
+import { Products } from './pages/Products';
 import type { ToastMessage } from './types';
 
 function App() {
@@ -15,13 +15,13 @@ function App() {
     const newToast: ToastMessage = {
       id: Date.now().toString(),
       type,
-      message
+      message,
     };
-    setToasts(prev => [...prev, newToast]);
+    setToasts((prev) => [...prev, newToast]);
   };
 
   const removeToast = (id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
   const renderCurrentPage = () => {

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import type { Product } from '../types';
-import { getProducts, deleteProduct, saveProduct } from '../utils/localStorage';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import { Modal } from '../components/Modal';
 import { Select } from '../components/Select';
 import { categories } from '../data/mockData';
+import type { Product } from '../types';
+import { deleteProduct, getProducts, saveProduct } from '../utils/localStorage';
 
 interface ProductsProps {
   onShowToast: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void;
@@ -43,15 +44,21 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
   };
 
   const getStatusBadge = (status: string) => {
-    return status === 'active' 
-      ? <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Active</span>
-      : <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">Inactive</span>;
+    return status === 'active' ? (
+      <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
+        Active
+      </span>
+    ) : (
+      <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
+        Inactive
+      </span>
+    );
   };
 
   return (
     <div className="w-full">
       <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Products</h1>
-      
+
       {/* Desktop Table View - Hidden on mobile */}
       <div className="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
@@ -88,12 +95,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                       <img className="h-10 w-10 rounded-full object-cover" src={product.image} />
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                        <div className="text-sm text-gray-500">{product.description.substring(0, 50)}...</div>
+                        <div className="text-sm text-gray-500">
+                          {product.description.substring(0, 50)}...
+                        </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {categories.find(c => c.value === product.category)?.label}
+                    {categories.find((c) => c.value === product.category)?.label}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     ${product.price.toFixed(2)}
@@ -101,9 +110,7 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {product.stock}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(product.status)}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(product.status)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
                       {/* Intentional a11y issue: buttons without accessible names */}
@@ -137,9 +144,9 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
           <div key={product.id} className="bg-white shadow rounded-lg p-4">
             <div className="flex items-start space-x-4">
               {/* Intentional a11y issue: missing alt text */}
-              <img 
-                className="h-16 w-16 rounded-lg object-cover flex-shrink-0" 
-                src={product.image} 
+              <img
+                className="h-16 w-16 rounded-lg object-cover flex-shrink-0"
+                src={product.image}
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between">
@@ -147,16 +154,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                     <h3 className="text-sm font-medium text-gray-900 truncate">{product.name}</h3>
                     <p className="text-xs text-gray-500 mt-1 line-clamp-2">{product.description}</p>
                   </div>
-                  <div className="ml-2 flex-shrink-0">
-                    {getStatusBadge(product.status)}
-                  </div>
+                  <div className="ml-2 flex-shrink-0">{getStatusBadge(product.status)}</div>
                 </div>
-                
+
                 <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
                   <div>
                     <span className="text-gray-500">Category:</span>
                     <span className="ml-1 text-gray-900">
-                      {categories.find(c => c.value === product.category)?.label}
+                      {categories.find((c) => c.value === product.category)?.label}
                     </span>
                   </div>
                   <div>
@@ -164,7 +169,7 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                     <span className="ml-1 text-gray-900">{product.stock}</span>
                   </div>
                 </div>
-                
+
                 <div className="mt-3 flex items-center justify-between">
                   <div className="text-lg font-semibold text-gray-900">
                     ${product.price.toFixed(2)}
@@ -202,26 +207,24 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
         {editingProduct && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Product Name
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
               <input
                 type="text"
                 value={editingProduct.name}
-                onChange={(e) => setEditingProduct({...editingProduct, name: e.target.value})}
+                onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
               <input
                 type="number"
                 step="0.01"
                 value={editingProduct.price}
-                onChange={(e) => setEditingProduct({...editingProduct, price: parseFloat(e.target.value)})}
+                onChange={(e) =>
+                  setEditingProduct({ ...editingProduct, price: parseFloat(e.target.value) })
+                }
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -231,29 +234,29 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                 label="Category"
                 options={categories}
                 value={editingProduct.category}
-                onChange={(value) => setEditingProduct({...editingProduct, category: value})}
+                onChange={(value) => setEditingProduct({ ...editingProduct, category: value })}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Stock
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
               <input
                 type="number"
                 value={editingProduct.stock}
-                onChange={(e) => setEditingProduct({...editingProduct, stock: parseInt(e.target.value)})}
+                onChange={(e) =>
+                  setEditingProduct({ ...editingProduct, stock: parseInt(e.target.value) })
+                }
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
               <textarea
                 value={editingProduct.description}
-                onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})}
+                onChange={(e) =>
+                  setEditingProduct({ ...editingProduct, description: e.target.value })
+                }
                 rows={3}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
@@ -264,10 +267,12 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                 label="Status"
                 options={[
                   { value: 'active', label: 'Active' },
-                  { value: 'inactive', label: 'Inactive' }
+                  { value: 'inactive', label: 'Inactive' },
                 ]}
                 value={editingProduct.status}
-                onChange={(value) => setEditingProduct({...editingProduct, status: value as 'active' | 'inactive'})}
+                onChange={(value) =>
+                  setEditingProduct({ ...editingProduct, status: value as 'active' | 'inactive' })
+                }
               />
             </div>
 
