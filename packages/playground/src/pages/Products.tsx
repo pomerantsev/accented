@@ -91,8 +91,11 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                 <tr key={product.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      {/* Intentional a11y issue: missing alt text */}
-                      <img className="h-10 w-10 rounded-full object-cover" src={product.image} />
+                      <img
+                        className="h-10 w-10 rounded-full object-cover"
+                        src={product.image}
+                        alt={product.name}
+                      />
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{product.name}</div>
                         <div className="text-sm text-gray-500">
@@ -113,19 +116,26 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                   <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(product.status)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
-                      {/* Intentional a11y issue: buttons without accessible names */}
                       <button
+                        type="button"
                         onClick={() => handleEdit(product)}
                         className="text-indigo-600 hover:text-indigo-900"
+                        aria-label="Edit product"
                       >
                         <FaEdit className="w-4 h-4" />
                       </button>
-                      <button className="text-gray-600 hover:text-gray-900">
+                      <button
+                        type="button"
+                        className="text-gray-600 hover:text-gray-900"
+                        aria-label="View product details"
+                      >
                         <FaEye className="w-4 h-4" />
                       </button>
                       <button
+                        type="button"
                         onClick={() => handleDelete(product.id)}
                         className="text-red-600 hover:text-red-900"
+                        aria-label="Delete product"
                       >
                         <FaTrash className="w-4 h-4" />
                       </button>
@@ -143,10 +153,11 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
         {products.map((product) => (
           <div key={product.id} className="bg-white shadow rounded-lg p-4">
             <div className="flex items-start space-x-4">
-              {/* Intentional a11y issue: missing alt text */}
+              {/* Fixed: added alt text for product image */}
               <img
                 className="h-16 w-16 rounded-lg object-cover flex-shrink-0"
                 src={product.image}
+                alt={product.name}
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between">
@@ -175,19 +186,27 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
                     ${product.price.toFixed(2)}
                   </div>
                   <div className="flex space-x-3">
-                    {/* Intentional a11y issue: buttons without accessible names */}
+                    {/* Fixed: added accessible names for action buttons */}
                     <button
+                      type="button"
                       onClick={() => handleEdit(product)}
                       className="text-indigo-600 hover:text-indigo-900 p-1"
+                      aria-label="Edit product"
                     >
                       <FaEdit className="w-4 h-4" />
                     </button>
-                    <button className="text-gray-600 hover:text-gray-900 p-1">
+                    <button
+                      type="button"
+                      className="text-gray-600 hover:text-gray-900 p-1"
+                      aria-label="View product details"
+                    >
                       <FaEye className="w-4 h-4" />
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(product.id)}
                       className="text-red-600 hover:text-red-900 p-1"
+                      aria-label="Delete product"
                     >
                       <FaTrash className="w-4 h-4" />
                     </button>
@@ -207,8 +226,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
         {editingProduct && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+              <label
+                htmlFor="edit-product-name"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Product Name
+              </label>
               <input
+                id="edit-product-name"
                 type="text"
                 value={editingProduct.name}
                 onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
@@ -217,8 +242,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+              <label
+                htmlFor="edit-product-price"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Price
+              </label>
               <input
+                id="edit-product-price"
                 type="number"
                 step="0.01"
                 value={editingProduct.price}
@@ -239,8 +270,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+              <label
+                htmlFor="edit-product-stock"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Stock
+              </label>
               <input
+                id="edit-product-stock"
                 type="number"
                 value={editingProduct.stock}
                 onChange={(e) =>
@@ -251,8 +288,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <label
+                htmlFor="edit-product-description"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Description
+              </label>
               <textarea
+                id="edit-product-description"
                 value={editingProduct.description}
                 onChange={(e) =>
                   setEditingProduct({ ...editingProduct, description: e.target.value })
@@ -278,12 +321,14 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
 
             <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
               <button
+                type="button"
                 onClick={() => setIsEditModalOpen(false)}
                 className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={handleSaveEdit}
                 className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
               >
