@@ -16,7 +16,7 @@ Example — without Accented vs. with Accented:
 
 ![Two screenshots of the same web application side by side. On the left, the regular state of the application. On the right, the same state but with bright outlines and buttons added to some page elements.](https://accented.dev/images/side-by-side.png)
 
-[Try it out at the Playground (StackBlitz).](https://stackblitz.com/edit/accented-playground-react-ts?file=src%2Fmain.tsx)
+[Try it out at the Playground (StackBlitz).](https://stackblitz.com/fork/github/pomerantsev/accented/tree/main/packages/playground?file=src%2Fmain.tsx&title=Accented%20playground%20(React%20%2B%20TypeScript))
 
 Accented can complement other tools commonly used for accessibility testing:
 
