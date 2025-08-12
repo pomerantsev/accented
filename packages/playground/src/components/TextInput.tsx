@@ -6,7 +6,6 @@ interface TextInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement
 }
 
 export const TextInput: React.FC<TextInputProps> = ({ id, ...props }) => {
-  console.log('props:', props);
   // Intentional a11y issue: Accept id prop but don't pass it through,
   // breaking the label association while ESLint thinks it's still connected
   return <input type="text" {...props} />;
