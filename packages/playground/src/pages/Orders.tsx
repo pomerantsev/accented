@@ -228,7 +228,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
       {/* Intentional a11y issue: heading-order violation - h1 followed directly by h3 */}
       <div className="mt-12">
         <h3 className="text-xl font-semibold text-gray-900 mb-6">Canceled Orders</h3>
-        
+
         {/* Desktop Table View for Canceled Orders */}
         <div className="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
@@ -276,9 +276,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                     <div className="text-sm font-medium text-gray-900">Sarah Johnson</div>
                     <div className="text-sm text-gray-500">sarah.j@email.com</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    $89.97
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$89.97</td>
                   <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge('cancelled')}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     Jan 15, 2024, 10:30 AM
@@ -292,9 +290,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                     <div className="text-sm font-medium text-gray-900">Mike Chen</div>
                     <div className="text-sm text-gray-500">m.chen@email.com</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    $156.43
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$156.43</td>
                   <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge('cancelled')}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     Jan 12, 2024, 2:45 PM
