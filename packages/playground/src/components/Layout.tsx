@@ -15,10 +15,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              {/* Intentional a11y issue: missing alt text */}
               <img
                 src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=50"
                 className="w-8 h-8 rounded mr-3"
+                alt="MerchantHub Admin logo"
               />
               <h1 className="text-xl sm:text-2xl font-bold">MerchantHub Admin</h1>
             </div>
@@ -34,9 +34,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
           <div className="p-4">
             <ul className="space-y-2">
               <li>
-                {/* Intentional a11y issue: positive tabindex */}
                 <button
-                  tabIndex={5}
+                  type="button"
                   onClick={() => onNavigate('dashboard')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
                     currentPage === 'dashboard'
@@ -50,6 +49,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => onNavigate('products')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
                     currentPage === 'products'
@@ -63,6 +63,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => onNavigate('add-product')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
                     currentPage === 'add-product'
@@ -76,6 +77,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => onNavigate('orders')}
                   className={`w-full flex items-center px-4 py-2 text-left rounded-lg transition-colors ${
                     currentPage === 'orders'

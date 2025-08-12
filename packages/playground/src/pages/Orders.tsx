@@ -130,6 +130,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
                       <button
+                        type="button"
                         onClick={() => handleViewDetails(order)}
                         className="text-indigo-600 hover:text-indigo-900"
                         aria-label={`View details for order ${order.id}`}
@@ -196,6 +197,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
 
             <div className="flex items-center justify-between pt-3 border-t border-gray-200">
               <button
+                type="button"
                 onClick={() => handleViewDetails(order)}
                 className="flex items-center text-indigo-600 hover:text-indigo-900 text-sm font-medium"
               >
@@ -255,8 +257,11 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
             <div>
               <h4 className="font-medium text-gray-900">Order Items</h4>
               <div className="mt-2 space-y-2">
-                {selectedOrder.items.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center py-2 border-b">
+                {selectedOrder.items.map((item) => (
+                  <div
+                    key={`${item.productName}-${item.quantity}`}
+                    className="flex justify-between items-center py-2 border-b"
+                  >
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{item.productName}</p>
                       <p className="text-xs text-gray-500">Quantity: {item.quantity}</p>

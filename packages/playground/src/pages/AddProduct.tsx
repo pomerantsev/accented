@@ -64,9 +64,11 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
       <div className="bg-white shadow rounded-lg p-6 max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            {/* Intentional a11y issue: label not properly associated with input */}
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
+            <label htmlFor="product-name" className="block text-sm font-medium text-gray-700 mb-1">
+              Product Name *
+            </label>
             <input
+              id="product-name"
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -77,8 +79,14 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
+              <label
+                htmlFor="product-price"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Price *
+              </label>
               <input
+                id="product-price"
                 type="number"
                 step="0.01"
                 value={formData.price}
@@ -89,8 +97,14 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+              <label
+                htmlFor="product-stock"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Stock Quantity
+              </label>
               <input
+                id="product-stock"
                 type="number"
                 value={formData.stock}
                 onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
@@ -111,10 +125,11 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="product-image" className="block text-sm font-medium text-gray-700 mb-1">
               Product Image URL
             </label>
             <input
+              id="product-image"
               type="url"
               value={formData.image}
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
@@ -124,8 +139,14 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label
+              htmlFor="product-description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Description
+            </label>
             <textarea
+              id="product-description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}

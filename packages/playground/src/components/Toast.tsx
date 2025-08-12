@@ -53,8 +53,12 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
     <div className={`flex items-center p-4 border rounded-lg shadow-md ${getBgColor()}`}>
       {getIcon()}
       <span className="ml-3 flex-1">{toast.message}</span>
-      {/* Intentional a11y issue: button without accessible name */}
-      <button onClick={() => onClose(toast.id)} className="ml-4 text-gray-400 hover:text-gray-600">
+      <button
+        type="button"
+        onClick={() => onClose(toast.id)}
+        className="ml-4 text-gray-400 hover:text-gray-600"
+        aria-label="Close notification"
+      >
         <FaTimes className="w-4 h-4" />
       </button>
     </div>
