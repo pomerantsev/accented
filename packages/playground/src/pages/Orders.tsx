@@ -69,7 +69,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
       <div className="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           {/* Intentional a11y issue: table without caption */}
-          <table className="min-w-full divide-y divide-gray-200">
+          <table aria-label="All orders" className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th
@@ -232,7 +232,7 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
         {/* Desktop Table View for Canceled Orders */}
         <div className="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table aria-label="Canceled orders" className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th

@@ -34,7 +34,7 @@ export async function expectNavigationItems(page: Page): Promise<void> {
  */
 export async function expectDashboardContent(page: Page): Promise<void> {
   // Verify the main heading
-  await expect(page.getByRole('heading', { name: 'Dashboard', level: 1 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dashboard', level: 2 })).toBeVisible();
 
   // Verify key dashboard metrics are present
   await expect(page.getByText('Total Products')).toBeVisible();
@@ -91,11 +91,13 @@ export async function expectOrdersContent(page: Page): Promise<void> {
   // Verify the main heading
   await expect(page.getByRole('heading', { name: 'Orders', level: 1 })).toBeVisible();
 
+  const table = await page.getByRole('table', { name: 'All orders' });
+
   // Verify table headers are present (for desktop view) using table-specific locators
-  await expect(page.locator('table th:has-text("Order ID")')).toBeVisible();
-  await expect(page.locator('table th:has-text("Customer")')).toBeVisible();
-  await expect(page.locator('table th:has-text("Total")')).toBeVisible();
-  await expect(page.locator('table th:has-text("Status")')).toBeVisible();
-  await expect(page.locator('table th:has-text("Date")')).toBeVisible();
-  await expect(page.locator('table th:has-text("Actions")')).toBeVisible();
+  await expect(table.locator('th:has-text("Order ID")')).toBeVisible();
+  await expect(table.locator('th:has-text("Customer")')).toBeVisible();
+  await expect(table.locator('th:has-text("Total")')).toBeVisible();
+  await expect(table.locator('th:has-text("Status")')).toBeVisible();
+  await expect(table.locator('th:has-text("Date")')).toBeVisible();
+  await expect(table.locator('th:has-text("Actions")')).toBeVisible();
 }
