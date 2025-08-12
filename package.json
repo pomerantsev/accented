@@ -12,6 +12,7 @@
     "website:dev": "pnpm clean-tsbuildinfo && (pnpm --filter accented build & pnpm --filter website dev)",
     "website:build": "pnpm --filter website build",
     "website:deploy": "pnpm --filter website website:deploy",
+    "playground:dev": "pnpm --filter playground dev",
     "test:unit": "pnpm --filter accented test",
     "test:e2e": "pnpm --filter accented-devapp test",
     "changeset-version": "pnpm changeset version && pnpm biome format --write"
