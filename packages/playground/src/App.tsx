@@ -42,7 +42,7 @@ function App() {
   return (
     <>
       <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
-        {renderCurrentPage()}
+        <main>{renderCurrentPage()}</main>
       </Layout>
       <ToastContainer toasts={toasts} onClose={removeToast} />
     </>
