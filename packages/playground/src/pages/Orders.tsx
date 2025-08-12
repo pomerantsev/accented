@@ -225,6 +225,148 @@ export const Orders: React.FC<OrdersProps> = ({ onShowToast }) => {
         ))}
       </div>
 
+      {/* Intentional a11y issue: heading-order violation - h1 followed directly by h3 */}
+      <div className="mt-12">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">Canceled Orders</h3>
+        
+        {/* Desktop Table View for Canceled Orders */}
+        <div className="hidden lg:block bg-white shadow rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Order ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Customer
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Total
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    ORD-CANC-001
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                    <div className="text-sm text-gray-500">sarah.j@email.com</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    $89.97
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge('cancelled')}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Jan 15, 2024, 10:30 AM
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    ORD-CANC-002
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">Mike Chen</div>
+                    <div className="text-sm text-gray-500">m.chen@email.com</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    $156.43
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge('cancelled')}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Jan 12, 2024, 2:45 PM
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Mobile Card View for Canceled Orders */}
+        <div className="lg:hidden space-y-4">
+          <div className="bg-white shadow rounded-lg p-4">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-medium text-gray-900 truncate">ORD-CANC-001</h4>
+                <p className="text-xs text-gray-500 mt-1">Jan 15, 2024, 10:30 AM</p>
+              </div>
+              <div className="ml-2 flex-shrink-0">{getStatusBadge('cancelled')}</div>
+            </div>
+
+            <div className="space-y-2 mb-4">
+              <div>
+                <span className="text-xs text-gray-500">Customer:</span>
+                <div className="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                <div className="text-xs text-gray-500">sarah.j@email.com</div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="text-xs text-gray-500">Total:</span>
+                  <div className="text-lg font-semibold text-gray-900">$89.97</div>
+                </div>
+                <div>
+                  <span className="text-xs text-gray-500">Items:</span>
+                  <div className="text-sm text-gray-900">3 items</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white shadow rounded-lg p-4">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-medium text-gray-900 truncate">ORD-CANC-002</h4>
+                <p className="text-xs text-gray-500 mt-1">Jan 12, 2024, 2:45 PM</p>
+              </div>
+              <div className="ml-2 flex-shrink-0">{getStatusBadge('cancelled')}</div>
+            </div>
+
+            <div className="space-y-2 mb-4">
+              <div>
+                <span className="text-xs text-gray-500">Customer:</span>
+                <div className="text-sm font-medium text-gray-900">Mike Chen</div>
+                <div className="text-xs text-gray-500">m.chen@email.com</div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="text-xs text-gray-500">Total:</span>
+                  <div className="text-lg font-semibold text-gray-900">$156.43</div>
+                </div>
+                <div>
+                  <span className="text-xs text-gray-500">Items:</span>
+                  <div className="text-sm text-gray-900">5 items</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Modal
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}

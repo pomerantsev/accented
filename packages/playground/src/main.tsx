@@ -12,6 +12,10 @@ import App from './App.tsx';
  * * fix it and see the Accented outline and button disappear;
  * * repeat with other issues.
  *
+ * Note that the issues that are flagged by Accented in this app
+ * would not be caught by linters such as ESLint / eslint-plugin-jsx-a11y
+ * or Biome.
+ *
  * This application is forked from the original,
  * and you can use it as your personal playground.
  *
