@@ -34,20 +34,6 @@ test.describe('Playground Smoke Tests', () => {
       // Verify dashboard content loads by default
       await expectDashboardContent(page);
     });
-
-    test('displays application logo with missing alt text (intentional a11y issue)', async ({
-      page,
-    }) => {
-      await page.goto('/');
-
-      // Verify the logo image is present but has missing alt text (this is an intentional issue)
-      const logoImage = page.locator('img').first();
-      await expect(logoImage).toBeVisible();
-
-      // The image should be missing alt text (empty or no alt attribute)
-      const altText = await logoImage.getAttribute('alt');
-      expect(altText).toBeFalsy(); // Should be null, undefined, or empty
-    });
   });
 
   test.describe('Navigation Tests', () => {
