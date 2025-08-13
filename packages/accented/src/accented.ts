@@ -99,7 +99,7 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
     const cleanupScanner = createScanner(name, context, axeOptions, throttle, callback);
     const cleanupDomUpdater = output.page ? createDomUpdater(name, intersectionObserver) : () => {};
     const cleanupLogger = output.console ? createLogger() : () => {};
-    const cleanupScrollListeners = setupScrollListeners();
+    const cleanupScrollListeners = output.page ? setupScrollListeners() : () => {};
     const cleanupResizeListener = supportsAnchorPositioning(window)
       ? () => {}
       : setupResizeListener();

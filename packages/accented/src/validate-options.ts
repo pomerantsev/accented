@@ -149,6 +149,11 @@ export function validateOptions(options: AccentedOptions) {
         `Accented: invalid argument. \`output.console\` option is expected to be a boolean. It’s currently set to ${options.output.console}.`,
       );
     }
+    if (options.output.page !== undefined && typeof options.output.page !== 'boolean') {
+      console.warn(
+        `Accented: invalid argument. \`output.page\` option is expected to be a boolean. It’s currently set to ${options.output.page}.`,
+      );
+    }
   }
   if (options.callback !== undefined && typeof options.callback !== 'function') {
     throw new TypeError(
