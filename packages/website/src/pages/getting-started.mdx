@@ -112,11 +112,10 @@ To avoid this, introduce Accented gradually, with a combination of the following
   Helpful if your app has lots of the same type of issue.
   By initially excluding the rule for that issue,
   you can make the output more manageable.
-
-In the future, Accented may have a console-only mode
-(see [issue #28](https://github.com/pomerantsev/accented/issues/28)),
-which would also make it easier to introduce Accented.
-If that sounds useful, consider upvoting the issue.
+- **Use the [`output.page` option](/api#outputpage) to control whether highlights should be displayed at all.**
+  To limit distractions on the page itself, you may want to start with only outputting issues
+  to the console (`output: { page: false }`).
+  Once the amount of issues is more manageable, you can enable highlights on the page again.
 
 ## Using with frameworks (React, Vue, Angular, Svelte, etc.)
 
