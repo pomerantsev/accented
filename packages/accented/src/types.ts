@@ -39,6 +39,8 @@ export type Output = {
    * @default true
    * */
   console?: boolean;
+
+  page?: boolean;
 };
 
 /**
