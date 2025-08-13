@@ -55,6 +55,7 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
 
     const defaultOutput: Required<AccentedOptions['output']> = {
       console: true,
+      page: true,
     };
 
     const defaultThrottle: Required<AccentedOptions['throttle']> = {
@@ -96,7 +97,7 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
     const { disconnect: cleanupIntersectionObserver, intersectionObserver } =
       setupIntersectionObserver();
     const cleanupScanner = createScanner(name, context, axeOptions, throttle, callback);
-    const cleanupDomUpdater = createDomUpdater(name, intersectionObserver);
+    const cleanupDomUpdater = output.page ? createDomUpdater(name, intersectionObserver) : () => {};
     const cleanupLogger = output.console ? createLogger() : () => {};
     const cleanupScrollListeners = setupScrollListeners();
     const cleanupResizeListener = supportsAnchorPositioning(window)
