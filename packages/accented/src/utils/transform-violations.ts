@@ -1,4 +1,5 @@
 import type { AxeResults, ImpactValue } from 'axe-core';
+import { orderedImpacts } from '../constants.js';
 import type { ElementWithIssues, Issue } from '../types.ts';
 
 // This is a list of axe-core violations (their ids) that may be flagged by axe-core
@@ -21,8 +22,7 @@ function maybeCausedByAccented(violationId: string, element: HTMLElement, name: 
 }
 
 function impactCompare(a: ImpactValue, b: ImpactValue) {
-  const impactOrder = [null, 'minor', 'moderate', 'serious', 'critical'];
-  return impactOrder.indexOf(a) - impactOrder.indexOf(b);
+  return orderedImpacts.indexOf(a) - orderedImpacts.indexOf(b);
 }
 
 export function transformViolations(violations: typeof AxeResults.violations, name: string) {
