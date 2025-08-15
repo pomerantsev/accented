@@ -1,4 +1,10 @@
 import { effect } from '@preact/signals-core';
+import {
+  consoleColorImpactCritical,
+  consoleColorImpactMinor,
+  consoleColorImpactModerate,
+  consoleColorImpactSerious,
+} from './common/tokens.js';
 import { accentedUrl, orderedImpacts } from './constants.js';
 import { elementsWithIssues, enabled } from './state.js';
 import type { ElementWithIssues, Issue } from './types.ts';
@@ -7,12 +13,11 @@ const MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE = 5;
 
 const defaultStyle = 'font-weight: normal;';
 
-// TODO: move to constants
 const colors = {
-  minor: 'light-dark(oklch(0.45 0 0), oklch(0.8 0 0))',
-  moderate: 'light-dark(oklch(0.45 0.16 230), oklch(0.8 0.16 230))',
-  serious: 'light-dark(oklch(0.45 0.16 90), oklch(0.8 0.16 90))',
-  critical: 'light-dark(oklch(0.45 0.16 0), oklch(0.8 0.16 0))',
+  minor: consoleColorImpactMinor,
+  moderate: consoleColorImpactModerate,
+  serious: consoleColorImpactSerious,
+  critical: consoleColorImpactCritical,
 };
 
 const impactText = (impact: Issue['impact']) => impact.charAt(0).toUpperCase() + impact.slice(1);
