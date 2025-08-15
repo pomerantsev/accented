@@ -130,18 +130,28 @@ function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
 
 function logIssuesByType(issueTypeGroups: Array<IssueType>) {
   for (const { title, url, impact, elements } of issueTypeGroups) {
+    const shouldOutputElementInline = elements.length === 1;
+    const baseOutput = `%c${impactText(impact)} (${elements.length} element${elements.length === 1 ? '' : 's'}):%c\n${titleAndUrl({ title, url })}`;
+    const output = shouldOutputElementInline ? `${baseOutput}\n%o` : baseOutput;
     console.groupCollapsed(
-      `%c${impactText(impact)} (${elements.length} element${elements.length === 1 ? '' : 's'}):%c\n${titleAndUrl({ title, url })}`,
+      output,
       // @ts-expect-error
       `color: ${colors[impact]};`,
       defaultStyle,
+      ...(shouldOutputElementInline ? [elements[0]?.element] : []),
     );
-    for (const { element, description } of elements.sort((elementContainer1, elementContainer2) =>
-      sortByElementPositions(elementContainer1.element, elementContainer2.element),
-    )) {
-      console.groupCollapsed('%o', element);
+    if (shouldOutputElementInline) {
+      // @ts-expect-error
+      const { description } = elements[0];
       console.log(description);
-      console.groupEnd();
+    } else {
+      for (const { element, description } of elements.sort((elementContainer1, elementContainer2) =>
+        sortByElementPositions(elementContainer1.element, elementContainer2.element),
+      )) {
+        console.groupCollapsed('%o', element);
+        console.log(description);
+        console.groupEnd();
+      }
     }
     console.groupEnd();
   }
