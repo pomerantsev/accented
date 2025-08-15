@@ -7,10 +7,6 @@ const MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE = 5;
 
 const defaultStyle = 'font-weight: normal;';
 
-// TODO: write more end-to-end tests
-
-// TODO: fix all TS errors
-
 // TODO: move to constants
 const colors = {
   minor: 'light-dark(oklch(0.45 0 0), oklch(0.8 0 0))',
@@ -19,13 +15,12 @@ const colors = {
   critical: 'light-dark(oklch(0.45 0.16 0), oklch(0.8 0.16 0))',
 };
 
-const impactText = (impact: Issue['impact']) =>
-  impact ? impact.charAt(0).toUpperCase() + impact.slice(1) : '';
+const impactText = (impact: Issue['impact']) => impact.charAt(0).toUpperCase() + impact.slice(1);
 
 const titleAndUrl = (issue: { title: Issue['title']; url: Issue['url'] }) =>
   `${issue.title} ${issue.url}`;
 
-// TODO: this seems to be incorrect if shadow DOM is taken into account. Fix?
+// This sorting is not ideal since it doesn't work very well with shadow DOM.
 const sortByElementPositions = (
   a: ElementWithIssues['element'],
   b: ElementWithIssues['element'],
@@ -51,8 +46,7 @@ const getIssueTypeGroups = (elementsWithIssues: Array<ElementWithIssues>) => {
           elements: [],
         };
       }
-      // @ts-expect-error
-      acc[issue.id].elements.push({ element, description: issue.description });
+      acc[issue.id]?.elements.push({ element, description: issue.description });
     }
     return acc;
   }, {} as GroupedByIssueType);
@@ -99,24 +93,22 @@ function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
 
     const baseOutput = `${issuesWithImpacts}%c`;
     const output =
-      // @ts-expect-error
-      issues.length === 1 ? `${baseOutput}\n${titleAndUrl(issues[0])}\n%o` : `${baseOutput}\n%o`;
+      issues.length === 1 && issues[0]
+        ? `${baseOutput}\n${titleAndUrl(issues[0])}\n%o`
+        : `${baseOutput}\n%o`;
 
     console.groupCollapsed(
       output,
-      // @ts-expect-error
       ...sortedAndFilteredImpacts.map((impact) => `color: ${colors[impact]};`),
       defaultStyle,
       element,
     );
     if (issues.length === 1) {
-      // @ts-expect-error
-      console.log(issues[0].description);
+      console.log(issues[0]?.description);
     } else {
       for (const issue of issues) {
         console.groupCollapsed(
           `%c${impactText(issue.impact)}:%c\n${titleAndUrl(issue)}`,
-          // @ts-expect-error
           `color: ${colors[issue.impact]};`,
           defaultStyle,
         );
@@ -135,15 +127,12 @@ function logIssuesByType(issueTypeGroups: Array<IssueType>) {
     const output = shouldOutputElementInline ? `${baseOutput}\n%o` : baseOutput;
     console.groupCollapsed(
       output,
-      // @ts-expect-error
       `color: ${colors[impact]};`,
       defaultStyle,
       ...(shouldOutputElementInline ? [elements[0]?.element] : []),
     );
     if (shouldOutputElementInline) {
-      // @ts-expect-error
-      const { description } = elements[0];
-      console.log(description);
+      console.log(elements[0]?.description);
     } else {
       for (const { element, description } of elements.sort((elementContainer1, elementContainer2) =>
         sortByElementPositions(elementContainer1.element, elementContainer2.element),
