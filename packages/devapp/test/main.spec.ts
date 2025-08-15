@@ -489,7 +489,8 @@ test.describe('Accented', () => {
 
       // Wait for the main Accented console message
       await page.waitForEvent('console', {
-        predicate: (msg) => msg.text().includes('accessibility issue') && msg.text().includes('Accented')
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
       });
     });
 
@@ -664,7 +665,8 @@ test.describe('Accented', () => {
 
       // Wait for the main Accented console message
       await page.waitForEvent('console', {
-        predicate: (msg) => msg.text().includes('accessibility issue') && msg.text().includes('Accented')
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
       });
 
       const count = await page.locator(accentedSelector).count();
@@ -681,7 +683,8 @@ test.describe('Accented', () => {
 
       // Wait for the main Accented console message
       await page.waitForEvent('console', {
-        predicate: (msg) => msg.text().includes('accessibility issue') && msg.text().includes('Accented')
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
       });
 
       const count = await page.locator(accentedSelector).count();
