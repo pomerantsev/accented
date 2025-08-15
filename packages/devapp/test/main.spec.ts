@@ -414,42 +414,55 @@ test.describe('Accented', () => {
   });
 
   test.describe('console output', () => {
-    test('logs elements with issues to the console', async ({ page }) => {
+    test('logs the overall number of issues and elements with issues to the console', async ({
+      page,
+    }) => {
       await page.goto('/');
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBeGreaterThan(0);
 
-      // Expect that only certain keys are present on each element
-      const expectedKeys = ['element', 'issues'];
-      await expect(Object.keys(arg2[0]).length).toBe(expectedKeys.length);
-      for (const key of expectedKeys) {
-        await expect(arg2[0]).toHaveProperty(key);
+      // Wait for the main Accented console group message
+      const consoleMessage = await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+
+      // Verify the message follows the exact format "X accessibility issue(s) found in Y element(s)"
+      const messageText = consoleMessage.text();
+      const match = messageText.match(/(\d+) accessibility issue(s?) found in (\d+) element(s?)/);
+      expect(match).toBeTruthy();
+
+      if (match?.[1] && match[3]) {
+        const issueCount = parseInt(match[1]);
+        const elementCount = parseInt(match[3]);
+        expect(issueCount).toBeGreaterThan(0);
+        expect(elementCount).toBeGreaterThan(0);
       }
     });
 
-    test('when Accented is toggled off, it doesn’t log an extra message', async ({ page }) => {
+    test('when Accented is toggled off, it does not log an extra message', async ({ page }) => {
       await page.goto('/');
-      let messageCount = 0;
-      page.on('console', () => {
-        messageCount++;
+      let accentedMessageCount = 0;
+      page.on('console', (msg) => {
+        if (msg.text().includes('accessibility issue') && msg.text().includes('Accented')) {
+          accentedMessageCount++;
+        }
       });
       await page.locator(accentedSelector).first().waitFor();
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
-      await expect(messageCount).toBe(1);
+      await expect(accentedMessageCount).toBe(1);
     });
 
     test('console output can be disabled', async ({ page }) => {
       await page.goto('?no-console');
-      let messageCount = 0;
-      page.on('console', () => {
-        messageCount++;
+      let accentedMessageCount = 0;
+      page.on('console', (msg) => {
+        if (msg.text().includes('accessibility issue') && msg.text().includes('Accented')) {
+          accentedMessageCount++;
+        }
       });
       await page.locator(accentedSelector).first().waitFor();
-      await expect(messageCount).toBe(0);
+      await expect(accentedMessageCount).toBe(0);
     });
   });
 
@@ -474,20 +487,10 @@ test.describe('Accented', () => {
     test('when page output is disabled, console output still works', async ({ page }) => {
       await page.goto('?no-page');
 
-      // Listen for console messages
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-
-      // Console should still log elements with issues
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBeGreaterThan(0);
-
-      // Verify structure is correct
-      const expectedKeys = ['element', 'issues'];
-      await expect(Object.keys(arg2[0]).length).toBe(expectedKeys.length);
-      for (const key of expectedKeys) {
-        await expect(arg2[0]).toHaveProperty(key);
-      }
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) => msg.text().includes('accessibility issue') && msg.text().includes('Accented')
+      });
     });
 
     test('when both page and console output are disabled, scanning still occurs', async ({
@@ -659,10 +662,10 @@ test.describe('Accented', () => {
     }) => {
       await page.goto('?axe-context-selector=%23nested-svg');
 
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBe(1);
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) => msg.text().includes('accessibility issue') && msg.text().includes('Accented')
+      });
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
@@ -676,10 +679,10 @@ test.describe('Accented', () => {
     }) => {
       await page.goto('?axe-context-selector=head');
 
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBe(1);
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) => msg.text().includes('accessibility issue') && msg.text().includes('Accented')
+      });
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);

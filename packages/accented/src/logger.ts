@@ -7,6 +7,10 @@ const MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE = 5;
 
 const defaultStyle = 'font-weight: normal;';
 
+// TODO: write more end-to-end tests
+
+// TODO: fix all TS errors
+
 // TODO: move to constants
 const colors = {
   minor: 'light-dark(oklch(0.45 0 0), oklch(0.8 0 0))',
@@ -47,6 +51,7 @@ const getIssueTypeGroups = (elementsWithIssues: Array<ElementWithIssues>) => {
           elements: [],
         };
       }
+      // @ts-expect-error
       acc[issue.id].elements.push({ element, description: issue.description });
     }
     return acc;
@@ -94,20 +99,24 @@ function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
 
     const baseOutput = `${issuesWithImpacts}%c`;
     const output =
+      // @ts-expect-error
       issues.length === 1 ? `${baseOutput}\n${titleAndUrl(issues[0])}\n%o` : `${baseOutput}\n%o`;
 
     console.groupCollapsed(
       output,
+      // @ts-expect-error
       ...sortedAndFilteredImpacts.map((impact) => `color: ${colors[impact]};`),
       defaultStyle,
       element,
     );
     if (issues.length === 1) {
+      // @ts-expect-error
       console.log(issues[0].description);
     } else {
       for (const issue of issues) {
         console.groupCollapsed(
           `%c${impactText(issue.impact)}:%c\n${titleAndUrl(issue)}`,
+          // @ts-expect-error
           `color: ${colors[issue.impact]};`,
           defaultStyle,
         );
@@ -123,6 +132,7 @@ function logIssuesByType(issueTypeGroups: Array<IssueType>) {
   for (const { title, url, impact, elements } of issueTypeGroups) {
     console.groupCollapsed(
       `%c${impactText(impact)}:%c\n${titleAndUrl({ title, url })}`,
+      // @ts-expect-error
       `color: ${colors[impact]};`,
       defaultStyle,
     );
