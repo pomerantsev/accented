@@ -131,7 +131,7 @@ function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
 function logIssuesByType(issueTypeGroups: Array<IssueType>) {
   for (const { title, url, impact, elements } of issueTypeGroups) {
     console.groupCollapsed(
-      `%c${impactText(impact)}:%c\n${titleAndUrl({ title, url })}`,
+      `%c${impactText(impact)} (${elements.length} element${elements.length === 1 ? '' : 's'}):%c\n${titleAndUrl({ title, url })}`,
       // @ts-expect-error
       `color: ${colors[impact]};`,
       defaultStyle,

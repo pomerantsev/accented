@@ -438,6 +438,83 @@ test.describe('Accented', () => {
       }
     });
 
+    test('logs element groups with impact levels when there are 5 or fewer total issues, and doesn’t log top-level groups', async ({
+      page,
+    }) => {
+      await page.goto(
+        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid',
+      );
+
+      const consoleMessages: any[] = [];
+      page.on('console', (msg) => {
+        consoleMessages.push(msg);
+      });
+
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+
+      // Wait a bit more for all element groups to be logged
+      await page.waitForTimeout(500);
+
+      // Find collapsed group messages for elements (those containing impact levels)
+      const groupCollapsedMessages = consoleMessages.filter(
+        (msg) => msg.type() === 'startGroupCollapsed',
+      );
+
+      const topLevelGroupMessages = groupCollapsedMessages.filter(
+        (msg) => msg.text().includes('By element') || msg.text().includes('By issue type'),
+      );
+
+      expect(topLevelGroupMessages.length).toBe(0);
+
+      const elementGroupMessages = groupCollapsedMessages.filter((msg) =>
+        /\d+ (minor|moderate|serious|critical)/.test(msg.text()),
+      );
+
+      // Should have 5 or fewer collapsed element groups
+      expect(elementGroupMessages.length).toBeGreaterThan(0);
+      expect(elementGroupMessages.length).toBeLessThanOrEqual(5);
+    });
+
+    test('logs top-level groups when there are over 5 total issues', async ({ page }) => {
+      await page.goto('/');
+
+      const consoleMessages: any[] = [];
+      page.on('console', (msg) => {
+        consoleMessages.push(msg);
+      });
+
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+
+      // Wait a bit more for all element groups to be logged
+      await page.waitForTimeout(500);
+
+      // Find collapsed group messages for elements (those containing impact levels)
+      const groupCollapsedMessages = consoleMessages.filter(
+        (msg) => msg.type() === 'startGroupCollapsed',
+      );
+
+      const topLevelGroupMessages = groupCollapsedMessages.filter(
+        (msg) => msg.text().includes('By element') || msg.text().includes('By issue type'),
+      );
+
+      expect(topLevelGroupMessages.length).toBe(2);
+
+      const elementGroupMessages = groupCollapsedMessages.filter((msg) =>
+        /\d+ (minor|moderate|serious|critical)/.test(msg.text()),
+      );
+
+      // Should have more than 5 collapsed element groups
+      expect(elementGroupMessages.length).toBeGreaterThan(5);
+    });
+
     test('when Accented is toggled off, it does not log an extra message', async ({ page }) => {
       await page.goto('/');
       let accentedMessageCount = 0;
