@@ -3,8 +3,9 @@ import { accentedUrl, orderedImpacts } from './constants.js';
 import { elementsWithIssues, enabled } from './state.js';
 import type { ElementWithIssues, Issue } from './types.ts';
 
+const MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE = 5;
+
 const defaultStyle = 'font-weight: normal;';
-const boldStyle = 'font-weight: bold;';
 
 // TODO: move to constants
 const colors = {
@@ -24,7 +25,43 @@ const titleAndUrl = (issue: { title: Issue['title']; url: Issue['url'] }) =>
 const sortByElementPositions = (
   a: ElementWithIssues['element'],
   b: ElementWithIssues['element'],
-) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_PRECEDING ? 1 : -1);
+
+type IssueType = {
+  title: Issue['title'];
+  url: Issue['url'];
+  impact: Issue['impact'];
+  elements: Array<{ element: ElementWithIssues['element']; description: Issue['description'] }>;
+};
+
+type GroupedByIssueType = Record<string, IssueType>;
+
+const getIssueTypeGroups = (elementsWithIssues: Array<ElementWithIssues>) => {
+  const groupedByIssueType = elementsWithIssues.reduce((acc, { element, issues }) => {
+    for (const issue of issues) {
+      if (!acc[issue.id]) {
+        acc[issue.id] = {
+          title: issue.title,
+          url: issue.url,
+          impact: issue.impact,
+          elements: [],
+        };
+      }
+      acc[issue.id].elements.push({ element, description: issue.description });
+    }
+    return acc;
+  }, {} as GroupedByIssueType);
+
+  const sorted = Object.values(groupedByIssueType).sort((a, b) => {
+    const impactComparison = orderedImpacts.indexOf(b.impact) - orderedImpacts.indexOf(a.impact);
+    if (impactComparison !== 0) {
+      return impactComparison;
+    }
+    return b.elements.length - a.elements.length;
+  });
+
+  return sorted;
+};
 
 function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
   const sortedElementsWithIssues = elementsWithIssues.toSorted((a, b) => {
@@ -46,7 +83,6 @@ function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
     return sortByElementPositions(a.element, b.element);
   });
 
-  console.groupCollapsed(`%cBy element (${elementsWithIssues.length})`, defaultStyle);
   for (const { element, issues } of sortedElementsWithIssues) {
     const sortedAndFilteredImpacts = orderedImpacts
       .toReversed()
@@ -81,44 +117,10 @@ function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
     }
     console.groupEnd();
   }
-  console.groupEnd();
 }
 
-function logIssuesByType(elementsWithIssues: Array<ElementWithIssues>) {
-  type GroupedByIssueType = Record<
-    string,
-    {
-      title: Issue['title'];
-      url: Issue['url'];
-      impact: Issue['impact'];
-      elements: Array<{ element: ElementWithIssues['element']; description: Issue['description'] }>;
-    }
-  >;
-  const groupedByIssueType = elementsWithIssues.reduce((acc, { element, issues }) => {
-    for (const issue of issues) {
-      if (!acc[issue.id]) {
-        acc[issue.id] = {
-          title: issue.title,
-          url: issue.url,
-          impact: issue.impact,
-          elements: [],
-        };
-      }
-      acc[issue.id].elements.push({ element, description: issue.description });
-    }
-    return acc;
-  }, {} as GroupedByIssueType);
-
-  const sorted = Object.values(groupedByIssueType).sort((a, b) => {
-    const impactComparison = orderedImpacts.indexOf(b.impact) - orderedImpacts.indexOf(a.impact);
-    if (impactComparison !== 0) {
-      return impactComparison;
-    }
-    return b.elements.length - a.elements.length;
-  });
-
-  console.groupCollapsed(`%cBy issue type (${sorted.length})`, defaultStyle);
-  for (const { title, url, impact, elements } of sorted) {
+function logIssuesByType(issueTypeGroups: Array<IssueType>) {
+  for (const { title, url, impact, elements } of issueTypeGroups) {
     console.groupCollapsed(
       `%c${impactText(impact)}:%c\n${titleAndUrl({ title, url })}`,
       `color: ${colors[impact]};`,
@@ -133,7 +135,6 @@ function logIssuesByType(elementsWithIssues: Array<ElementWithIssues>) {
     }
     console.groupEnd();
   }
-  console.groupEnd();
 }
 
 // TODO: comment on this heavily
@@ -145,9 +146,18 @@ function logIssues(elementsWithIssues: Array<ElementWithIssues>) {
     defaultStyle,
   );
 
-  logIssuesByElement(elementsWithIssues);
+  if (issueCount <= MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE) {
+    logIssuesByElement(elementsWithIssues);
+  } else {
+    console.groupCollapsed(`%cBy element (${elementsWithIssues.length})`, defaultStyle);
+    logIssuesByElement(elementsWithIssues);
+    console.groupEnd();
 
-  logIssuesByType(elementsWithIssues);
+    const issueTypeGroups = getIssueTypeGroups(elementsWithIssues);
+    console.groupCollapsed(`%cBy issue type (${issueTypeGroups.length})`, defaultStyle);
+    logIssuesByType(issueTypeGroups);
+    console.groupEnd();
+  }
 
   console.groupEnd();
 }
