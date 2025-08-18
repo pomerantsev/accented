@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import { Modal } from '../components/Modal';
 import { Select } from '../components/Select';
@@ -12,6 +12,11 @@ interface ProductsProps {
 }
 
 export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
+  const editNameId = useId();
+  const editPriceId = useId();
+  const editStockId = useId();
+  const editDescriptionId = useId();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -226,14 +231,11 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
         {editingProduct && (
           <div className="space-y-4">
             <div>
-              <label
-                htmlFor="edit-product-name"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor={editNameId} className="block text-sm font-medium text-gray-700 mb-1">
                 Product Name
               </label>
               <input
-                id="edit-product-name"
+                id={editNameId}
                 type="text"
                 value={editingProduct.name}
                 onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
@@ -242,14 +244,11 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label
-                htmlFor="edit-product-price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor={editPriceId} className="block text-sm font-medium text-gray-700 mb-1">
                 Price
               </label>
               <input
-                id="edit-product-price"
+                id={editPriceId}
                 type="number"
                 step="0.01"
                 value={editingProduct.price}
@@ -270,18 +269,15 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label
-                htmlFor="edit-product-stock"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor={editStockId} className="block text-sm font-medium text-gray-700 mb-1">
                 Stock
               </label>
               <input
-                id="edit-product-stock"
+                id={editStockId}
                 type="number"
                 value={editingProduct.stock}
                 onChange={(e) =>
-                  setEditingProduct({ ...editingProduct, stock: parseInt(e.target.value) })
+                  setEditingProduct({ ...editingProduct, stock: parseInt(e.target.value, 10) })
                 }
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
@@ -289,13 +285,13 @@ export const Products: React.FC<ProductsProps> = ({ onShowToast }) => {
 
             <div>
               <label
-                htmlFor="edit-product-description"
+                htmlFor={editDescriptionId}
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Description
               </label>
               <textarea
-                id="edit-product-description"
+                id={editDescriptionId}
                 value={editingProduct.description}
                 onChange={(e) =>
                   setEditingProduct({ ...editingProduct, description: e.target.value })

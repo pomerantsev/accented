@@ -85,7 +85,7 @@ async function runToCompletion(process, args) {
 
 const commonLycheeArgs = [
   '--exclude',
-  '/sitemap-index\.xml$',
+  '/sitemap-index.xml$',
   '--verbose',
   '--cache',
   '--max-retries',
