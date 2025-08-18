@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Select } from '../components/Select';
 import { TextInput } from '../components/TextInput';
 import { categories } from '../data/mockData';
@@ -11,6 +11,12 @@ interface AddProductProps {
 }
 
 export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
+  const nameId = useId();
+  const priceId = useId();
+  const stockId = useId();
+  const imageId = useId();
+  const descriptionId = useId();
+
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -34,7 +40,7 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
       name: formData.name,
       price: parseFloat(formData.price),
       category: formData.category,
-      stock: parseInt(formData.stock) || 0,
+      stock: parseInt(formData.stock, 10) || 0,
       description: formData.description,
       image:
         formData.image ||
@@ -65,12 +71,12 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
       <div className="bg-white shadow rounded-lg p-6 max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="product-name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor={nameId} className="block text-sm font-medium text-gray-700 mb-1">
               Product Name *
             </label>
             {/* Intentional a11y issue: TextInput receives id prop but doesn't use it, breaking label association */}
             <TextInput
-              id="product-name"
+              id={nameId}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -79,14 +85,11 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="product-price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor={priceId} className="block text-sm font-medium text-gray-700 mb-1">
                 Price *
               </label>
               <input
-                id="product-price"
+                id={priceId}
                 type="number"
                 step="0.01"
                 value={formData.price}
@@ -96,14 +99,11 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
             </div>
 
             <div>
-              <label
-                htmlFor="product-stock"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor={stockId} className="block text-sm font-medium text-gray-700 mb-1">
                 Stock Quantity
               </label>
               <input
-                id="product-stock"
+                id={stockId}
                 type="number"
                 value={formData.stock}
                 onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
@@ -122,11 +122,11 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
           </div>
 
           <div>
-            <label htmlFor="product-image" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor={imageId} className="block text-sm font-medium text-gray-700 mb-1">
               Product Image URL
             </label>
             <input
-              id="product-image"
+              id={imageId}
               type="url"
               value={formData.image}
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
@@ -135,14 +135,11 @@ export const AddProduct: React.FC<AddProductProps> = ({ onShowToast }) => {
           </div>
 
           <div>
-            <label
-              htmlFor="product-description"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor={descriptionId} className="block text-sm font-medium text-gray-700 mb-1">
               Description
             </label>
             <textarea
-              id="product-description"
+              id={descriptionId}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
