@@ -427,7 +427,7 @@ test.describe('Accented', () => {
 
       // Verify the message follows the exact format "X accessibility issue(s) found in Y element(s)"
       const messageText = consoleMessage.text();
-      const match = messageText.match(/(\d+) accessibility issue(s?) found in (\d+) element(s?)/);
+      const match = messageText.match(/(\d+) accessibility issue(s?) in (\d+) element(s?)/);
       expect(match).toBeTruthy();
 
       if (match?.[1] && match[3]) {
