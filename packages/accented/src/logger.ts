@@ -8,6 +8,9 @@ import {
 import { accentedUrl, orderedImpacts } from './constants.js';
 import { elementsWithIssues, enabled } from './state.js';
 import type { ElementWithIssues, Issue } from './types.ts';
+import { areElementsWithIssuesEqual } from './utils/are-elements-with-issues-equal.js';
+import { areIssueSetsEqual } from './utils/are-issue-sets-equal.js';
+import { areIssuesEqual } from './utils/are-issues-equal.js';
 
 const MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE = 5;
 
@@ -152,25 +155,79 @@ function logIssuesByType(issueTypeGroups: Array<IssueType>) {
 }
 
 // TODO: comment on this heavily
-function logIssues(elementsWithIssues: Array<ElementWithIssues>) {
+function logIssues(
+  elementsWithIssues: Array<ElementWithIssues>,
+  previousElementsWithIssues: Array<ElementWithIssues>,
+) {
   const elementCount = elementsWithIssues.length;
   const issueCount = elementsWithIssues.reduce((acc, { issues }) => acc + issues.length, 0);
   console.group(
-    `%c${issueCount} accessibility issue${issueCount === 1 ? '' : 's'} found in ${elementCount} element${issueCount === 1 ? '' : 's'} (Accented, ${accentedUrl}):\n`,
+    `%c${issueCount} accessibility issue${issueCount === 1 ? '' : 's'} found in ${elementCount} element${elementCount === 1 ? '' : 's'} (Accented, ${accentedUrl}):\n`,
     defaultStyle,
   );
 
   if (issueCount <= MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE) {
     logIssuesByElement(elementsWithIssues);
   } else {
-    console.groupCollapsed(`%cBy element (${elementsWithIssues.length})`, defaultStyle);
+    console.groupCollapsed(`%cAll by element (${elementsWithIssues.length})`, defaultStyle);
     logIssuesByElement(elementsWithIssues);
     console.groupEnd();
 
     const issueTypeGroups = getIssueTypeGroups(elementsWithIssues);
-    console.groupCollapsed(`%cBy issue type (${issueTypeGroups.length})`, defaultStyle);
+    console.groupCollapsed(`%cAll by issue type (${issueTypeGroups.length})`, defaultStyle);
     logIssuesByType(issueTypeGroups);
     console.groupEnd();
+  }
+
+  if (previousElementsWithIssues.length > 0) {
+    const addedElements = elementsWithIssues.filter((elementWithIssues) => {
+      return !previousElementsWithIssues.some((previousElementWithIssues) =>
+        areElementsWithIssuesEqual(previousElementWithIssues, elementWithIssues),
+      );
+    });
+
+    const existingElementsWithNewIssues = elementsWithIssues.reduce<Array<ElementWithIssues>>(
+      (acc, elementWithIssues) => {
+        let foundElementWithIssues: ElementWithIssues | null = null;
+        for (const previousElementWithIssues of previousElementsWithIssues) {
+          if (
+            areElementsWithIssuesEqual(previousElementWithIssues, elementWithIssues) &&
+            !areIssueSetsEqual(previousElementWithIssues.issues, elementWithIssues.issues)
+          ) {
+            const newIssues = elementWithIssues.issues.filter((issue) => {
+              return !previousElementWithIssues.issues.some((prevIssue) =>
+                areIssuesEqual(prevIssue, issue),
+              );
+            });
+            if (newIssues.length > 0) {
+              foundElementWithIssues = {
+                ...elementWithIssues,
+                issues: newIssues,
+              };
+              acc.push(foundElementWithIssues);
+            }
+            break;
+          }
+        }
+        return acc;
+      },
+      [],
+    );
+
+    const elementsWithNewIssues = [...addedElements, ...existingElementsWithNewIssues];
+    const newIssueCount = elementsWithNewIssues.reduce((acc, { issues }) => acc + issues.length, 0);
+    if (newIssueCount === 0) {
+      console.log('No new issues');
+    } else {
+      const newIssuesMessage = `%cNew issues (${newIssueCount} in ${elementsWithNewIssues.length} element${elementsWithNewIssues.length === 1 ? '' : 's'})`;
+      if (newIssueCount <= MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE) {
+        console.group(newIssuesMessage, defaultStyle);
+      } else {
+        console.groupCollapsed(newIssuesMessage, defaultStyle);
+      }
+      logIssuesByElement(elementsWithNewIssues);
+      console.groupEnd();
+    }
   }
 
   console.groupEnd();
@@ -178,6 +235,7 @@ function logIssues(elementsWithIssues: Array<ElementWithIssues>) {
 
 export function createLogger() {
   let firstRun = true;
+  let previousElementsWithIssues: Array<ElementWithIssues> = [];
 
   return effect(() => {
     if (!enabled.value) {
@@ -186,7 +244,7 @@ export function createLogger() {
 
     const elementCount = elementsWithIssues.value.length;
     if (elementCount > 0) {
-      logIssues(elementsWithIssues.value);
+      logIssues(elementsWithIssues.value, previousElementsWithIssues);
     } else {
       if (firstRun) {
         firstRun = false;
@@ -194,5 +252,7 @@ export function createLogger() {
         console.log(`No accessibility issues found (Accented, ${accentedUrl}).`);
       }
     }
+
+    previousElementsWithIssues = elementsWithIssues.value;
   });
 }

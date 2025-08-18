@@ -465,7 +465,7 @@ test.describe('Accented', () => {
       );
 
       const topLevelGroupMessages = groupCollapsedMessages.filter(
-        (msg) => msg.text().includes('By element') || msg.text().includes('By issue type'),
+        (msg) => msg.text().includes('All by element') || msg.text().includes('All by issue type'),
       );
 
       expect(topLevelGroupMessages.length).toBe(0);
@@ -502,7 +502,7 @@ test.describe('Accented', () => {
       );
 
       const topLevelGroupMessages = groupCollapsedMessages.filter(
-        (msg) => msg.text().includes('By element') || msg.text().includes('By issue type'),
+        (msg) => msg.text().includes('All by element') || msg.text().includes('All by issue type'),
       );
 
       expect(topLevelGroupMessages.length).toBe(2);
