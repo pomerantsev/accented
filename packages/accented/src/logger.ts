@@ -160,6 +160,12 @@ function logIssues(
   previousElementsWithIssues: Array<ElementWithIssues>,
 ) {
   const elementCount = elementsWithIssues.length;
+
+  if (elementCount === 0) {
+    console.log(`No accessibility issues found (Accented, ${accentedUrl}).`);
+    return;
+  }
+
   const issueCount = elementsWithIssues.reduce((acc, { issues }) => acc + issues.length, 0);
   console.group(
     `%c${issueCount} accessibility issue${issueCount === 1 ? '' : 's'} found in ${elementCount} element${elementCount === 1 ? '' : 's'} (Accented, ${accentedUrl}):\n`,
@@ -234,7 +240,6 @@ function logIssues(
 }
 
 export function createLogger() {
-  let firstRun = true;
   let previousElementsWithIssues: Array<ElementWithIssues> = [];
 
   return effect(() => {
@@ -242,16 +247,7 @@ export function createLogger() {
       return;
     }
 
-    const elementCount = elementsWithIssues.value.length;
-    if (elementCount > 0) {
-      logIssues(elementsWithIssues.value, previousElementsWithIssues);
-    } else {
-      if (firstRun) {
-        firstRun = false;
-      } else {
-        console.log(`No accessibility issues found (Accented, ${accentedUrl}).`);
-      }
-    }
+    logIssues(elementsWithIssues.value, previousElementsWithIssues);
 
     previousElementsWithIssues = elementsWithIssues.value;
   });
