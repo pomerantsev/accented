@@ -1,5 +1,17 @@
 # accented
 
+## 1.1.0
+
+### Minor Changes
+
+- [#268](https://github.com/pomerantsev/accented/pull/268) [`d1e2846`](https://github.com/pomerantsev/accented/commit/d1e2846569013b5879e51a21ff4e49e10e41b43e) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Make console output a lot more user-friendly
+
+- [#268](https://github.com/pomerantsev/accented/pull/268) [`d1e2846`](https://github.com/pomerantsev/accented/commit/d1e2846569013b5879e51a21ff4e49e10e41b43e) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Add output->page option to support console-only mode
+
+### Patch Changes
+
+- [#252](https://github.com/pomerantsev/accented/pull/252) [`13c4166`](https://github.com/pomerantsev/accented/commit/13c41665e5afc4c4297d8d7a8dafc5f5232d29cc) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump typescript from 5.8.3 to 5.9.2 (no functional changes)
+
 ## 1.0.1
 
 ### Patch Changes
