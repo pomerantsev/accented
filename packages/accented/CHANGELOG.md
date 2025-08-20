@@ -1,5 +1,17 @@
 # accented
 
+## 1.1.0
+
+### Minor Changes
+
+- Make console output a lot more user-friendly ([#268](https://github.com/pomerantsev/accented/pull/268))
+
+- Add `output.page` option to support console-only mode ([#268](https://github.com/pomerantsev/accented/pull/268))
+
+### Patch Changes
+
+- Bump typescript from 5.8.3 to 5.9.2 (no functional changes) ([#252](https://github.com/pomerantsev/accented/pull/252))
+
 ## 1.0.1
 
 ### Patch Changes
