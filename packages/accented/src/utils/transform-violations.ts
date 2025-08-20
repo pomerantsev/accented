@@ -1,4 +1,5 @@
-import type { AxeResults, ImpactValue } from 'axe-core';
+import type { AxeResults } from 'axe-core';
+import { issuesUrl, orderedImpacts } from '../constants.js';
 import type { ElementWithIssues, Issue } from '../types.ts';
 
 // This is a list of axe-core violations (their ids) that may be flagged by axe-core
@@ -20,9 +21,8 @@ function maybeCausedByAccented(violationId: string, element: HTMLElement, name: 
   );
 }
 
-function impactCompare(a: ImpactValue, b: ImpactValue) {
-  const impactOrder = [null, 'minor', 'moderate', 'serious', 'critical'];
-  return impactOrder.indexOf(a) - impactOrder.indexOf(b);
+function impactCompare(a: Issue['impact'], b: Issue['impact']) {
+  return orderedImpacts.indexOf(a) - orderedImpacts.indexOf(b);
 }
 
 export function transformViolations(violations: typeof AxeResults.violations, name: string) {
@@ -41,14 +41,20 @@ export function transformViolations(violations: typeof AxeResults.violations, na
       const isInIframe = target.length > 1;
 
       if (element && !isInIframe && !maybeCausedByAccented(violation.id, element, name)) {
+        if (!violation.impact) {
+          console.warn(
+            `Accented: axe-core (the accessibility testing engine) returned a violation with an empty impact. This may be a bug in axe-core or in Accented. Please report it at ${issuesUrl}.`,
+            violation,
+          );
+          continue;
+        }
         const issue: Issue = {
           id: violation.id,
           title: violation.help,
           // See https://github.com/pomerantsev/accented/issues/203
           description: node.failureSummary ?? violation.description,
           url: violation.helpUrl,
-          // See https://github.com/pomerantsev/accented/issues/203
-          impact: violation.impact ?? null,
+          impact: violation.impact,
         };
         const existingElement = elementsWithIssues.find(
           (elementWithIssues) => elementWithIssues.element === element,

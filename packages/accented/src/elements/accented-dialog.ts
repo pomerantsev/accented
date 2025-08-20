@@ -1,5 +1,15 @@
 import type { Signal } from '@preact/signals-core';
-import { colorDark, colorLight, fontSystemMono, fontSystemSans } from '../common/tokens.js';
+import {
+  colorDark,
+  colorFocus,
+  colorImpactCritical,
+  colorImpactMinor,
+  colorImpactModerate,
+  colorImpactSerious,
+  colorLight,
+  fontSystemMono,
+  fontSystemSans,
+} from '../common/tokens.js';
 import { accentedUrl } from '../constants.js';
 import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Issue } from '../types.ts';
@@ -65,30 +75,13 @@ export const getAccentedDialog = () => {
       --background-color: light-dark(var(--light-color), var(--dark-color));
       --text-color: light-dark(var(--dark-color), var(--light-color));
 
-      --impact-lightness: 0.80;
-      --focus-lightness: 0.45;
-      @media (prefers-color-scheme: dark) {
-        --impact-lightness: 0.45;
-        --focus-lightness: 0.80;
-      }
-
-      --blue-hue: 230;
-      --gold-hue: 90;
-      --red-hue: 0;
-
       /* Contrasts with background. */
-      --focus-color: oklch(var(--focus-lightness) 0.25 var(--blue-hue));
+      --focus-color: ${colorFocus};
 
-      --impact-chroma: 0.16;
-
-      --impact-moderate-hue: var(--blue-hue);
-      --impact-serious-hue: var(--gold-hue);
-      --impact-critical-hue: var(--red-hue);
-
-      --impact-minor-color: oklch(var(--impact-lightness) 0 0);
-      --impact-moderate-color: oklch(var(--impact-lightness) var(--impact-chroma) var(--impact-moderate-hue));
-      --impact-serious-color: oklch(var(--impact-lightness) var(--impact-chroma) var(--impact-serious-hue));
-      --impact-critical-color: oklch(var(--impact-lightness) var(--impact-chroma) var(--impact-critical-hue));
+      --impact-minor-color: ${colorImpactMinor};
+      --impact-moderate-color: ${colorImpactModerate};
+      --impact-serious-color: ${colorImpactSerious};
+      --impact-critical-color: ${colorImpactCritical};
 
       --base-size: max(1rem, 16px);
 

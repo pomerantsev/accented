@@ -260,7 +260,7 @@ export type Issue = {
   title: string;
   description: string;
   url: string;
-  impact: axe.ImpactValue;
+  impact: Exclude<axe.ImpactValue, null>;
 };
 
 export type BaseElementWithIssues = {
