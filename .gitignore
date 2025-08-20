@@ -1,7 +1,6 @@
 node_modules
 tsconfig.tsbuildinfo
 tsconfig.test.tsbuildinfo
-dist
 
 # Prevent .npmrc that is filled with the NPM token in CI from leaking to pull requests
 .npmrc

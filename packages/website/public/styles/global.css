@@ -34,9 +34,9 @@ html:focus-within {
 }
 
 body {
-  max-width: 60rem;
+  max-inline-size: 60rem;
   margin-inline: auto;
-  min-height: 100vh;
+  min-block-size: 100vh;
   padding-inline: var(--space-l);
   @media (min-width: 50em) {
     padding-inline: var(--space-2xl);
@@ -252,18 +252,15 @@ article li:not(:first-child):not(:is(ul, ol) :is(ul, ol) li) {
 
 /* Line lengths */
 main {
-  max-width: 40rem;
+  max-inline-size: 40rem;
   margin-inline: auto;
 }
 
-h1 {
-  max-width: 20ch;
-}
-
+h1,
 h2,
 h3,
 h4 {
-  max-width: 28ch;
+  max-inline-size: 28ch;
 }
 
 /* Blocks */
@@ -301,6 +298,7 @@ h4 {
 .subtitle {
   font-size: var(--size-step-2);
   text-wrap: balance;
+  line-height: 1.5;
 }
 
 .extra-space {

@@ -69,6 +69,10 @@ if (searchParams.has('no-console')) {
   options.output = { console: false };
 }
 
+if (searchParams.has('no-page')) {
+  options.output = { page: false };
+}
+
 if (searchParams.has('output-invalid')) {
   options.output = searchParams.get('output-invalid') as any;
 }

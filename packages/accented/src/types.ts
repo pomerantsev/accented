@@ -36,9 +36,40 @@ export type Output = {
   /**
    * Whether the list of elements with issues should be printed to the browser console whenever issues are added, removed, or changed.
    *
+   * **Example:**
+   *
+   * ```js
+   * accented({
+   *   output: {
+   *     console: false
+   *   }
+   * });
+   * ```
+   *
+   * In the example, the issues will not be logged to the console, while elements on the page will still be highlighted.
+   *
    * @default true
    * */
   console?: boolean;
+
+  /**
+   * Whether Accented should highlight elements with issues on the page.
+   *
+   * **Example:**
+   *
+   * ```js
+   * accented({
+   *   output: {
+   *     page: false
+   *   }
+   * });
+   * ```
+   *
+   * In the example, the issues will only be logged to the console, with no highlights on the page.
+   *
+   * @default true
+   * */
+  page?: boolean;
 };
 
 /**
@@ -229,7 +260,7 @@ export type Issue = {
   title: string;
   description: string;
   url: string;
-  impact: axe.ImpactValue;
+  impact: Exclude<axe.ImpactValue, null>;
 };
 
 export type BaseElementWithIssues = {

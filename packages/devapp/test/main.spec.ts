@@ -414,42 +414,186 @@ test.describe('Accented', () => {
   });
 
   test.describe('console output', () => {
-    test('logs elements with issues to the console', async ({ page }) => {
+    test('logs the overall number of issues and elements with issues to the console', async ({
+      page,
+    }) => {
       await page.goto('/');
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBeGreaterThan(0);
 
-      // Expect that only certain keys are present on each element
-      const expectedKeys = ['element', 'issues'];
-      await expect(Object.keys(arg2[0]).length).toBe(expectedKeys.length);
-      for (const key of expectedKeys) {
-        await expect(arg2[0]).toHaveProperty(key);
+      // Wait for the main Accented console group message
+      const consoleMessage = await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+
+      // Verify the message follows the exact format "X accessibility issue(s) found in Y element(s)"
+      const messageText = consoleMessage.text();
+      const match = messageText.match(/(\d+) accessibility issue(s?) in (\d+) element(s?)/);
+      expect(match).toBeTruthy();
+
+      if (match?.[1] && match[3]) {
+        const issueCount = parseInt(match[1]);
+        const elementCount = parseInt(match[3]);
+        expect(issueCount).toBeGreaterThan(0);
+        expect(elementCount).toBeGreaterThan(0);
       }
     });
 
-    test('when Accented is toggled off, it doesn’t log an extra message', async ({ page }) => {
+    test('logs element groups with impact levels when there are 5 or fewer total issues, and doesn’t log top-level groups', async ({
+      page,
+    }) => {
+      await page.goto(
+        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid',
+      );
+
+      const consoleMessages: any[] = [];
+      page.on('console', (msg) => {
+        consoleMessages.push(msg);
+      });
+
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+
+      // Wait a bit more for all element groups to be logged
+      await page.waitForTimeout(500);
+
+      // Find collapsed group messages for elements (those containing impact levels)
+      const groupCollapsedMessages = consoleMessages.filter(
+        (msg) => msg.type() === 'startGroupCollapsed',
+      );
+
+      const topLevelGroupMessages = groupCollapsedMessages.filter(
+        (msg) => msg.text().includes('All by element') || msg.text().includes('All by issue type'),
+      );
+
+      expect(topLevelGroupMessages.length).toBe(0);
+
+      const elementGroupMessages = groupCollapsedMessages.filter((msg) =>
+        /\d+ (minor|moderate|serious|critical)/.test(msg.text()),
+      );
+
+      // Should have 5 or fewer collapsed element groups
+      expect(elementGroupMessages.length).toBeGreaterThan(0);
+      expect(elementGroupMessages.length).toBeLessThanOrEqual(5);
+    });
+
+    test('logs top-level groups when there are over 5 total issues', async ({ page }) => {
       await page.goto('/');
-      let messageCount = 0;
-      page.on('console', () => {
-        messageCount++;
+
+      const consoleMessages: any[] = [];
+      page.on('console', (msg) => {
+        consoleMessages.push(msg);
+      });
+
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+
+      // Wait a bit more for all element groups to be logged
+      await page.waitForTimeout(500);
+
+      // Find collapsed group messages for elements (those containing impact levels)
+      const groupCollapsedMessages = consoleMessages.filter(
+        (msg) => msg.type() === 'startGroupCollapsed',
+      );
+
+      const topLevelGroupMessages = groupCollapsedMessages.filter(
+        (msg) => msg.text().includes('All by element') || msg.text().includes('All by issue type'),
+      );
+
+      expect(topLevelGroupMessages.length).toBe(2);
+
+      const elementGroupMessages = groupCollapsedMessages.filter((msg) =>
+        /\d+ (minor|moderate|serious|critical)/.test(msg.text()),
+      );
+
+      // Should have more than 5 collapsed element groups
+      expect(elementGroupMessages.length).toBeGreaterThan(5);
+    });
+
+    test('when Accented is toggled off, it does not log an extra message', async ({ page }) => {
+      await page.goto('/');
+      let accentedMessageCount = 0;
+      page.on('console', (msg) => {
+        if (msg.text().includes('accessibility issue') && msg.text().includes('Accented')) {
+          accentedMessageCount++;
+        }
       });
       await page.locator(accentedSelector).first().waitFor();
       await page.getByRole('button', { name: 'Toggle Accented' }).click();
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
-      await expect(messageCount).toBe(1);
+      await expect(accentedMessageCount).toBe(1);
     });
 
     test('console output can be disabled', async ({ page }) => {
       await page.goto('?no-console');
-      let messageCount = 0;
-      page.on('console', () => {
-        messageCount++;
+      let accentedMessageCount = 0;
+      page.on('console', (msg) => {
+        if (msg.text().includes('accessibility issue') && msg.text().includes('Accented')) {
+          accentedMessageCount++;
+        }
       });
       await page.locator(accentedSelector).first().waitFor();
-      await expect(messageCount).toBe(0);
+      await expect(accentedMessageCount).toBe(0);
+    });
+  });
+
+  test.describe('page output', () => {
+    test('when page output is disabled, outlines and triggers are not added to the page', async ({
+      page,
+    }) => {
+      await page.goto('?no-page');
+
+      // Wait a moment for scanning to occur
+      await page.waitForTimeout(1500);
+
+      // No triggers should be added to the page
+      const triggerCount = await page.locator(accentedTriggerElementName).count();
+      await expect(triggerCount).toBe(0);
+
+      // No elements should have the accented data attribute
+      const accentedElementsCount = await page.locator(accentedSelector).count();
+      await expect(accentedElementsCount).toBe(0);
+    });
+
+    test('when page output is disabled, console output still works', async ({ page }) => {
+      await page.goto('?no-page');
+
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
+    });
+
+    test('when both page and console output are disabled, scanning still occurs', async ({
+      page,
+    }) => {
+      await page.goto('?no-page&no-console&callback');
+
+      // Wait for callback to be called and log elements
+      const consoleMessage = await page.waitForEvent('console', {
+        predicate: (msg) => msg.text().includes('Elements from callback:'),
+      });
+
+      // Verify the callback received elements
+      const callbackOutput = consoleMessage.text();
+      await expect(callbackOutput).toContain('Elements from callback:');
+    });
+
+    test('when page output is disabled, no stylesheets are added to the document', async ({
+      page,
+    }) => {
+      await page.goto('?no-page');
+
+      // Check that no Accented stylesheets were added
+      const adoptedStyleSheets = await page.evaluate(() => document.adoptedStyleSheets);
+      await expect(adoptedStyleSheets).toHaveLength(0);
     });
   });
 
@@ -596,10 +740,11 @@ test.describe('Accented', () => {
     }) => {
       await page.goto('?axe-context-selector=%23nested-svg');
 
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBe(1);
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
@@ -613,10 +758,11 @@ test.describe('Accented', () => {
     }) => {
       await page.goto('?axe-context-selector=head');
 
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBe(1);
+      // Wait for the main Accented console message
+      await page.waitForEvent('console', {
+        predicate: (msg) =>
+          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      });
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
