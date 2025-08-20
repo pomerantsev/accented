@@ -180,6 +180,24 @@ export function Accented({ children }) {
 }
 ```
 
+## Console-only mode
+
+Accented is most effective when it outputs interactive highlights next to elements with accessibility issues.
+That way, the issues are hard to ignore.
+
+Still, issues are also printed to the console, and you may choose to not modify the DOM at all,
+and instead opt for a console-only mode:
+
+```js
+accented({
+  output: {
+    page: false
+  }
+});
+```
+
+See [output](/api#output) for details.
+
 ## Using in CI (continuous integration)
 
 Accented is only meant for local development.
