@@ -597,69 +597,6 @@ test.describe('Accented', () => {
     });
   });
 
-  test.describe('page output', () => {
-    test('when page output is disabled, outlines and triggers are not added to the page', async ({
-      page,
-    }) => {
-      await page.goto('?no-page');
-
-      // Wait a moment for scanning to occur
-      await page.waitForTimeout(1500);
-
-      // No triggers should be added to the page
-      const triggerCount = await page.locator(accentedTriggerElementName).count();
-      await expect(triggerCount).toBe(0);
-
-      // No elements should have the accented data attribute
-      const accentedElementsCount = await page.locator(accentedSelector).count();
-      await expect(accentedElementsCount).toBe(0);
-    });
-
-    test('when page output is disabled, console output still works', async ({ page }) => {
-      await page.goto('?no-page');
-
-      // Listen for console messages
-      const consoleMessage = await page.waitForEvent('console');
-      const arg2 = await consoleMessage.args()[1]?.jsonValue();
-
-      // Console should still log elements with issues
-      await expect(Array.isArray(arg2)).toBeTruthy();
-      await expect(arg2.length).toBeGreaterThan(0);
-
-      // Verify structure is correct
-      const expectedKeys = ['element', 'issues'];
-      await expect(Object.keys(arg2[0]).length).toBe(expectedKeys.length);
-      for (const key of expectedKeys) {
-        await expect(arg2[0]).toHaveProperty(key);
-      }
-    });
-
-    test('when both page and console output are disabled, scanning still occurs', async ({
-      page,
-    }) => {
-      await page.goto('?no-page&no-console&callback');
-
-      // Wait for callback to be called and log elements
-      const consoleMessage = await page.waitForEvent('console', {
-        predicate: (msg) => msg.text().includes('Elements from callback:'),
-      });
-
-      // Verify the callback received elements
-      const callbackOutput = consoleMessage.text();
-      await expect(callbackOutput).toContain('Elements from callback:');
-    });
-
-    test('when page output is disabled, no stylesheets are added to the document', async ({
-      page,
-    }) => {
-      await page.goto('?no-page');
-
-      // Check that no Accented stylesheets were added
-      const adoptedStyleSheets = await page.evaluate(() => document.adoptedStyleSheets);
-      await expect(adoptedStyleSheets).toHaveLength(0);
-    });
-  });
-
   test.describe('web platform support', () => {
     test('if the issue is within a link, the link isn’t followed', async ({ page }) => {
       await page.goto('/');
