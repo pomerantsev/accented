@@ -4,15 +4,19 @@ import { formatPostDate, getPostDate, getPostUrl } from '~/blog-helpers';
 import RSS from '~/components/icons/RSS.astro';
 import MainLayout from '~/layouts/MainLayout.astro';
 
-const posts = await getCollection('blog');
+const posts = (await getCollection('blog')).toReversed();
 ---
 <style>
   nav {
     margin-block: var(--space-l);
   }
 
-  ol {
+  ol.posts {
     padding-inline-start: 0;
+
+    li {
+      margin-block-start: var(--space-2xl);
+    }
   }
 
   nav a {
@@ -37,7 +41,7 @@ const posts = await getCollection('blog');
   <nav aria-label="Blog">
     <a href="/blog/rss.xml"><span class="icon"><RSS /></span> RSS</a>
   </nav>
-  <ol role="list">
+  <ol role="list" class="posts">
     {
       posts.map((post) => (
         <li class="flow">

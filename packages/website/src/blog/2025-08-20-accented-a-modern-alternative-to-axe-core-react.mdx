@@ -1,0 +1,213 @@
+---
+title: "Accented: a modern alternative to @axe-core/react"
+description: Accented now includes a console-only mode. It does what @axe-core/react does — without being limited to legacy React apps.
+author: Pavel Pomerantsev
+---
+import { Image } from 'astro:assets';
+import withAccented from '~/assets/images/with-accented.png';
+import consoleBefore from '~/assets/images/accented-console-before.png';
+import consoleAfter from '~/assets/images/accented-console-after.png';
+
+[@axe-core/react](https://www.npmjs.com/package/@axe-core/react) is a fairly popular accessibility testing package
+(based on its NPM download numbers).
+I wasn’t aware of it when I started working on Accented,
+but [Dylan Barrell](https://www.deque.com/team/dylan-barrell/) (the original author of [axe-core](https://github.com/dequelabs/axe-core))
+brought it up when we met at the [A11y NYC](https://www.meetup.com/a11ynyc/) meetup a few months ago.
+
+The basic premise of both libraries is the same: on any DOM change,
+run the Axe script and output whatever issues it finds.
+
+Their APIs are also very similar.
+
+Accented:
+
+```js
+if (process.env.NODE_ENV === 'development') {
+  const { accented } = await import('accented');
+  accented();
+}
+```
+
+@axe-core/react (we have to pass the instances of `React` and `ReactDOM` — more on that below):
+
+```js
+if (process.env.NODE_ENV === 'development') {
+  const { default: axe } = await import('@axe-core/react');
+  axe(React, ReactDOM);
+}
+```
+
+There’s one key difference in how I envisioned Accented.
+
+@axe-core/react only logs results in the console,
+while Accented’s primary focus is on highlighting problematic elements directly on the page.
+
+<Image
+  src={withAccented}
+  alt="Screenshot of a web application with the Accented library highlighting accessibility issues."
+  layout="full-width"
+/>
+
+It’s easy for a developer to disregard console output: as a project grows,
+the console often becomes cluttered with messages, making it harder to distinguish signal from noise.
+The developer may also not even be looking at the console.
+
+On the other hand, it’s much harder to ignore a thick, bright outline around an element on the page.
+Which helps with the primary goal of both Accented and @axe-core/react,
+namely to make the developer notice an issue as soon as they introduce it.
+
+## A console-only mode in Accented
+
+With that said, console warnings are still better than nothing when it comes to notifying of accessibility issues,
+especially if you don’t want a third-party library to change your DOM.
+And Accented by default certainly does affect the DOM, even if it tries to keep modifications to a minimum.
+
+So in version 1.1.0, I introduced a way to _only_ output console messages without altering the page at all.
+
+```js
+accented({
+  output: { page: false }
+});
+```
+
+Inspired by @axe-core/react, I also overhauled Accented’s console output, making it a lot more polished and user-friendly.
+
+Before (just a plain JavaScript object):
+
+<Image
+  src={consoleBefore}
+  alt="A screenshot of the Google Chrome developer console with an array of elements with issues"
+  layout="full-width"
+/>
+
+After (the issues are color-coded, and the information is grouped and easier to navigate):
+
+<Image
+  src={consoleAfter}
+  alt="A screenshot of the Google Chrome developer console with collapsed groups. One of them (All by issue type (4)) is expanded, showing four different types of issues with their severities, some displaying the associated elements."
+  layout="full-width"
+/>
+
+## Migrating from @axe-core/react to Accented
+
+If you’re using @axe-core/react today, switching to Accented should be straightforward.
+
+See [First steps](/getting-started#first-steps) for instructions on how to install and import Accented.
+
+**Note:** Accented is distributed only as an ES module.
+You may need to update your build configuration if your app uses CommonJS.
+
+### Basic usage
+
+```js
+// @axe-core/react
+// The third argument (delay) is optional,
+// but setting it is generally recommended.
+axe(React, ReactDOM, 1000);
+
+// Accented
+// (a 1000-millisecond throttling delay is enabled by default).
+accented({
+  output: { page: false }
+});
+```
+
+### Debouncing / throttling
+
+Both libraries let you control the delay (in milliseconds) between a DOM update and a scan:
+
+- @axe-core/react: [Debouncing](https://www.npmjs.com/package/@axe-core/react?activeTab=readme#user-content-debouncing).
+- Accented: [throttle](/api#throttle).
+
+@axe-core/react uses debouncing, while Accented relies on throttling (see [difference between throttling and debouncing](https://stackoverflow.com/a/25991510)), though in practice, the UX difference is minimal.
+
+Here’s how to set a 2000-millisecond delay:
+
+```js
+// @axe-core/react
+axe(React, ReactDOM, 2000);
+
+// Accented
+accented({
+  output: { page: false },
+  throttle: {
+    delay: 2000,
+    leading: false
+  }
+});
+```
+
+### Disabling rules
+
+```js
+// @axe-core/react uses the `rules` format from `axe.configure`:
+// https://www.deque.com/axe/core-documentation/api-documentation/#api-name-axeconfigure
+axe(React, ReactDOM, 1000, {
+  rules: [
+    { id: 'heading-order', enabled: false },
+    { id: 'color-contrast', enabled: false }
+  ]
+});
+
+// Accented uses the `rules` format from `axe.run`:
+// https://www.deque.com/axe/core-documentation/api-documentation/#options-parameter
+accented({
+  output: { page: false },
+  axeOptions: {
+    rules: {
+      'heading-order': { enabled: false },
+      'color-contrast': { enabled: false }
+    }
+  }
+})
+```
+
+### Context
+
+Like @axe-core/react, Accented lets you define which elements should be included or excluded from scanning.
+
+**Note:** [Accented doesn’t support scanning iframe contents from the parent document](/getting-started#using-accented-with-iframes),
+so the [`fromFrames` shape](https://github.com/dequelabs/axe-core/blob/f49c1c49b5eafe1f8065e07c314f75968dd91333/doc/context.md#limit-frame-testing)
+of the `context` object isn’t supported.
+
+```js
+// @axe-core/react:
+axe(React, ReactDOM, 1000, undefined, {
+  exclude: '.do-not-scan-me'
+});
+
+// Accented:
+accented({
+  output: { page: false },
+  context: {
+    exclude: '.do-not-scan-me'
+  }
+});
+```
+
+### Output deduplication
+
+@axe-core/react has a [`disableDeduplicate`](https://www.npmjs.com/package/@axe-core/react?activeTab=readme#user-content-deduplicating) option,
+which controls whether it prints all issues on each DOM change, or only the new ones.
+
+Accented doesn’t offer an equivalent option. Instead, it logs _all issues_ and _new issues_ separately with every DOM update,
+so the developers can easily find whatever issue or element they’re searching for.
+
+## Looking forward
+
+I see Accented as a modern alternative (and in a way, a spiritual successor) to @axe-core/react.
+
+The latter has been a valuable tool for many developers, but it has its limitations.
+It [relies on certain React internals](https://github.com/dequelabs/axe-core-npm/blob/3742b006c85da9deaffa13dce93c750a48b85e83/packages/react/index.ts#L403-L413),
+which is why we need to pass the `React` instance to the @axe-core/react initializer.
+It doesn’t work with modern React versions
+or the [newer JSX runtime](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+And it’s entirely incompatible with non-React projects.
+
+Accented doesn’t have any framework dependencies, so it’s not subject to those constraints.
+It uses a [mutation observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
+to detect changes in the DOM and trigger accessibility scans.
+
+In most cases, Accented can now serve as a true replacement for @axe-core/react
+(compare [Accented API](/api) and [@axe-core/react API](https://www.npmjs.com/package/@axe-core/react)).
+But my hope is that it will be used more broadly, beyond legacy React versions, beyond React, and beyond the console.

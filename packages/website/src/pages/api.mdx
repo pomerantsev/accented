@@ -127,7 +127,7 @@ You likely don’t need to set this unless your page already uses "accented" in 
 - The window property that’s used to prevent multiple axe-core scans from running simultaneously
   (default: `__accented_axe_running__`).
 
-Only lowercase alphanumeric characters and dashes (-) are allowed in the name,
+Only lowercase alphanumeric characters and dashes (`-`) are allowed in the name,
 and it must start with a lowercase letter.
 
 **Example:**
@@ -143,7 +143,16 @@ a custom element will be called `my-name-trigger`, and so on.
 
 ### output
 
-Controls how scan results are presented.
+By default, scan results are presented in two ways:
+
+- as interactive highlights on the page;
+- as console messages.
+
+You can use the `output` option if you’d like to only keep one or the other.
+
+For example, you may only keep the console messages if you don’t want Accented to modify the DOM of your app (see [Console-only mode](/getting-started#console-only-mode)).
+
+Or, may be fine with the highlights on the page, but prefer not to clutter the console.
 
 #### output.console
 
