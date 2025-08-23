@@ -41,8 +41,6 @@ export const getAccentedDialog = () => {
         <p>
           Powered by
           <a href="${accentedUrl}" target="_blank" aria-description="Opens in new tab">Accented</a>
-          and
-          <a href="https://github.com/dequelabs/axe-core" target="_blank" aria-description="Opens in new tab">axe-core</a>.
         </p>
       </section>
     </dialog>
