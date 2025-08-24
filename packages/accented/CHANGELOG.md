@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#283](https://github.com/pomerantsev/accented/pull/283) [`e3f20ef`](https://github.com/pomerantsev/accented/commit/e3f20efefe8f6e75fbd8fa7ccee2cfd0ea612426) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Remove an improper use of the axe-core trademark from the Accented dialog
+- Remove an improper use of the axe-core trademark from the Accented dialog ([#283](https://github.com/pomerantsev/accented/pull/283))
 
 ## 1.1.0
 
