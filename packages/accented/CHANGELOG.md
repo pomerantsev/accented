@@ -1,5 +1,11 @@
 # accented
 
+## 1.1.1
+
+### Patch Changes
+
+- Remove an improper use of the axe-core trademark from the Accented dialog ([#283](https://github.com/pomerantsev/accented/pull/283))
+
 ## 1.1.0
 
 ### Minor Changes
