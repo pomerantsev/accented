@@ -33,8 +33,8 @@ importers:
   packages/accented:
     dependencies:
       '@preact/signals-core':
-        specifier: ^1.11.0
-        version: 1.11.0
+        specifier: ^1.12.1
+        version: 1.12.1
       axe-core:
         specifier: ^4.10.3
         version: 4.10.3
@@ -1652,8 +1652,8 @@ packages:
     resolution: {integrity: sha512-bWLDlHsBlgKY/05wDN/V3ETcn5G2SV/SiA2ZmNvKGGlmVX4G5li7GRDhHcgYvHJHyJ8TUStqg2xtHmCs0UbAbg==}
     engines: {node: '>=18'}
 
-  '@preact/signals-core@1.11.0':
-    resolution: {integrity: sha512-jglbibeWHuFRzEWVFY/TT7wB1PppJxmcSfUHcK+2J9vBRtiooMfw6tAPttojNYrrpdGViqAYCbPpmWYlMm+eMQ==}
+  '@preact/signals-core@1.12.1':
+    resolution: {integrity: sha512-BwbTXpj+9QutoZLQvbttRg5x3l5468qaV2kufh+51yha1c53ep5dY4kTuZR35+3pAZxpfQerGJiQqg34ZNZ6uA==}
 
   '@rolldown/pluginutils@1.0.0-beta.30':
     resolution: {integrity: sha512-whXaSoNUFiyDAjkUF8OBpOm77Szdbk5lGNqFe6CbVbJFrhCCPinCbRA3NjawwlNHla1No7xvXXh+CpSxnPfUEw==}
@@ -7876,7 +7876,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@preact/signals-core@1.11.0': {}
+  '@preact/signals-core@1.12.1': {}
 
   '@rolldown/pluginutils@1.0.0-beta.30': {}
 
@@ -8443,7 +8443,7 @@ snapshots:
 
   accented@1.1.0:
     dependencies:
-      '@preact/signals-core': 1.11.0
+      '@preact/signals-core': 1.12.1
       axe-core: 4.10.3
 
   accepts@1.3.8:
