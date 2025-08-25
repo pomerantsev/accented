@@ -10,6 +10,26 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        exclude-patterns:
+          - "@biomejs/biome"
+      website-dependencies:
+        patterns:
+          - "*astro*"
+          - "*cloudfour*"
+          - "*fontsource*"
+          - "*rehype*"
+          - "sharp"
+          - "shiki"
+          - "unist-util-visit"
+      playground-dependencies:
+        patterns:
+          - "react*"
   - package-ecosystem: "github-actions"
     # Workflow files stored in the default location of `.github/workflows`
     # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
