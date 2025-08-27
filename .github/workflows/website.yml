@@ -15,14 +15,17 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Install lychee
-        uses: ./.github/actions/installLychee
+      - name: Build Accented
+        run: pnpm --filter accented build
 
       - name: Check
         run: pnpm --filter website check
 
       - name: Build website
         run: pnpm website:build
+
+      - name: Install lychee
+        uses: ./.github/actions/installLychee
 
       - name: Check links
         run: ./packages/website/scripts/checkLinks.mjs --local
