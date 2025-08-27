@@ -18,6 +18,9 @@ jobs:
       - name: Install lychee
         uses: ./.github/actions/installLychee
 
+      - name: Check
+        run: pnpm --filter website check
+
       - name: Build website
         run: pnpm website:build
 
