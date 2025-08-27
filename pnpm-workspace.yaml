@@ -3,6 +3,7 @@ packages:
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
+  - "@tailwindcss/oxide"
   - esbuild
   - netlify-cli
   - sharp
