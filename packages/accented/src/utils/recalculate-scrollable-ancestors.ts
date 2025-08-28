@@ -6,7 +6,7 @@ export function recalculateScrollableAncestors() {
   batch(() => {
     for (const { element, scrollableAncestors } of extendedElementsWithIssues.value) {
       if (element.isConnected) {
-        scrollableAncestors.value = getScrollableAncestors(element, window);
+        scrollableAncestors.value = getScrollableAncestors(element);
       }
     }
   });

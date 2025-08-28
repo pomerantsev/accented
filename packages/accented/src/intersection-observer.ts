@@ -18,7 +18,7 @@ export function setupIntersectionObserver() {
             // in an unexpected way when the container has `overflow: visible`.
             // So now we always set visibility in the intersection observer.
             extendedElementWithIssues.visible.value = entry.isIntersecting;
-            if (entry.isIntersecting && !supportsAnchorPositioning(window)) {
+            if (entry.isIntersecting && !supportsAnchorPositioning()) {
               extendedElementWithIssues.position.value = getElementPosition(entry.target, window);
             }
           }

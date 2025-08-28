@@ -2,7 +2,7 @@ import { getParent } from './get-parent.js';
 
 const scrollableOverflowValues = new Set(['auto', 'scroll', 'hidden']);
 
-export function getScrollableAncestors(element: Element, win: Window) {
+export function getScrollableAncestors(element: Element) {
   let currentElement: Element | null = element;
   const scrollableAncestors = new Set<Element>();
   while (true) {
@@ -10,7 +10,7 @@ export function getScrollableAncestors(element: Element, win: Window) {
     if (!currentElement) {
       break;
     }
-    const computedStyle = win.getComputedStyle(currentElement);
+    const computedStyle = getComputedStyle(currentElement);
     if (
       scrollableOverflowValues.has(computedStyle.overflowX) ||
       scrollableOverflowValues.has(computedStyle.overflowY)

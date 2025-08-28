@@ -143,7 +143,7 @@ export function createScanner(
         return !(onlyAccentedElementsAddedOrRemoved || accentedElementChanged);
       });
 
-      if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning(window)) {
+      if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning()) {
         // Something has changed in the DOM, so we need to realign all triggers with respective elements.
         recalculatePositions();
 

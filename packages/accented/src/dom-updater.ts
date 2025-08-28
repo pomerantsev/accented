@@ -67,7 +67,7 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
         continue;
       }
       elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
-      if (supportsAnchorPositioning(window)) {
+      if (supportsAnchorPositioning()) {
         setAnchorName(elementWithIssues);
       }
 
@@ -88,7 +88,7 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
         continue;
       }
       elementWithIssues.element.removeAttribute(attrName);
-      if (supportsAnchorPositioning(window)) {
+      if (supportsAnchorPositioning()) {
         removeAnchorName(elementWithIssues);
       }
       elementWithIssues.trigger.remove();

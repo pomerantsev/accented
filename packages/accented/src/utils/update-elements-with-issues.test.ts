@@ -3,9 +3,27 @@ import { suite, test } from 'node:test';
 import type { Signal } from '@preact/signals-core';
 import { signal } from '@preact/signals-core';
 import type { AxeResults, ImpactValue } from 'axe-core';
+import { JSDOM } from 'jsdom';
 import type { AccentedTrigger } from '../elements/accented-trigger';
 import type { ExtendedElementWithIssues, Issue } from '../types';
 import { updateElementsWithIssues } from './update-elements-with-issues';
+
+const dom = new JSDOM();
+global.window = dom.window as unknown as Window & typeof globalThis;
+global.document = dom.window.document;
+// JSDOM doesn't have CSS, so we mock it
+global.CSS = {
+  supports: () => true,
+} as any;
+Object.defineProperty(global.window, 'CSS', {
+  value: { supports: () => true },
+  writable: true,
+});
+// Mock navigator for browser detection on window
+Object.defineProperty(global.window, 'navigator', {
+  value: { userAgent: '' },
+  writable: true,
+});
 
 type Violation = AxeResults['violations'][number];
 type AxeNode = Violation['nodes'][number];

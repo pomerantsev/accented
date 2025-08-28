@@ -115,9 +115,9 @@ export function updateElementsWithIssues({
               trigger.position = signal(position);
               trigger.visible = signal(true);
               trigger.element = addedElementWithIssues.element;
-              const scrollableAncestors = supportsAnchorPositioning(win)
+              const scrollableAncestors = supportsAnchorPositioning()
                 ? new Set<HTMLElement>()
-                : getScrollableAncestors(addedElementWithIssues.element, win);
+                : getScrollableAncestors(addedElementWithIssues.element);
               const issues = signal(addedElementWithIssues.issues);
               accentedDialog.issues = issues;
               accentedDialog.element = addedElementWithIssues.element;
