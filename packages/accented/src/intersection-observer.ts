@@ -19,7 +19,7 @@ export function setupIntersectionObserver() {
             // So now we always set visibility in the intersection observer.
             extendedElementWithIssues.visible.value = entry.isIntersecting;
             if (entry.isIntersecting && !supportsAnchorPositioning()) {
-              extendedElementWithIssues.position.value = getElementPosition(entry.target, window);
+              extendedElementWithIssues.position.value = getElementPosition(entry.target);
             }
           }
         }

@@ -111,7 +111,7 @@ export function updateElementsWithIssues({
               trigger.dataset.id = id.toString();
               const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
               trigger.dialog = accentedDialog;
-              const position = getElementPosition(addedElementWithIssues.element, win);
+              const position = getElementPosition(addedElementWithIssues.element);
               trigger.position = signal(position);
               trigger.visible = signal(true);
               trigger.element = addedElementWithIssues.element;
