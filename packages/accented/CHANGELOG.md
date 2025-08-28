@@ -1,5 +1,13 @@
 # accented
 
+## 1.1.2
+
+### Patch Changes
+
+- Fix some edge cases in ShadowDOMAwareMutationObserver ([#300](https://github.com/pomerantsev/accented/pull/300))
+
+- Bump @preact/signals-core from 1.11.0 to 1.12.1 (no functional changes) ([#301](https://github.com/pomerantsev/accented/pull/301))
+
 ## 1.1.1
 
 ### Patch Changes
