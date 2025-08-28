@@ -37,8 +37,6 @@ export function createShadowDOMAwareMutationObserver(name: string, callback: Mut
 
         const removedElements = getMutationNodes(mutations, 'removedNodes');
 
-        // Mutation observer has no "unobserve" method, so we're simply deleting
-        // the elements from the set of shadow roots.
         this.#unobserveShadowRoots(removedElements);
 
         mutationCallback(mutations, observer);
