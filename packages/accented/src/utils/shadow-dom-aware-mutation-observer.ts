@@ -1,34 +1,46 @@
 import { getAccentedElementNames } from '../constants.js';
 import { isDocument, isDocumentFragment, isElement } from './dom-helpers.js';
 
+function getShadowRoots(elements: Array<Element | Document | DocumentFragment>) {
+  return elements
+    .flatMap((element) => Array.from(element.querySelectorAll('*')))
+    .reduce<Array<ShadowRoot>>(
+      (acc, element) => (element.shadowRoot ? acc.concat(element.shadowRoot) : acc),
+      [],
+    );
+}
+
 export function createShadowDOMAwareMutationObserver(name: string, callback: MutationCallback) {
+  type ObserverMap = Map<ShadowRoot, ShadowDOMAwareMutationObserver>;
+
+  const accentedElementNames = getAccentedElementNames(name);
+
+  function getMutationNodes(mutations: Array<MutationRecord>, type: 'addedNodes' | 'removedNodes') {
+    return mutations
+      .filter((mutation) => mutation.type === 'childList')
+      .flatMap((mutation) => Array.from(mutation[type]))
+      .filter((node) => isElement(node))
+      .filter((node) => !accentedElementNames.includes(node.nodeName.toLowerCase()));
+  }
+
   class ShadowDOMAwareMutationObserver extends MutationObserver {
-    #shadowRoots = new Set();
+    #shadowRoots: ObserverMap = new Map();
 
     #options: MutationObserverInit | undefined;
 
-    constructor(callback: MutationCallback) {
+    constructor(mutationCallback: MutationCallback) {
       super((mutations, observer) => {
-        const accentedElementNames = getAccentedElementNames(name);
-        const childListMutations = mutations.filter((mutation) => mutation.type === 'childList');
-
-        const newElements = childListMutations
-          .flatMap((mutation) => [...mutation.addedNodes])
-          .filter((node) => isElement(node))
-          .filter((node) => !accentedElementNames.includes(node.nodeName.toLowerCase()));
+        const newElements = getMutationNodes(mutations, 'addedNodes');
 
         this.#observeShadowRoots(newElements);
 
-        const removedElements = childListMutations
-          .flatMap((mutation) => [...mutation.removedNodes])
-          .filter((node) => isElement(node))
-          .filter((node) => !accentedElementNames.includes(node.nodeName.toLowerCase()));
+        const removedElements = getMutationNodes(mutations, 'removedNodes');
 
         // Mutation observer has no "unobserve" method, so we're simply deleting
         // the elements from the set of shadow roots.
-        this.#deleteShadowRoots(removedElements);
+        this.#unobserveShadowRoots(removedElements);
 
-        callback(mutations, observer);
+        mutationCallback(mutations, observer);
       });
     }
 
@@ -41,31 +53,26 @@ export function createShadowDOMAwareMutationObserver(name: string, callback: Mut
     }
 
     override disconnect(): void {
+      this.#unobserveShadowRoots(Array.from(this.#shadowRoots.keys()));
       this.#shadowRoots.clear();
       super.disconnect();
     }
 
     #observeShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
-      const shadowRoots = elements
-        .flatMap((element) => [...element.querySelectorAll('*')])
-        .filter((element) => element.shadowRoot)
-        .map((element) => element.shadowRoot);
+      const shadowRoots = getShadowRoots(elements);
 
       for (const shadowRoot of shadowRoots) {
-        if (shadowRoot) {
-          this.#shadowRoots.add(shadowRoot);
-          this.observe(shadowRoot, this.#options);
-        }
+        const observer = new ShadowDOMAwareMutationObserver(callback);
+        observer.observe(shadowRoot, this.#options);
+        this.#shadowRoots.set(shadowRoot, observer);
       }
     };
 
-    #deleteShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
-      const shadowRoots = elements
-        .flatMap((element) => [...element.querySelectorAll('*')])
-        .filter((element) => element.shadowRoot)
-        .map((element) => element.shadowRoot);
+    #unobserveShadowRoots = (elements: Array<Element | Document | DocumentFragment>) => {
+      const shadowRoots = getShadowRoots(elements);
 
       for (const shadowRoot of shadowRoots) {
+        this.#shadowRoots.get(shadowRoot)?.disconnect();
         this.#shadowRoots.delete(shadowRoot);
       }
     };

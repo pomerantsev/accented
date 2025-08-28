@@ -61,8 +61,8 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
     }
   }
 
-  function setIssues(extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
-    for (const elementWithIssues of extendedElementsWithIssues) {
+  function setIssues(elementsWithIssues: Array<ExtendedElementWithIssues>) {
+    for (const elementWithIssues of elementsWithIssues) {
       if (elementWithIssues.skipRender) {
         continue;
       }
@@ -82,8 +82,8 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
     }
   }
 
-  function removeIssues(extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
-    for (const elementWithIssues of extendedElementsWithIssues) {
+  function removeIssues(elementsWithIssues: Array<ExtendedElementWithIssues>) {
+    for (const elementWithIssues of elementsWithIssues) {
       if (elementWithIssues.skipRender) {
         continue;
       }

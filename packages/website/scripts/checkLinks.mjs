@@ -67,9 +67,9 @@ async function extractUrlsFromSitemap(host) {
   }
 }
 
-async function runToCompletion(process, args) {
+async function runToCompletion(process, processArgs) {
   return new Promise((resolve, reject) => {
-    const spawnedProcess = spawn(process, args, {
+    const spawnedProcess = spawn(process, processArgs, {
       stdio: 'inherit',
     });
 

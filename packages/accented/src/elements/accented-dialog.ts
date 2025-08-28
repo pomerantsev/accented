@@ -140,7 +140,7 @@ export const getAccentedDialog = () => {
       color: var(--text-color);
       border: 2px solid currentColor;
       padding: var(--space-l);
-      inline-size: min(90ch, calc(100% - var(--space-s)* 2));
+      inline-size: min(90ch, calc(100% - var(--space-s) * 2));
       max-block-size: calc(100% - var(--space-s) * 2);
 
       color-scheme: light dark;

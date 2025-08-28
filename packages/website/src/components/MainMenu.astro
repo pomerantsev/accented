@@ -39,12 +39,12 @@ const menuItems: Array<MenuItem> = [
   { id: 'github', href: 'https://github.com/pomerantsev/accented', icon: 'Github' },
 ];
 
-function isCurrent(item: MenuItem, pathname: string): boolean {
+function isCurrent(item: MenuItem, itemPathname: string): boolean {
   if ('text' in item) {
-    if (item.id === 'blog' && pathname.startsWith('/blog/')) {
+    if (item.id === 'blog' && itemPathname.startsWith('/blog/')) {
       return true;
     }
-    return pathname === item.href;
+    return itemPathname === item.href;
   }
   return false;
 }

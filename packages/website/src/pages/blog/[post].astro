@@ -10,12 +10,12 @@ export async function getStaticPaths() {
 
 const { post: postId } = Astro.params;
 
-const post = await getEntry('blog', postId);
-if (!post) {
+const currentPost = await getEntry('blog', postId);
+if (!currentPost) {
   throw new Error(`Post with ID "${postId}" not found.`);
 }
 
-const { Content } = await render(post);
+const { Content } = await render(currentPost);
 ---
 <style>
   nav {
@@ -42,19 +42,19 @@ const { Content } = await render(post);
   }
 </style>
 
-<MainLayout title={`${post.data.title} | Blog`} description={post.data.description}>
+<MainLayout title={`${currentPost.data.title} | Blog`} description={currentPost.data.description}>
   <nav aria-label="Breadcrumbs">
     <a href="/blog">← All posts</a>
   </nav>
   <article class="flow">
-    <h1>{post.data.title}</h1>
+    <h1>{currentPost.data.title}</h1>
     <p class="metadata">
-      <time datetime={getPostDate(post)}>{formatPostDate(post)}</time>, by {
-        post.data.author
+      <time datetime={getPostDate(currentPost)}>{formatPostDate(currentPost)}</time>, by {
+        currentPost.data.author
       }
     </p>
     <p class="subtitle">
-      {post.data.description}
+      {currentPost.data.description}
     </p>
     <Content />
   </article>

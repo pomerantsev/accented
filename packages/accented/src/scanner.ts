@@ -159,14 +159,14 @@ export function createScanner(
       // we may miss other mutations on those same elements caused by Accented,
       // leading to extra runs of the mutation observer.
       const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce(
-        (nodes, mutationRecord) => {
+        (acc, mutationRecord) => {
           if (
             mutationRecord.type === 'attributes' &&
             mutationRecord.attributeName === `data-${name}`
           ) {
-            nodes.add(mutationRecord.target);
+            acc.add(mutationRecord.target);
           }
-          return nodes;
+          return acc;
         },
         new Set<Node>(),
       );

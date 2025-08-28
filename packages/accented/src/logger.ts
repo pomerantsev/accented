@@ -53,8 +53,8 @@ type IssueType = {
 
 type GroupedByIssueType = Record<string, IssueType>;
 
-const getIssueTypeGroups = (elementsWithIssues: Array<ElementWithIssues>) => {
-  const groupedByIssueType = elementsWithIssues.reduce((acc, { element, issues }) => {
+const getIssueTypeGroups = (elsWithIssues: Array<ElementWithIssues>) => {
+  const groupedByIssueType = elsWithIssues.reduce((acc, { element, issues }) => {
     for (const issue of issues) {
       if (!acc[issue.id]) {
         acc[issue.id] = {
@@ -80,11 +80,11 @@ const getIssueTypeGroups = (elementsWithIssues: Array<ElementWithIssues>) => {
   return sorted;
 };
 
-function logIssuesByElement(elementsWithIssues: Array<ElementWithIssues>) {
+function logIssuesByElement(elsWithIssues: Array<ElementWithIssues>) {
   // Elements with more severe issues (or with a higher number of issues of the same severity)
   // will appear higher in the output.
   // This way, issues with a higher severity will be prioritized.
-  const sortedElementsWithIssues = elementsWithIssues.toSorted((a, b) => {
+  const sortedElementsWithIssues = elsWithIssues.toSorted((a, b) => {
     const impacts = orderedImpacts.toReversed();
     const impactWithDifferentIssueCount = impacts.find((impact) => {
       const aCount = a.issues.filter((issue) => issue.impact === impact).length;
@@ -172,12 +172,12 @@ function logIssuesByType(issueTypeGroups: Array<IssueType>) {
 }
 
 function logNewIssues(
-  elementsWithIssues: Array<ElementWithIssues>,
+  elsWithIssues: Array<ElementWithIssues>,
   previousElementsWithIssues: Array<ElementWithIssues>,
 ) {
   // The elements with accessibility issues that didn't have any associated issues
   // or that weren't in the DOM at the time of last scan.
-  const addedElements = elementsWithIssues.filter((elementWithIssues) => {
+  const addedElements = elsWithIssues.filter((elementWithIssues) => {
     return !previousElementsWithIssues.some((previousElementWithIssues) =>
       areElementsWithIssuesEqual(previousElementWithIssues, elementWithIssues),
     );
@@ -185,7 +185,7 @@ function logNewIssues(
 
   // The elements that now have more issues than at the time of last scan,
   // with just the new issues (previously existing issues are filtered out).
-  const existingElementsWithNewIssues = elementsWithIssues.reduce<Array<ElementWithIssues>>(
+  const existingElementsWithNewIssues = elsWithIssues.reduce<Array<ElementWithIssues>>(
     (acc, elementWithIssues) => {
       let foundElementWithIssues: ElementWithIssues | null = null;
       for (const previousElementWithIssues of previousElementsWithIssues) {
@@ -232,17 +232,17 @@ function logNewIssues(
 }
 
 function logIssues(
-  elementsWithIssues: Array<ElementWithIssues>,
+  elsWithIssues: Array<ElementWithIssues>,
   previousElementsWithIssues: Array<ElementWithIssues>,
 ) {
-  const elementCount = elementsWithIssues.length;
+  const elementCount = elsWithIssues.length;
 
   if (elementCount === 0) {
     console.log(`No accessibility issues (Accented, ${accentedUrl}).`);
     return;
   }
 
-  const issueCount = elementsWithIssues.reduce((acc, { issues }) => acc + issues.length, 0);
+  const issueCount = elsWithIssues.reduce((acc, { issues }) => acc + issues.length, 0);
   console.group(
     `%c${issueCount} accessibility issue${issueCount === 1 ? '' : 's'} in ${elementCount} element${elementCount === 1 ? '' : 's'} (Accented, ${accentedUrl}):\n`,
     defaultStyle,
@@ -251,16 +251,16 @@ function logIssues(
   if (issueCount <= MAX_ISSUES_BEFORE_OUTPUT_COLLAPSE) {
     // Don't collapse issues if there are not too many (this hopefully helps user avoid unnecessary clicks in the console).
     // Output by element (no specific reason for this choice, just a preference).
-    logIssuesByElement(elementsWithIssues);
+    logIssuesByElement(elsWithIssues);
   } else {
     // When there are many issues, outputting them all would probably make the console too noisy,
     // so we collapse them.
     // Moreover, we output all issues twice, by element and by issue type, to give users more choice.
-    console.groupCollapsed(`%cAll by element (${elementsWithIssues.length})`, defaultStyle);
-    logIssuesByElement(elementsWithIssues);
+    console.groupCollapsed(`%cAll by element (${elsWithIssues.length})`, defaultStyle);
+    logIssuesByElement(elsWithIssues);
     console.groupEnd();
 
-    const issueTypeGroups = getIssueTypeGroups(elementsWithIssues);
+    const issueTypeGroups = getIssueTypeGroups(elsWithIssues);
     console.groupCollapsed(`%cAll by issue type (${issueTypeGroups.length})`, defaultStyle);
     logIssuesByType(issueTypeGroups);
     console.groupEnd();
@@ -269,7 +269,7 @@ function logIssues(
   if (previousElementsWithIssues.length > 0) {
     // Log new issues separately, to make it easier for the user to know what issues
     // were introduced recently.
-    logNewIssues(elementsWithIssues, previousElementsWithIssues);
+    logNewIssues(elsWithIssues, previousElementsWithIssues);
   }
 
   console.groupEnd();
