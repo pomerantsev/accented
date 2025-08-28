@@ -30,7 +30,7 @@ export const getAccentedTrigger = (name: string) => {
         --base-size: max(1rem, 16px);
         position: fixed !important;
         ${
-          supportsAnchorPositioning(window)
+          supportsAnchorPositioning()
             ? `
           inset-inline-start: anchor(self-start) !important;
           inset-inline-end: anchor(self-end) !important;
@@ -191,7 +191,7 @@ export const getAccentedTrigger = (name: string) => {
             { signal: this.#abortController.signal },
           );
 
-          if (!supportsAnchorPositioning(window)) {
+          if (!supportsAnchorPositioning()) {
             this.#disposeOfPositionEffect = effect(() => {
               if (this.position && trigger) {
                 const position = this.position.value;

@@ -100,10 +100,8 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
     const cleanupDomUpdater = output.page ? createDomUpdater(name, intersectionObserver) : () => {};
     const cleanupLogger = output.console ? createLogger() : () => {};
     const cleanupScrollListeners = output.page ? setupScrollListeners() : () => {};
-    const cleanupResizeListener = supportsAnchorPositioning(window)
-      ? () => {}
-      : setupResizeListener();
-    const cleanupFullscreenListener = supportsAnchorPositioning(window)
+    const cleanupResizeListener = supportsAnchorPositioning() ? () => {} : setupResizeListener();
+    const cleanupFullscreenListener = supportsAnchorPositioning()
       ? () => {}
       : setupFullscreenListener();
 

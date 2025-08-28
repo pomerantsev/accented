@@ -61,13 +61,13 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
     }
   }
 
-  function setIssues(extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
-    for (const elementWithIssues of extendedElementsWithIssues) {
+  function setIssues(elementsWithIssues: Array<ExtendedElementWithIssues>) {
+    for (const elementWithIssues of elementsWithIssues) {
       if (elementWithIssues.skipRender) {
         continue;
       }
       elementWithIssues.element.setAttribute(attrName, elementWithIssues.id.toString());
-      if (supportsAnchorPositioning(window)) {
+      if (supportsAnchorPositioning()) {
         setAnchorName(elementWithIssues);
       }
 
@@ -82,13 +82,13 @@ export function createDomUpdater(name: string, intersectionObserver?: Intersecti
     }
   }
 
-  function removeIssues(extendedElementsWithIssues: Array<ExtendedElementWithIssues>) {
-    for (const elementWithIssues of extendedElementsWithIssues) {
+  function removeIssues(elementsWithIssues: Array<ExtendedElementWithIssues>) {
+    for (const elementWithIssues of elementsWithIssues) {
       if (elementWithIssues.skipRender) {
         continue;
       }
       elementWithIssues.element.removeAttribute(attrName);
-      if (supportsAnchorPositioning(window)) {
+      if (supportsAnchorPositioning()) {
         removeAnchorName(elementWithIssues);
       }
       elementWithIssues.trigger.remove();

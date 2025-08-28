@@ -16,7 +16,7 @@ export function recalculatePositions() {
       batch(() => {
         for (const { element, position, visible } of extendedElementsWithIssues.value) {
           if (visible.value && element.isConnected) {
-            position.value = getElementPosition(element, window);
+            position.value = getElementPosition(element);
           }
         }
       });

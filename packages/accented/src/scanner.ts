@@ -96,7 +96,6 @@ export function createScanner(
         extendedElementsWithIssues,
         scanContext,
         violations: result.violations,
-        win: window,
         name,
       });
 
@@ -143,7 +142,7 @@ export function createScanner(
         return !(onlyAccentedElementsAddedOrRemoved || accentedElementChanged);
       });
 
-      if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning(window)) {
+      if (listWithoutAccentedElements.length !== 0 && !supportsAnchorPositioning()) {
         // Something has changed in the DOM, so we need to realign all triggers with respective elements.
         recalculatePositions();
 
@@ -159,14 +158,14 @@ export function createScanner(
       // we may miss other mutations on those same elements caused by Accented,
       // leading to extra runs of the mutation observer.
       const elementsWithAccentedAttributeChanges = listWithoutAccentedElements.reduce(
-        (nodes, mutationRecord) => {
+        (acc, mutationRecord) => {
           if (
             mutationRecord.type === 'attributes' &&
             mutationRecord.attributeName === `data-${name}`
           ) {
-            nodes.add(mutationRecord.target);
+            acc.add(mutationRecord.target);
           }
-          return nodes;
+          return acc;
         },
         new Set<Node>(),
       );

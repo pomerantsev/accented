@@ -4,8 +4,8 @@ import { isHtmlElement } from './dom-helpers.js';
 import { getParent } from './get-parent.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
-function isContainingBlock(element: Element, win: Window): boolean {
-  const style = win.getComputedStyle(element);
+function isContainingBlock(element: Element): boolean {
+  const style = getComputedStyle(element);
   const {
     transform,
     perspective,
@@ -33,11 +33,11 @@ function isContainingBlock(element: Element, win: Window): boolean {
   );
 }
 
-function getNonInitialContainingBlock(element: Element, win: Window): Element | null {
+function getNonInitialContainingBlock(element: Element): Element | null {
   let currentElement: Element | null = element;
   while (currentElement) {
     currentElement = getParent(currentElement);
-    if (currentElement && isContainingBlock(currentElement, win)) {
+    if (currentElement && isContainingBlock(currentElement)) {
       return currentElement;
     }
   }
@@ -52,8 +52,8 @@ function getNonInitialContainingBlock(element: Element, win: Window): Element | 
  * * The element itself, or one of the element's ancestors has a scale or rotate transform.
  * * The browser doesn't support anchor positioning.
  */
-export function getElementPosition(element: Element, win: Window): Position {
-  const nonInitialContainingBlock = getNonInitialContainingBlock(element, win);
+export function getElementPosition(element: Element): Position {
+  const nonInitialContainingBlock = getNonInitialContainingBlock(element);
   // If an element has a containing block as an ancestor,
   // and that containing block is not the <html> element (the initial containing block),
   // fixed positioning works differently.

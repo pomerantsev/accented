@@ -431,8 +431,8 @@ test.describe('Accented', () => {
       expect(match).toBeTruthy();
 
       if (match?.[1] && match[3]) {
-        const issueCount = parseInt(match[1]);
-        const elementCount = parseInt(match[3]);
+        const issueCount = parseInt(match[1], 10);
+        const elementCount = parseInt(match[3], 10);
         expect(issueCount).toBeGreaterThan(0);
         expect(elementCount).toBeGreaterThan(0);
       }
