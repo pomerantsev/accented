@@ -3,9 +3,10 @@ import { isDocument, isDocumentFragment, isElement } from './dom-helpers.js';
 
 function getShadowRoots(elements: Array<Element | Document | DocumentFragment>) {
   return elements
-    .flatMap((element) => Array.from(element.querySelectorAll('*')))
+    .flatMap((element) => [element, ...Array.from(element.querySelectorAll('*'))])
     .reduce<Array<ShadowRoot>>(
-      (acc, element) => (element.shadowRoot ? acc.concat(element.shadowRoot) : acc),
+      (acc, element) =>
+        isElement(element) && element.shadowRoot ? acc.concat(element.shadowRoot) : acc,
       [],
     );
 }
