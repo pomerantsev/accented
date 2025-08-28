@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "accented": "workspace:*",
     "netlify-cli": "^23.1.4"
   }
