@@ -20,10 +20,10 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright browsers
-        run: pnpm --filter accented-devapp exec playwright install --with-deps
+        run: pnpm --filter devapp exec playwright install --with-deps
 
       - name: Run end-to-end tests
-        run: pnpm --filter accented-devapp test-buildless
+        run: pnpm --filter devapp test-buildless
 
       - name: Install lychee
         uses: ./.github/actions/installLychee

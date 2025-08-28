@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Install Playwright browsers
-        run: pnpm --filter accented-devapp exec playwright install --with-deps
+        run: pnpm --filter devapp exec playwright install --with-deps
 
       - name: Run playground tests
         run: pnpm --filter playground test
