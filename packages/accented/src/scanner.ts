@@ -96,7 +96,6 @@ export function createScanner(
         extendedElementsWithIssues,
         scanContext,
         violations: result.violations,
-        win: window,
         name,
       });
 

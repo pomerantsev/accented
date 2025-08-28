@@ -9,76 +9,39 @@ import type { ExtendedElementWithIssues, Issue } from '../types';
 import { updateElementsWithIssues } from './update-elements-with-issues';
 
 const dom = new JSDOM();
-global.window = dom.window as unknown as Window & typeof globalThis;
 global.document = dom.window.document;
-// JSDOM doesn't have CSS, so we mock it
+global.getComputedStyle = dom.window.getComputedStyle;
+// JSDOM doesn't seem to have CSS, so we mock it
 global.CSS = {
   supports: () => true,
 } as any;
-Object.defineProperty(global.window, 'CSS', {
-  value: { supports: () => true },
+// Node already has a global `navigator` object,
+// so we're mocking it differently than other globals.
+Object.defineProperty(global, 'navigator', {
+  value: { userAgent: dom.window.navigator.userAgent },
   writable: true,
-});
-// Mock navigator for browser detection on window
-Object.defineProperty(global.window, 'navigator', {
-  value: { userAgent: '' },
-  writable: true,
+  configurable: true,
 });
 
 type Violation = AxeResults['violations'][number];
 type AxeNode = Violation['nodes'][number];
 
-const win: Window & { CSS: typeof CSS } = {
-  document: {
-    // @ts-expect-error the return value is of incorrect type.
-    createElement: () => ({
-      style: {
-        setProperty: () => {},
-      },
-      dataset: {},
-    }),
-    contains: () => true,
-  },
-  // @ts-expect-error we're missing a lot of properties
-  getComputedStyle: () => ({
-    zIndex: '',
-    direction: 'ltr',
-    getPropertyValue: () => 'none',
-  }),
-  // @ts-expect-error we're missing a lot of properties
-  CSS: {
-    supports: () => true,
-  },
-  // @ts-expect-error we're missing a lot of properties
-  navigator: {
-    userAgent: '',
-  },
-};
+// Create real DOM elements using JSDOM
+const element1 = document.createElement('div');
+element1.setAttribute('id', 'element1');
+document.body.appendChild(element1);
 
-const getBoundingClientRect = () => ({});
+const element2 = document.createElement('div');
+element2.setAttribute('id', 'element2');
+document.body.appendChild(element2);
 
-const getRootNode = (): Node => ({}) as Node;
+const element3 = document.createElement('div');
+element3.setAttribute('id', 'element3');
+// element3 is not connected (not added to document)
 
-const baseElement = {
-  getBoundingClientRect,
-  getRootNode,
-  style: {
-    getPropertyValue: () => '',
-  },
-  closest: () => null,
-};
+const rootNode = document;
 
-// @ts-expect-error element is not HTMLElement
-const element1: HTMLElement = { ...baseElement, isConnected: true };
-// @ts-expect-error element is not HTMLElement
-const element2: HTMLElement = { ...baseElement, isConnected: true };
-// @ts-expect-error element is not HTMLElement
-const element3: HTMLElement = { ...baseElement, isConnected: false };
-
-// @ts-expect-error rootNode is not Node
-const rootNode: Node = {};
-
-const trigger = win.document.createElement('accented-trigger') as AccentedTrigger;
+const trigger = document.createElement('accented-trigger') as AccentedTrigger;
 
 const position = signal({
   left: 0,
@@ -169,7 +132,7 @@ const issue3: Issue = {
 };
 
 const scanContext = {
-  include: [win.document],
+  include: [document],
   exclude: [],
 };
 
@@ -205,7 +168,6 @@ suite('updateElementsWithIssues', () => {
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2],
-      win,
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -246,7 +208,6 @@ suite('updateElementsWithIssues', () => {
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2, violation3],
-      win,
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -287,7 +248,6 @@ suite('updateElementsWithIssues', () => {
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2],
-      win,
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -316,7 +276,6 @@ suite('updateElementsWithIssues', () => {
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation2],
-      win,
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -345,7 +304,6 @@ suite('updateElementsWithIssues', () => {
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1, violation4],
-      win,
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);
@@ -383,7 +341,6 @@ suite('updateElementsWithIssues', () => {
       extendedElementsWithIssues,
       scanContext,
       violations: [violation1],
-      win,
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);

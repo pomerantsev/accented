@@ -36,13 +36,11 @@ export function updateElementsWithIssues({
   extendedElementsWithIssues,
   scanContext,
   violations,
-  win,
   name,
 }: {
   extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>;
   scanContext: ScanContext;
   violations: typeof AxeResults.violations;
-  win: Window & { CSS: typeof CSS };
   name: string;
 }) {
   const updatedElementsWithIssues = transformViolations(violations, name);
@@ -99,9 +97,9 @@ export function updateElementsWithIssues({
             .filter((addedElementWithIssues) => addedElementWithIssues.element.isConnected)
             .map((addedElementWithIssues) => {
               const id = count++;
-              const trigger = win.document.createElement(`${name}-trigger`) as AccentedTrigger;
+              const trigger = document.createElement(`${name}-trigger`) as AccentedTrigger;
               const elementZIndex = Number.parseInt(
-                win.getComputedStyle(addedElementWithIssues.element).zIndex,
+                getComputedStyle(addedElementWithIssues.element).zIndex,
                 10,
               );
               if (!Number.isNaN(elementZIndex)) {
@@ -109,7 +107,7 @@ export function updateElementsWithIssues({
               }
               trigger.style.setProperty('position-anchor', `--${name}-anchor-${id}`, 'important');
               trigger.dataset.id = id.toString();
-              const accentedDialog = win.document.createElement(`${name}-dialog`) as AccentedDialog;
+              const accentedDialog = document.createElement(`${name}-dialog`) as AccentedDialog;
               trigger.dialog = accentedDialog;
               const position = getElementPosition(addedElementWithIssues.element);
               trigger.position = signal(position);
@@ -131,9 +129,7 @@ export function updateElementsWithIssues({
                 scrollableAncestors: signal(scrollableAncestors),
                 anchorNameValue:
                   addedElementWithIssues.element.style.getPropertyValue('anchor-name') ||
-                  win
-                    .getComputedStyle(addedElementWithIssues.element)
-                    .getPropertyValue('anchor-name'),
+                  getComputedStyle(addedElementWithIssues.element).getPropertyValue('anchor-name'),
                 trigger,
                 issues,
               };

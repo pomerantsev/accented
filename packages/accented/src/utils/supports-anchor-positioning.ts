@@ -3,7 +3,7 @@
  * since anchor positioning is not working correctly in Safari 26 Technology Preview.
  */
 function isWebKit() {
-  const ua = window.navigator.userAgent;
+  const ua = navigator.userAgent;
   return (/AppleWebKit/.test(ua) && !/Chrome/.test(ua)) || /\b(iPad|iPhone|iPod)\b/.test(ua);
 }
 
