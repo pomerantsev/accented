@@ -1,5 +1,13 @@
 # accented
 
+## 1.1.2
+
+### Patch Changes
+
+- [#301](https://github.com/pomerantsev/accented/pull/301) [`374fdef`](https://github.com/pomerantsev/accented/commit/374fdefc5d189a57374515afd4a8e8a2ac3297c0) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Upgrade @preact/signals-core (no user-facing change)
+
+- [#300](https://github.com/pomerantsev/accented/pull/300) [`68b6ed3`](https://github.com/pomerantsev/accented/commit/68b6ed3f5764615c8c39ab10c52f292d2288846c) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Fix some edge cases in ShadowDOMAwareMutationObserver
+
 ## 1.1.1
 
 ### Patch Changes
