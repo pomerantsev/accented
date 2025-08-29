@@ -1,0 +1,181 @@
+---
+title: "Developing Accented: shadow DOM"
+description: This post goes into the details of how Accented uses shadow DOM to contain the styles and behaviors of its own UI elements,
+  and how it detects accessibility issues inside shadow DOM in the host app.
+author: Pavel Pomerantsev
+---
+import { Image } from 'astro:assets';
+import hostAppUi from '~/assets/images/host-app-ui.png';
+import accentedUi from '~/assets/images/accented-ui.png';
+
+This is the first post in a series about the development of Accented.
+
+This post explores [shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) in Accented from two perspectives.
+
+- Accented adds its elements to the host app, and those elements use shadow DOM to encapsulate their styles and behaviors.
+- If the host app has accessibility issues inside shadow DOM, Accented needs to highlight those,
+  which requires a bit of extra work on Accented’s part, compared to handling issues in the light DOM.
+
+## A note on vocabulary
+
+The “host app” is the application that the user of Accented is developing.
+
+<Image
+  src={hostAppUi}
+  alt="A screenshot of a 'Recent orders' block in a web application. There are three pieces of low-contrast text, which all have violet-red outlines, and large violet-red square buttons are aligned with the top right corners of those pieces of text."
+  layout="constrained"
+/>
+
+In this image, most of the elements come from the host app,
+while the bright outlines and the square buttons with the letter “á” are coming from Accented.
+
+## Shadow DOM in Accented’s custom elements
+
+For each accessibility issue on the page, Accented adds two [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements) (aka web components):
+`accented-trigger` and `accented-dialog`.
+Those represent the button that appears next to the element with the issue and the dialog that the button opens, respectively.
+
+This is what the dialog may look like:
+
+<Image
+  src={accentedUi}
+  alt="A screenshot of a dialog displaying accessibility issue information."
+  layout="constrained"
+/>
+
+Here’s the challenge: Accented is supposed to work and look decent in any web app,
+regardless of what styles it might have, or what JS code may be running on the page.
+
+That’s where shadow DOM comes in handy.
+If we use shadow DOM for Accented’s elements,
+the host app is much less likely to interfere with them.
+That’s exactly what we need — Accented should _just work_, without causing any additional headaches.
+
+Attaching a shadow DOM to any element is simple, it just takes one line:
+
+```js
+element.attachShadow({ mode: 'open' });
+```
+
+Shadow DOM is mostly used with custom elements, and within a custom element,
+the line usually becomes the following:
+
+```js
+this.attachShadow({ mode: 'open' });
+```
+
+Here’s [an example from `accented-dialog.ts`](https://github.com/pomerantsev/accented/blob/f1c1aab36385e96f5027b28e939ea2b1ac330a51/packages/accented/src/elements/accented-dialog.ts#L248).
+
+`mode: 'open'` creates an [open shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode),
+which _can_ be accessed by the host app’s JavaScript.
+One could argue that we would want to completely prevent that and use `mode: 'closed'` instead:
+don’t we need to completely seal off our elements?
+
+In practice, it’s unlikely to have any real benefits: as I said, the host app has to try really hard
+to get a reference to an element inside a shadow DOM by accident.
+
+The closed shadow DOM would, however, make automated testing in Accented itself much harder:
+with [Playwright](https://playwright.dev/) (the framework that we use extensively for end-to-end testing),
+it’s not possible to interact with elements inside closed shadow DOM.
+
+All in all, open shadow DOM is the right choice for Accented.
+
+So how does this work from the user’s perspective?
+Let’s say the links in the host app are light gray on white.
+Accented will correctly flag that as a contrast issue, and its own dialog will keep its original, accessible color scheme,
+even if the specificity of the style in the host app is very high:
+
+```css
+a {
+  color: lightgray !important;
+}
+```
+
+The reverse is also true: we don’t want Accented’s styles accidentally affecting the host app,
+so we put whatever styles Accented needs inside the shadow DOM,
+and they stay local to the `accented-trigger` and `accented-dialog` elements,
+not affecting the rest of the page in any way.
+
+To continue with the links analogy, our links have a hover indicator that I’m happy with,
+but I don’t want every link in an app that uses Accented to get the same hover effect
+(which would inevitably raise questions from the developers of the app).
+Putting those styles inside the shadow DOM means that, again, no matter the specificity of the selector, they won’t leak out.
+
+I could have something like this inside the shadow DOM:
+
+```css
+a:hover {
+  outline: 2px solid red !important;
+}
+```
+
+That would still have zero effect on the links in the host app.
+
+[Here’s the actual code for the links and buttons inside Accented’s dialogs](https://github.com/pomerantsev/accented/blob/f1c1aab36385e96f5027b28e939ea2b1ac330a51/packages/accented/src/elements/accented-dialog.ts#L109-L123) in case you’re curious.
+
+## Shadow DOM in host apps
+
+An application that uses Accented in development may itself use shadow DOM.
+And just like in the light DOM, elements inside shadow DOM can have accessibility issues too.
+
+Luckily, we can detect those with Accented
+(but only in open shadow DOM: closed shadow DOM is completely opaque for any scripts).
+
+First of all, [axe-core](https://github.com/dequelabs/axe-core)
+(the accessibility engine that Accented uses under the hood) scans open shadow DOM by default.
+
+But in order for Accented to properly highlight issues in the shadow DOM,
+we need to take care of a few extra things.
+
+### Mutation observer
+
+The central component of Accented is a [mutation observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+
+Unfortunately, there’s no native way to make it observe mutations inside the shadow DOM.
+There is [a proposal to add a flag to the `observe()` options object](https://github.com/whatwg/dom/issues/1287) that would enable the desired behavior,
+but it’s not implemented in any browser and it’s not even part of the spec yet.
+
+In order for the mutation observer to detect changes inside shadow DOM,
+[I extended the native mutation observer class and made it recursively observe all shadow roots](https://github.com/pomerantsev/accented/blob/a63bb494b8b4c920b7a5f386672f45b3ecda58f9/packages/accented/src/utils/shadow-dom-aware-mutation-observer.ts#L27-L80)
+(the “painful method” mentioned by Lea Verou in her proposal).
+
+It’s ugly, but it works (at least, in most cases in my testing).
+
+### Global styles
+
+Most of Accented’s CSS is for its custom elements, so those styles live in the shadow DOM of those elements.
+
+We do, however, want to add outlines to the elements with issues, which are part of the host app, not Accented’s UI.
+Those styles must be added to the host app’s document.
+
+With shadow DOM, this becomes slightly more complicated, as now we need to add the styles to each shadow root.
+And we can no longer do that just on Accented initialization:
+when an element with an issue is detected in shadow DOM,
+we need to check whether its shadow root has the required stylesheet,
+and add it if it doesn’t.
+
+```js
+for (const rootNode of addedRootNodes) {
+  rootNode.adoptedStyleSheets.push(stylesheet);
+}
+```
+
+See [full code](https://github.com/pomerantsev/accented/blob/f1c1aab36385e96f5027b28e939ea2b1ac330a51/packages/accented/src/dom-updater.ts#L132-L136).
+
+### Parent element
+
+Accented sometimes needs to identify the parent of an element.
+
+It’s trivial in the light DOM: it’s `element.parentElement`.
+
+However, if an element is at the top of shadow DOM, `parentElement` returns `null`.
+In that case, the shadow host is what we’re interested in: `element.getRootNode().host`.
+
+Now here’s the [complete code for getting the “parent” of an element](https://github.com/pomerantsev/accented/blob/f1c1aab36385e96f5027b28e939ea2b1ac330a51/packages/accented/src/utils/get-parent.ts).
+
+## In closing
+
+It’s been fun to work with (and around) shadow DOM when building Accented.
+
+In upcoming posts, I’ll explore other aspects of Accented development —
+like [anchor positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning) and end-to-end testing with Playwright.
