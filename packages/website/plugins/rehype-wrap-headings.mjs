@@ -10,22 +10,6 @@ export function rehypeWrapHeadings() {
       if (['h2', 'h3', 'h4'].includes(node.tagName) && node.properties?.id) {
         const headingId = node.properties.id;
 
-        // Create the span element with the # symbol
-        const hashSpan = {
-          type: 'element',
-          tagName: 'span',
-          properties: {
-            className: 'hash',
-            'aria-hidden': 'true',
-          },
-          children: [
-            {
-              type: 'text',
-              value: '#',
-            },
-          ],
-        };
-
         // Create the anchor element with original content plus the hash span
         const anchorNode = {
           type: 'element',
@@ -33,7 +17,7 @@ export function rehypeWrapHeadings() {
           properties: {
             href: `#${headingId}`,
           },
-          children: [...node.children, hashSpan], // Copy existing children and add hash span
+          children: node.children,
         };
 
         // Replace the heading's children with just the anchor
