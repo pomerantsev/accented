@@ -7,7 +7,9 @@ type Heading = {
 
 const matches = import.meta.glob('~/pages/*.md(x)?', { eager: true });
 const pages = Object.values(matches) as Array<{ url: string; getHeadings: () => Array<Heading> }>;
-const currentPage = pages.find((page) => page.url === Astro.url.pathname.replace(/^(.+)\/$/, '$1'));
+const currentPage = pages.find(
+  (page) => page.url === Astro.url.pathname.replace(/^(.+)\.html$/, '$1'),
+);
 const headings = currentPage?.getHeadings() || [];
 
 type TocItem = {
