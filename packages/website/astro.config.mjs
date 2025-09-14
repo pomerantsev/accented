@@ -12,6 +12,9 @@ export default defineConfig({
   publicDir: './public',
   site: 'https://accented.dev',
   trailingSlash: 'never',
+  build: {
+    format: 'file',
+  },
   image: {
     responsiveStyles: true,
   },
