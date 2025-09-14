@@ -12,6 +12,9 @@ import {
   primaryColorDark,
   primaryColorLight,
 } from 'common/tokens';
+import favicon from '~/assets/favicon.ico';
+import ogImage from '~/assets/images/og-image.png?url';
+import globalCss from '~/assets/styles/global.css?url';
 import Accented from '~/components/Accented.astro';
 import MainMenu from '~/components/MainMenu.astro';
 
@@ -34,7 +37,7 @@ const isDev = import.meta.env.DEV;
     <title>{fullTitle}</title>
     {description && <meta name="description" content={description} />}
 
-    <link rel="icon" href="/favicon.ico"/>
+    <link rel="icon" href={favicon}/>
 
     <style
       is:global
@@ -47,11 +50,11 @@ const isDev = import.meta.env.DEV;
         fontSystemMono,
       }}>
     </style>
-    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href={globalCss} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <meta property="og:image" content="https://accented.dev/images/og-image.png" />
+    <meta property="og:image" content={`https://accented.dev${ogImage}`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:title" content={fullTitle} />
@@ -64,7 +67,7 @@ const isDev = import.meta.env.DEV;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     {description && <meta name="twitter:description" content={description} />}
-    <meta name="twitter:image" content="https://accented.dev/images/og-image.png" />
+    <meta name="twitter:image" content={`https://accented.dev${ogImage}`} />
   </head>
   <body>
     <MainMenu />
