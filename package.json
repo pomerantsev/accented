@@ -23,7 +23,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.6",
+    "@changesets/cli": "^2.29.7",
     "@types/node": "^24.3.1",
     "rimraf": "^6.0.1",
     "tsx": "^4.20.5",
