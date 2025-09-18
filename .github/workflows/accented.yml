@@ -4,7 +4,39 @@ on:
   push:
 
 jobs:
+  check-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      should-run: ${{ steps.check.outputs.should-run }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        
+      - name: Check paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            ignored:
+              - 'packages/website/**'
+              - 'packages/playground/**'
+              - '.github/workflows/**'
+              - '!.github/workflows/accented.yml'
+              
+      - name: Determine if should run
+        id: check
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "should-run=true" >> $GITHUB_OUTPUT
+          elif [[ "${{ steps.filter.outputs.ignored }}" != "true" ]]; then
+            echo "should-run=true" >> $GITHUB_OUTPUT
+          else
+            echo "should-run=false" >> $GITHUB_OUTPUT
+          fi
+
   build-test-publish:
+    needs: check-paths
+    if: needs.check-paths.outputs.should-run == 'true'
     timeout-minutes: 60
     runs-on: ubuntu-latest
     permissions:
