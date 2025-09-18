@@ -41,7 +41,7 @@ When used in [console-only mode](https://accented.dev/getting-started#console-on
 Accented behaves similarly to [@axe-core/react](https://www.npmjs.com/package/@axe-core/react) and can serve as a direct replacement.
 Unlike @axe-core/react, Accented works with any framework — or none at all — making it suitable for any web project.
 
-Learn more about Accented at [accented.dev](https://accented.dev).
+Learn more at [accented.dev](https://accented.dev).
 
 ## Installation and usage
 
@@ -55,7 +55,7 @@ Then import and run during app initialization:
 
 ```js
 if (process.env.NODE_ENV === 'development') {
-  const { accented } = await import("accented");
+  const { accented } = await import('accented');
   accented();
 }
 ```
