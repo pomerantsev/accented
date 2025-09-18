@@ -144,6 +144,10 @@ export const getAccentedDialog = () => {
       max-block-size: calc(100% - var(--space-s) * 2);
 
       color-scheme: light dark;
+
+      &::backdrop {
+        pointer-events: none;
+      }
     }
 
     #button-container {
@@ -275,11 +279,11 @@ export const getAccentedDialog = () => {
             { signal: this.#abortController.signal },
           );
 
-          dialog?.addEventListener(
+          document.addEventListener(
             'click',
             (event) => {
               try {
-                this.#onDialogClick(event);
+                this.#onDocumentClick(event);
               } catch (error) {
                 logAndRethrow(error);
               }
@@ -392,22 +396,17 @@ export const getAccentedDialog = () => {
      * is available in all supported browsers:
      * https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/closedBy
      */
-    #onDialogClick(event: MouseEvent) {
-      const dialog = event.currentTarget as HTMLDialogElement;
-      if (
-        !dialog ||
-        typeof dialog.getBoundingClientRect !== 'function' ||
-        typeof dialog.close !== 'function'
-      ) {
+    #onDocumentClick(event: MouseEvent) {
+      // If a click was anywhere in the dialog, the target will be
+      // the shadow host (this).
+      if (event.target === this) {
         return;
       }
-      const rect = dialog.getBoundingClientRect();
-      const isInsideDialog =
-        event.clientX >= rect.left &&
-        event.clientX <= rect.right &&
-        event.clientY >= rect.top &&
-        event.clientY <= rect.bottom;
-      if (!isInsideDialog) {
+
+      // If the click was on the backdrop (the target in this case the HTML element),
+      // we want to close the dialog.
+      const dialog = this.shadowRoot?.querySelector('dialog');
+      if (dialog) {
         dialog.close();
       }
     }
