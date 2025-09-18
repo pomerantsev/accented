@@ -2,26 +2,9 @@ name: Accented
 
 on:
   push:
-  workflow_dispatch:
-    inputs:
-      mock_publish:
-        description: 'Mock a successful publish to test the playground update workflow'
-        required: false
-        default: false
-        type: boolean
 
 jobs:
-  mock-publish:
-    if: ${{ inputs.mock_publish }}
-    runs-on: ubuntu-latest
-    outputs:
-      publishedPackages: '[{"name":"accented","version":"1.0.0"}]'
-    steps:
-      - name: Mock publish completed
-        run: echo "Mock - Simulating publication of accented@1.0.0"
-
   build-test-publish:
-    if: ${{ !inputs.mock_publish }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     outputs:
@@ -90,12 +73,8 @@ jobs:
   update-playground:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    needs: [mock-publish, build-test-publish]
-    if: |
-      always() && (
-        contains(needs.mock-publish.outputs.publishedPackages, '"accented"') ||
-        (github.ref == 'refs/heads/main' && contains(needs.build-test-publish.outputs.publishedPackages, '"accented"'))
-      )
+    needs: build-test-publish
+    if: github.ref == 'refs/heads/main' && contains(needs.build-test-publish.outputs.publishedPackages, '"accented"')
     permissions:
       contents: write
       pull-requests: write
@@ -107,16 +86,11 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Extract version from outputs
+      - name: Extract version from changesets output
         id: version
         run: |
-          # Extract version from publishedPackages JSON (from either mock or real job)
-          if [[ "${{ needs.mock-publish.result }}" == "success" ]]; then
-            PACKAGES='${{ needs.mock-publish.outputs.publishedPackages }}'
-          else
-            PACKAGES='${{ needs.build-test-publish.outputs.publishedPackages }}'
-          fi
-          VERSION=$(echo "$PACKAGES" | jq -r '.[] | select(.name == "accented") | .version')
+          # Extract version from publishedPackages JSON
+          VERSION=$(echo '${{ needs.build-test-publish.outputs.publishedPackages }}' | jq -r '.[] | select(.name == "accented") | .version')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
 
