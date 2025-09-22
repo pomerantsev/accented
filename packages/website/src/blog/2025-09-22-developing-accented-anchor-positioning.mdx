@@ -1,0 +1,74 @@
+---
+title: "Developing Accented: anchor positioning"
+description: TODO
+author: Pavel Pomerantsev
+---
+
+In this post, I'll talk about:
+- the positioning challenges of Accented.
+- how anchor positioning solves those challenges.
+- what's the fallback for non-supporting browsers.
+  - tell more about Safari, how it works, but not really.
+
+## The positioning challenge
+
+- Accented should work on any web page, so positioning is a challenge (TODO: expand this, add some examples:
+  the target can be big or small, it can be a `button`, an `input`, or a `dialog`).
+  - The element with issues may have static, relative, absolute, fixed, or sticky positioning.
+    And we have to support all of those scenarios.
+
+## DOM structure
+
+- What we need is to position the trigger button
+  - We actually position the overlay that contains the button, for XYZ reasons, but let's focus on just the button for now.
+- What options do we have?
+  - Add the button inside the element with issues.
+    - Downsides:
+      - some elements can't have children, e.g. `<img>`, `<input>`, etc.
+      - it may affect some of the issues.
+  - Add all the buttons in a separate container, and position them absolutely.
+    - Downsides:
+      - Issues with modal dialogs (see Contributing.md)
+      - Focus order issues.
+  - Add the button next to the element with issues, as a sibling.
+    - This is what we went with, but there's still a positioning challenge.
+
+
+Maybe don't talk much about DOM placement: just say that we can't put the element inside the element with issues,
+and that we want to minimize DOM changes, so we must take any other elements we add out of the normal document flow.
+
+## Fixed and absolute positioning
+
+So if we don't consider anchor positioning, we have two options:
+- absolute positioning. We position the element relative to the closest scrollable container.
+  - No way to properly position triggers on elements with `position: sticky` (because those exhibit the behaviors of both static and fixed positioning).
+- fixed positioning.
+  - the `position: sticky` issue is not an issue any longer, but now we need to update the position on scroll.
+
+## How anchor positioning helps
+
+Now with anchor positioning, we can, as the name suggests, anchor the trigger to the element with issues.
+TODO: talk in detail about anchor positioning.
+Which means that we're free to place the element in the dom wherever we want (including as a sibling of the element with issues),
+and the trigger will still be positioned correctly.
+- It requires much less code.
+
+## Caveats
+- We need to update the value of `anchor-name` on the element with issues.
+  We try to be careful and not break any existing styles (for example, we do XYZ),
+  but it's hardly possible to be 100% safe.
+
+## Browser support
+- Anchor positioning is still not supported in all browsers that Accented supports.
+  - It's completely unsupported in Firefox.
+  - In Safari, support was added very recently (version 26.0), but the implementation has a bug which prevents all the tests in Accented from passing.
+  - In non-supporting browsers, we fall back to fixed positioning with scroll event listener.
+
+## Bonus: logical properties
+While not directly related to anchor positioning,
+we use logical [CSS logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
+throughout the codebase.
+This has a particular benefit: it's RTL support (TODO: add screenshots).
+
+## Closing thoughts.
+Anchor positioning is cool, and it's very helpful in some scenarios, but we still can't use it without providing a fallback.
