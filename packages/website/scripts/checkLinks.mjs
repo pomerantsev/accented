@@ -86,6 +86,8 @@ async function runToCompletion(process, processArgs) {
 const commonLycheeArgs = [
   '--exclude',
   '/sitemap-index.xml$',
+  '--exclude',
+  '^https://www.npmjs.com/', // npmjs.com enabled Cloudflare security, which blocks curl requests
   '--verbose',
   '--cache',
   '--max-retries',
