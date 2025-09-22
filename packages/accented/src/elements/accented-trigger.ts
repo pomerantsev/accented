@@ -32,10 +32,9 @@ export const getAccentedTrigger = (name: string) => {
         ${
           supportsAnchorPositioning()
             ? `
-          inset-inline-start: anchor(self-start) !important;
-          inset-inline-end: anchor(self-end) !important;
-          inset-block-start: anchor(self-start) !important;
-          inset-block-end: anchor(self-end) !important;
+          position-area: center;
+          inline-size: 100%;
+          block-size: 100%;
         `
             : ''
         }
