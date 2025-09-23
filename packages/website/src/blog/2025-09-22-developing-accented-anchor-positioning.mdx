@@ -29,7 +29,7 @@ Remember, Accented can’t make any assumptions about the element with issues:
 
 - It can be large or small.
 - It can be anywhere in the DOM hierarchy.
-- It can be any element: `p`, `button`, `input`, `dialog`, `svg`, you name it.
+- It can be any type of element: `<p>`, `<button>`, `<input>`, `<dialog>`, `<svg>`, you name it.
 - It can have a position of `static`, `relative`, `absolute`, `fixed`, or `sticky`.
 - It can happen to be inside a scrollable container.
 
@@ -38,23 +38,26 @@ the user should be able to find the trigger button easily and interact with it.
 
 ## DOM structure
 
-- What we need is to position the trigger button
-  - We actually position the overlay that contains the button, for XYZ reasons, but let's focus on just the button for now.
-- What options do we have?
-  - Add the button inside the element with issues.
-    - Downsides:
-      - some elements can't have children, e.g. `<img>`, `<input>`, etc.
-      - it may affect some of the issues.
-  - Add all the buttons in a separate container, and position them absolutely.
-    - Downsides:
-      - Issues with modal dialogs (see Contributing.md)
-      - Focus order issues.
-  - Add the button next to the element with issues, as a sibling.
-    - This is what we went with, but there's still a positioning challenge.
+The first part of the challenge is where to put the button in the DOM.
 
+- Should it live inside the element with issues?
+- Should it be a sibling of the element with issues?
+- Should all the trigger buttons live inside a dedicated container?
 
-Maybe don't talk much about DOM placement: just say that we can't put the element inside the element with issues,
-and that we want to minimize DOM changes, so we must take any other elements we add out of the normal document flow.
+The main issue with option 1 (inside the element) is that some elements can’t have children at all, for example, `<img>` or `<input>`.
+Also, adding the button would invalidate some types of issues —
+for example, the “empty button” issue would no longer be an issue if we inserted an Accented’s trigger button into it.
+
+I ruled out option 3 (a dedicated container) primarily because of the focus order problem:
+the trigger buttons would all come before or after the rest of the content in focus order,
+and that seemed to be a non-ideal UX.
+And there’s [a problem with modal dialogs](https://github.com/whatwg/html/issues/9936) too:
+with such a setup, trigger buttons on elements inside a modal dialog simply wouldn’t work.
+
+This leaves us with option 2: each trigger button sits next to the element that it’s associated with.
+
+Now we’re getting to the actual positioning part.
+How do we ensure that the trigger button is always at the top right (for left-to-right languages) of the element it is associated with?
 
 ## Fixed and absolute positioning
 
@@ -65,6 +68,8 @@ So if we don't consider anchor positioning, we have two options:
   - the `position: sticky` issue is not an issue any longer, but now we need to update the position on scroll.
 
 ## How anchor positioning helps
+
+TODO: research how the behavior of an element with anchor positioning should be different _according to the spec_ if it has `position: fixed` or `position: absolute`.
 
 Now with anchor positioning, we can, as the name suggests, anchor the trigger to the element with issues.
 TODO: talk in detail about anchor positioning.
