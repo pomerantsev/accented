@@ -44,6 +44,8 @@ The first part of the challenge is where to put the button in the DOM.
 - Should it be a sibling of the element with issues?
 - Should all the trigger buttons live inside a dedicated container?
 
+TODO: consider showing code examples for each option.
+
 The main issue with option 1 (inside the element) is that some elements can’t have children at all, for example, `<img>` or `<input>`.
 Also, adding the button would invalidate some types of issues —
 for example, the “empty button” issue would no longer be an issue if we inserted an Accented’s trigger button into it.
@@ -59,13 +61,71 @@ This leaves us with option 2: each trigger button sits next to the element that 
 Now we’re getting to the actual positioning part.
 How do we ensure that the trigger button is always at the top right (for left-to-right languages) of the element it is associated with?
 
-## Fixed and absolute positioning
+## Absolute and fixed positioning
 
-So if we don't consider anchor positioning, we have two options:
-- absolute positioning. We position the element relative to the closest scrollable container.
-  - No way to properly position triggers on elements with `position: sticky` (because those exhibit the behaviors of both static and fixed positioning).
-- fixed positioning.
-  - the `position: sticky` issue is not an issue any longer, but now we need to update the position on scroll.
+Before anchor positioning was available, we had two options for the trigger button: absolute and fixed positioning.
+
+Each of these two options has its pros and cons.
+
+### Absolute
+
+We can calculate the position of the element with issues relative to its [offset parent](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent),
+and use that to position the trigger button absolutely.
+
+Something like this:
+
+```js
+triggerButton.style.position = 'absolute';
+
+const left = elementWithIssues.offsetLeft;
+triggerButton.style.left = `${left}px`;
+
+/* Do the same for the other dimension,
+   and adjust for size differences.
+*/
+```
+
+Unfortunately, this approach breaks down in some scenarios:
+
+- It doesn’t work if the element with issues has `position: sticky`.
+  There’s no way to determine when the element gets “stuck” and update the position of the trigger button accordingly.
+
+[//]: # (TODO: Dealing with videos in such a way is likely non-ideal. Consider this: https://docs.astro.build/en/guides/media/#can-i-use-astro-without-a-hosted-media-system)
+
+<video src="/videos/sticky.mov" controls></video>
+
+The only option is to listen to scroll events, but if we do that, we might as well use fixed positioning.
+
+- If the element is in a scrollable region, and the offset parent is outside that region,
+  the trigger button will stay in place when the user scrolls the region.
+
+<video src="/videos/scrollable-region.mov" controls></video>
+
+This could be mitigated, for example, by setting `position: relative` on the scrollable container,
+but generally we’d like to avoid modifying the styles of the page as much as possible.
+
+Which leaves us with fixed positioning.
+
+### Fixed
+
+When we use fixed positioning for trigger buttons, they are _usually_ positioned relative to the viewport.
+
+The main implication is we have to listen to scroll events (emitted by any of the scroll containers)
+and update the position of the trigger button accordingly.
+
+This adds some scroll jank, but it’s likely not that big of a deal for a development tool.
+
+<video src="/videos/scroll-jank.mov" controls></video>
+
+Importantly, we listen to scroll events, which solves the challenges that we listed for absolute positioning.
+
+The calculations get easier with fixed positioning though: a simple `getBoundingClientRect()` gives us the necessary offsets and sizes.
+
+Unfortunately, in some cases, elements with fixed positioning are _not_ positioned relative to the viewport
+(see [Identifying the containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block)),
+but that can be mitigated with [a few lines of code](https://github.com/pomerantsev/accented/blob/75cd006aa69bb45b91f4c71acdb6fa3485061ba4/packages/accented/src/utils/get-element-position.ts).
+
+All in all, of the two options (absolute and fixed positioning), the latter seems to be a bit easier to work with.
 
 ## How anchor positioning helps
 
