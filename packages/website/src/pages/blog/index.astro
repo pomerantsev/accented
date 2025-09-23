@@ -4,7 +4,9 @@ import { formatPostDate, getPostDate, getPostUrl } from '~/blog-helpers';
 import RSS from '~/components/icons/RSS.astro';
 import MainLayout from '~/layouts/MainLayout.astro';
 
-const posts = (await getCollection('blog')).toReversed();
+const posts = (await getCollection('blog')).toSorted((post1, post2) => {
+  return post2.id.localeCompare(post1.id);
+});
 ---
 <style>
   nav {
