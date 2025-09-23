@@ -13,3 +13,5 @@ tsconfig.test.tsbuildinfo
 
 # Workspace VSCode settings
 .vscode/settings.json
+
+.claude

@@ -3,6 +3,8 @@ title: "Developing Accented: anchor positioning"
 description: TODO
 author: Pavel Pomerantsev
 ---
+import { Image } from 'astro:assets';
+import exampleImg from '~/assets/images/blog-anchor-positioning-example.png';
 
 In this post, I'll talk about:
 - the positioning challenges of Accented.
@@ -12,10 +14,27 @@ In this post, I'll talk about:
 
 ## The positioning challenge
 
-- Accented should work on any web page, so positioning is a challenge (TODO: expand this, add some examples:
-  the target can be big or small, it can be a `button`, an `input`, or a `dialog`).
-  - The element with issues may have static, relative, absolute, fixed, or sticky positioning.
-    And we have to support all of those scenarios.
+For every element with accessibility issues, Accented inserts a button into the DOM,
+which the user can click to open a dialog with issue details.
+
+<Image
+  src={exampleImg}
+  alt="TODO"
+  layout="constrained"
+/>
+
+The question is, how do we position that trigger button?
+
+Remember, Accented can’t make any assumptions about the element with issues:
+
+- It can be large or small.
+- It can be anywhere in the DOM hierarchy.
+- It can be any element: `p`, `button`, `input`, `dialog`, `svg`, you name it.
+- It can have a position of `static`, `relative`, `absolute`, `fixed`, or `sticky`.
+- It can happen to be inside a scrollable container.
+
+In all of those scenarios,
+the user should be able to find the trigger button easily and interact with it.
 
 ## DOM structure
 
