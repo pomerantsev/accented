@@ -161,15 +161,13 @@ accented-trigger {
 Forget about calculating sizes and offsets, and listening to scroll events.
 Despite `position: fixed` (which we’ll talk about in the next section),
 the trigger button will always be positioned relative to the element with issues,
-and scroll with it.
+and scroll along with it.
 
-TODO: research how the behavior of an element with anchor positioning should be different _according to the spec_ if it has `position: fixed` or `position: absolute`.
+[TODO: add a video showing how it works.]
 
-Now with anchor positioning, we can, as the name suggests, anchor the trigger to the element with issues.
-TODO: talk in detail about anchor positioning.
-Which means that we're free to place the element in the dom wherever we want (including as a sibling of the element with issues),
-and the trigger will still be positioned correctly.
-- It requires much less code.
+Another good thing about anchor positioning is that it works with any [DOM structure](#dom-structure).
+Of course, the DOM placement of the trigger buttons still affects semantics, UX, and accessibility,
+but with anchor positioning, it doesn’t affect the visual appearance.
 
 ## Caveats
 - We need to update the value of `anchor-name` on the element with issues.
@@ -177,6 +175,7 @@ and the trigger will still be positioned correctly.
   but it's hardly possible to be 100% safe.
 - talk about transforms
 - fixed vs absolute positioning
+TODO: research how the behavior of an element with anchor positioning should be different _according to the spec_ if it has `position: fixed` or `position: absolute`.
 
 ## Browser support
 - Anchor positioning is still not supported in all browsers that Accented supports.
