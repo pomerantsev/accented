@@ -158,7 +158,9 @@ accented-trigger {
 }
 ```
 
-Forget about calculating sizes and offsets, and listening to scroll events.
+Forget about calculating sizes and offsets, and listening to scroll and resize events
+(which amounts to approximately 400 lines of JavaScript code).
+
 Despite `position: fixed` (which we’ll talk about in the next section),
 the trigger button will always be positioned relative to the element with issues,
 and scroll along with it.
@@ -170,18 +172,23 @@ Of course, the DOM placement of the trigger buttons still affects semantics, UX,
 but with anchor positioning, it doesn’t affect the visual appearance.
 
 ## Caveats
-- We need to update the value of `anchor-name` on the element with issues.
-  We try to be careful and not break any existing styles (for example, we do XYZ),
-  but it's hardly possible to be 100% safe.
-- talk about transforms
-- fixed vs absolute positioning
-TODO: research how the behavior of an element with anchor positioning should be different _according to the spec_ if it has `position: fixed` or `position: absolute`.
 
-## Browser support
-- Anchor positioning is still not supported in all browsers that Accented supports.
-  - It's completely unsupported in Firefox.
-  - In Safari, support was added very recently (version 26.0), but the implementation has a bug which prevents all the tests in Accented from passing.
-  - In non-supporting browsers, we fall back to fixed positioning with scroll event listener.
+Anchor positioning comes with its own set of challenges.
+
+- **It’s not supported in all browsers.**
+  Firefox hasn’t implemented anchor positioning yet,
+  and [in the latest Safari (26) the implementation is buggy](https://github.com/Fyrd/caniuse/pull/7387).
+  Because of that, we still need to maintain a fallback that uses fixed positioning and a scroll event listener.
+- **`anchor-name` needs to be set on the element with issues.**
+  It’s yet another DOM change in the host app, which is unfortunately impossible to avoid.
+- **The [anchor positioning spec](https://www.w3.org/TR/css-anchor-position-1) has some rough edges.**
+  For example, CSS transforms are not taken into account when calculating the position of the anchored element,
+  so if the element with issues has a transform applied to it,
+  we need to apply the same transform to the trigger button.
+- **There’s a subtle difference between `position: fixed` and `position: absolute` when using anchor positioning.**
+  When set on the trigger button, `position: fixed` and `position: absolute` work mostly the same,
+  except when the anchor (the element with issues) is itself fixed-positioned.
+  In that case, TODO: I'm too exhausted to come up with the right wording.
 
 ## Bonus: logical properties
 While not directly related to anchor positioning,
