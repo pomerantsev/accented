@@ -97,7 +97,7 @@ Unfortunately, this approach breaks down in some scenarios:
 The only option is to listen to scroll events, but if we do that, we might as well use fixed positioning.
 
 - If the element is in a scrollable region, and the offset parent is outside that region,
-  the trigger button will stay in place when the user scrolls the region.
+  the trigger button will stay in place when the user scrolls.
 
 <video src="/videos/scrollable-region.mov" controls></video>
 
@@ -129,6 +129,40 @@ All in all, of the two options (absolute and fixed positioning), the latter seem
 
 ## How anchor positioning helps
 
+Anchor positioning is a new way to tie a position of one element to the position of another element.
+See [Introducing the CSS anchor positioning API](https://developer.chrome.com/blog/anchor-positioning-api) for a primer.
+
+And it’s a big deal for Accented, because it allows us to get rid of a bunch of JavaScript, and replace it with just a few lines of CSS.
+
+We set the following on the element with issues:
+
+```css
+anchor-name: --accented-anchor-N;
+```
+
+And then on the trigger button, we set:
+
+```css
+position-anchor: --accented-anchor-N;
+```
+
+These are the properties that tie the two elements together.
+
+Then comes the actual positioning, and it looks similar to the following:
+
+```css
+accented-trigger {
+  position: fixed;
+  right: anchor(right);
+  top: anchor(top);
+}
+```
+
+Forget about calculating sizes and offsets, and listening to scroll events.
+Despite `position: fixed` (which we’ll talk about in the next section),
+the trigger button will always be positioned relative to the element with issues,
+and scroll with it.
+
 TODO: research how the behavior of an element with anchor positioning should be different _according to the spec_ if it has `position: fixed` or `position: absolute`.
 
 Now with anchor positioning, we can, as the name suggests, anchor the trigger to the element with issues.
@@ -141,6 +175,8 @@ and the trigger will still be positioned correctly.
 - We need to update the value of `anchor-name` on the element with issues.
   We try to be careful and not break any existing styles (for example, we do XYZ),
   but it's hardly possible to be 100% safe.
+- talk about transforms
+- fixed vs absolute positioning
 
 ## Browser support
 - Anchor positioning is still not supported in all browsers that Accented supports.
