@@ -5,12 +5,12 @@ author: Pavel Pomerantsev
 ---
 import { Image } from 'astro:assets';
 import exampleImg from '~/assets/images/blog-anchor-positioning-example.png';
+import logicalPropertiesImg from '~/assets/images/blog-anchor-positioning-logical-properties.png';
 
 In this post, I'll talk about:
-- the positioning challenges of Accented.
-- how anchor positioning solves those challenges.
-- what's the fallback for non-supporting browsers.
-  - tell more about Safari, how it works, but not really.
+- the element positioning challenges in Accented;
+- how [CSS anchor positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning) solves those challenges;
+- the state of anchor positioning today.
 
 ## The positioning challenge
 
@@ -191,10 +191,58 @@ Anchor positioning comes with its own set of challenges.
   In that case, TODO: I'm too exhausted to come up with the right wording.
 
 ## Bonus: logical properties
-While not directly related to anchor positioning,
-we use logical [CSS logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
-throughout the codebase.
-This has a particular benefit: it's RTL support (TODO: add screenshots).
+
+[Logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
+are a great addition to CSS, but they are unfortunately not used as widely as they should be.
+
+They allow us to write CSS that works for both left-to-right and right-to-left languages.
+Which is what Accented needs — it’s meant to work for all web apps, regardless of the language.
+
+```css
+/* A physical property, which works as intended for English
+   (a margin at the start of the line),
+   but if we get content in Hebrew or Arabic,
+   the margin is suddenly at the end of the line,
+   which is not what we intended. */
+margin-left: 2rem;
+
+/* A logical property, which sets the margin
+   _at the start of the line_, which is on the left
+   for a left-to-right language (English),
+   and on the right for a right-to-left one (Hebrew). */
+margin-inline-start: 2rem;
+```
+
+If we apply this to our earlier positioning code (see [How anchor positioning helps](#how-anchor-positioning-helps)),
+we get the following:
+
+```css
+accented-trigger {
+  position: fixed;
+  inset-inline-end: anchor(end);
+  inset-block-start: anchor(start);
+}
+```
+
+It’s true that this code becomes slightly less intuitive (especially if you’re not used to logical properties),
+but now we don’t need to write anything extra for right-to-left languages —
+the trigger buttons will appear at the top right or the top left, depending on the language direction.
+
+<Image
+  src={logicalPropertiesImg}
+  alt="TODO"
+  layout="constrained"
+/>
 
 ## Closing thoughts.
-Anchor positioning is cool, and it's very helpful in some scenarios, but we still can't use it without providing a fallback.
+
+Positioning in CSS surely is complicated, especially if we know nothing about the content
+(which is true for Accented).
+
+Anchor positioning makes styling so much easier in Accented, especially when paired with CSS logical properties.
+
+The spec is still evolving, and we can’t use anchor positioning without fallbacks if we want Accented to work in all major browsers,
+but it already works for the majority of users, and in a year or two,
+we will hopefully be able to drop the fallback code altogether.
+
+And deleting 400 lines of code is surely something to look forward to.
