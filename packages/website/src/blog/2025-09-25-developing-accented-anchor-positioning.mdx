@@ -219,7 +219,11 @@ we get the following:
 ```css
 accented-trigger {
   position: fixed;
+
+  /* Used to be: right: anchor(right); */
   inset-inline-end: anchor(end);
+
+  /* Used to be: top: anchor(top); */
   inset-block-start: anchor(start);
 }
 ```
