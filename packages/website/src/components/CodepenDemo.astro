@@ -1,0 +1,21 @@
+---
+const { defaultTab, title } = Astro.props;
+
+const prefill = { title };
+---
+<div
+  class="codepen"
+  data-prefill={JSON.stringify(prefill)}
+  data-height="400"
+  data-editable="true"
+  data-default-tab={defaultTab}
+>
+  <slot />
+  <pre data-lang="js">
+import('https://esm.sh/accented')
+  .then((&#123; accented &#125;) =&gt; &#123;
+    accented();
+  &#125;);
+  </pre>
+</div>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>

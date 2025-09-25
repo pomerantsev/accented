@@ -4,8 +4,9 @@ description: TODO
 author: Pavel Pomerantsev
 ---
 import { Image } from 'astro:assets';
-import exampleImg from '~/assets/images/blog-anchor-positioning-example.png';
-import logicalPropertiesImg from '~/assets/images/blog-anchor-positioning-logical-properties.png';
+
+import BasicDemo from '~/components/demos/BasicDemo.astro';
+import MultilingualDemo from '~/components/demos/MultilingualDemo.astro';
 
 In this post, I'll talk about:
 - the element positioning challenges in Accented;
@@ -17,11 +18,7 @@ In this post, I'll talk about:
 For every element with accessibility issues, Accented inserts a button into the DOM,
 which the user can click to open a dialog with issue details.
 
-<Image
-  src={exampleImg}
-  alt="TODO"
-  layout="constrained"
-/>
+<BasicDemo />
 
 The question is, how do we position that trigger button?
 
@@ -228,15 +225,11 @@ accented-trigger {
 }
 ```
 
-It’s true that this code becomes slightly less intuitive (especially if you’re not used to logical properties),
+It’s true that this code becomes slightly less intuitive (especially if you’re only getting used to logical properties),
 but now we don’t need to write anything extra for right-to-left languages —
 the trigger buttons will appear at the top right or the top left, depending on the language direction.
 
-<Image
-  src={logicalPropertiesImg}
-  alt="TODO"
-  layout="constrained"
-/>
+<MultilingualDemo />
 
 ## Closing thoughts.
 
