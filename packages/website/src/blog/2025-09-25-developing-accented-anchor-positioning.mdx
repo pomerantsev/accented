@@ -3,10 +3,12 @@ title: "Developing Accented: anchor positioning"
 description: TODO
 author: Pavel Pomerantsev
 ---
-import { Image } from 'astro:assets';
-
 import BasicDemo from '~/components/demos/BasicDemo.astro';
 import MultilingualDemo from '~/components/demos/MultilingualDemo.astro';
+
+import stickyVideo from '~/assets/videos/sticky.mov';
+import scrollableRegionVideo from '~/assets/videos/scrollable-region.mov';
+import anchoredVideo from '~/assets/videos/anchored.mov';
 
 In this post, I'll talk about:
 - the element positioning challenges in Accented;
@@ -89,14 +91,14 @@ Unfortunately, this approach breaks down in some scenarios:
 
 [//]: # (TODO: Dealing with videos in such a way is likely non-ideal. Consider this: https://docs.astro.build/en/guides/media/#can-i-use-astro-without-a-hosted-media-system)
 
-<video src="/videos/sticky.mov" controls></video>
+<video src={stickyVideo} width="386" height="304" controls></video>
 
 The only option is to listen to scroll events, but if we do that, we might as well use fixed positioning.
 
 - If the element is in a scrollable region, and the offset parent is outside that region,
   the trigger button will stay in place when the user scrolls.
 
-<video src="/videos/scrollable-region.mov" controls></video>
+<video src={scrollableRegionVideo} width="386" height="304" controls></video>
 
 This could be mitigated, for example, by setting `position: relative` on the scrollable container,
 but generally we’d like to avoid modifying the styles of the page as much as possible.
@@ -110,10 +112,9 @@ When we use fixed positioning for trigger buttons, they are _usually_ positioned
 The main implication is we have to listen to scroll events (emitted by any of the scroll containers)
 and update the position of the trigger button accordingly.
 
-This adds some scroll jank, but it’s likely not that big of a deal for a development tool.
+This may add a bit of scroll jank, but it’s likely not that big of a deal for a development tool.
 
-<video src="/videos/scroll-jank.mov" controls></video>
-
+TODO: this likely needs to be rephrased, the flow of thoughts is a bit broken.
 Importantly, we listen to scroll events, which solves the challenges that we listed for absolute positioning.
 
 The calculations get easier with fixed positioning though: a simple `getBoundingClientRect()` gives us the necessary offsets and sizes.
@@ -162,7 +163,7 @@ Despite `position: fixed` (which we’ll talk about in the next section),
 the trigger button will always be positioned relative to the element with issues,
 and scroll along with it.
 
-[TODO: add a video showing how it works.]
+<video src={anchoredVideo} width="386" height="304" controls></video>
 
 Another good thing about anchor positioning is that it works with any [DOM structure](#dom-structure).
 Of course, the DOM placement of the trigger buttons still affects semantics, UX, and accessibility,
@@ -230,6 +231,9 @@ but now we don’t need to write anything extra for right-to-left languages —
 the trigger buttons will appear at the top right or the top left, depending on the language direction.
 
 <MultilingualDemo />
+
+Note that Accented itself is not internationalized at this time — it only has an English UI.
+But using CSS logical properties and values is a step towards making it look
 
 ## Closing thoughts.
 

@@ -72,6 +72,11 @@
     font: inherit;
   }
 
+  video {
+    display: block;
+    max-inline-size: 100%;
+  }
+
   /* Colors, outlines, underlines */
   html {
     color-scheme: light dark;
@@ -272,7 +277,7 @@
     --thumb-size: var(--size-step-4);
   }
 
-  main :is(img, image-compare) {
+  main :is(img, image-compare, video) {
     /* A subtle box shadow to ensure that images don't blend with the background. */
     box-shadow: 0 0.1rem 0.5rem oklch(from var(--color-text) l c h / 0.1);
 
