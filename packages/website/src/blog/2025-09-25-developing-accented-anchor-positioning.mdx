@@ -6,9 +6,12 @@ author: Pavel Pomerantsev
 import BasicDemo from '~/components/demos/BasicDemo.astro';
 import MultilingualDemo from '~/components/demos/MultilingualDemo.astro';
 
-import stickyVideo from '~/assets/videos/sticky.mov';
-import scrollableRegionVideo from '~/assets/videos/scrollable-region.mov';
-import anchoredVideo from '~/assets/videos/anchored.mov';
+import stickyVideo from '~/assets/videos/sticky.webm';
+import stickyVideoPoster from '~/assets/videos/sticky.webp';
+import scrollableRegionVideo from '~/assets/videos/scrollable-region.webm';
+import scrollableRegionVideoPoster from '~/assets/videos/scrollable-region.webp';
+import anchoredVideo from '~/assets/videos/anchored.webm';
+import anchoredVideoPoster from '~/assets/videos/anchored.webp';
 
 In this post, I'll talk about:
 - the element positioning challenges in Accented;
@@ -89,16 +92,18 @@ Unfortunately, this approach breaks down in some scenarios:
 - It doesn’t work if the element with issues has `position: sticky`.
   There’s no way to determine when the element gets “stuck” and update the position of the trigger button accordingly.
 
-[//]: # (TODO: Dealing with videos in such a way is likely non-ideal. Consider this: https://docs.astro.build/en/guides/media/#can-i-use-astro-without-a-hosted-media-system)
-
-<video src={stickyVideo} width="386" height="304" controls></video>
+<video src={stickyVideo} poster={stickyVideoPoster.src} width="386" height="304" controls>
+  <a href={stickyVideo}>View video: sticky positioning issue</a>
+</video>
 
 The only option is to listen to scroll events, but if we do that, we might as well use fixed positioning.
 
 - If the element is in a scrollable region, and the offset parent is outside that region,
   the trigger button will stay in place when the user scrolls.
 
-<video src={scrollableRegionVideo} width="386" height="304" controls></video>
+<video src={scrollableRegionVideo} poster={scrollableRegionVideoPoster.src} width="386" height="304" controls>
+  <a href={scrollableRegionVideo}>View video: offset parent issue</a>
+</video>
 
 This could be mitigated, for example, by setting `position: relative` on the scrollable container,
 but generally we’d like to avoid modifying the styles of the page as much as possible.
@@ -163,7 +168,9 @@ Despite `position: fixed` (which we’ll talk about in the next section),
 the trigger button will always be positioned relative to the element with issues,
 and scroll along with it.
 
-<video src={anchoredVideo} width="386" height="304" controls></video>
+<video src={anchoredVideo} poster={anchoredVideoPoster.src} width="386" height="304" controls>
+  <a href={anchoredVideo}>View video: anchor positioning</a>
+</video>
 
 Another good thing about anchor positioning is that it works with any [DOM structure](#dom-structure).
 Of course, the DOM placement of the trigger buttons still affects semantics, UX, and accessibility,
