@@ -95,6 +95,14 @@ Unfortunately, this approach breaks down in some scenarios:
 <video src={stickyVideo} poster={stickyVideoPoster.src} width="386" height="304" controls>
   <a href={stickyVideo}>View video: sticky positioning issue</a>
 </video>
+<div className="video-description">
+  A scrollable block contains several paragraphs,
+  one of which says “I am sticky.”
+  This paragraph has an Accented trigger button next to it.
+  As the user scrolls up, the paragraph remains at the top of the viewport.
+  However, Accented's trigger button, which should stay near the sticky element,
+  fails to stay next to it and instead becomes disconnected from its target and scrolls out of view.
+</div>
 
 The only option is to listen to scroll events, but if we do that, we might as well use fixed positioning.
 
@@ -104,6 +112,13 @@ The only option is to listen to scroll events, but if we do that, we might as we
 <video src={scrollableRegionVideo} poster={scrollableRegionVideoPoster.src} width="386" height="304" controls>
   <a href={scrollableRegionVideo}>View video: offset parent issue</a>
 </video>
+<div className="video-description">
+  A scrollable block contains several paragraphs,
+  and among those paragraphs is a single button.
+  The button has an Accented trigger button in its top right corner.
+  As the user scrolls the content up, the trigger button doesn’t move with the content, but stays in place.
+  This means the Accented trigger button fails to stay connected to the button that it’s associated with.
+</div>
 
 This could be mitigated, for example, by setting `position: relative` on the scrollable container,
 but generally we’d like to avoid modifying the styles of the page as much as possible.
@@ -171,6 +186,13 @@ and scroll along with it.
 <video src={anchoredVideo} poster={anchoredVideoPoster.src} width="386" height="304" controls>
   <a href={anchoredVideo}>View video: anchor positioning</a>
 </video>
+<div className="video-description">
+  A scrollable block contains several paragraphs,
+  one of which says “I am sticky.”
+  This paragraph has an Accented trigger button next to it.
+  As the user scrolls up, the paragraph remains at the top of the viewport.
+  The Accented trigger button stays next to the paragraph when it gets “stuck”, demonstrating expected behavior.
+</div>
 
 Another good thing about anchor positioning is that it works with any [DOM structure](#dom-structure).
 Of course, the DOM placement of the trigger buttons still affects semantics, UX, and accessibility,

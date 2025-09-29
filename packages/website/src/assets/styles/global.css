@@ -12,6 +12,7 @@
     --color-dark: var(--colorDark);
 
     --color-text: light-dark(var(--color-dark), var(--color-light));
+    --color-text-dim: oklch(from var(--color-text) l c h / 0.85);
     --color-background: light-dark(var(--color-light), var(--color-dark));
 
     --color-toc-dark: oklch(0.45 0.25 230);
@@ -374,5 +375,21 @@
 
   .extra-space {
     margin-block: var(--space-l);
+  }
+
+  .video-description {
+    border: 1px solid oklch(from var(--color-text) l c h / 0.2);
+    margin-block-start: var(--space-2xs);
+    padding: var(--space-s);
+    font-size: var(--size-step--1);
+    line-height: 1.5;
+    color: var(--color-text-dim);
+  }
+
+  .video-description::before {
+    content: "Video description:";
+    display: block;
+    font-weight: 600;
+    color: var(--color-text);
   }
 }
