@@ -17,8 +17,8 @@ In this post, I'll talk about:
 - the element positioning challenges in Accented;
 - how [CSS anchor positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning) solves those challenges;
 - the state of anchor positioning today;
-- as a bonus, I'll touch a bit on [CSS logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
-  and how they help with positioning as well.
+- as a bonus, I’ll touch on [CSS logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
+  and how they help with positioning.
 
 ## The positioning challenge
 
@@ -31,7 +31,7 @@ The question is, how do we position that trigger button?
 
 Accented can’t make any assumptions about the element with issues:
 
-- The element can be large or small, be vertically or horizontally aligned.
+- The element can be large or small, vertically or horizontally aligned.
 - It can be anywhere in the DOM hierarchy.
 - It can be any type of element: `<p>`, `<button>`, `<input>`, `<dialog>`, `<svg>`, you name it.
 - It can have a position of `static`, `relative`, `absolute`, `fixed`, or `sticky`.
@@ -50,22 +50,22 @@ The first part of the challenge is where to put the button in the DOM.
 
 The main issue with option 1 (inside the element) is that some elements can’t have children at all, for example, `<img>` or `<input>`.
 Also, adding the button would invalidate some types of issues —
-for example, the “empty button” issue would no longer be an issue if we inserted an Accented’s trigger button into it.
+for example, the “empty button” issue would no longer be an issue if we inserted Accented’s trigger button into it.
 
 I ruled out option 3 (a dedicated container) primarily because of the focus order problem:
 the trigger buttons would all come before or after the rest of the content in focus order,
 and that seemed to be a non-ideal UX.
-And there’s [a problem with modal dialogs](https://github.com/whatwg/html/issues/9936) too:
-with such a setup, trigger buttons on elements inside a modal dialog (I mean actual [`<dialog>` elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog)) simply wouldn’t work.
+There’s also [a problem with modal dialogs](https://github.com/whatwg/html/issues/9936):
+with such a setup, trigger buttons on elements inside modal dialogs (actual [`<dialog>` elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog)) simply wouldn’t work.
 
-This leaves us with option 2: each trigger button sits next to the element that it’s associated with.
+This leaves us with option 2: each trigger button sits next to its associated element.
 
 Now we’re getting to the actual positioning part.
-How do we ensure that the trigger button is always at the top right (for left-to-right languages) of the element it is associated with?
+How do we ensure that the trigger button is always at the top right (for left-to-right languages) of its associated element?
 
 ## Absolute and fixed positioning
 
-Before anchor positioning was available, we had two options for the trigger button: absolute and fixed positioning.
+Before anchor positioning was available, we had two options: absolute and fixed positioning.
 
 ### Absolute
 
@@ -130,17 +130,17 @@ When we use fixed positioning for trigger buttons, they are _usually_ positioned
 The main implication is we have to listen to scroll events (emitted by any of the scroll containers)
 and update the position of the trigger button accordingly.
 
-This may add a bit of scroll jank, but it’s likely not that big of a deal for a development tool.
+This may add scroll jank, but it’s likely not a big deal for a development tool.
 
 Importantly, this solves the challenges that we mentioned for absolute positioning.
 
-The calculations become easier with fixed positioning: a simple `getBoundingClientRect()` gives us the necessary offsets and sizes.
+Fixed positioning simplifies the calculations: a `getBoundingClientRect()` gives us the necessary offsets and sizes.
 
 Unfortunately, in some cases, elements with fixed positioning are _not_ positioned relative to the viewport
 (see [Identifying the containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block)),
 but that can be mitigated with [a few lines of code](https://github.com/pomerantsev/accented/blob/75cd006aa69bb45b91f4c71acdb6fa3485061ba4/packages/accented/src/utils/get-element-position.ts).
 
-All in all, both options (absolute and fixed positioning) could work, but the latter seems to be a bit easier to work with.
+Both approaches (absolute and fixed positioning) could work, but the latter seems to be a bit easier to work with.
 
 However, both approaches require quite a bit of JavaScript to listen to `scroll`, `resize`, and `fullscreenchange` events, and handle edge cases.
 This is where CSS anchor positioning shines.
@@ -154,13 +154,13 @@ It's a big deal for Accented because it eliminates most of the JavaScript comple
 Instead of manually calculating positions and listening to events,
 we can define the relationship between elements purely in CSS.
 
-We set the following on the element with issues:
+We set an anchor name on the element with issues:
 
 ```css
 anchor-name: --accented-anchor-N;
 ```
 
-And then on the trigger button, we set:
+Then on the trigger button, we set:
 
 ```css
 position-anchor: --accented-anchor-N;
@@ -178,7 +178,7 @@ accented-trigger {
 }
 ```
 
-Forget about calculating sizes and offsets, and listening to scroll and resize events
+No more calculating sizes and offsets, or listening to scroll and resize events
 (which amounts to approximately 400 lines of JavaScript code).
 
 Despite `position: fixed`,
@@ -208,13 +208,13 @@ Anchor positioning comes with its own set of challenges.
 
 **It’s not supported in all browsers yet (as of September 2025).**
 Firefox hasn't implemented anchor positioning yet,
-and [in the latest Safari (version 26.0) the implementation is buggy](https://github.com/Fyrd/caniuse/pull/7387).
+and [the latest Safari (version 26.0) has a buggy implementation](https://github.com/Fyrd/caniuse/pull/7387).
 Because of that, we still need to maintain a fallback that uses fixed positioning and a scroll event listener.
 
 ### Implementation challenges
 
 **`anchor-name` needs to be set on the element with issues.**
-It’s yet another DOM change in the host app, which is unfortunately impossible to avoid.
+This is another DOM change in the host app, which is unfortunately unavoidable.
 
 ### Spec limitations
 
@@ -226,16 +226,16 @@ we need to apply the same transform to the trigger button.
 **There’s also a subtle difference between `position: fixed` and `position: absolute` when using anchor positioning.**
 When set on the trigger button, the two values work mostly the same,
 except when the anchor (the element with issues) is itself fixed-positioned.
-In that case, absolute positioning doesn’t work as I would expect it to,
-and the relevant specs don’t clarify this difference in behavior.
+In that case, absolute positioning doesn’t work as expected,
+and the relevant specs don’t clarify this behavioral difference.
 
 ## Bonus: logical properties
 
 [Logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
-are a great addition to CSS, but they are unfortunately not used as widely as they should be.
+are a great addition to CSS, but they’re unfortunately not used as widely as they should be.
 
 They allow us to write CSS that works for both left-to-right and right-to-left languages.
-Which is what Accented needs — it’s meant to work for all web apps, regardless of the language.
+This is exactly what Accented needs — it’s meant to work for all web apps, regardless of language.
 
 ```css
 /* `margin-left` is a physical property.
@@ -274,14 +274,13 @@ the trigger buttons will appear at the top right or the top left, depending on t
 
 <MultilingualDemo />
 
-Note that Accented itself is not internationalized at this time — it only has an English UI.
+Note that Accented itself is not internationalized at this time — it only has an English UI.
 But using CSS logical properties and values is a step towards making it look more native
 in web pages regardless of their language, without writing extra code to support different writing directions.
 
 ## Closing thoughts.
 
-Positioning in CSS surely is complicated, especially if positions of the elements
-are determined by a page that can look like absolutely anything at all
+CSS positioning is complicated, especially when element positions are determined by a page that can look like absolutely anything
 (which is true for Accented).
 
 Anchor positioning makes styling so much easier for Accented, especially when paired with CSS logical properties.
