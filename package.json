@@ -24,9 +24,9 @@
     "@biomejs/biome": "2.2.4",
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.7",
-    "@types/node": "^24.4.0",
+    "@types/node": "^24.5.2",
     "rimraf": "^6.0.1",
-    "tsx": "^4.20.5",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.2"
   }
 }
