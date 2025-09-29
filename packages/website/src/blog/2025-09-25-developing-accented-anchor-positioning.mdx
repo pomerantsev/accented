@@ -1,6 +1,6 @@
 ---
 title: "Developing Accented: anchor positioning"
-description: TODO
+description: The new CSS anchor positioning features help Accented align its UI elements more easily than it was possible with absolute or fixed positioning.
 author: Pavel Pomerantsev
 ---
 import BasicDemo from '~/components/demos/BasicDemo.astro';
@@ -45,8 +45,6 @@ The first part of the challenge is where to put the button in the DOM.
 - Should it live inside the element with issues?
 - Should it be a sibling of the element with issues?
 - Should all the trigger buttons live inside a dedicated container?
-
-TODO: consider showing code examples for each option.
 
 The main issue with option 1 (inside the element) is that some elements can’t have children at all, for example, `<img>` or `<input>`.
 Also, adding the button would invalidate some types of issues —
@@ -134,10 +132,9 @@ and update the position of the trigger button accordingly.
 
 This may add a bit of scroll jank, but it’s likely not that big of a deal for a development tool.
 
-TODO: this likely needs to be rephrased, the flow of thoughts is a bit broken.
-Importantly, we listen to scroll events, which solves the challenges that we listed for absolute positioning.
+Importantly, this solves the challenges that we mentioned for absolute positioning.
 
-The calculations get easier with fixed positioning though: a simple `getBoundingClientRect()` gives us the necessary offsets and sizes.
+The calculations become easier with fixed positioning: a simple `getBoundingClientRect()` gives us the necessary offsets and sizes.
 
 Unfortunately, in some cases, elements with fixed positioning are _not_ positioned relative to the viewport
 (see [Identifying the containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block)),
@@ -215,7 +212,8 @@ Anchor positioning comes with its own set of challenges.
 - **There’s a subtle difference between `position: fixed` and `position: absolute` when using anchor positioning.**
   When set on the trigger button, `position: fixed` and `position: absolute` work mostly the same,
   except when the anchor (the element with issues) is itself fixed-positioned.
-  In that case, TODO: I'm too exhausted to come up with the right wording.
+  In that case, absolute positioning doesn’t work as I would expect it to,
+  and the relevant specs don’t clarify this difference in behavior.
 
 ## Bonus: logical properties
 
