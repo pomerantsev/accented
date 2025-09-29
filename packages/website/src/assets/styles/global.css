@@ -100,6 +100,8 @@
   /* Spacing */
   html {
     scroll-padding-block: var(--space-l);
+
+    overflow-wrap: break-word;
   }
 
   /* Flow and rhythm */
