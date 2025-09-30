@@ -257,3 +257,9 @@ The CI server publishes a new snapshot release on every push to such a branch.
 
 The version can then be installed by a consumer either by its version number (`accented@0.0.0-<timestamp>`)
 or by the `snapshot` tag (`accented@snapshot`).
+
+## Adding content to blog posts
+
+### Videos
+
+Run `./packages/website/scripts/convertVideos.mjs` to create optimized `webm` videos out of `mov` files and extract `webp` posters from them.

@@ -1,0 +1,292 @@
+---
+title: "Developing Accented: anchor positioning"
+description: The new CSS anchor positioning feature help Accented align its UI elements more easily than it was possible with absolute or fixed positioning.
+author: Pavel Pomerantsev
+---
+import BasicDemo from '~/components/demos/BasicDemo.astro';
+import MultilingualDemo from '~/components/demos/MultilingualDemo.astro';
+
+import stickyVideo from '~/assets/videos/sticky.webm';
+import stickyVideoPoster from '~/assets/videos/sticky.webp';
+import scrollableRegionVideo from '~/assets/videos/scrollable-region.webm';
+import scrollableRegionVideoPoster from '~/assets/videos/scrollable-region.webp';
+import anchoredVideo from '~/assets/videos/anchored.webm';
+import anchoredVideoPoster from '~/assets/videos/anchored.webp';
+
+In this post, I'll talk about:
+- the element positioning challenges in Accented;
+- how [CSS anchor positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning) solves those challenges;
+- the state of anchor positioning today;
+- as a bonus, I’ll touch on [CSS logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
+  and how they help with positioning.
+
+## The positioning challenge
+
+For every element with accessibility issues, Accented inserts a button into the DOM,
+which the user can click to open a dialog with issue details.
+
+<BasicDemo />
+
+The question is, how do we position that trigger button?
+
+Accented can’t make any assumptions about the element with issues:
+
+- The element can be large or small, vertically or horizontally aligned.
+- It can be anywhere in the DOM hierarchy.
+- It can be any type of element: `<p>`, `<button>`, `<input>`, `<dialog>`, `<svg>`, you name it.
+- It can have a position of `static`, `relative`, `absolute`, `fixed`, or `sticky`.
+- It can happen to be inside a scrollable container.
+
+In all of those scenarios,
+the user should be able to find the trigger button easily and interact with it.
+
+## DOM structure
+
+The first part of the challenge is where to put the button in the DOM.
+
+- Should it live inside the element with issues (be its descendant)?
+- Should it be a sibling of the element with issues?
+- Should all the trigger buttons live inside a dedicated container somewhere towards the beginning or end of the page?
+
+The main issue with option 1 (inside the element) is that some elements can’t have children at all, for example, `<img>` or `<input>`.
+Also, adding the button would invalidate some types of issues —
+for example, the “empty button” issue would no longer be an issue if we inserted Accented’s trigger button into it.
+
+I ruled out option 3 (a dedicated container) primarily because of the focus order problem:
+the trigger buttons would all come before or after the rest of the content in focus order,
+and that seemed to be a non-ideal UX.
+There’s also [a problem with modal dialogs](https://github.com/whatwg/html/issues/9936):
+with such a setup, trigger buttons on elements inside modal dialogs (actual [`<dialog>` elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog)) simply wouldn’t work.
+
+This leaves us with option 2: each trigger button sits next to its associated element.
+
+Now we’re getting to the actual positioning part.
+How do we ensure that the trigger button is always at the top right (for left-to-right languages) of its associated element?
+
+## Absolute and fixed positioning
+
+Before anchor positioning was available, we had two options: absolute and fixed positioning.
+
+### Absolute
+
+We can calculate the position of the element with issues relative to its [offset parent](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent),
+and use that to position the trigger button absolutely.
+
+Something like this:
+
+```js
+triggerButton.style.position = 'absolute';
+
+const left = elementWithIssues.offsetLeft;
+triggerButton.style.left = `${left}px`;
+
+/* Do the same for the other dimension,
+   and adjust for size differences.
+*/
+```
+
+Unfortunately, this approach breaks down in some scenarios:
+
+- It doesn’t work if the element with issues has `position: sticky`.
+  There’s no way to determine when the element gets “stuck” and update the position of the trigger button accordingly.
+
+<video src={stickyVideo} poster={stickyVideoPoster.src} width="386" height="304" controls>
+  <a href={stickyVideo}>View video: sticky positioning issue</a>
+</video>
+<div className="video-description">
+  A scrollable block contains several paragraphs,
+  one of which says “I am sticky.”
+  This paragraph has an Accented trigger button next to it.
+  As the user scrolls up, the paragraph remains at the top of the viewport.
+  However, Accented's trigger button, which should stay near the sticky element,
+  fails to stay next to it and instead becomes disconnected from its target and scrolls out of view.
+</div>
+
+The only option is to listen to scroll events, but if we do that, we might as well use fixed positioning.
+
+- If the element is in a scrollable region, and the offset parent is outside that region,
+  the trigger button will stay in place when the user scrolls.
+
+<video src={scrollableRegionVideo} poster={scrollableRegionVideoPoster.src} width="386" height="304" controls>
+  <a href={scrollableRegionVideo}>View video: offset parent issue</a>
+</video>
+<div className="video-description">
+  A scrollable block contains several paragraphs,
+  and among those paragraphs is a single button.
+  The button has an Accented trigger button in its top right corner.
+  As the user scrolls the content up, the trigger button doesn’t move with the content, but stays in place.
+  This means the Accented trigger button fails to stay connected to the button that it’s associated with.
+</div>
+
+This could be mitigated, for example, by setting `position: relative` on the scrollable container,
+but generally we’d like to avoid modifying the styles of the page as much as possible.
+
+Which leaves us with fixed positioning.
+
+### Fixed
+
+When we use fixed positioning for trigger buttons, they are _usually_ positioned relative to the viewport.
+
+The main implication is we have to listen to scroll events (emitted by any of the scroll containers)
+and update the position of the trigger button accordingly.
+
+This may add scroll jank, but it’s likely not a big deal for a development tool.
+
+Importantly, this solves the challenges that we mentioned for absolute positioning.
+
+Fixed positioning simplifies the calculations: a `getBoundingClientRect()` gives us the necessary offsets and sizes.
+
+Unfortunately, in some cases, elements with fixed positioning are _not_ positioned relative to the viewport
+(see [Identifying the containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block)),
+but that can be mitigated with [a few lines of code](https://github.com/pomerantsev/accented/blob/75cd006aa69bb45b91f4c71acdb6fa3485061ba4/packages/accented/src/utils/get-element-position.ts).
+
+Both approaches (absolute and fixed positioning) could work, but the latter seems to be a bit easier to work with.
+
+However, both approaches require quite a bit of JavaScript to listen to `scroll`, `resize`, and `fullscreenchange` events, and handle edge cases.
+This is where CSS anchor positioning shines.
+
+## How anchor positioning helps
+
+Anchor positioning is a new way to tie a position of one element to the position of another element.
+See [Introducing the CSS anchor positioning API](https://developer.chrome.com/blog/anchor-positioning-api) for a primer.
+
+It's a big deal for Accented because it eliminates most of the JavaScript complexity.
+Instead of manually calculating positions and listening to events,
+we can define the relationship between elements purely in CSS.
+
+We set an anchor name on the element with issues:
+
+```css
+anchor-name: --accented-anchor-N;
+```
+
+Then on the trigger button, we set:
+
+```css
+position-anchor: --accented-anchor-N;
+```
+
+These are the properties that tie the two elements together.
+
+Then comes the actual positioning, and it looks similar to the following:
+
+```css
+accented-trigger {
+  position: fixed;
+  right: anchor(right);
+  top: anchor(top);
+}
+```
+
+No more calculating sizes and offsets, or listening to scroll and resize events
+(which amounts to approximately 400 lines of JavaScript code).
+
+Despite `position: fixed`,
+the trigger button will always be positioned relative to the element with issues,
+and scroll along with it.
+
+<video src={anchoredVideo} poster={anchoredVideoPoster.src} width="386" height="304" controls>
+  <a href={anchoredVideo}>View video: anchor positioning</a>
+</video>
+<div className="video-description">
+  A scrollable block contains several paragraphs,
+  one of which says “I am sticky.”
+  This paragraph has an Accented trigger button next to it.
+  As the user scrolls up, the paragraph remains at the top of the viewport.
+  The Accented trigger button stays next to the paragraph when it gets “stuck”, demonstrating expected behavior.
+</div>
+
+Another good thing about anchor positioning is that it works with any [DOM structure](#dom-structure).
+Of course, the DOM placement of the trigger buttons still affects semantics, UX, and accessibility,
+but with anchor positioning, it no longer affects the visual appearance.
+
+## Caveats
+
+Anchor positioning comes with its own set of challenges.
+
+### Browser support
+
+**It’s not supported in all browsers yet (as of September 2025).**
+Firefox hasn't implemented anchor positioning yet,
+and [the latest Safari (version 26.0) has a buggy implementation](https://github.com/Fyrd/caniuse/pull/7387).
+Because of that, we still need to maintain a fallback that uses fixed positioning and a scroll event listener.
+
+### Implementation challenges
+
+**`anchor-name` needs to be set on the element with issues.**
+This is another DOM change in the host app, which is unfortunately unavoidable.
+
+### Spec limitations
+
+**The [anchor positioning spec](https://www.w3.org/TR/css-anchor-position-1) has some rough edges.**
+For example, CSS transforms are not taken into account when calculating the position of the anchored element,
+so if the element with issues has a transform applied to it,
+we need to apply the same transform to the trigger button.
+
+**There’s also a subtle difference between `position: fixed` and `position: absolute` when using anchor positioning.**
+When set on the trigger button, the two values work mostly the same,
+except when the anchor (the element with issues) is itself fixed-positioned.
+In that case, absolute positioning doesn’t work as expected,
+and the relevant specs don’t clarify this behavioral difference.
+
+## Bonus: logical properties
+
+[Logical properties and values](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values)
+are a great addition to CSS, but they’re unfortunately not used as widely as they should be.
+
+They allow us to write CSS that works for both left-to-right and right-to-left languages.
+This is exactly what Accented needs — it’s meant to work for all web apps, regardless of language.
+
+```css
+/* `margin-left` is a physical property.
+   It works as intended for English
+   (a margin at the start of the line),
+   but if we get content in Hebrew or Arabic,
+   the margin is suddenly at the end of the line,
+   which is likely not what we want. */
+margin-left: 2rem;
+
+/* `margin-inline-start` is a logical property.
+   It sets the margin _at the start of the line_,
+   which is on the left for a left-to-right language (English),
+   and on the right for a right-to-left one (Hebrew). */
+margin-inline-start: 2rem;
+```
+
+If we apply this to our earlier positioning code (see [How anchor positioning helps](#how-anchor-positioning-helps)),
+we get the following:
+
+```css
+accented-trigger {
+  position: fixed;
+
+  /* Was: `right: anchor(right);` */
+  inset-inline-end: anchor(end);
+
+  /* Was: `top: anchor(top);` */
+  inset-block-start: anchor(start);
+}
+```
+
+This code is slightly less intuitive (especially when you’re getting used to logical properties),
+but now we don’t need to write anything extra for right-to-left languages —
+the trigger buttons will appear at the top right or the top left, depending on the language direction.
+
+<MultilingualDemo />
+
+Note that Accented itself is not internationalized at this time — it only has an English UI.
+But using CSS logical properties and values is a step towards making it look more native
+in web pages regardless of their language, without writing extra code to support different writing directions.
+
+## Closing thoughts
+
+CSS positioning is complicated, especially when element positions are determined by a page that can look like absolutely anything
+(which is true for Accented).
+
+Anchor positioning makes styling so much easier for Accented, especially when paired with CSS logical properties.
+
+The spec is still evolving, and we can’t use anchor positioning without fallbacks if we want Accented to work in all major browsers,
+but it already works for the majority of users, and in a year or two,
+we will hopefully be able to drop the fallback code altogether.
+
+And deleting 400 lines of code is surely something to look forward to.
