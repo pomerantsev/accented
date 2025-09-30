@@ -10,9 +10,9 @@
     "test-buildless": "playwright test test/buildless.spec.ts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.55.1",
     "axe-core": "^4.10.3",
-    "vite": "^7.1.5"
+    "vite": "^7.1.7"
   },
   "dependencies": {
     "accented": "workspace:*"
