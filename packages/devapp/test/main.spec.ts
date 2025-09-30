@@ -320,6 +320,7 @@ test.describe('Accented', () => {
 
     test('trigger is interactable if the element with issues has a z-index', async ({ page }) => {
       const buttonWithIssue = await page.locator('#z-index-button');
+      await buttonWithIssue.scrollIntoViewIfNeeded();
       const triggerContainer = await getTriggerContainer(page, buttonWithIssue);
       const trigger = await getTrigger(triggerContainer);
       await trigger.click();
