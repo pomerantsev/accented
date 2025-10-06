@@ -88,6 +88,8 @@ const commonLycheeArgs = [
   '/sitemap-index.xml$',
   '--exclude',
   '^https://www.npmjs.com/', // npmjs.com enabled Cloudflare security, which blocks curl requests
+  '--exclude',
+  '^https://stackoverflow.com/', // stackoverflow did something similar
   '--verbose',
   '--cache',
   '--max-retries',
