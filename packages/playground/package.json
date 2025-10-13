@@ -18,8 +18,8 @@
   "devDependencies": {
     "@playwright/test": "^1.55.1",
     "@tailwindcss/postcss": "^4.1.14",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.4",
     "accented": "^1.1.2",
     "autoprefixer": "^10.4.21",
