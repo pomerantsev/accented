@@ -39,7 +39,7 @@
   "homepage": "https://accented.dev",
   "dependencies": {
     "@preact/signals-core": "^1.12.1",
-    "axe-core": "^4.10.3"
+    "axe-core": "^4.11.0"
   },
   "devDependencies": {
     "@types/jsdom": "^27.0.0",

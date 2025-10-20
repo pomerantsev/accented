@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.55.1",
-    "axe-core": "^4.10.3",
+    "axe-core": "^4.11.0",
     "vite": "^7.1.11"
   },
   "dependencies": {
