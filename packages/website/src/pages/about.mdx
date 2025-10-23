@@ -71,8 +71,8 @@ In practice, here’s how we decide whether a release should be major, minor, or
 - A bug fix.
 - A performance improvement.
 - A non-breaking UI improvement.
-- A runtime or build-time dependency update
-  (for example, upgrading TypeScript, which may affect build output).
+- A runtime dependency update that isn’t supposed to change behavior.
+- A build-time dependency update that may affect the build output (for example, a TypeScript version upgrade).
 - A README fix that’s visible on the NPM package page.
 
 **No version change:**
