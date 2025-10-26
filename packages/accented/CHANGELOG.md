@@ -4,11 +4,11 @@
 
 ### Minor Changes
 
-- [#347](https://github.com/pomerantsev/accented/pull/347) [`340880f`](https://github.com/pomerantsev/accented/commit/340880f34dff77f812fc954ab46cf462b9676c1d) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axe-core from 4.10.3 to 4.11.0
+- Bump axe-core from 4.10.3 to 4.11.0 ([#347](https://github.com/pomerantsev/accented/pull/347))
 
 ### Patch Changes
 
-- [#331](https://github.com/pomerantsev/accented/pull/331) [`44dae18`](https://github.com/pomerantsev/accented/commit/44dae18be432f4b4556e6716a4a4dec450c8e629) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump typescript from 5.9.2 to 5.9.3 (no functional changes)
+- Bump typescript from 5.9.2 to 5.9.3 (no functional changes) ([#331](https://github.com/pomerantsev/accented/pull/331))
 
 ## 1.1.2
 
