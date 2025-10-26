@@ -1,5 +1,15 @@
 # accented
 
+## 1.2.0
+
+### Minor Changes
+
+- Bump axe-core from 4.10.3 to 4.11.0 ([#347](https://github.com/pomerantsev/accented/pull/347))
+
+### Patch Changes
+
+- Bump typescript from 5.9.2 to 5.9.3 (no functional changes) ([#331](https://github.com/pomerantsev/accented/pull/331))
+
 ## 1.1.2
 
 ### Patch Changes
