@@ -11,14 +11,14 @@
     "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.7",
-    "@astrojs/rss": "^4.0.12",
+    "@astrojs/mdx": "^4.3.8",
+    "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
     "@cloudfour/image-compare": "^1.0.5",
     "@fontsource-variable/ibm-plex-sans": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
-    "astro": "^5.14.5",
+    "astro": "^5.15.2",
     "common": "workspace:*",
     "rehype-slug": "^6.0.0",
     "sharp": "^0.34.4",
