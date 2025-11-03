@@ -946,7 +946,11 @@ test.describe('Accented', () => {
 
         page.on('console', async (message) => {
           const args = message.args();
-          const { length, id } = await args[1]?.evaluate((scanContext) => {
+          expect(args[1]).toBeTruthy();
+          if (!args[1]) {
+            return;
+          }
+          const { length, id } = await args[1].evaluate((scanContext) => {
             return {
               length: scanContext.length,
               id: scanContext[0].id,
