@@ -50,6 +50,8 @@ export function normalizeContext(context: Context): ScanContext {
   if (typeof context === 'object' && ('include' in context || 'exclude' in context)) {
     if (context.include !== undefined) {
       contextInclude = contextPropToNodes(context.include);
+    } else {
+      contextInclude = [document];
     }
     if (context.exclude !== undefined) {
       contextExclude = contextPropToNodes(context.exclude);
