@@ -7,6 +7,7 @@ suite('normalizeContext', () => {
   test('when document is passed, only document is returned in include', () => {
     const dom = new JSDOM('<div id="test"></div>');
     const { document } = dom.window;
+    global.document = document;
     const normalizedContext = normalizeContext(document);
 
     assert.deepEqual(normalizedContext, {
@@ -18,6 +19,7 @@ suite('normalizeContext', () => {
   test('when an element is passed, only that element is returned in include', () => {
     const dom = new JSDOM('<div id="test"></div>');
     const { document } = dom.window;
+    global.document = document;
     const element = document.querySelector('#test')!;
     const normalizedContext = normalizeContext(element);
 
@@ -68,6 +70,7 @@ suite('normalizeContext', () => {
       <div class="doesnt-match"></div>
     </div>`);
     const { document } = dom.window;
+    global.document = document;
     const matchingElements = document.querySelectorAll('.matches');
     const normalizedContext = normalizeContext(matchingElements);
 
@@ -75,6 +78,46 @@ suite('normalizeContext', () => {
     assert.deepEqual(normalizedContext, {
       include: Array.from(matchingElements),
       exclude: [],
+    });
+  });
+
+  test('when an object with `include` and `exclude` is passed, the matched elements are returned in respective arrays', () => {
+    const dom = new JSDOM(`<div>
+      <div class="matches"></div>
+      <div class="matches"></div>
+      <div class="doesnt-match"></div>
+    </div>`);
+    const { document } = dom.window;
+    global.document = document;
+    const matchingIncludeElements = document.querySelectorAll('.matches');
+    const matchingExcludeElements = document.querySelectorAll('.doesnt-match');
+    const normalizedContext = normalizeContext({
+      include: '.matches',
+      exclude: '.doesnt-match',
+    });
+
+    assert.deepEqual(normalizedContext, {
+      include: Array.from(matchingIncludeElements),
+      exclude: Array.from(matchingExcludeElements),
+    });
+  });
+
+  test('when an object with only `exclude` is passed, `include` is implicitly set to `document`', () => {
+    const dom = new JSDOM(`<div>
+      <div class="matches"></div>
+      <div class="matches"></div>
+      <div class="doesnt-match"></div>
+    </div>`);
+    const { document } = dom.window;
+    global.document = document;
+    const matchingExcludeElements = document.querySelectorAll('.doesnt-match');
+    const normalizedContext = normalizeContext({
+      exclude: '.doesnt-match',
+    });
+
+    assert.deepEqual(normalizedContext, {
+      include: [document],
+      exclude: Array.from(matchingExcludeElements),
     });
   });
 
