@@ -92,8 +92,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(vite@7.1.12(@types/node@24.10.0)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.1))
       accented:
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.1
+        version: 1.2.1
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.21(postcss@8.5.6)
@@ -2131,8 +2131,8 @@ packages:
   abstract-logging@2.0.1:
     resolution: {integrity: sha512-2BjRTZxTPvheOvGbBslFSYOUkr+SjPtOnrLP33f+VIWLzezQpZcqVg7ja3L4dBXmzzgwT+a029jRx5PCi3JuiA==}
 
-  accented@1.2.0:
-    resolution: {integrity: sha512-NocJbG2dxb92aazvewwDgI8hbqdInFElHqmjuzCEBroa4KvyxxkQE4mcvZ4+Q2BVGpW6efURTgVz7UqBNfPQWw==}
+  accented@1.2.1:
+    resolution: {integrity: sha512-m3TIUG9yEsnNEhLPbgxEIE+22fiY/aiNrMfQarM5t5J51caQiYIjjLA/5/HBHIeYEwGTdhsUmzf4kTtmKM/qBg==}
 
   accepts@1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
@@ -8553,7 +8553,7 @@ snapshots:
 
   abstract-logging@2.0.1: {}
 
-  accented@1.2.0:
+  accented@1.2.1:
     dependencies:
       '@preact/signals-core': 1.12.1
       axe-core: 4.11.0
