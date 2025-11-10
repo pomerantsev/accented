@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- [#361](https://github.com/pomerantsev/accented/pull/361) [`4d55d3f`](https://github.com/pomerantsev/accented/commit/4d55d3fac931aecadc08811031e0a8689dd168fb) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Fix: passing a `context` object with missing `include` led to unexpected and incorrect scan context
+- Fix: passing a `context` object with missing `include` led to unexpected and incorrect scan context ([#361](https://github.com/pomerantsev/accented/pull/361))
 
-- [#362](https://github.com/pomerantsev/accented/pull/362) [`f4b52b5`](https://github.com/pomerantsev/accented/commit/f4b52b5bae5a4153b40712a287fcc5d9d25d120d) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Bump TS target to ES 2024
+- Bump TS target to ES 2024 (no functional changes) ([#362](https://github.com/pomerantsev/accented/pull/362))
 
 ## 1.2.0
 
