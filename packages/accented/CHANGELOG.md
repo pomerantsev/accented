@@ -1,5 +1,13 @@
 # accented
 
+## 1.2.1
+
+### Patch Changes
+
+- Fix: passing a `context` object with missing `include` led to unexpected and incorrect scan context ([#361](https://github.com/pomerantsev/accented/pull/361))
+
+- Bump TS target to ES 2024 (no functional changes) ([#362](https://github.com/pomerantsev/accented/pull/362))
+
 ## 1.2.0
 
 ### Minor Changes
