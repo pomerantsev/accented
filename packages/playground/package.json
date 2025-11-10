@@ -17,15 +17,15 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "@tailwindcss/postcss": "^4.1.16",
+    "@tailwindcss/postcss": "^4.1.17",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "accented": "^1.2.0",
     "autoprefixer": "^10.4.21",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.16",
+    "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
     "vite": "^7.1.12"
   }
