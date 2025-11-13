@@ -4,6 +4,7 @@ import { logAndRethrow } from './log-and-rethrow.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import { TaskQueue } from './task-queue.js';
 import type { AxeOptions, Callback, Context, Throttle } from './types.ts';
+import { isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';
 import { getScanContext } from './utils/get-scan-context.js';
 import { recalculatePositions } from './utils/recalculate-positions.js';
 import { recalculateScrollableAncestors } from './utils/recalculate-scrollable-ancestors.js';
@@ -174,7 +175,10 @@ export function createScanner(
         return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
       });
 
-      const nodes = filteredMutationList.map((mutationRecord) => mutationRecord.target);
+      const nodes = filteredMutationList
+        .map((mutationRecord) => mutationRecord.target)
+        .map((node) => (isDocumentFragment(node) && isShadowRoot(node) ? node.host : node));
+
       taskQueue.addMultiple(nodes);
     } catch (error) {
       logAndRethrow(error);
