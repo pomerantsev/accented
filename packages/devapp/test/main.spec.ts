@@ -186,9 +186,17 @@ test.describe('Accented', () => {
       expect(finalTriggerCount).toBe(finalCount);
     });
 
-    test('causing a mutation in a ShadowRoot doesn’t cause an axe.run error', async () => {
+    test('causing a mutation in a ShadowRoot doesn’t cause an axe.run error', async ({ page }) => {
       // See https://github.com/dequelabs/axe-core/issues/4941
-      // TODO: implement
+      const consoleErrors: string[] = [];
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          consoleErrors.push(message.text());
+        }
+      });
+      (await page.getByRole('button', { name: 'Move button directly to shadow root' })).click();
+      await page.waitForTimeout(1200);
+      expect(consoleErrors).toHaveLength(0);
     });
   });
 

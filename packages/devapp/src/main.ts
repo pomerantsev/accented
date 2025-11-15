@@ -166,8 +166,10 @@ increaseListItemContrastButton?.addEventListener('click', () => {
   }
 });
 
-const moveBetweenShadowRootsButton = document.getElementById('move-button-between-shadow-roots');
-moveBetweenShadowRootsButton?.addEventListener('click', () => {
+const moveToContainerWithinShadowRoot = document.getElementById(
+  'move-button-to-container-within-shadow-root',
+);
+moveToContainerWithinShadowRoot?.addEventListener('click', () => {
   const buttonToMove = document
     .getElementById('shadow-dom-container-1')
     ?.shadowRoot?.querySelector('.test-button');
@@ -176,6 +178,17 @@ moveBetweenShadowRootsButton?.addEventListener('click', () => {
     ?.shadowRoot?.getElementById('container');
   if (buttonToMove && newContainer) {
     newContainer.insertAdjacentElement('beforeend', buttonToMove);
+  }
+});
+
+const moveDirectlyToShadowRoot = document.getElementById('move-button-directly-to-shadow-root');
+moveDirectlyToShadowRoot?.addEventListener('click', () => {
+  const buttonToMove = document
+    .getElementById('shadow-dom-container-1')
+    ?.shadowRoot?.querySelector('.test-button');
+  const newContainer = document.getElementById('shadow-dom-container-2')?.shadowRoot;
+  if (buttonToMove && newContainer) {
+    newContainer.appendChild(buttonToMove);
   }
 });
 
