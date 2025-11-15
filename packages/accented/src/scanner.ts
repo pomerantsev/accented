@@ -177,6 +177,9 @@ export function createScanner(
 
       const nodes = filteredMutationList
         .map((mutationRecord) => mutationRecord.target)
+        // If an element is a shadow root, we can't pass it directly,
+        // we have to pass its host instead:
+        // https://github.com/dequelabs/axe-core/issues/4941
         .map((node) => (isDocumentFragment(node) && isShadowRoot(node) ? node.host : node));
 
       taskQueue.addMultiple(nodes);

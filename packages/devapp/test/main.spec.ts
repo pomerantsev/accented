@@ -185,6 +185,11 @@ test.describe('Accented', () => {
       expect(finalCount).toBe(initialCount - 1);
       expect(finalTriggerCount).toBe(finalCount);
     });
+
+    test('causing a mutation in a ShadowRoot doesn’t cause an axe.run error', async () => {
+      // See https://github.com/dequelabs/axe-core/issues/4941
+      // TODO: implement
+    });
   });
 
   test.describe('rendering', () => {
