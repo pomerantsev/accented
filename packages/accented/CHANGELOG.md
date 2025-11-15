@@ -1,5 +1,11 @@
 # accented
 
+## 1.2.2
+
+### Patch Changes
+
+- Fix: mitigate an axe-core bug that could prevent shadow roots from being scanned ([#369](https://github.com/pomerantsev/accented/pull/369))
+
 ## 1.2.1
 
 ### Patch Changes
