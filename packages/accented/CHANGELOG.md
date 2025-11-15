@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#369](https://github.com/pomerantsev/accented/pull/369) [`8f98c48`](https://github.com/pomerantsev/accented/commit/8f98c48478b79e343af79a812b2fd46b4a1882e9) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Mitigate an axe-core bug that could prevent shadow roots from being scanned
+- Fix: mitigate an axe-core bug that could prevent shadow roots from being scanned ([#369](https://github.com/pomerantsev/accented/pull/369))
 
 ## 1.2.1
 
