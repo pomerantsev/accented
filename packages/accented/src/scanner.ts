@@ -175,7 +175,6 @@ export function createScanner(
       });
 
       const nodes = filteredMutationList.map((mutationRecord) => mutationRecord.target);
-
       taskQueue.addMultiple(nodes);
     } catch (error) {
       logAndRethrow(error);
