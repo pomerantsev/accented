@@ -101,7 +101,11 @@ test.describe('Accented', () => {
         page,
       }) => {
         await page.goto('/');
-        (await page.getByRole('button', { name: 'Move button between shadow roots' })).click();
+        (
+          await page.getByRole('button', {
+            name: 'Move button to a container within a shadow root',
+          })
+        ).click();
         await page.waitForTimeout(1200);
         const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
         await elementWithIssue.scrollIntoViewIfNeeded();
