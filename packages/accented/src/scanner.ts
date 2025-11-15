@@ -4,7 +4,6 @@ import { logAndRethrow } from './log-and-rethrow.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import { TaskQueue } from './task-queue.js';
 import type { AxeOptions, Callback, Context, Throttle } from './types.ts';
-import { isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';
 import { getScanContext } from './utils/get-scan-context.js';
 import { recalculatePositions } from './utils/recalculate-positions.js';
 import { recalculateScrollableAncestors } from './utils/recalculate-scrollable-ancestors.js';
@@ -175,12 +174,7 @@ export function createScanner(
         return !elementsWithAccentedAttributeChanges.has(mutationRecord.target);
       });
 
-      const nodes = filteredMutationList
-        .map((mutationRecord) => mutationRecord.target)
-        // If an element is a shadow root, we can't pass it directly,
-        // we have to pass its host instead:
-        // https://github.com/dequelabs/axe-core/issues/4941
-        .map((node) => (isDocumentFragment(node) && isShadowRoot(node) ? node.host : node));
+      const nodes = filteredMutationList.map((mutationRecord) => mutationRecord.target);
 
       taskQueue.addMultiple(nodes);
     } catch (error) {
