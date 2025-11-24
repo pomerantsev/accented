@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "biomejs.biome",
+    "github.vscode-github-actions",
+    "ms-playwright.playwright",
+    "unifiedjs.vscode-mdx"
+  ]
+}
