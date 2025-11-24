@@ -2,6 +2,9 @@
 // to enable fixing / formatting on save for this project.
 
 {
+  /* Enables Biome for the project */
+  "biome.enabled": true,
+
   /* Sets Biome as the default formatter for all supported file types */
   "editor.defaultFormatter": "biomejs.biome",
 
