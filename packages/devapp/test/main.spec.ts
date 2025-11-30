@@ -257,10 +257,7 @@ test.describe('Accented', () => {
     });
 
     test('trigger positions are updated on page resize', async ({ page }) => {
-      // Commenting out toggling text direction until the following Chrome bug gets fixed:
-      // https://issues.chromium.org/issues/454646303
-      //
-      // await page.getByRole('button', { name: 'Toggle text direction' }).click();
+      await page.getByRole('button', { name: 'Toggle text direction' }).click();
       const elements = await page.locator(accentedSelector).all();
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
