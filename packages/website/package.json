@@ -26,8 +26,8 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.5",
+    "@astrojs/check": "^0.9.6",
     "accented": "workspace:*",
-    "netlify-cli": "^23.11.0"
+    "netlify-cli": "^23.11.1"
   }
 }
