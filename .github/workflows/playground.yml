@@ -2,6 +2,8 @@ name: Playground
 
 on:
   push:
+    branches-ignore:
+      - stage
 
 jobs:
   test-playground:
