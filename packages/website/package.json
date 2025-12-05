@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "./scripts/generateRobots.mts",
     "preview": "astro preview",
     "check": "astro check",
     "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod"

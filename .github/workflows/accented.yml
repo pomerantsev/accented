@@ -2,6 +2,8 @@ name: Accented
 
 on:
   push:
+    branches-ignore:
+      - stage
 
 jobs:
   build-test-publish:
