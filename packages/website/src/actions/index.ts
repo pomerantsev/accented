@@ -6,7 +6,9 @@ export const server = {
     input: z.object({
       name: z.string(),
     }),
-    handler: async (input) => {
+    handler: async (input, { request }) => {
+      console.log('Action input:', input);
+      console.log('Action request headers:', request.headers);
       return `Hello, ${input.name}`;
     },
   }),
