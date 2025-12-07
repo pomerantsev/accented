@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.12",
+    "@astrojs/netlify": "^6.6.3",
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
     "@cloudfour/image-compare": "^1.0.5",

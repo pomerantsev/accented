@@ -6,24 +6,30 @@ import { rehypeWrapCodeBlocks } from './plugins/rehype-wrap-code-blocks.mjs';
 import { rehypeWrapHeadings } from './plugins/rehype-wrap-headings.mjs';
 import { theme } from './src/components/starterCodeUtils';
 
+import netlify from '@astrojs/netlify';
+
 export default defineConfig({
   srcDir: './src',
   outDir: './dist',
   publicDir: './public',
   site: 'https://accented.dev',
   trailingSlash: 'never',
+
   build: {
     format: 'file',
   },
+
   image: {
     responsiveStyles: true,
   },
+
   markdown: {
     shikiConfig: {
       theme,
       wrap: true,
     },
   },
+
   integrations: [
     mdx({
       rehypePlugins: [
@@ -34,6 +40,7 @@ export default defineConfig({
     }),
     sitemap(),
   ],
+
   vite: {
     build: {
       // We know that axe-core is larger than 500 KB,
@@ -49,4 +56,6 @@ export default defineConfig({
       allowedHosts: ['.accented.dev', 'localhost', '.ngrok-free.app'],
     },
   },
+
+  adapter: netlify(),
 });
