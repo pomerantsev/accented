@@ -72,6 +72,9 @@ const isDev = import.meta.env.DEV;
   <body>
     <MainMenu />
     <main id="main-content">
+      <div>
+        <button id="make-request">Press me</button>
+      </div>
       <slot />
     </main>
     <footer class="flow">
@@ -80,6 +83,16 @@ const isDev = import.meta.env.DEV;
     </footer>
     <script>
       import '~/components/copyCode';
+    </script>
+    <script>
+      import { actions } from 'astro:actions';
+      const makeRequestButton = document.getElementById('make-request');
+      makeRequestButton?.addEventListener('click', async () => {
+        const { data, error } = await actions.collectMetrics({ name: "Houston" });
+        if (!error) {
+          console.log('Data:', data);
+        }
+      })
     </script>
     {isDev && <Accented />}
   </body>
