@@ -4,12 +4,12 @@ import { z } from 'astro:schema';
 export const server = {
   collectMetrics: defineAction({
     input: z.object({
-      name: z.string(),
+      lcp: z.number(),
     }),
     handler: async (input, { request }) => {
       console.log('Action input:', input);
       console.log('Action request headers:', request.headers);
-      return `Hello, ${input.name}`;
+      return `LCP: ${input.lcp}`;
     },
   }),
 };
