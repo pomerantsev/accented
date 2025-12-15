@@ -98,7 +98,7 @@ jobs:
         run: pnpm -F playground add -D accented@^${{ steps.version.outputs.version }}
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           commit-message: "Bump accented to ${{ steps.version.outputs.version }}"
