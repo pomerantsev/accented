@@ -76,9 +76,6 @@ const commitSha = import.meta.env.COMMIT_SHA;
   <body>
     <MainMenu />
     <main id="main-content">
-      <div>
-        <button id="make-request">Press me</button>
-      </div>
       <slot />
     </main>
     <footer class="flow">
@@ -98,7 +95,9 @@ const commitSha = import.meta.env.COMMIT_SHA;
           typeof actions.collectMetrics
         >;
         const actionUrl = getActionPath(actions.collectMetrics);
-        const input: CollectMetricsParams[0] = { lcp: event.value };
+        const commitShaMetaElement = document.querySelector('meta[name="commit-sha"]');
+        const commitSha = commitShaMetaElement?.getAttribute('content') ?? '';
+        const input: CollectMetricsParams[0] = { lcp: event.value, commitSha };
         const body = JSON.stringify(input);
         navigator.sendBeacon(
           actionUrl,
