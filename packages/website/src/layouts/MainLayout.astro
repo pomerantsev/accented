@@ -23,6 +23,8 @@ const { title, description } = Astro.props;
 const fullTitle = `${title ? `${title} | ` : ''}Accented`;
 
 const isDev = import.meta.env.DEV;
+
+const commitSha = import.meta.env.COMMIT_SHA;
 ---
 
 <html lang="en">
@@ -33,6 +35,8 @@ const isDev = import.meta.env.DEV;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta name="author" content="Pavel Pomerantsev" />
+
+    <meta name="commit-sha" content={commitSha} />
 
     <title>{fullTitle}</title>
     {description && <meta name="description" content={description} />}
