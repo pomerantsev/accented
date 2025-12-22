@@ -1,6 +1,7 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { UAParser } from 'ua-parser-js';
+import { isAIAssistant, isAICrawler, isBot } from 'ua-parser-js/bot-detection';
 
 export const server = {
   collectMetrics: defineAction({
@@ -9,20 +10,31 @@ export const server = {
       commitSha: z.string(),
     }),
     handler: async (input, { request }) => {
-      const { browser, os } = UAParser(request.headers.get('user-agent') ?? '');
+      let pathname: string | null;
+      try {
+        const url = new URL(request.headers.get('referer') ?? '');
+        pathname = url.pathname;
+      } catch {
+        pathname = null;
+      }
+      const userAgent = request.headers.get('user-agent') ?? '';
+      const { browser, os } = UAParser(userAgent);
       const data = {
         ...input,
-        browser: {
-          name: browser.name,
-          major: browser.major,
+        userAgent: {
+          browser: {
+            name: browser.name,
+            major: browser.major,
+          },
+          os: {
+            name: os.name,
+            version: os.version,
+          },
+          isBot: isBot(userAgent),
+          isAIAssistant: isAIAssistant(userAgent),
+          isAICrawler: isAICrawler(userAgent),
         },
-        os: {
-          name: os.name,
-          version: os.version,
-        },
-        createdAt: Date.now(),
-        // TODO: strip query string? https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referer
-        url: request.headers.get('referer') ?? '',
+        pathname,
       };
       console.log(JSON.stringify(data, null, 2));
     },
