@@ -10,6 +10,7 @@ export const server = {
       commitSha: z.string(),
     }),
     handler: async (input, { request }) => {
+      console.log('Entering the handler');
       let pathname: string | null;
       try {
         const url = new URL(request.headers.get('referer') ?? '');
