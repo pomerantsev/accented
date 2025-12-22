@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process';
 import mdx from '@astrojs/mdx';
+import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import rehypeSlug from 'rehype-slug';
@@ -15,18 +16,22 @@ export default defineConfig({
   publicDir: './public',
   site: 'https://accented.dev',
   trailingSlash: 'never',
+
   build: {
     format: 'file',
   },
+
   image: {
     responsiveStyles: true,
   },
+
   markdown: {
     shikiConfig: {
       theme,
       wrap: true,
     },
   },
+
   integrations: [
     mdx({
       rehypePlugins: [
@@ -37,6 +42,7 @@ export default defineConfig({
     }),
     sitemap(),
   ],
+
   vite: {
     define: {
       // We can use the commit SHA if / when we collect metrics / error reports,
@@ -57,4 +63,6 @@ export default defineConfig({
       allowedHosts: ['.accented.dev', 'localhost', '.ngrok-free.app'],
     },
   },
+
+  adapter: netlify(),
 });

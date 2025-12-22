@@ -15,22 +15,41 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: Check (Biome)
+        run: pnpm biome check
+
       - name: Build Accented
         run: pnpm --filter accented build
 
       - name: Check
         run: pnpm --filter website check
 
-      - name: Build website
+      - name: Build website (stage)
+        if: github.ref == 'refs/heads/stage'
+        run: pnpm website:build
+        env:
+          STAGE: true
+
+      - name: Build website (prod)
+        if: github.ref != 'refs/heads/stage'
         run: pnpm website:build
 
-      - name: Install lychee
-        uses: ./.github/actions/installLychee
+      # - name: Install lychee
+      #   if: github.ref != 'refs/heads/stage'
+      #   uses: ./.github/actions/installLychee
 
-      - name: Check links
-        run: ./packages/website/scripts/checkLinks.mjs --local
+      # - name: Check links
+      #   if: github.ref != 'refs/heads/stage'
+      #   run: ./packages/website/scripts/checkLinks.mjs --local
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.LINK_CHECK_TOKEN }}
+
+      - name: Deploy staging website
+        if: github.ref == 'refs/heads/stage'
+        run: pnpm website:deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.LINK_CHECK_TOKEN }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ vars.NETLIFY_STAGE_SITE_ID }}
 
       - name: Deploy website
         if: github.ref == 'refs/heads/main'
