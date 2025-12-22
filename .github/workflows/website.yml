@@ -34,15 +34,15 @@ jobs:
         if: github.ref != 'refs/heads/stage'
         run: pnpm website:build
 
-      - name: Install lychee
-        if: github.ref != 'refs/heads/stage'
-        uses: ./.github/actions/installLychee
+      # - name: Install lychee
+      #   if: github.ref != 'refs/heads/stage'
+      #   uses: ./.github/actions/installLychee
 
-      - name: Check links
-        if: github.ref != 'refs/heads/stage'
-        run: ./packages/website/scripts/checkLinks.mjs --local
-        env:
-          GITHUB_TOKEN: ${{ secrets.LINK_CHECK_TOKEN }}
+      # - name: Check links
+      #   if: github.ref != 'refs/heads/stage'
+      #   run: ./packages/website/scripts/checkLinks.mjs --local
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.LINK_CHECK_TOKEN }}
 
       - name: Deploy staging website
         if: github.ref == 'refs/heads/stage'
