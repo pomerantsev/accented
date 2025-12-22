@@ -36,6 +36,8 @@ export const server = {
         },
         pathname,
       };
+
+      // TODO: instead of just logging, we'll soon start saving this data to a DB.
       console.log(JSON.stringify(data, null, 2));
     },
   }),

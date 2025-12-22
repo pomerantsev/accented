@@ -12,5 +12,3 @@ According to the MPL-2.0 requirements:
 - The full MPL-2.0 license can be found at: https://www.mozilla.org/MPL/2.0/
 
 No changes have been made to axe-core within this project, beyond its use as a dependency.
-
-TODO: add UA Parser license notice
