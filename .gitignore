@@ -15,3 +15,4 @@ tsconfig.test.tsbuildinfo
 .vscode/settings.json
 
 .claude
+.playwright-mcp
