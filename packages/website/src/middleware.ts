@@ -7,7 +7,9 @@ export const onRequest = defineMiddleware((context, next) => {
   const contentType = context.request.headers.get('content-type');
   const origin = context.request.headers.get('origin');
 
-  console.log(`[Middleware] ${method} ${pathname} | Content-Type: ${contentType} | Origin: ${origin}`);
+  console.log(
+    `[Middleware] ${method} ${pathname} | Content-Type: ${contentType} | Origin: ${origin}`,
+  );
 
   return next();
 });
