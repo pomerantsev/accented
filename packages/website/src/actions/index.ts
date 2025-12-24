@@ -5,10 +5,11 @@ import { isAIAssistant, isAICrawler, isBot } from 'ua-parser-js/bot-detection';
 
 export const server = {
   collectMetrics: defineAction({
-    input: z.object({
-      lcp: z.number(),
-      commitSha: z.string(),
-    }),
+    input: z.any(),
+    // input: z.object({
+    //   lcp: z.number(),
+    //   commitSha: z.string(),
+    // }),
     handler: async (input, { request }) => {
       console.log('Entering the handler');
       let pathname: string | null;
