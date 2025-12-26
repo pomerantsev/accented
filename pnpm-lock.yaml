@@ -139,6 +139,9 @@ importers:
       '@fontsource/ibm-plex-mono':
         specifier: ^5.2.7
         version: 5.2.7
+      '@netlify/functions':
+        specifier: ^5.1.2
+        version: 5.1.2
       astro:
         specifier: ^5.16.6
         version: 5.16.6(@netlify/blobs@10.1.0)(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.54.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
@@ -1545,6 +1548,10 @@ packages:
 
   '@netlify/functions@5.1.1':
     resolution: {integrity: sha512-64TvwQkAFpYb3QqYemPYDqWi1xMbYOBfg70bhy23iahWf+F9TJgOOnAVUOk5fMWGN/fk9bZG5ROc+cm32whh+g==}
+    engines: {node: '>=18.0.0'}
+
+  '@netlify/functions@5.1.2':
+    resolution: {integrity: sha512-tpPiLSkQatuexH8AdAZ8RlALvT7ixOE9VhvpkzQGNvihcms8hzmvUDuSxQa7UneTj/sHsdirnXmnJ+nmf+Nx/w==}
     engines: {node: '>=18.0.0'}
 
   '@netlify/git-utils@6.0.2':
@@ -6873,7 +6880,7 @@ snapshots:
       '@astrojs/internal-helpers': 0.7.5
       '@astrojs/underscore-redirects': 1.0.0
       '@netlify/blobs': 10.4.3(supports-color@10.2.2)
-      '@netlify/functions': 5.1.1
+      '@netlify/functions': 5.1.2
       '@netlify/vite-plugin': 2.7.18(@netlify/api@14.0.12)(rollup@4.54.0)(vite@6.4.1(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
       '@vercel/nft': 0.30.4(rollup@4.54.0)
       astro: 5.16.6(@netlify/blobs@10.1.0)(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.54.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
@@ -8326,6 +8333,10 @@ snapshots:
       - supports-color
 
   '@netlify/functions@5.1.1':
+    dependencies:
+      '@netlify/types': 2.3.0
+
+  '@netlify/functions@5.1.2':
     dependencies:
       '@netlify/types': 2.3.0
 
