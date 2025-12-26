@@ -103,6 +103,11 @@ const commitSha = import.meta.env.COMMIT_SHA;
           actionUrl,
           new Blob([body], { type: 'application/json' })
         );
+
+        navigator.sendBeacon(
+          '/.netlify/functions/lcp',
+          new Blob([body], { type: 'application/json' })
+        );
       });
     </script>
     {isDev && <Accented />}
