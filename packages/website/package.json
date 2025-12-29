@@ -33,6 +33,6 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "accented": "workspace:*",
-    "netlify-cli": "^23.12.3"
+    "netlify-cli": "^23.13.0"
   }
 }
