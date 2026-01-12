@@ -24,7 +24,7 @@ This document contains:
 **Starting the development environment:**
 
 - For Accented development: `pnpm dev`.
-- For website development: `pnpm website:dev`.
+- For website development: See [packages/website/Contributing.md](packages/website/Contributing.md) for setup instructions.
 
 **Running tests:**
 
