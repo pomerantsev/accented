@@ -1,6 +1,6 @@
 # Accented
 
-![NPM Version](https://img.shields.io/npm/v/accented)
+[![NPM Version](https://img.shields.io/npm/v/accented?label=accented)](https://www.npmjs.com/package/accented)
 
 A frontend library for continuous accessibility testing and issue highlighting.
 
