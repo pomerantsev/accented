@@ -18,12 +18,13 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/netlify": "^6.6.3",
     "@astrojs/rss": "^4.0.14",
-    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/sitemap": "^3.6.1",
     "@cloudfour/image-compare": "^1.0.5",
     "@fontsource-variable/ibm-plex-sans": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
-    "astro": "^5.16.6",
+    "@netlify/functions": "^5.1.2",
+    "astro": "^5.16.8",
     "common": "workspace:*",
     "drizzle-orm": "^0.45.1",
     "postgres": "^3.4.8",
@@ -38,6 +39,6 @@
     "@astrojs/check": "^0.9.6",
     "accented": "workspace:*",
     "drizzle-kit": "^0.31.8",
-    "netlify-cli": "^23.12.3"
+    "netlify-cli": "^23.13.3"
   }
 }
