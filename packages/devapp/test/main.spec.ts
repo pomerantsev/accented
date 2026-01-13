@@ -728,7 +728,7 @@ test.describe('Accented', () => {
         await page.goto('/');
       });
 
-      test('the shadow root that contains elements with issues get the Accented styleshet', async ({
+      test('the shadow root that contains elements with issues gets the Accented stylesheet', async ({
         page,
       }) => {
         const shadowDOMContainer1 = await page.locator('#shadow-dom-container-1');

@@ -1,16 +1,8 @@
 import type { Context, ScanContext } from '../types.ts';
 import { contains } from './contains.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
-import { isDocumentFragment, isShadowRoot } from './dom-helpers.js';
 import { isNodeInScanContext } from './is-node-in-scan-context.js';
 import { normalizeContext } from './normalize-context.js';
-
-function replaceShadowRootsWithHosts(nodes: Array<Node>) {
-  // If an element is a shadow root, we can't use it in context directly,
-  // we have to pass its host instead:
-  // https://github.com/dequelabs/axe-core/issues/4941
-  return nodes.map((node) => (isDocumentFragment(node) && isShadowRoot(node) ? node.host : node));
-}
 
 export function getScanContext(nodes: Array<Node>, context: Context): ScanContext {
   const { include: contextInclude, exclude: contextExclude } = normalizeContext(context);
@@ -38,7 +30,7 @@ export function getScanContext(nodes: Array<Node>, context: Context): ScanContex
   }
 
   return {
-    include: replaceShadowRootsWithHosts(deduplicateNodes(include)),
-    exclude: replaceShadowRootsWithHosts(deduplicateNodes(exclude)),
+    include: deduplicateNodes(include),
+    exclude: deduplicateNodes(exclude),
   };
 }
