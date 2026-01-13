@@ -23,7 +23,6 @@
     "@fontsource-variable/ibm-plex-sans": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
-    "@netlify/functions": "^5.1.2",
     "astro": "^5.16.8",
     "common": "workspace:*",
     "drizzle-orm": "^0.45.1",
