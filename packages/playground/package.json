@@ -21,7 +21,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
-    "accented": "^1.2.3",
+    "accented": "^1.2.2",
     "autoprefixer": "^10.4.23",
     "globals": "^17.0.0",
     "postcss": "^8.5.6",
