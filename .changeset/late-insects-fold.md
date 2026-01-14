@@ -1,5 +1,0 @@
----
-"accented": patch
----
-
-Bump axe-core from 4.11.0 to 4.11.1

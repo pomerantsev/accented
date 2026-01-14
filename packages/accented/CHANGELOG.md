@@ -1,5 +1,11 @@
 # accented
 
+## 1.2.3
+
+### Patch Changes
+
+- Bump axe-core from 4.11.0 to 4.11.1 ([#416](https://github.com/pomerantsev/accented/pull/416))
+
 ## 1.2.2
 
 ### Patch Changes
