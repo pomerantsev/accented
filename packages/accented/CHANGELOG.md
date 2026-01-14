@@ -1,5 +1,11 @@
 # accented
 
+## 1.2.3
+
+### Patch Changes
+
+- [#416](https://github.com/pomerantsev/accented/pull/416) [`1e91418`](https://github.com/pomerantsev/accented/commit/1e91418958fd4b38abac57b57e602df78d600046) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axe-core from 4.11.0 to 4.11.1
+
 ## 1.2.2
 
 ### Patch Changes
