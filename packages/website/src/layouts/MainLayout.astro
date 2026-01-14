@@ -23,8 +23,6 @@ const { title, description } = Astro.props;
 const fullTitle = `${title ? `${title} | ` : ''}Accented`;
 
 const isDev = import.meta.env.DEV;
-
-const commitSha = import.meta.env.COMMIT_SHA;
 ---
 
 <html lang="en">
@@ -35,8 +33,6 @@ const commitSha = import.meta.env.COMMIT_SHA;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta name="author" content="Pavel Pomerantsev" />
-
-    <meta name="commit-sha" content={commitSha} />
 
     <title>{fullTitle}</title>
     {description && <meta name="description" content={description} />}
@@ -85,30 +81,7 @@ const commitSha = import.meta.env.COMMIT_SHA;
     </footer>
     <script>
       import '~/components/copyCode';
-    </script>
-    <script>
-      import { onLCP } from 'web-vitals';
-      import { actions, getActionPath } from 'astro:actions';
-
-      onLCP(async event => {
-        type CollectMetricsParams = Parameters<
-          typeof actions.collectMetrics
-        >;
-        const actionUrl = getActionPath(actions.collectMetrics);
-        const commitShaMetaElement = document.querySelector('meta[name="commit-sha"]');
-        const commitSha = commitShaMetaElement?.getAttribute('content') ?? '';
-        const input: CollectMetricsParams[0] = { lcp: event.value, commitSha };
-        const body = JSON.stringify(input);
-        navigator.sendBeacon(
-          actionUrl,
-          new Blob([body], { type: 'application/json' })
-        );
-
-        navigator.sendBeacon(
-          '/.netlify/functions/lcp',
-          new Blob([body], { type: 'application/json' })
-        );
-      });
+      import '~/utils/analytics';
     </script>
     {isDev && <Accented />}
   </body>

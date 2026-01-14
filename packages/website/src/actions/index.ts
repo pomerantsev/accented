@@ -21,27 +21,6 @@ export const server = {
       }
       const userAgent = request.headers.get('user-agent') ?? '';
       const { browser, os } = UAParser(userAgent);
-      const data = {
-        ...input,
-        userAgent: {
-          browser: {
-            name: browser.name,
-            majorVersion: browser.major,
-            fullVersion: browser.version,
-          },
-          os: {
-            name: os.name,
-            version: os.version,
-          },
-          isBot: isBot(userAgent),
-          isAIAssistant: isAIAssistant(userAgent),
-          isAICrawler: isAICrawler(userAgent),
-        },
-        pathname,
-      };
-
-      // TODO: remove the logging once we've verified that things are properly stored in the DB.
-      console.log(JSON.stringify(data, null, 2));
 
       await db.insert(metrics).values({
         lcp: input.lcp,
