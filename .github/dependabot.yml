@@ -24,9 +24,13 @@ updates:
           - "*cloudfour*"
           - "*fontsource*"
           - "*rehype*"
+          - "drizzle-orm"
+          - "postgres"
           - "sharp"
           - "shiki"
+          - "ua-parser-js"
           - "unist-util-visit"
+          - "web-vitals"
       playground-dependencies:
         patterns:
           - "react*"
