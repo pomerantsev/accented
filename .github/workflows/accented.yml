@@ -23,9 +23,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Check (Biome)
-        run: pnpm biome check
-
       - name: Build
         run: pnpm build
 

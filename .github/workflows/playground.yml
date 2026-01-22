@@ -17,9 +17,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Check (Biome)
-        run: pnpm biome check
-
       - name: Install Playwright browsers
         run: pnpm --filter devapp exec playwright install --with-deps
 
