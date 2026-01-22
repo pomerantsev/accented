@@ -1,4 +1,5 @@
 name: Install Lychee
+description: Lychee is used to check if all links on the website are working
 
 runs:
   using: "composite"
