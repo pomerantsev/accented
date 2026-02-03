@@ -45,8 +45,4 @@ export async function expectElementAndTriggerToBeAligned(
   expect(triggerRect[side]).toBeLessThan(elementRect[side] + 2);
   expect(triggerRect.top).toBeGreaterThan(elementRect.top - 2);
   expect(triggerRect.top).toBeLessThan(elementRect.top + 2);
-
-  const elementTransform = await getTransform(element);
-  const triggerContainerTransform = await getTransform(triggerContainer);
-  expect(elementTransform).toBe(triggerContainerTransform);
 }

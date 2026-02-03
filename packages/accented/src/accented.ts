@@ -10,6 +10,7 @@ import { setupScrollListeners } from './scroll-listeners.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
 import type { AccentedOptions, DisableAccented } from './types.ts';
 import { initializeContainingBlockSupportSet } from './utils/containing-blocks.js';
+import { initializeCssTransformsCheck } from './utils/css-transforms.js';
 import { deepMerge } from './utils/deep-merge.js';
 import { supportsAnchorPositioning } from './utils/supports-anchor-positioning.js';
 import { validateOptions } from './validate-options.js';
@@ -92,6 +93,7 @@ export function accented(options: AccentedOptions = {}): DisableAccented {
     enabled.value = true;
 
     initializeContainingBlockSupportSet();
+    initializeCssTransformsCheck();
     registerElements(name);
 
     const { disconnect: cleanupIntersectionObserver, intersectionObserver } =

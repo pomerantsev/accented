@@ -3,6 +3,7 @@ import { effect } from '@preact/signals-core';
 import { fontSystemSans } from '../common/tokens.js';
 import { logAndRethrow } from '../log-and-rethrow.js';
 import type { Position } from '../types.ts';
+import { cssTransformsAffectAnchorPositioning } from '../utils/css-transforms.js';
 import { supportsAnchorPositioning } from '../utils/supports-anchor-positioning.js';
 import type { AccentedDialog } from './accented-dialog.ts';
 
@@ -241,6 +242,9 @@ export const getAccentedTrigger = (name: string) => {
     }
 
     #setTransform() {
+      if (cssTransformsAffectAnchorPositioning()) {
+        return;
+      }
       // We read and write values in separate animation frames to avoid layout thrashing.
       window.requestAnimationFrame(() => {
         if (this.element) {
