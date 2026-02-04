@@ -105,6 +105,20 @@ test.describe('Accented', () => {
         // so the issue will be reported.
         expect(await page.locator(`#correctly-structured-list${accentedSelector}`)).toBeVisible();
       });
+
+      test('doesn’t introduce new elements that aren’t triggers', async ({ page }) => {
+        await page.goto('?disable');
+        const initialElementCount = await page.evaluate(
+          () => document.querySelectorAll('*').length,
+        );
+        await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        const triggerCount = await page.evaluate(
+          () => document.querySelectorAll('accented-trigger').length,
+        );
+        expect(triggerCount).toBeGreaterThan(0);
+        const finalElementCount = await page.evaluate(() => document.querySelectorAll('*').length);
+        expect(finalElementCount).toBe(initialElementCount + triggerCount);
+      });
     });
 
     test.describe('when disabled', () => {

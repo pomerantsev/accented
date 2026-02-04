@@ -39,4 +39,7 @@ export function initializeCssTransformsCheck() {
   document.body.appendChild(anchored);
 
   doesAffect = anchor.getBoundingClientRect().left === anchored.getBoundingClientRect().left;
+
+  anchor.remove();
+  anchored.remove();
 }
