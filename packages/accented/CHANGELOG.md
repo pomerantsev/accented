@@ -1,5 +1,13 @@
 # accented
 
+## 1.2.4
+
+### Patch Changes
+
+- Fix positioning of Accented triggers on transformed elements in Chrome 144+ ([#443](https://github.com/pomerantsev/accented/pull/443), [#445](https://github.com/pomerantsev/accented/pull/445))
+
+- Bump @preact/signals-core to 1.12.2 (no functional changes) ([#436](https://github.com/pomerantsev/accented/pull/436))
+
 ## 1.2.3
 
 ### Patch Changes
