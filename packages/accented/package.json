@@ -38,7 +38,7 @@
   },
   "homepage": "https://accented.dev",
   "dependencies": {
-    "@preact/signals-core": "^1.12.2",
+    "@preact/signals-core": "^1.13.0",
     "axe-core": "^4.11.1"
   },
   "devDependencies": {
