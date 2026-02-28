@@ -37,7 +37,7 @@ jobs:
 
       - name: Archive end-to-end test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-results
           path: packages/devapp/playwright
