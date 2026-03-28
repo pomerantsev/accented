@@ -1,5 +1,5 @@
 import { defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
+import { z } from 'astro/zod';
 import { UAParser } from 'ua-parser-js';
 import { isAIAssistant, isAICrawler, isBot } from 'ua-parser-js/bot-detection';
 import { db } from '../../db';
