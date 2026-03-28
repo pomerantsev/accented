@@ -20,9 +20,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt into parallel tests on CI — using as many workers as there are CPUs available on ubuntu-latest:
-     https://docs.github.com/en/actions/reference/runners/github-hosted-runners */
-  workers: process.env.CI ? 4 : undefined,
+  /* Opt into parallel tests on CI — 4 CPUs are available on ubuntu-latest:
+     https://docs.github.com/en/actions/reference/runners/github-hosted-runners
+     We're using only 2, however — that seems to give a good balance between reliability and speed. */
+  workers: process.env.CI ? 2 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { outputFolder: './playwright/report' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
