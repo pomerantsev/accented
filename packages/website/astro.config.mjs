@@ -16,6 +16,7 @@ export default defineConfig({
   publicDir: './public',
   site: 'https://accented.dev',
   trailingSlash: 'never',
+  output: 'server',
 
   build: {
     format: 'file',
