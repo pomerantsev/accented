@@ -12,5 +12,5 @@ runs:
         key: playwright-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Install Playwright browsers
-      run: pnpm --filter devapp exec playwright install --with-deps
+      run: pnpm exec playwright install --with-deps
       shell: bash
