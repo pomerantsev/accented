@@ -23,7 +23,7 @@
     "@fontsource-variable/ibm-plex-sans": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
-    "astro": "^5.17.3",
+    "astro": "^5.18.1",
     "common": "workspace:*",
     "drizzle-orm": "^0.45.1",
     "postgres": "^3.4.8",
