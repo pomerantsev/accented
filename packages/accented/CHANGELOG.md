@@ -4,9 +4,7 @@
 
 ### Patch Changes
 
-- [#461](https://github.com/pomerantsev/accented/pull/461) [`585f42e`](https://github.com/pomerantsev/accented/commit/585f42e480e6617d85aaf6fce457ab90f9f940bd) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.14.0 (no functional changes)
-
-- [#451](https://github.com/pomerantsev/accented/pull/451) [`ba40aec`](https://github.com/pomerantsev/accented/commit/ba40aec66579c8e19ba37cb1e9c7ff36c21fc630) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.13.0 (no functional changes)
+- Bump @preact/signals-core to 1.14.0 (no functional changes) ([#451](https://github.com/pomerantsev/accented/pull/451), [#461](https://github.com/pomerantsev/accented/pull/461))
 
 ## 1.2.4
 
