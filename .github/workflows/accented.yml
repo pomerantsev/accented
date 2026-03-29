@@ -4,6 +4,9 @@ on:
   push:
     branches-ignore:
       - stage
+    paths-ignore:
+      - 'packages/website/**'
+      - 'packages/playground/**'
 
 jobs:
   build-test-publish:
@@ -30,7 +33,7 @@ jobs:
         run: pnpm test:unit
 
       - name: Install Playwright browsers
-        run: pnpm --filter devapp exec playwright install --with-deps
+        uses: ./.github/actions/installPlaywright
 
       - name: Run end-to-end tests
         run: pnpm test:e2e

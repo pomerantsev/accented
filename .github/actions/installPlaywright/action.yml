@@ -1,0 +1,16 @@
+name: Install Playwright browsers
+description: Cache and install Playwright browsers
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache Playwright browsers
+      uses: actions/cache@v5
+      with:
+        # Default Linux location for browsers (see https://playwright.dev/docs/browsers)
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install Playwright browsers
+      run: pnpm exec playwright install --with-deps
+      shell: bash

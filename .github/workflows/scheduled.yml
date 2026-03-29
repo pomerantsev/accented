@@ -20,7 +20,7 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright browsers
-        run: pnpm --filter devapp exec playwright install --with-deps
+        uses: ./.github/actions/installPlaywright
 
       - name: Run end-to-end tests
         run: pnpm --filter devapp test-buildless
