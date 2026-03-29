@@ -1,5 +1,11 @@
 # accented
 
+## 1.2.5
+
+### Patch Changes
+
+- Bump @preact/signals-core to 1.14.0 (no functional changes) ([#451](https://github.com/pomerantsev/accented/pull/451), [#461](https://github.com/pomerantsev/accented/pull/461))
+
 ## 1.2.4
 
 ### Patch Changes
