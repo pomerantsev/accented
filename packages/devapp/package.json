@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "axe-core": "^4.11.1",
-    "vite": "^8.0.1"
+    "vite": "^8.0.5"
   },
   "dependencies": {
     "accented": "workspace:*"
