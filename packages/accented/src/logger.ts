@@ -275,7 +275,7 @@ function logIssues(
   console.groupEnd();
 }
 
-export function createLogger() {
+export function createLogger(): () => void {
   let previousElementsWithIssues: Array<ElementWithIssues> = [];
 
   return effect(() => {
