@@ -255,13 +255,21 @@ test.describe('Accented', () => {
 
     test('triggers are rendered in the correct positions, and are all interactable', async ({
       page,
+      browserName,
     }) => {
       const elements = await page.locator(accentedSelector).all();
       for (const element of elements) {
         await element.scrollIntoViewIfNeeded();
         await page.waitForTimeout(200);
         const triggerContainer = await getTriggerContainer(page, element);
-        await expectElementAndTriggerToBeAligned(element, triggerContainer);
+        const direction = await triggerContainer.evaluate(
+          (el) => window.getComputedStyle(el).direction,
+        );
+        // Temporarily exclude rtl elements from the position assertion,
+        // until the regression is fixed: https://bugzilla.mozilla.org/show_bug.cgi?id=2031145
+        if (!(browserName === 'firefox' && direction === 'rtl')) {
+          await expectElementAndTriggerToBeAligned(element, triggerContainer);
+        }
 
         const issueDialog = await openAccentedDialog(page, element);
         await expect(issueDialog).toBeVisible();
