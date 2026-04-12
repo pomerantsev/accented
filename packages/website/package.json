@@ -15,24 +15,24 @@
     "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.2",
-    "@astrojs/netlify": "^7.0.4",
-    "@astrojs/rss": "^4.0.17",
-    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/netlify": "^7.0.6",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
     "@cloudfour/image-compare": "^1.0.5",
     "@fontsource-variable/ibm-plex-sans": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
-    "astro": "^6.0.8",
+    "astro": "^6.1.3",
     "common": "workspace:*",
     "drizzle-orm": "^0.45.2",
-    "postgres": "^3.4.8",
+    "postgres": "^3.4.9",
     "rehype-slug": "^6.0.0",
     "sharp": "^0.34.5",
     "shiki": "^4.0.2",
     "ua-parser-js": "^2.0.9",
     "unist-util-visit": "^5.1.0",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
