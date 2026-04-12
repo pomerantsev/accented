@@ -4,9 +4,6 @@ on:
   push:
     branches-ignore:
       - stage
-    paths-ignore:
-      - 'packages/website/**'
-      - 'packages/playground/**'
 
 jobs:
   build-test-publish:
