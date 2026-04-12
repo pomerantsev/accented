@@ -1,5 +1,15 @@
 # accented
 
+## 1.2.6
+
+### Patch Changes
+
+- Bump axe-core to 4.11.2 ([#469](https://github.com/pomerantsev/accented/pull/469))
+
+- Bump @preact/signals-core to 1.14.1 (no functional changes) ([#471](https://github.com/pomerantsev/accented/pull/471))
+
+- Bump typescript to 6.0.2 (no functional changes) ([#474](https://github.com/pomerantsev/accented/pull/474))
+
 ## 1.2.5
 
 ### Patch Changes
