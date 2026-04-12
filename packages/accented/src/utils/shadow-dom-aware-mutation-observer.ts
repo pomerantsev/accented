@@ -11,7 +11,10 @@ function getShadowRoots(elements: Array<Element | Document | DocumentFragment>) 
     );
 }
 
-export function createShadowDOMAwareMutationObserver(name: string, callback: MutationCallback) {
+export function createShadowDOMAwareMutationObserver(
+  name: string,
+  callback: MutationCallback,
+): MutationObserver {
   type ObserverMap = Map<ShadowRoot, ShadowDOMAwareMutationObserver>;
 
   const accentedElementNames = getAccentedElementNames(name);
