@@ -16,7 +16,7 @@ export interface AccentedTrigger extends HTMLElement {
 
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
-export const getAccentedTrigger = (name: string) => {
+export const getAccentedTrigger = (name: string): CustomElementConstructor => {
   const template = document.createElement('template');
 
   // I initially tried creating a CSSStyelSheet object with styles instead of having a <style> element in the template,

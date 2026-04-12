@@ -25,7 +25,7 @@ export interface AccentedDialog extends HTMLElement {
 
 // We want Accented to not throw an error in Node, and use static imports,
 // so we can't export `class extends HTMLElement` because HTMLElement is not available in Node.
-export const getAccentedDialog = () => {
+export const getAccentedDialog = (): CustomElementConstructor => {
   const dialogTemplate = document.createElement('template');
   dialogTemplate.innerHTML = `
     <dialog dir="ltr" lang="en" aria-labelledby="title" closedby="any">

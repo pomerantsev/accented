@@ -23,14 +23,12 @@ export function initializeCssTransformsCheck() {
   anchor.style.inlineSize = '100px';
   anchor.style.blockSize = '100px';
   anchor.style.transform = 'translateX(100px)';
-  // @ts-expect-error TS is unaware of `anchor-name`
   anchor.style.anchorName = '--test-anchor';
 
   const anchored = document.createElement('div');
   anchored.style.inlineSize = '10px';
   anchored.style.blockSize = '10px';
   anchored.style.position = 'absolute';
-  // @ts-expect-error TS is unaware of `position-anchor`
   anchored.style.positionAnchor = '--test-anchor';
   anchored.style.insetInlineStart = 'anchor(start)';
   anchored.style.insetBlockStart = 'anchor(start)';
