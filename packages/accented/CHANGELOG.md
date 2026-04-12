@@ -1,5 +1,15 @@
 # accented
 
+## 1.2.6
+
+### Patch Changes
+
+- [#471](https://github.com/pomerantsev/accented/pull/471) [`8e86854`](https://github.com/pomerantsev/accented/commit/8e868547d7576f900201861a1aaea1b2975b40e0) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.14.1 (no functional changes)
+
+- [#469](https://github.com/pomerantsev/accented/pull/469) [`c8261bb`](https://github.com/pomerantsev/accented/commit/c8261bbc85ab46303b917c9eb5b80baabf475350) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axe-core to 4.11.2
+
+- [#474](https://github.com/pomerantsev/accented/pull/474) [`a0c3c02`](https://github.com/pomerantsev/accented/commit/a0c3c02e637e90788f06f107879c742e88c2ed4a) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Bump typescript to 6.0.2 (no functional changes)
+
 ## 1.2.5
 
 ### Patch Changes
