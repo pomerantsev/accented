@@ -23,9 +23,9 @@
     "accented": "^1.2.6",
     "autoprefixer": "^10.4.27",
     "globals": "^17.4.0",
-    "postcss": "^8.5.8",
+    "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
-    "vite": "^8.0.5"
+    "vite": "^8.0.8"
   }
 }
