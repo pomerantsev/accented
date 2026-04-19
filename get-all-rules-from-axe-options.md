@@ -60,6 +60,47 @@ For gap #1:
 For gap #2:
 - No options → disabled-by-default rules (e.g. `color-contrast-enhanced`) are absent from the returned set
 
+## `updateElementsWithIssues` refactor (future work)
+
+The function currently takes a single `(violations, scanContext)` pair. Its removal logic is: remove an element if it is in `scanContext` but absent from the new violations. With two scans having different contexts this breaks down:
+
+- Using limited `scanContext` → stale ancestor-dependent violations on elements outside `scanContext` are never cleared.
+- Using full `context` → stale non-ancestor-dependent violations on unscanned elements are incorrectly cleared.
+
+### Correct algorithm
+
+Pass both violation arrays, both contexts, and both rule sets into the function. For each tracked element, compute new combined issues as follows:
+
+- Split existing issues into `existingIncrementalIssues` (ruleId not in `ancestorDependentRules`) and `existingSupplementalIssues` (ruleId in `ancestorDependentRules`).
+- `newIncrementalIssues` = if element is in `scanContext` → what incremental violations say; otherwise → preserve `existingIncrementalIssues`.
+- `newSupplementalIssues` = always what supplemental violations say (full context is always re-scanned).
+- `newIssues` = `newIncrementalIssues` + `newSupplementalIssues`.
+
+**Removal:** remove if not connected, or if `newIssues` is empty. This handles all cases correctly:
+- Element outside `scanContext` with only incremental issues → `newIncrementalIssues` preserved → kept.
+- Element outside `scanContext` with only ancestor-dependent issues → `newSupplementalIssues` always fresh → cleared when no longer violating.
+- Element in `scanContext` with either type → both groups fresh → removed if both empty.
+
+**Adding:** union of elements in either violations array not already tracked (no context check needed).
+
+**Updating:** if `newIssues` differs from existing issues, update the issues signal.
+
+### Interim approach
+
+Initially, pass `scanContext` and merged violations (incremental + supplemental) to the unchanged function. This correctly adds and updates ancestor-dependent violations but does not clear stale ones for elements outside `scanContext`. Most existing e2e tests should continue to pass; the stale-clearing regression is a contained known issue to fix in a second pass.
+
+## `callback` API — `scanContext` field needs review
+
+The `callback` passed to `createScanner` currently receives a `scanContext` field describing what was scanned in that cycle. With a single `axe.run()` call this was unambiguous — it was the limited context of mutated nodes.
+
+Now there are two scans with different contexts:
+- The limited-context scan covers only the mutated nodes (filtered to the user-provided context).
+- The full-context scan covers the entire user-provided context.
+
+Passing only the limited context in `scanContext` is misleading: the consumer would think only those nodes were scanned, when in fact a broader scan also ran. Passing the full context is also misleading in the other direction.
+
+**Needs review:** decide what `scanContext` should represent going forward — the limited context, the full context, both, or neither. It's possible the field should be removed or replaced with a more structured description of the two scans. The public API contract and any consumer-facing documentation should be updated accordingly.
+
 ## E2e tests to add (`axe-options.spec.ts`)
 
 The existing e2e suite verifies our understanding of axe's `runOnly`/`rules` precedence. It should be extended to cover:
