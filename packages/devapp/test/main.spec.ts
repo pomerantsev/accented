@@ -112,6 +112,7 @@ test.describe('Accented', () => {
           () => document.querySelectorAll('*').length,
         );
         await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        await page.locator(accentedSelector).first().waitFor();
         const triggerCount = await page.evaluate(
           () => document.querySelectorAll('accented-trigger').length,
         );
@@ -142,6 +143,7 @@ test.describe('Accented', () => {
 
       test('can be successfully re-enabled', async ({ page }) => {
         await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        await page.locator(accentedSelector).first().waitFor();
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
       });
@@ -217,6 +219,7 @@ test.describe('Accented', () => {
   test.describe('rendering', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
+      await page.locator(accentedSelector).first().waitFor();
     });
 
     test('sizes of Accented elements don’t fall below a certain threshold', async ({ page }) => {
