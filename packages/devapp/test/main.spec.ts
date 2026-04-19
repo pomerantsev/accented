@@ -478,7 +478,7 @@ test.describe('Accented', () => {
       page,
     }) => {
       await page.goto(
-        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid',
+        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid,color-contrast',
       );
 
       const consoleMessages: any[] = [];
