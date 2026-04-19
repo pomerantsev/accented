@@ -81,11 +81,29 @@ if (searchParams.has('name')) {
   options.name = searchParams.get('name')!;
 }
 
-if (searchParams.has('run-only')) {
+if (searchParams.has('run-only-tags')) {
   options.axeOptions = {
     ...options.axeOptions,
-    // Pass an array as `runOnly` (one of the available options in axe-core).
-    runOnly: searchParams.get('run-only')!.split(','),
+    runOnly: searchParams.get('run-only-tags')!.split(','),
+  };
+}
+if (searchParams.has('run-only-rules')) {
+  options.axeOptions = {
+    ...options.axeOptions,
+    runOnly: { type: 'rule', values: searchParams.get('run-only-rules')!.split(',') },
+  };
+}
+if (searchParams.has('enable-rules')) {
+  const enabledRules = searchParams
+    .get('enable-rules')!
+    .split(',')
+    .reduce((acc: RuleObject, rule) => {
+      acc[rule] = { enabled: true };
+      return acc;
+    }, {});
+  options.axeOptions = {
+    ...options.axeOptions,
+    rules: { ...options.axeOptions?.rules, ...enabledRules },
   };
 }
 if (searchParams.has('disable-rules')) {

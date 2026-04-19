@@ -1049,7 +1049,7 @@ test.describe('Accented', () => {
     });
 
     test('runOnly', async ({ page }) => {
-      await page.goto('?run-only=wcag21aa');
+      await page.goto('?run-only-tags=wcag21aa');
       const count = await page.locator(accentedSelector).count();
       // We only added one element with a WCAG 2.1 AA issue.
       await expect(count).toBe(1);
