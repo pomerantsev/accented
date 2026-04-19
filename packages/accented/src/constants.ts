@@ -12,7 +12,7 @@ export const orderedImpacts: Array<Issue['impact']> = ['minor', 'moderate', 'ser
  * against the full scan context, because the mutated node may be deep inside the element
  * that the violation is reported on — and therefore outside the incremental scan context.
  */
-export const ancestorDependentRules = new Set([
+export const descendantDependantRules = new Set([
   'aria-hidden-focus',
   'aria-required-children',
   'aria-text',

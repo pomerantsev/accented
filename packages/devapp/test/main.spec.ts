@@ -202,6 +202,27 @@ test.describe('Accented', () => {
       expect(finalTriggerCount).toBe(finalCount);
     });
 
+    test.describe('descendant-dependent rules', () => {
+      test('aria-hidden-focus: issue appears on ancestor when a focusable grandchild is added', async ({
+        page,
+      }) => {
+        await page.locator(accentedSelector).first().waitFor();
+        const container = page.locator('#aria-hidden-focus-container');
+        await expect(container).not.toHaveAttribute(accentedDataAttr);
+        await page.getByRole('button', { name: 'Add focusable element' }).click();
+        await expect(container).toHaveAttribute(accentedDataAttr);
+      });
+
+      test('nested-interactive: issue disappears from ancestor when the interactive grandchild is removed', async ({
+        page,
+      }) => {
+        const outer = page.locator('#nested-interactive-outer');
+        await expect(outer).toHaveAttribute(accentedDataAttr);
+        await page.getByRole('button', { name: 'Remove link' }).click();
+        await expect(outer).not.toHaveAttribute(accentedDataAttr);
+      });
+    });
+
     test('causing a mutation in a ShadowRoot doesn’t cause an axe.run error', async ({ page }) => {
       // See https://github.com/dequelabs/axe-core/issues/4941
       const consoleErrors: string[] = [];

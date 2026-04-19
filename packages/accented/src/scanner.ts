@@ -1,5 +1,5 @@
 import axe from 'axe-core';
-import { ancestorDependentRules, getAccentedElementNames, issuesUrl } from './constants.js';
+import { descendantDependantRules, getAccentedElementNames, issuesUrl } from './constants.js';
 import { logAndRethrow } from './log-and-rethrow.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import { TaskQueue } from './task-queue.js';
@@ -25,14 +25,16 @@ export function createScanner(
    * Rules that only look at the element itself — safe to run incrementally
    * against only the nodes affected by the current mutation.
    */
-  const limitedContextRules = new Set([...allRules].filter((r) => !ancestorDependentRules.has(r)));
+  const limitedContextRules = new Set(
+    [...allRules].filter((r) => !descendantDependantRules.has(r)),
+  );
 
   /**
    * Rules whose pass/fail depends on descendants anywhere in the subtree.
    * A mutation deep inside an element can change the outcome for the ancestor,
    * so these must always run against the full scan context.
    */
-  const fullContextRules = new Set([...allRules].filter((r) => ancestorDependentRules.has(r)));
+  const fullContextRules = new Set([...allRules].filter((r) => descendantDependantRules.has(r)));
 
   /**
    * Options shared by both axe.run() calls. The user's runOnly and rules are

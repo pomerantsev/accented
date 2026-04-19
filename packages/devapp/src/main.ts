@@ -192,6 +192,18 @@ moveDirectlyToShadowRoot?.addEventListener('click', () => {
   }
 });
 
+document.getElementById('add-focusable-to-aria-hidden')?.addEventListener('click', () => {
+  const wrapper = document.getElementById('aria-hidden-focus-wrapper');
+  const button = document.createElement('button');
+  button.textContent = 'Focusable';
+  wrapper?.appendChild(button);
+});
+
+document.getElementById('remove-nested-link')?.addEventListener('click', () => {
+  const wrapper = document.getElementById('nested-interactive-wrapper');
+  wrapper?.querySelector('a')?.remove();
+});
+
 // This is needed to test that the Escape press doesn't propagate to the document from the dialog
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
