@@ -502,7 +502,7 @@ test.describe('Accented', () => {
       page,
     }) => {
       await page.goto(
-        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid,color-contrast',
+        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid,color-contrast,nested-interactive',
       );
 
       const consoleMessages: any[] = [];

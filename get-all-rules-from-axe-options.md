@@ -1,5 +1,16 @@
 # `getAllRulesFromAxeOptions` — status and remaining work
 
+## Known test failures
+
+All current CI test failures on this branch are expected consequences of the gaps documented below and will be resolved when those gaps are closed:
+
+- **Gap #2 (disabled-by-default rules)** is causing `color-contrast-enhanced` and `target-size` to run in WebKit when they should not. This produces spurious violations (e.g. on the `<a>` inside `#nested-interactive-outer`) that break three WebKit tests:
+  - `console output › logs element groups with impact levels when there are 5 or fewer total issues` — extra violations push the count above 5, causing top-level groups to be logged
+  - `rendering › triggers are rendered in the correct positions, and are all interactable` — the spurious element gets a trigger that fails alignment or interaction assertions
+  - `rendering › trigger positions are updated on page resize` — same cause
+
+- **`updateElementsWithIssues` interim approach** means stale ancestor-dependent violations on elements outside `limitedContext` are never cleared, which is why the `nested-interactive: issue disappears` e2e test fails on this branch.
+
 ## Goal
 
 Accented's incremental scanner (PR #129) only re-scans elements affected by a DOM mutation, which means ancestor elements are never re-evaluated. Rules whose pass/fail depends on descendants (e.g. `page-has-heading-one`, `aria-required-children`) therefore go stale. The fix is a supplemental `axe.run()` on the full context using only those ancestor-dependent rules.
