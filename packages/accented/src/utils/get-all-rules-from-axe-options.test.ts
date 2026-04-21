@@ -5,9 +5,17 @@ import { getAllRulesFromAxeOptions } from './get-all-rules-from-axe-options';
 suite('getAllRulesFromAxeOptions', () => {
   test('with no options, returns all rules', () => {
     const rules = getAllRulesFromAxeOptions({});
-    assert.ok(rules.size > 100);
+    assert.ok(rules.size > 90);
     assert.ok(rules.has('page-has-heading-one'));
     assert.ok(rules.has('color-contrast'));
+  });
+
+  test('with no options, excludes disabled-by-default rules', () => {
+    const rules = getAllRulesFromAxeOptions({});
+    // axe-core disables some rules by default
+    assert.equal(rules.has('color-contrast-enhanced'), false);
+    assert.equal(rules.has('target-size'), false);
+    assert.equal(rules.has('audio-caption'), false);
   });
 
   test('with runOnly type rule, returns exactly the specified rules', () => {
@@ -73,11 +81,20 @@ suite('getAllRulesFromAxeOptions', () => {
     assert.equal(rules.has('button-name'), false); // not in best-practice and not explicitly enabled
   });
 
+  test('with no runOnly and rules overrides, still excludes disabled-by-default rules', () => {
+    const rules = getAllRulesFromAxeOptions({
+      rules: { 'color-contrast': { enabled: false }, 'button-name': { enabled: true } },
+    });
+    assert.equal(rules.has('color-contrast'), false); // explicitly disabled
+    assert.ok(rules.has('button-name')); // explicitly enabled
+    assert.equal(rules.has('color-contrast-enhanced'), false); // disabled by default, no override
+  });
+
   test('with no runOnly, rules.enabled: false removes a rule', () => {
     const rules = getAllRulesFromAxeOptions({
       rules: { 'color-contrast': { enabled: false } },
     });
-    assert.ok(rules.size > 100);
+    assert.ok(rules.size > 90);
     assert.equal(rules.has('color-contrast'), false);
   });
 

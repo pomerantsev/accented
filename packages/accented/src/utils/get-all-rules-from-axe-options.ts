@@ -3,6 +3,14 @@ import type { AxeOptions } from '../types.ts';
 
 function fromTagsAndRules(tags: string[] | undefined, rules: AxeOptions['rules']): Set<string> {
   const ruleSet = new Set(axe.getRules(tags).map((r) => r.ruleId));
+  if (tags === undefined) {
+    // axe.getRules() includes rules disabled by default; axe skips them via rule.enabled !== false.
+    // Replicate that here using the internal _audit.rules, which exposes the enabled flag.
+    // @ts-expect-error: _audit is an undocumented internal axe-core API not present in its type definitions
+    for (const rule of axe._audit.rules) {
+      if (rule.enabled === false) ruleSet.delete(rule.id);
+    }
+  }
   if (!rules) return ruleSet;
   for (const [ruleId, ruleConfig] of Object.entries(rules)) {
     if (ruleConfig.enabled === false) {
