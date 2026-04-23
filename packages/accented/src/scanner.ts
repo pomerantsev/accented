@@ -94,13 +94,14 @@ export function createScanner(
 
       const limitedContext = getScanContext(nodes, context);
 
-      let violations: axe.AxeResults['violations'] | undefined;
+      let limitedContextResult: axe.AxeResults | undefined;
+      let fullContextResult: axe.AxeResults | undefined;
 
       try {
         // Run the incremental scan against the limited context (only the mutated
         // nodes, filtered to those within the user-provided context). Skip if no
         // limited-context rules are active.
-        const limitedContextResult =
+        limitedContextResult =
           limitedContextRules.size > 0
             ? await axe.run(limitedContext, {
                 ...baseAxeOptions,
@@ -110,18 +111,13 @@ export function createScanner(
 
         // Run the supplemental scan against the full context so that ancestor-
         // dependent rules always see the complete DOM. Skip if none are active.
-        const fullContextResult =
+        fullContextResult =
           fullContextRules.size > 0
             ? await axe.run(context, {
                 ...baseAxeOptions,
                 runOnly: { type: 'rule', values: [...fullContextRules] },
               })
             : undefined;
-
-        violations = [
-          ...(limitedContextResult?.violations ?? []),
-          ...(fullContextResult?.violations ?? []),
-        ];
       } catch (error) {
         console.error(
           `Accented: axe-core (the accessibility testing engine) threw an error. Check the \`axeOptions\` property (https://accented.dev/api#axeoptions) that you're passing to Accented. If you still think it's a bug in Accented, file an issue at ${issuesUrl}.\n`,
@@ -133,7 +129,7 @@ export function createScanner(
       const scanMeasure = performance.measure('scan', 'scan-start');
       const scanDuration = Math.round(scanMeasure.duration);
 
-      if (!enabled.value || !violations) {
+      if (!enabled.value || (!limitedContextResult && !fullContextResult)) {
         return;
       }
 
@@ -141,8 +137,9 @@ export function createScanner(
 
       updateElementsWithIssues({
         extendedElementsWithIssues,
-        scanContext: limitedContext,
-        violations,
+        limitedContext,
+        limitedContextViolations: limitedContextResult?.violations ?? [],
+        fullContextViolations: fullContextResult?.violations ?? [],
         name,
       });
 

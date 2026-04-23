@@ -1,9 +1,16 @@
 import type { Signal } from '@preact/signals-core';
 import { batch, signal } from '@preact/signals-core';
 import type { AxeResults } from 'axe-core';
+import { descendantDependantRules } from '../constants.js';
 import type { AccentedDialog } from '../elements/accented-dialog.ts';
 import type { AccentedTrigger } from '../elements/accented-trigger.ts';
-import type { ExtendedElementWithIssues, ScanContext } from '../types.ts';
+import type {
+  BaseElementWithIssues,
+  ElementWithIssues,
+  ExtendedElementWithIssues,
+  Issue,
+  ScanContext,
+} from '../types.ts';
 import { areElementsWithIssuesEqual } from './are-elements-with-issues-equal.js';
 import { areIssueSetsEqual } from './are-issue-sets-equal.js';
 import { isSvgElement } from './dom-helpers.js';
@@ -13,6 +20,13 @@ import { getScrollableAncestors } from './get-scrollable-ancestors.js';
 import { isNodeInScanContext } from './is-node-in-scan-context.js';
 import { supportsAnchorPositioning } from './supports-anchor-positioning.js';
 import { transformViolations } from './transform-violations.js';
+
+function issuesInList(
+  element: BaseElementWithIssues,
+  list: Array<ElementWithIssues>,
+): Array<Issue> {
+  return list.find((e) => areElementsWithIssuesEqual(e, element))?.issues ?? [];
+}
 
 function shouldSkipRender(element: Element): boolean {
   // Skip rendering if the element is inside an SVG:
@@ -34,55 +48,58 @@ let count = 0;
 
 export function updateElementsWithIssues({
   extendedElementsWithIssues,
-  scanContext,
-  violations,
+  limitedContext,
+  limitedContextViolations,
+  fullContextViolations,
   name,
 }: {
   extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>;
-  scanContext: ScanContext;
-  violations: typeof AxeResults.violations;
+  limitedContext: ScanContext;
+  limitedContextViolations: typeof AxeResults.violations;
+  fullContextViolations: typeof AxeResults.violations;
   name: string;
 }) {
-  const updatedElementsWithIssues = transformViolations(violations, name);
+  const updatedElementsFromLimitedContext = transformViolations(limitedContextViolations, name);
+  const updatedElementsFromFullContext = transformViolations(fullContextViolations, name);
+
+  const allUpdatedElements: Array<ElementWithIssues> = [
+    ...updatedElementsFromLimitedContext,
+    ...updatedElementsFromFullContext.filter(
+      (e) => !updatedElementsFromLimitedContext.some((l) => areElementsWithIssuesEqual(l, e)),
+    ),
+  ].map((e) => ({
+    ...e,
+    issues: [
+      ...issuesInList(e, updatedElementsFromLimitedContext),
+      ...issuesInList(e, updatedElementsFromFullContext),
+    ],
+  }));
 
   batch(() => {
-    for (const updatedElementWithIssues of updatedElementsWithIssues) {
-      const existingElementIndex = extendedElementsWithIssues.value.findIndex(
-        (extendedElementWithIssues) =>
-          areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues),
-      );
-      if (
-        existingElementIndex > -1 &&
-        extendedElementsWithIssues.value[existingElementIndex] &&
-        !areIssueSetsEqual(
-          extendedElementsWithIssues.value[existingElementIndex].issues.value,
-          updatedElementWithIssues.issues,
-        )
-      ) {
-        extendedElementsWithIssues.value[existingElementIndex].issues.value =
-          updatedElementWithIssues.issues;
+    for (const existing of extendedElementsWithIssues.value) {
+      const newLimitedIssues = isNodeInScanContext(existing.element, limitedContext)
+        ? issuesInList(existing, updatedElementsFromLimitedContext)
+        : existing.issues.value.filter((issue) => !descendantDependantRules.has(issue.id));
+
+      const newFullIssues = issuesInList(existing, updatedElementsFromFullContext);
+
+      const newIssues = [...newLimitedIssues, ...newFullIssues];
+
+      if (!areIssueSetsEqual(existing.issues.value, newIssues)) {
+        existing.issues.value = newIssues;
       }
     }
 
-    const addedElementsWithIssues = updatedElementsWithIssues.filter((updatedElementWithIssues) => {
+    const addedElementsWithIssues = allUpdatedElements.filter((updatedElementWithIssues) => {
       return !extendedElementsWithIssues.value.some((extendedElementWithIssues) =>
         areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues),
       );
     });
 
-    // Only consider an element to be removed in two cases:
-    // 1. It has been removed from the DOM.
-    // 2. It is within the scan context, but not among updatedElementsWithIssues.
     const removedElementsWithIssues = extendedElementsWithIssues.value.filter(
-      (extendedElementWithIssues) => {
-        const isConnected = extendedElementWithIssues.element.isConnected;
-        const hasNoMoreIssues =
-          isNodeInScanContext(extendedElementWithIssues.element, scanContext) &&
-          !updatedElementsWithIssues.some((updatedElementWithIssues) =>
-            areElementsWithIssuesEqual(updatedElementWithIssues, extendedElementWithIssues),
-          );
-        return !isConnected || hasNoMoreIssues;
-      },
+      (extendedElementWithIssues) =>
+        !extendedElementWithIssues.element.isConnected ||
+        extendedElementWithIssues.issues.value.length === 0,
     );
 
     if (addedElementsWithIssues.length > 0 || removedElementsWithIssues.length > 0) {
