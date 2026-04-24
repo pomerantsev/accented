@@ -1,3 +1,9 @@
+/* Adapts two axe-core behaviors:
+   - shorthand string/array runOnly normalization from normalizeOptions:
+     https://github.com/dequelabs/axe-core/blob/9261d074b60527a84f4dce5a64a6d5a5843a0772/lib/core/base/audit.js#L408-L428
+   - which rules to include for a given runOnly/rules combination, from ruleShouldRun (lines 65–80,
+     omitting the rule.pageLevel check — axe applies that itself when we call axe.run):
+     https://github.com/dequelabs/axe-core/blob/9261d074b60527a84f4dce5a64a6d5a5843a0772/lib/core/utils/rule-should-run.js */
 import axe from 'axe-core';
 import type { AxeOptions } from '../types.ts';
 
