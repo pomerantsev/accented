@@ -1,35 +1,48 @@
 import axe from 'axe-core';
 import type { AxeOptions } from '../types.ts';
 
-function fromTagsAndRules(tags: string[] | undefined, rules: AxeOptions['rules']): Set<string> {
-  const ruleSet = new Set(axe.getRules(tags).map((r) => r.ruleId));
-  if (tags === undefined) {
-    // axe.getRules() includes rules disabled by default; axe skips them via rule.enabled !== false.
-    // Replicate that here using the internal _audit.rules, which exposes the enabled flag.
-    // @ts-expect-error: _audit is an undocumented internal axe-core API not present in its type definitions
-    for (const rule of axe._audit.rules) {
-      if (rule.enabled === false) ruleSet.delete(rule.id);
-    }
-  }
+function getRuleIds(tags?: Array<string>): Set<string> {
+  return new Set(axe.getRules(tags).map((r) => r.ruleId));
+}
+
+function applyOverrides(ruleSet: Set<string>, rules: AxeOptions['rules']): Set<string> {
   if (!rules) return ruleSet;
   for (const [ruleId, ruleConfig] of Object.entries(rules)) {
-    if (ruleConfig.enabled === false) {
-      ruleSet.delete(ruleId);
-    } else if (ruleConfig.enabled === true) {
-      ruleSet.add(ruleId);
-    }
+    if (ruleConfig.enabled === false) ruleSet.delete(ruleId);
+    else if (ruleConfig.enabled === true) ruleSet.add(ruleId);
   }
   return ruleSet;
 }
 
+// Normalizes the string/array shorthands of runOnly into the { type, values } object form.
+function normalizeRunOnly(
+  runOnly: Exclude<AxeOptions['runOnly'], undefined>,
+  allRuleIds: Set<string>,
+): { type: string; values: string[] } {
+  if (typeof runOnly !== 'string' && !Array.isArray(runOnly)) return runOnly;
+  const values = typeof runOnly === 'string' ? [runOnly] : runOnly;
+  const isRulePath = values.every((v) => allRuleIds.has(v));
+  const isTagPath = values.every((v) => !allRuleIds.has(v));
+  if (!isRulePath && !isTagPath)
+    throw new Error(`runOnly mixes rule IDs and tag values: ${values.join(', ')}`);
+  return { type: isRulePath ? 'rule' : 'tag', values };
+}
+
 export function getAllRulesFromAxeOptions(axeOptions: AxeOptions): Set<string> {
-  const { runOnly, rules } = axeOptions;
+  const allRuleIds = getRuleIds();
+  const { rules, runOnly } = axeOptions;
 
-  if (runOnly === undefined) return fromTagsAndRules(undefined, rules);
-  if (typeof runOnly === 'string') return fromTagsAndRules([runOnly], rules);
-  if (Array.isArray(runOnly)) return fromTagsAndRules(runOnly, rules);
+  if (runOnly === undefined) {
+    // axe.getRules() includes rules disabled by default; axe skips them via rule.enabled !== false.
+    // Replicate that here using the internal _audit.rules, which exposes the enabled flag.
+    // @ts-expect-error: _audit is an undocumented internal axe-core API not present in its type definitions
+    for (const rule of axe._audit.rules) {
+      if (rule.enabled === false) allRuleIds.delete(rule.id);
+    }
+    return applyOverrides(allRuleIds, rules);
+  }
 
-  const { type, values } = runOnly;
+  const { type, values } = normalizeRunOnly(runOnly, allRuleIds);
   if (type === 'rule' || type === 'rules') return new Set(values);
-  return fromTagsAndRules(values, rules);
+  return applyOverrides(getRuleIds(values), rules);
 }

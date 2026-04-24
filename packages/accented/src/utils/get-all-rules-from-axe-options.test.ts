@@ -109,4 +109,33 @@ suite('getAllRulesFromAxeOptions', () => {
     assert.ok(rules.has('page-has-heading-one'));
     assert.equal(rules.has('color-contrast'), false);
   });
+
+  test('with runOnly as a rule ID string shorthand, returns that rule', () => {
+    const rules = getAllRulesFromAxeOptions({ runOnly: 'color-contrast' });
+    assert.equal(rules.size, 1);
+    assert.ok(rules.has('color-contrast'));
+  });
+
+  test('with runOnly as a rule ID array shorthand, returns exactly those rules', () => {
+    const rules = getAllRulesFromAxeOptions({ runOnly: ['color-contrast', 'button-name'] });
+    assert.equal(rules.size, 2);
+    assert.ok(rules.has('color-contrast'));
+    assert.ok(rules.has('button-name'));
+  });
+
+  test('with runOnly as a rule ID array shorthand, ignores rules overrides', () => {
+    const rules = getAllRulesFromAxeOptions({
+      runOnly: ['color-contrast', 'button-name'],
+      rules: { 'color-contrast': { enabled: false }, 'aria-label': { enabled: true } },
+    });
+    assert.equal(rules.size, 2);
+    assert.ok(rules.has('color-contrast'));
+    assert.ok(rules.has('button-name'));
+  });
+
+  test('with runOnly as a mixed shorthand array (tag + rule ID), throws', () => {
+    assert.throws(() =>
+      getAllRulesFromAxeOptions({ runOnly: ['best-practice', 'color-contrast'] }),
+    );
+  });
 });
