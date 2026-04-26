@@ -1,3 +1,11 @@
+/**
+ * The tests in this test suite have e2e counterparts in axe-options.spec.ts.
+ * If we ever change this file, we should make sure axe-options.spec.ts
+ * doesn't diverge.
+ * That way, we can be sure that our reimplementation of runOnly / rules
+ * is in sync with that in axe-core.
+ */
+
 import assert from 'node:assert/strict';
 import { suite, test } from 'node:test';
 import { getAllRulesFromAxeOptions } from './get-all-rules-from-axe-options';
