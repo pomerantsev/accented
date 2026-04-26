@@ -1,0 +1,40 @@
+name: Update Biome schema
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  update-biome-schema:
+    # Only run when Dependabot opens a biome-specific PR.
+    # Dependabot branch names for this package look like:
+    # dependabot/npm_and_yarn/biomejs/biome-2.4.12
+    if: github.actor == 'dependabot[bot]' && contains(github.head_ref, 'biomejs/biome')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+
+      - name: Extract new biome version
+        id: version
+        run: |
+          VERSION=$(node -e "const {default: pkg} = await import('./package.json', {with: {type: 'json'}}); console.log(pkg.devDependencies['@biomejs/biome'].replace(/[^0-9.]/g, ''))")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update biome.json schema URL
+        run: |
+          sed -i "s|https://biomejs.dev/schemas/[^/]*/schema.json|https://biomejs.dev/schemas/${{ steps.version.outputs.version }}/schema.json|" biome.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add biome.json
+          git commit -m "Update biome.json schema to ${{ steps.version.outputs.version }}"
+          git push
