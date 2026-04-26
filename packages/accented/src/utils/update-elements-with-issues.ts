@@ -55,8 +55,8 @@ export function updateElementsWithIssues({
 }: {
   extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>>;
   limitedContext: ScanContext;
-  limitedContextViolations: typeof AxeResults.violations;
-  fullContextViolations: typeof AxeResults.violations;
+  limitedContextViolations: AxeResults['violations'];
+  fullContextViolations: AxeResults['violations'];
   name: string;
 }) {
   const updatedElementsFromLimitedContext = transformViolations(limitedContextViolations, name);
