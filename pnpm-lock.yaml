@@ -120,10 +120,10 @@ importers:
     dependencies:
       '@astrojs/mdx':
         specifier: ^5.0.3
-        version: 5.0.3(astro@6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))
+        version: 5.0.3(astro@6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))
       '@astrojs/netlify':
-        specifier: ^7.0.6
-        version: 7.0.6(@types/node@25.6.0)(astro@6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@types/node@25.6.0)(astro@6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)
       '@astrojs/rss':
         specifier: ^4.0.18
         version: 4.0.18
@@ -143,8 +143,8 @@ importers:
         specifier: ^5.2.7
         version: 5.2.7
       astro:
-        specifier: ^6.1.6
-        version: 6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3)
+        specifier: ^6.1.8
+        version: 6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3)
       common:
         specifier: workspace:*
         version: link:../common
@@ -243,8 +243,8 @@ packages:
     peerDependencies:
       astro: ^6.0.0
 
-  '@astrojs/netlify@7.0.6':
-    resolution: {integrity: sha512-k8qmZvF9RJ5EYcH9C58yfa7hZsa+xZ/Iu1i8UwvFOfgZrgNul86uiag/4YsXnDTqyefREJW9v8PqKIX+yhnSsA==}
+  '@astrojs/netlify@7.0.7':
+    resolution: {integrity: sha512-B6dz6IJ96Dtv4+Bz/wTBqVwms2f+bjzNDnrnoapqy78O1mb9IRjEcuqgZsIpxxL5C1O0bQ6rawaL0jspjJKLGQ==}
     peerDependencies:
       astro: ^6.0.0
 
@@ -258,8 +258,8 @@ packages:
   '@astrojs/sitemap@3.7.2':
     resolution: {integrity: sha512-PqkzkcZTb5ICiyIR8VoKbIAP/laNRXi5tw616N1Ckk+40oNB8Can1AzVV56lrbC5GKSZFCyJYUVYqVivMisvpA==}
 
-  '@astrojs/telemetry@3.3.0':
-    resolution: {integrity: sha512-UFBgfeldP06qu6khs/yY+q1cDAaArM2/7AEIqQ9Cuvf7B1hNLq0xDrZkct+QoIGyjq56y8IaE2I3CTvG99mlhQ==}
+  '@astrojs/telemetry@3.3.1':
+    resolution: {integrity: sha512-7fcIxXS9J4ls5tr8b3ww9rbAIz2+HrhNJYZdkAhhB4za/I5IZ/60g+Bs8q7zwG0tOIZfNB4JWhVJ1Qkl/OrNCw==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0}
 
   '@astrojs/underscore-redirects@1.0.3':
@@ -1608,6 +1608,10 @@ packages:
     engines: {node: '>=18.14.0'}
     hasBin: true
 
+  '@netlify/database-dev@0.10.0':
+    resolution: {integrity: sha512-kdootHVxNsIZK8B6p2pAeIXs1VsVOCGsApzyi7JhA60Sdqemk9DT2Pf4FeIcGJb205o9VX1AXEbErOmDzjnnnA==}
+    engines: {node: '>=20.6.1'}
+
   '@netlify/db-dev@0.7.0':
     resolution: {integrity: sha512-xB2ciUJsWFw34DtMMmAh19qGUJy1N5mFAi6yYFFqeBlnd8StSxoUblXcqVZcQJLXm68OAxSxkfGf1qUucIDyMA==}
     engines: {node: '>=20.6.1'}
@@ -1624,8 +1628,8 @@ packages:
     resolution: {integrity: sha512-IhyLtiEgOFCwpW/qYqCnY0LSwmw4PNgu4hJYIddLpIr/RPHAsDN+Ni3hEEW9RH8wkmvYmbc+xtxHPQZdyDUSgg==}
     engines: {node: '>=20.6.1'}
 
-  '@netlify/dev@4.16.5':
-    resolution: {integrity: sha512-fp8QAk/puxk+xuULc2qriBhtDAS2TQV3X5m2GpXf/YTWTuTNhGPkmOYwgtFA/CrV1ITzGrtLnpJq0ZpVTwAuDw==}
+  '@netlify/dev@4.17.3':
+    resolution: {integrity: sha512-EU8EqY2E3BdNCzimZS5PMat8ETAsUFJMBKcOaAMhw0dJFckUj+oZ5OijxfBHJe0sfvDj8eq3E/nQtBlnaoKpHw==}
     engines: {node: '>=20.6.1'}
 
   '@netlify/edge-bundler@14.9.19':
@@ -1650,8 +1654,8 @@ packages:
     resolution: {integrity: sha512-Ejrb+1HL11zgVgaaMHWukH4hOXFy3FUtue8hD5rgBiLWeGp03uOlGehmbRz47FXvGBMK7Z4t7HZRZU/vpaN5+g==}
     engines: {node: '>=20.6.1'}
 
-  '@netlify/functions-dev@1.2.5':
-    resolution: {integrity: sha512-IRskgi6cexUkFtU0Da/OiiUyvyKOzxNsf16HN9iRIGGZUQ4AcyXwJPqVsquP9jHluY3Ck8bDsnxXnpOsaT4ENg==}
+  '@netlify/functions-dev@1.2.6':
+    resolution: {integrity: sha512-hhfgKGZ2mQAv85jb3o4hYZ7s8Ad/+99qz51AoxhE26KkU1IKuRuKwEowWZUtvih0KPmvmGcVHbd49KYVIlf0tA==}
     engines: {node: '>=20.6.1'}
 
   '@netlify/functions-utils@6.2.30':
@@ -1812,8 +1816,8 @@ packages:
     resolution: {integrity: sha512-yD20EizHJDQxajJ66Vo8RTwLwR2jMNVxufPG8MHd2AScX8jW4z0VPnnJHArq2GYPFTFZRHmiAhDrXr5m8zof6w==}
     engines: {node: ^18.14.0 || >=20}
 
-  '@netlify/vite-plugin@2.11.3':
-    resolution: {integrity: sha512-Sy3Fx89SyH4myxEzEwUnOezCINowBiSFHxS/xc2wYu5aGVcX21FvJbV6g/C/EZ1jR2rTVNZU95sjual0lskpqQ==}
+  '@netlify/vite-plugin@2.11.7':
+    resolution: {integrity: sha512-S3IR5uuPxggzR3+U+2xm4XU2gq+2EFsrRRaiRMRiYxPDihJJN3QrvAIk/NzgRLvbPksaZPHekwS1P2dopGRvpw==}
     engines: {node: ^20.6.1 || >=22}
     peerDependencies:
       vite: ^5 || ^6 || ^7 || ^8
@@ -2827,8 +2831,8 @@ packages:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
 
-  astro@6.1.6:
-    resolution: {integrity: sha512-pRsz+kYriwCV/AUcY/I9OVKtVHuYFs2DtCszAxprXded/kTE53nMwxfnK0Nf6FPfaX9vcUiLnigcSIhuFoKntA==}
+  astro@6.1.8:
+    resolution: {integrity: sha512-6fT9M12U3fpi13DiPavNKDIoBflASTSxmKTEe+zXhWtlebQuOqfOnIrMWyRmlXp+mgDsojmw+fVFG9LUTzKSog==}
     engines: {node: '>=22.12.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -7449,12 +7453,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@5.0.3(astro@6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))':
+  '@astrojs/mdx@5.0.3(astro@6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))':
     dependencies:
       '@astrojs/markdown-remark': 7.1.0
       '@mdx-js/mdx': 3.1.1
       acorn: 8.16.0
-      astro: 6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3)
+      astro: 6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3)
       es-module-lexer: 2.0.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -7468,15 +7472,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/netlify@7.0.6(@types/node@25.6.0)(astro@6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)':
+  '@astrojs/netlify@7.0.7(@types/node@25.6.0)(astro@6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3))(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)':
     dependencies:
       '@astrojs/internal-helpers': 0.8.0
       '@astrojs/underscore-redirects': 1.0.3
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
       '@netlify/functions': 5.2.0
-      '@netlify/vite-plugin': 2.11.3(rollup@4.60.2)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
+      '@netlify/vite-plugin': 2.11.7(rollup@4.60.2)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
       '@vercel/nft': 1.5.0(rollup@4.60.2)
-      astro: 6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3)
+      astro: 6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3)
       esbuild: 0.27.7
       tinyglobby: 0.2.16
       vite: 7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
@@ -7535,17 +7539,14 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 4.3.6
 
-  '@astrojs/telemetry@3.3.0':
+  '@astrojs/telemetry@3.3.1':
     dependencies:
       ci-info: 4.4.0
-      debug: 4.4.3(supports-color@10.2.2)
       dlv: 1.1.3
       dset: 3.1.4
-      is-docker: 3.0.0
+      is-docker: 4.0.0
       is-wsl: 3.1.1
       which-pm-runs: 1.1.0
-    transitivePeerDependencies:
-      - supports-color
 
   '@astrojs/underscore-redirects@1.0.3': {}
 
@@ -8580,7 +8581,7 @@ snapshots:
 
   '@netlify/binary-info@1.0.0': {}
 
-  '@netlify/blobs@10.7.0':
+  '@netlify/blobs@10.7.0(supports-color@10.2.2)':
     dependencies:
       '@netlify/dev-utils': 4.3.3
       '@netlify/otel': 5.1.5(supports-color@10.2.2)
@@ -8588,7 +8589,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@netlify/blobs@10.7.4(supports-color@10.2.2)':
+  '@netlify/blobs@10.7.4':
     dependencies:
       '@netlify/dev-utils': 4.4.3
       '@netlify/otel': 5.1.5(supports-color@10.2.2)
@@ -8611,7 +8612,7 @@ snapshots:
   '@netlify/build@35.12.0(@opentelemetry/api@1.8.0)(@types/node@25.6.0)(picomatch@4.0.4)(rollup@4.60.2)':
     dependencies:
       '@bugsnag/js': 8.9.0
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.0(supports-color@10.2.2)
       '@netlify/cache-utils': 6.0.5
       '@netlify/config': 24.5.0
       '@netlify/edge-bundler': 14.9.19
@@ -8744,6 +8745,11 @@ snapshots:
       yargs: 17.7.2
       zod: 4.3.6
 
+  '@netlify/database-dev@0.10.0':
+    dependencies:
+      '@electric-sql/pglite': 0.3.16
+      pg-gateway: 0.3.0-beta.4
+
   '@netlify/db-dev@0.7.0':
     dependencies:
       '@electric-sql/pglite': 0.3.16
@@ -8788,7 +8794,7 @@ snapshots:
   '@netlify/dev@4.16.4(rollup@4.60.2)':
     dependencies:
       '@netlify/ai': 0.4.1
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
       '@netlify/config': 24.5.0
       '@netlify/db-dev': 0.7.0
       '@netlify/dev-utils': 4.4.3
@@ -8827,15 +8833,15 @@ snapshots:
       - supports-color
       - uploadthing
 
-  '@netlify/dev@4.16.5(rollup@4.60.2)':
+  '@netlify/dev@4.17.3(rollup@4.60.2)':
     dependencies:
       '@netlify/ai': 0.4.1
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
       '@netlify/config': 24.5.0
-      '@netlify/db-dev': 0.7.0
+      '@netlify/database-dev': 0.10.0
       '@netlify/dev-utils': 4.4.3
       '@netlify/edge-functions-dev': 1.0.16
-      '@netlify/functions-dev': 1.2.5(rollup@4.60.2)
+      '@netlify/functions-dev': 1.2.6(rollup@4.60.2)
       '@netlify/headers': 2.1.8
       '@netlify/images': 1.3.7(@netlify/blobs@10.7.4)
       '@netlify/redirects': 3.1.10
@@ -8913,7 +8919,7 @@ snapshots:
 
   '@netlify/functions-dev@1.2.4(rollup@4.60.2)':
     dependencies:
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
       '@netlify/dev-utils': 4.4.3
       '@netlify/functions': 5.1.5
       '@netlify/zip-it-and-ship-it': 14.5.4(rollup@4.60.2)(supports-color@10.2.2)
@@ -8934,9 +8940,9 @@ snapshots:
       - rollup
       - supports-color
 
-  '@netlify/functions-dev@1.2.5(rollup@4.60.2)':
+  '@netlify/functions-dev@1.2.6(rollup@4.60.2)':
     dependencies:
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
       '@netlify/dev-utils': 4.4.3
       '@netlify/functions': 5.2.0
       '@netlify/zip-it-and-ship-it': 14.5.4(rollup@4.60.2)(supports-color@10.2.2)
@@ -9140,7 +9146,7 @@ snapshots:
 
   '@netlify/runtime@4.1.20':
     dependencies:
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
       '@netlify/cache': 3.4.4
       '@netlify/runtime-utils': 2.3.0
       '@netlify/types': 2.6.0
@@ -9161,9 +9167,9 @@ snapshots:
 
   '@netlify/types@2.6.0': {}
 
-  '@netlify/vite-plugin@2.11.3(rollup@4.60.2)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))':
+  '@netlify/vite-plugin@2.11.7(rollup@4.60.2)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:
-      '@netlify/dev': 4.16.5(rollup@4.60.2)
+      '@netlify/dev': 4.17.3(rollup@4.60.2)
       '@netlify/dev-utils': 4.4.3
       dedent: 1.7.2
       vite: 7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
@@ -10228,12 +10234,12 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro@6.1.6(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3):
+  astro@6.1.8(@netlify/blobs@10.7.0)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.3):
     dependencies:
       '@astrojs/compiler': 3.0.1
       '@astrojs/internal-helpers': 0.8.0
       '@astrojs/markdown-remark': 7.1.0
-      '@astrojs/telemetry': 3.3.0
+      '@astrojs/telemetry': 3.3.1
       '@capsizecss/unpack': 4.0.0
       '@clack/prompts': 1.2.0
       '@oslojs/encoding': 1.1.0
@@ -13311,7 +13317,7 @@ snapshots:
       '@fastify/static': 9.0.0
       '@netlify/ai': 0.4.1
       '@netlify/api': 14.0.18
-      '@netlify/blobs': 10.7.0
+      '@netlify/blobs': 10.7.0(supports-color@10.2.2)
       '@netlify/build': 35.12.0(@opentelemetry/api@1.8.0)(@types/node@25.6.0)(picomatch@4.0.4)(rollup@4.60.2)
       '@netlify/build-info': 10.5.0
       '@netlify/config': 24.4.4
@@ -15174,7 +15180,7 @@ snapshots:
       ofetch: 1.5.1
       ufo: 1.6.3
     optionalDependencies:
-      '@netlify/blobs': 10.7.0
+      '@netlify/blobs': 10.7.0(supports-color@10.2.2)
 
   unstorage@1.17.5(@netlify/blobs@10.7.4):
     dependencies:
@@ -15187,7 +15193,7 @@ snapshots:
       ofetch: 1.5.1
       ufo: 1.6.3
     optionalDependencies:
-      '@netlify/blobs': 10.7.4(supports-color@10.2.2)
+      '@netlify/blobs': 10.7.4
 
   untildify@4.0.0: {}
 
