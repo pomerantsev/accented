@@ -43,6 +43,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: /axe-options/,
       use: { ...devices['Desktop Chrome'] },
     },
 
@@ -54,6 +55,15 @@ export default defineConfig({
 
     {
       name: 'firefox',
+      testIgnore: /axe-options/,
+      use: { ...devices['Desktop Firefox'] },
+    },
+
+    // There's nothing special about Firefox for running the axe-options tests.
+    // I could choose any one browser for them, and I chose Firefox.
+    {
+      name: 'firefox-axe-options',
+      testMatch: /axe-options/,
       use: { ...devices['Desktop Firefox'] },
     },
 
@@ -65,6 +75,7 @@ export default defineConfig({
 
     {
       name: 'webkit',
+      testIgnore: /axe-options/,
       use: { ...devices['Desktop Safari'] },
     },
 

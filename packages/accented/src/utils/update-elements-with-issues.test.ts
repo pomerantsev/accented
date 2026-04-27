@@ -131,7 +131,7 @@ const issue3: Issue = {
   ...commonIssueProps,
 };
 
-const scanContext = {
+const limitedContext = {
   include: [document],
   exclude: [],
 };
@@ -166,8 +166,9 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2],
+      limitedContext,
+      limitedContextViolations: [violation1, violation2],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -206,8 +207,9 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2, violation3],
+      limitedContext,
+      limitedContextViolations: [violation1, violation2, violation3],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -246,8 +248,9 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2],
+      limitedContext,
+      limitedContextViolations: [violation1, violation2],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -274,8 +277,9 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2],
+      limitedContext,
+      limitedContextViolations: [violation1, violation2],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -302,8 +306,9 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation4],
+      limitedContext,
+      limitedContextViolations: [violation1, violation4],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);
@@ -339,8 +344,9 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1],
+      limitedContext,
+      limitedContextViolations: [violation1],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);

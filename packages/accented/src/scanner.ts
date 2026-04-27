@@ -1,9 +1,10 @@
 import axe from 'axe-core';
-import { getAccentedElementNames, issuesUrl } from './constants.js';
+import { descendantDependantRules, getAccentedElementNames, issuesUrl } from './constants.js';
 import { logAndRethrow } from './log-and-rethrow.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import { TaskQueue } from './task-queue.js';
 import type { AxeOptions, Callback, Context, Throttle } from './types.ts';
+import { getAllRulesFromAxeOptions } from './utils/get-all-rules-from-axe-options.js';
 import { getScanContext } from './utils/get-scan-context.js';
 import { recalculatePositions } from './utils/recalculate-positions.js';
 import { recalculateScrollableAncestors } from './utils/recalculate-scrollable-ancestors.js';
@@ -18,10 +19,68 @@ export function createScanner(
   throttle: Required<Throttle>,
   callback: Callback,
 ) {
+  const allRules = getAllRulesFromAxeOptions(axeOptions);
+
+  /**
+   * Rules that only look at the element itself — safe to run incrementally
+   * against only the nodes affected by the current mutation.
+   */
+  const limitedContextRules = new Set(
+    [...allRules].filter((r) => !descendantDependantRules.has(r)),
+  );
+
+  /**
+   * Rules whose pass/fail depends on descendants anywhere in the subtree.
+   * A mutation deep inside an element can change the outcome for the ancestor,
+   * so these must always run against the full scan context.
+   */
+  const fullContextRules = new Set([...allRules].filter((r) => descendantDependantRules.has(r)));
+
+  /**
+   * Options shared by both axe.run() calls. The user's runOnly and rules are
+   * consumed by getAllRulesFromAxeOptions above and replaced by explicit rule
+   * sets, so they are not forwarded here.
+   */
+  const baseAxeOptions: axe.RunOptions = {
+    /**
+     * By default, axe-core doesn't include element refs
+     * in the violations array,
+     * and we need those element refs.
+     */
+    elementRef: true,
+
+    /**
+     * Although axe-core can perform iframe scanning, I haven't succeeded in it,
+     * and the docs suggest that the axe-core script should be explicitly included
+     * in each of the iframed documents anyway.
+     * It seems preferable to disallow iframe scanning and not report issues in elements within iframes
+     * in the case that such issues are for some reason reported by axe-core.
+     * A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
+     */
+    iframes: false,
+
+    /**
+     * The `preload` docs are not clear to me,
+     * but when it's set to `true` by default,
+     * axe-core tries to fetch cross-origin CSS,
+     * which fails in the absence of CORS headers.
+     * I'm not sure why axe-core needs to preload
+     * those resources in the first place,
+     * so disabling it seems to be the safe option.
+     */
+    preload: false,
+
+    /**
+     * We're only interested in violations,
+     * not in passes or incomplete results.
+     */
+    resultTypes: ['violations'],
+  };
+
   const axeRunningWindowProp = `__${name}_axe_running__`;
   const win = window as unknown as Record<string, boolean>;
   const taskQueue = new TaskQueue<Node>(async (nodes) => {
-    // We may see errors coming from axe-core when Accented is toggled off and on in qiuck succession,
+    // We may see errors coming from axe-core when Accented is toggled off and on in quick succession,
     // which I've seen happen with hot reloading of a React application.
     // This window property serves as a circuit breaker for that particular case.
     if (win[axeRunningWindowProp]) {
@@ -33,51 +92,35 @@ export function createScanner(
 
       win[axeRunningWindowProp] = true;
 
-      const scanContext = getScanContext(nodes, context);
+      const limitedContext = getScanContext(nodes, context);
 
-      let result: axe.AxeResults | undefined;
+      let limitedContextResult: axe.AxeResults | undefined;
+      let fullContextResult: axe.AxeResults | undefined;
 
       try {
-        result = await axe.run(scanContext, {
-          /**
-           * By default, axe-core doesn't include element refs
-           * in the violations array,
-           * and we need those element refs.
-           */
-          elementRef: true,
+        // Run the incremental scan against the limited context (only the mutated
+        // nodes, filtered to those within the user-provided context). Skip if no
+        // limited-context rules are active.
+        limitedContextResult =
+          limitedContextRules.size > 0
+            ? await axe.run(limitedContext, {
+                ...baseAxeOptions,
+                runOnly: { type: 'rule', values: [...limitedContextRules] },
+              })
+            : undefined;
 
-          /**
-           * Although axe-core can perform iframe scanning, I haven't succeeded in it,
-           * and the docs suggest that the axe-core script should be explicitly included
-           * in each of the iframed documents anyway.
-           * It seems preferable to disallow iframe scanning and not report issues in elements within iframes
-           * in the case that such issues are for some reason reported by axe-core.
-           * A consumer of Accented can instead scan the iframed document by calling Accented initialization from that document.
-           */
-          iframes: false,
-
-          /**
-           * The `preload` docs are not clear to me,
-           * but when it's set to `true` by default,
-           * axe-core tries to fetch cross-origin CSS,
-           * which fails in the absence of CORS headers.
-           * I'm not sure why axe-core needs to preload
-           * those resources in the first place,
-           * so disabling it seems to be the safe option.
-           */
-          preload: false,
-
-          /**
-           * We're only interested in violations,
-           * not in passes or incomplete results.
-           */
-          resultTypes: ['violations'],
-
-          ...axeOptions,
-        });
+        // Run the supplemental scan against the full context so that ancestor-
+        // dependent rules always see the complete DOM. Skip if none are active.
+        fullContextResult =
+          fullContextRules.size > 0
+            ? await axe.run(context, {
+                ...baseAxeOptions,
+                runOnly: { type: 'rule', values: [...fullContextRules] },
+              })
+            : undefined;
       } catch (error) {
         console.error(
-          `Accented: axe-core (the accessibility testing engine) threw an error. Check the \`axeOptions\` property (https://accented.dev/api#axeoptions) that you’re passing to Accented. If you still think it’s a bug in Accented, file an issue at ${issuesUrl}.\n`,
+          `Accented: axe-core (the accessibility testing engine) threw an error. Check the \`axeOptions\` property (https://accented.dev/api#axeoptions) that you're passing to Accented. If you still think it's a bug in Accented, file an issue at ${issuesUrl}.\n`,
           error,
         );
       }
@@ -86,7 +129,7 @@ export function createScanner(
       const scanMeasure = performance.measure('scan', 'scan-start');
       const scanDuration = Math.round(scanMeasure.duration);
 
-      if (!enabled.value || !result) {
+      if (!enabled.value || (!limitedContextResult && !fullContextResult)) {
         return;
       }
 
@@ -94,8 +137,9 @@ export function createScanner(
 
       updateElementsWithIssues({
         extendedElementsWithIssues,
-        scanContext,
-        violations: result.violations,
+        limitedContext,
+        limitedContextViolations: limitedContextResult?.violations ?? [],
+        fullContextViolations: fullContextResult?.violations ?? [],
         name,
       });
 
@@ -106,7 +150,7 @@ export function createScanner(
         // Assuming that the {include, exclude} shape of the context object will be used less often
         // than other variants, we'll output just the `include` array in case nothing is excluded
         // in the scan.
-        scanContext: scanContext.exclude.length > 0 ? scanContext : scanContext.include,
+        scanContext: limitedContext.exclude.length > 0 ? limitedContext : limitedContext.include,
         elementsWithIssues: elementsWithIssues.value,
         performance: {
           totalBlockingTime: scanDuration + domUpdateDuration,

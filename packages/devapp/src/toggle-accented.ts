@@ -81,11 +81,11 @@ if (searchParams.has('name')) {
   options.name = searchParams.get('name')!;
 }
 
-if (searchParams.has('run-only')) {
+if (searchParams.has('run-only-tags')) {
   options.axeOptions = {
     ...options.axeOptions,
     // Pass an array as `runOnly` (one of the available options in axe-core).
-    runOnly: searchParams.get('run-only')!.split(','),
+    runOnly: searchParams.get('run-only-tags')!.split(','),
   };
 }
 if (searchParams.has('disable-rules')) {

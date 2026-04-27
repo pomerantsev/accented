@@ -112,6 +112,7 @@ test.describe('Accented', () => {
           () => document.querySelectorAll('*').length,
         );
         await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        await page.locator(accentedSelector).first().waitFor();
         const triggerCount = await page.evaluate(
           () => document.querySelectorAll('accented-trigger').length,
         );
@@ -142,6 +143,7 @@ test.describe('Accented', () => {
 
       test('can be successfully re-enabled', async ({ page }) => {
         await page.getByRole('button', { name: 'Toggle Accented' }).click();
+        await page.locator(accentedSelector).first().waitFor();
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
       });
@@ -200,6 +202,27 @@ test.describe('Accented', () => {
       expect(finalTriggerCount).toBe(finalCount);
     });
 
+    test.describe('descendant-dependent rules', () => {
+      test('aria-hidden-focus: issue appears on ancestor when a focusable grandchild is added', async ({
+        page,
+      }) => {
+        await page.locator(accentedSelector).first().waitFor();
+        const container = page.locator('#aria-hidden-focus-container');
+        await expect(container).not.toHaveAttribute(accentedDataAttr);
+        await page.getByRole('button', { name: 'Add focusable element' }).click();
+        await expect(container).toHaveAttribute(accentedDataAttr);
+      });
+
+      test('nested-interactive: issue disappears from ancestor when the interactive grandchild is removed', async ({
+        page,
+      }) => {
+        const outer = page.locator('#nested-interactive-outer');
+        await expect(outer).toHaveAttribute(accentedDataAttr);
+        await page.getByRole('button', { name: 'Remove link' }).click();
+        await expect(outer).not.toHaveAttribute(accentedDataAttr);
+      });
+    });
+
     test('causing a mutation in a ShadowRoot doesn’t cause an axe.run error', async ({ page }) => {
       // See https://github.com/dequelabs/axe-core/issues/4941
       const consoleErrors: string[] = [];
@@ -217,6 +240,7 @@ test.describe('Accented', () => {
   test.describe('rendering', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
+      await page.locator(accentedSelector).first().waitFor();
     });
 
     test('sizes of Accented elements don’t fall below a certain threshold', async ({ page }) => {
@@ -478,7 +502,7 @@ test.describe('Accented', () => {
       page,
     }) => {
       await page.goto(
-        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid',
+        '?axe-context-selector=body&disable-rules=button-name,aria-allowed-attr,aria-valid-attr-value,svg-img-alt,valid-lang,autocomplete-valid,color-contrast,nested-interactive',
       );
 
       const consoleMessages: any[] = [];
@@ -1049,7 +1073,7 @@ test.describe('Accented', () => {
     });
 
     test('runOnly', async ({ page }) => {
-      await page.goto('?run-only=wcag21aa');
+      await page.goto('?run-only-tags=wcag21aa');
       const count = await page.locator(accentedSelector).count();
       // We only added one element with a WCAG 2.1 AA issue.
       await expect(count).toBe(1);

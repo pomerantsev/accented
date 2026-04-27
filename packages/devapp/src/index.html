@@ -386,6 +386,30 @@
         </div>
       </section>
 
+      <section id="descendant-dependent-rules">
+        <h2>Descendant-dependent rules</h2>
+
+        <div>
+          <h3>aria-hidden-focus (issue appears)</h3>
+          <div id="aria-hidden-focus-container" aria-hidden="true">
+            <div id="aria-hidden-focus-wrapper">
+              <!-- a focusable element will be added here -->
+            </div>
+          </div>
+          <button id="add-focusable-to-aria-hidden">Add focusable element</button>
+        </div>
+
+        <div>
+          <h3>nested-interactive (issue disappears)</h3>
+          <button id="nested-interactive-outer">
+            <div id="nested-interactive-wrapper">I'm a div
+              <a href="#descendant-dependent-rules">I'm a link</a>
+            </div>
+          </button>
+          <button id="remove-nested-link">Remove link</button>
+        </div>
+      </section>
+
       <section>
         <h2>Performance testing</h2>
         <button id="add-one">Add one element with an issue</button>
