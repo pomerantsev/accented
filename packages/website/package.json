@@ -15,15 +15,15 @@
     "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.3",
-    "@astrojs/netlify": "^7.0.7",
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/netlify": "^7.0.8",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@cloudfour/image-compare": "^1.0.5",
     "@fontsource-variable/ibm-plex-sans": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
-    "astro": "^6.1.8",
+    "astro": "^6.1.9",
     "common": "workspace:*",
     "drizzle-orm": "^0.45.2",
     "postgres": "^3.4.9",
