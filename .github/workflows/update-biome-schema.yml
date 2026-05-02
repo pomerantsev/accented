@@ -2,7 +2,7 @@ name: Update Biome schema
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   update-biome-schema:
@@ -19,7 +19,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
 
       - name: Extract new biome version
         id: version
