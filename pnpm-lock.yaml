@@ -45,8 +45,8 @@ importers:
         specifier: ^1.14.1
         version: 1.14.1
       axe-core:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.11.3
+        version: 4.11.3
     devDependencies:
       '@types/jsdom':
         specifier: ^28.0.1
@@ -64,8 +64,8 @@ importers:
         version: link:../accented
     devDependencies:
       axe-core:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.11.3
+        version: 4.11.3
       vite:
         specifier: ^8.0.10
         version: 8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3)
@@ -2852,8 +2852,8 @@ packages:
   avvio@9.2.0:
     resolution: {integrity: sha512-2t/sy01ArdHHE0vRH5Hsay+RtCZt3dLPji7W7/MMOCEgze5b7SNDC4j5H6FnVgPkI1MTNFGzHdHrVXDDl7QSSQ==}
 
-  axe-core@4.11.2:
-    resolution: {integrity: sha512-byD6KPdvo72y/wj2T/4zGEvvlis+PsZsn/yPS3pEO+sFpcrqRpX/TJCxvVaEsNeMrfQbCr7w163YqoD9IYwHXw==}
+  axe-core@4.11.3:
+    resolution: {integrity: sha512-zBQouZixDTbo3jMGqHKyePxYxr1e5W8UdTmBQ7sNtaA9M2bE32daxxPLS/jojhKOHxQ7LWwPjfiwf/fhaJWzlg==}
     engines: {node: '>=4'}
 
   axobject-query@4.1.0:
@@ -9995,7 +9995,7 @@ snapshots:
   accented@1.2.6:
     dependencies:
       '@preact/signals-core': 1.14.1
-      axe-core: 4.11.2
+      axe-core: 4.11.3
 
   accepts@2.0.0:
     dependencies:
@@ -10268,7 +10268,7 @@ snapshots:
       '@fastify/error': 4.2.0
       fastq: 1.20.1
 
-  axe-core@4.11.2: {}
+  axe-core@4.11.3: {}
 
   axobject-query@4.1.0: {}
 
