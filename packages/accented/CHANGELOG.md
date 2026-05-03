@@ -1,5 +1,13 @@
 # accented
 
+## 1.2.7
+
+### Patch Changes
+
+- [#491](https://github.com/pomerantsev/accented/pull/491) [`53e59cc`](https://github.com/pomerantsev/accented/commit/53e59cc7c65b6440628a83569b0e1cb0c4a80f58) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump typescript to 6.0.3 (no functional changes)
+
+- [#480](https://github.com/pomerantsev/accented/pull/480) [`02d5fb0`](https://github.com/pomerantsev/accented/commit/02d5fb07c811865e8f4e966e80d24ed511dde891) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axe-core to 4.11.3
+
 ## 1.2.6
 
 ### Patch Changes
