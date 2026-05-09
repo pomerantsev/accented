@@ -78,6 +78,7 @@ export function updateElementsWithIssues({
 
     const addedElementsWithIssues = allUpdatedElements.filter(
       (updated) =>
+        updated.element.isConnected &&
         !extendedElementsWithIssues.value.some((existing) =>
           areElementsWithIssuesEqual(existing, updated),
         ),
@@ -88,7 +89,7 @@ export function updateElementsWithIssues({
     );
 
     // Only rebuild the outer signal when set membership changes; per-element issue
-    // updates were already published via the inner signals in the loop above.
+    // updates were already made in the loop above.
     if (addedElementsWithIssues.length > 0 || removedElementsWithIssues.length > 0) {
       extendedElementsWithIssues.value = [...extendedElementsWithIssues.value]
         .filter(
@@ -98,9 +99,7 @@ export function updateElementsWithIssues({
             ),
         )
         .concat(
-          addedElementsWithIssues
-            .filter((added) => added.element.isConnected)
-            .map((added) => createExtendedElementWithIssues(added, name)),
+          addedElementsWithIssues.map((added) => createExtendedElementWithIssues(added, name)),
         );
     }
   });
