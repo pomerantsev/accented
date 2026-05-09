@@ -22,6 +22,20 @@ function issuesInList(
   return list.find((e) => areElementsWithIssuesEqual(e, element))?.issues ?? [];
 }
 
+function mergeLimitedContextAndFullContextViolations(
+  elementsFromLimitedContext: Array<ElementWithIssues>,
+  elementsFromFullContext: Array<ElementWithIssues>,
+): Array<ElementWithIssues> {
+  const fromLimitedWithFullIssuesMerged = elementsFromLimitedContext.map((e) => {
+    const fromFull = elementsFromFullContext.find((f) => areElementsWithIssuesEqual(f, e));
+    return fromFull ? { ...e, issues: [...e.issues, ...fromFull.issues] } : e;
+  });
+  const onlyInFullContext = elementsFromFullContext.filter(
+    (f) => !elementsFromLimitedContext.some((l) => areElementsWithIssuesEqual(l, f)),
+  );
+  return [...fromLimitedWithFullIssuesMerged, ...onlyInFullContext];
+}
+
 export function updateElementsWithIssues({
   extendedElementsWithIssues,
   limitedContext,
@@ -38,21 +52,17 @@ export function updateElementsWithIssues({
   const updatedElementsFromLimitedContext = transformViolations(limitedContextViolations, name);
   const updatedElementsFromFullContext = transformViolations(fullContextViolations, name);
 
-  const allUpdatedElements: Array<ElementWithIssues> = [
-    ...updatedElementsFromLimitedContext,
-    ...updatedElementsFromFullContext.filter(
-      (e) => !updatedElementsFromLimitedContext.some((l) => areElementsWithIssuesEqual(l, e)),
-    ),
-  ].map((e) => ({
-    ...e,
-    issues: [
-      ...issuesInList(e, updatedElementsFromLimitedContext),
-      ...issuesInList(e, updatedElementsFromFullContext),
-    ],
-  }));
+  const allUpdatedElements = mergeLimitedContextAndFullContextViolations(
+    updatedElementsFromLimitedContext,
+    updatedElementsFromFullContext,
+  );
 
   batch(() => {
     for (const existing of extendedElementsWithIssues.value) {
+      // If the element is inside the limited context, axe just rescanned
+      // it — replace its issues with whatever was reported. If it's outside, keep its
+      // existing issues, except descendant-dependent ones, which may have changed due
+      // to mutations elsewhere; those get repopulated from the full-context scan below.
       const newLimitedIssues = isNodeInScanContext(existing.element, limitedContext)
         ? issuesInList(existing, updatedElementsFromLimitedContext)
         : existing.issues.value.filter((issue) => !descendantDependantRules.has(issue.id));
