@@ -76,25 +76,27 @@ export function updateElementsWithIssues({
       }
     }
 
-    const addedElementsWithIssues = allUpdatedElements.filter((updatedElementWithIssues) => {
-      return !extendedElementsWithIssues.value.some((extendedElementWithIssues) =>
-        areElementsWithIssuesEqual(extendedElementWithIssues, updatedElementWithIssues),
-      );
-    });
-
-    const removedElementsWithIssues = extendedElementsWithIssues.value.filter(
-      (extendedElementWithIssues) =>
-        !extendedElementWithIssues.element.isConnected ||
-        extendedElementWithIssues.issues.value.length === 0,
+    const addedElementsWithIssues = allUpdatedElements.filter(
+      (updated) =>
+        !extendedElementsWithIssues.value.some((existing) =>
+          areElementsWithIssuesEqual(existing, updated),
+        ),
     );
 
+    const removedElementsWithIssues = extendedElementsWithIssues.value.filter(
+      (existing) => !existing.element.isConnected || existing.issues.value.length === 0,
+    );
+
+    // Only rebuild the outer signal when set membership changes; per-element issue
+    // updates were already published via the inner signals in the loop above.
     if (addedElementsWithIssues.length > 0 || removedElementsWithIssues.length > 0) {
       extendedElementsWithIssues.value = [...extendedElementsWithIssues.value]
-        .filter((extendedElementWithIssues) => {
-          return !removedElementsWithIssues.some((removedElementWithIssues) =>
-            areElementsWithIssuesEqual(removedElementWithIssues, extendedElementWithIssues),
-          );
-        })
+        .filter(
+          (existing) =>
+            !removedElementsWithIssues.some((removed) =>
+              areElementsWithIssuesEqual(removed, existing),
+            ),
+        )
         .concat(
           addedElementsWithIssues
             .filter((added) => added.element.isConnected)
