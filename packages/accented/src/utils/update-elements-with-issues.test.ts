@@ -131,7 +131,7 @@ const issue3: Issue = {
   ...commonIssueProps,
 };
 
-const limitedContext = {
+const fullDocumentContext = {
   include: [document],
   exclude: [],
 };
@@ -163,7 +163,7 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      limitedContext,
+      limitedContext: fullDocumentContext,
       limitedContextViolations: [violation1, violation2],
       fullContextViolations: [],
       name: 'accented',
@@ -182,7 +182,7 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      limitedContext,
+      limitedContext: fullDocumentContext,
       limitedContextViolations: [violation1, violation2, violation3],
       fullContextViolations: [],
       name: 'accented',
@@ -201,7 +201,7 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      limitedContext,
+      limitedContext: fullDocumentContext,
       limitedContextViolations: [violation1, violation2],
       fullContextViolations: [],
       name: 'accented',
@@ -219,7 +219,7 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      limitedContext,
+      limitedContext: fullDocumentContext,
       limitedContextViolations: [violation1, violation2],
       fullContextViolations: [],
       name: 'accented',
@@ -237,7 +237,7 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      limitedContext,
+      limitedContext: fullDocumentContext,
       limitedContextViolations: [violation1, violation4],
       fullContextViolations: [],
       name: 'accented',
@@ -253,7 +253,7 @@ suite('updateElementsWithIssues', () => {
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      limitedContext,
+      limitedContext: fullDocumentContext,
       limitedContextViolations: [violation1],
       fullContextViolations: [],
       name: 'accented',
@@ -261,5 +261,249 @@ suite('updateElementsWithIssues', () => {
     assert.equal(extendedElementsWithIssues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+  });
+
+  test('strips descendant-dependent issue from element outside limited context when full context no longer reports it', () => {
+    const headingIssue: Issue = {
+      id: 'page-has-heading-one',
+      ...commonIssueProps,
+    };
+    const narrowContext = {
+      include: [element1],
+      exclude: [],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [headingIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 0);
+  });
+
+  test('keeps descendant-dependent issue on element outside limited context when full context still reports it', () => {
+    const headingIssue: Issue = {
+      id: 'page-has-heading-one',
+      ...commonIssueProps,
+    };
+    const htmlNode: AxeNode = {
+      ...commonNodeProps,
+      element: document.documentElement,
+    };
+    const headingViolation: Violation = {
+      ...commonViolationProps,
+      id: 'page-has-heading-one',
+      nodes: [htmlNode],
+    };
+    const narrowContext = {
+      include: [element1],
+      exclude: [],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [headingIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value[0]?.id, 'page-has-heading-one');
+  });
+
+  test('keeps non-descendant-dependent issue on element outside limited context', () => {
+    const langIssue: Issue = {
+      id: 'html-has-lang',
+      ...commonIssueProps,
+    };
+    const narrowContext = {
+      include: [element1],
+      exclude: [],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value[0]?.id, 'html-has-lang');
+  });
+
+  test('adds a new element reported only by full context violations', () => {
+    const htmlNode: AxeNode = {
+      ...commonNodeProps,
+      element: document.documentElement,
+    };
+    const headingViolation: Violation = {
+      ...commonViolationProps,
+      id: 'page-has-heading-one',
+      nodes: [htmlNode],
+    };
+    const narrowContext = {
+      include: [element1],
+      exclude: [],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value[0]?.id, 'page-has-heading-one');
+  });
+
+  test('adds a new element with merged issues from limited and full context violations', () => {
+    const htmlNode: AxeNode = {
+      ...commonNodeProps,
+      element: document.documentElement,
+    };
+    const langViolation: Violation = {
+      ...commonViolationProps,
+      id: 'html-has-lang',
+      nodes: [htmlNode],
+    };
+    const headingViolation: Violation = {
+      ...commonViolationProps,
+      id: 'page-has-heading-one',
+      nodes: [htmlNode],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [langViolation],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang', 'page-has-heading-one'],
+    );
+  });
+
+  test('merges limited and full context violations onto an existing element', () => {
+    const langIssue: Issue = {
+      id: 'html-has-lang',
+      ...commonIssueProps,
+    };
+    const htmlNode: AxeNode = {
+      ...commonNodeProps,
+      element: document.documentElement,
+    };
+    const langViolation: Violation = {
+      ...commonViolationProps,
+      id: 'html-has-lang',
+      nodes: [htmlNode],
+    };
+    const headingViolation: Violation = {
+      ...commonViolationProps,
+      id: 'page-has-heading-one',
+      nodes: [htmlNode],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [langViolation],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang', 'page-has-heading-one'],
+    );
+  });
+
+  test('strips only descendant-dependent issues from an element outside limited context with mixed issues', () => {
+    const langIssue: Issue = {
+      id: 'html-has-lang',
+      ...commonIssueProps,
+    };
+    const headingIssue: Issue = {
+      id: 'page-has-heading-one',
+      ...commonIssueProps,
+    };
+    const narrowContext = {
+      include: [element1],
+      exclude: [],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue, headingIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang'],
+    );
+  });
+
+  test('keeps existing issue on element outside limited context and adds a new full context issue', () => {
+    const langIssue: Issue = {
+      id: 'html-has-lang',
+      ...commonIssueProps,
+    };
+    const htmlNode: AxeNode = {
+      ...commonNodeProps,
+      element: document.documentElement,
+    };
+    const headingViolation: Violation = {
+      ...commonViolationProps,
+      id: 'page-has-heading-one',
+      nodes: [htmlNode],
+    };
+    const narrowContext = {
+      include: [element1],
+      exclude: [],
+    };
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang', 'page-has-heading-one'],
+    );
   });
 });
