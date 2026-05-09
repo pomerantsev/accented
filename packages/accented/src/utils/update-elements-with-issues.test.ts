@@ -136,33 +136,30 @@ const limitedContext = {
   exclude: [],
 };
 
+function createElementsWithIssues(
+  items: Array<{ id: number; element: HTMLElement; issues: Array<Issue> }>,
+): Signal<Array<ExtendedElementWithIssues>> {
+  return signal(
+    items.map(({ id, element, issues }) => ({
+      id,
+      element,
+      rootNode,
+      skipRender: false,
+      position,
+      visible,
+      trigger,
+      anchorNameValue: 'none',
+      scrollableAncestors,
+      issues: signal(issues),
+    })),
+  );
+}
+
 suite('updateElementsWithIssues', () => {
   test('no changes', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -179,31 +176,9 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one issue added', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -220,31 +195,9 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one issue removed', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2, issue3]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2, issue3] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -261,19 +214,8 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one element added', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -290,19 +232,8 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one disconnected element added', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -316,31 +247,9 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one element removed', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
