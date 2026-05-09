@@ -1,9 +1,7 @@
 import type { Signal } from '@preact/signals-core';
-import { batch, signal } from '@preact/signals-core';
+import { batch } from '@preact/signals-core';
 import type { AxeResults } from 'axe-core';
 import { descendantDependantRules } from '../constants.js';
-import type { AccentedDialog } from '../elements/accented-dialog.ts';
-import type { AccentedTrigger } from '../elements/accented-trigger.ts';
 import type {
   BaseElementWithIssues,
   ElementWithIssues,
@@ -13,12 +11,8 @@ import type {
 } from '../types.ts';
 import { areElementsWithIssuesEqual } from './are-elements-with-issues-equal.js';
 import { areIssueSetsEqual } from './are-issue-sets-equal.js';
-import { isSvgElement } from './dom-helpers.js';
-import { getElementPosition } from './get-element-position.js';
-import { getParent } from './get-parent.js';
-import { getScrollableAncestors } from './get-scrollable-ancestors.js';
+import { createExtendedElementWithIssues } from './create-extended-element-with-issues.js';
 import { isNodeInScanContext } from './is-node-in-scan-context.js';
-import { supportsAnchorPositioning } from './supports-anchor-positioning.js';
 import { transformViolations } from './transform-violations.js';
 
 function issuesInList(
@@ -27,24 +21,6 @@ function issuesInList(
 ): Array<Issue> {
   return list.find((e) => areElementsWithIssuesEqual(e, element))?.issues ?? [];
 }
-
-function shouldSkipRender(element: Element): boolean {
-  // Skip rendering if the element is inside an SVG:
-  // https://github.com/pomerantsev/accented/issues/62
-  const parent = getParent(element);
-  const isInsideSvg = Boolean(parent && isSvgElement(parent));
-
-  // Some issues, such as meta-viewport, are on <head> descendants,
-  // but since <head> is never rendered, we don't want to output anything
-  // for those in the DOM.
-  // We're not anticipating the use of shadow DOM in <head>,
-  // so the use of .closest() should be fine.
-  const isInsideHead = element.closest('head') !== null;
-
-  return isInsideSvg || isInsideHead;
-}
-
-let count = 0;
 
 export function updateElementsWithIssues({
   extendedElementsWithIssues,
@@ -111,46 +87,8 @@ export function updateElementsWithIssues({
         })
         .concat(
           addedElementsWithIssues
-            .filter((addedElementWithIssues) => addedElementWithIssues.element.isConnected)
-            .map((addedElementWithIssues) => {
-              const id = count++;
-              const trigger = document.createElement(`${name}-trigger`) as AccentedTrigger;
-              const elementZIndex = Number.parseInt(
-                getComputedStyle(addedElementWithIssues.element).zIndex,
-                10,
-              );
-              if (!Number.isNaN(elementZIndex)) {
-                trigger.style.setProperty('z-index', (elementZIndex + 1).toString(), 'important');
-              }
-              trigger.style.setProperty('position-anchor', `--${name}-anchor-${id}`, 'important');
-              trigger.dataset.id = id.toString();
-              const accentedDialog = document.createElement(`${name}-dialog`) as AccentedDialog;
-              trigger.dialog = accentedDialog;
-              const position = getElementPosition(addedElementWithIssues.element);
-              trigger.position = signal(position);
-              trigger.visible = signal(true);
-              trigger.element = addedElementWithIssues.element;
-              const scrollableAncestors = supportsAnchorPositioning()
-                ? new Set<HTMLElement>()
-                : getScrollableAncestors(addedElementWithIssues.element);
-              const issues = signal(addedElementWithIssues.issues);
-              accentedDialog.issues = issues;
-              accentedDialog.element = addedElementWithIssues.element;
-              return {
-                id,
-                element: addedElementWithIssues.element,
-                skipRender: shouldSkipRender(addedElementWithIssues.element),
-                rootNode: addedElementWithIssues.rootNode,
-                visible: trigger.visible,
-                position: trigger.position,
-                scrollableAncestors: signal(scrollableAncestors),
-                anchorNameValue:
-                  addedElementWithIssues.element.style.getPropertyValue('anchor-name') ||
-                  getComputedStyle(addedElementWithIssues.element).getPropertyValue('anchor-name'),
-                trigger,
-                issues,
-              };
-            }),
+            .filter((added) => added.element.isConnected)
+            .map((added) => createExtendedElementWithIssues(added, name)),
         );
     }
   });
