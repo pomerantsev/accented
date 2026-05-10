@@ -90,7 +90,8 @@ and some of its operations may still take hundreds of milliseconds
 
 The most expensive operation is running `axe.run()` after a DOM mutation.
 
-To make it as fast as possible, Accented only runs `axe.run()` on the parts of the page that changed.
+To make it as fast as possible, Accented only runs `axe.run()` on the parts of the page that changed
+(for most axe-core rules).
 
 Accented [provides APIs to help you measure and tune its performance](/getting-started#improving-performance).
 
