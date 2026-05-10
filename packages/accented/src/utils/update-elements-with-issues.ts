@@ -1,7 +1,7 @@
 import type { Signal } from '@preact/signals-core';
 import { batch } from '@preact/signals-core';
 import type { AxeResults } from 'axe-core';
-import { descendantDependantRules } from '../constants.js';
+import { descendantDependentRules } from '../constants.js';
 import type {
   BaseElementWithIssues,
   ElementWithIssues,
@@ -68,7 +68,7 @@ export function updateElementsWithIssues({
       // to mutations elsewhere; those get repopulated from the full-context scan below.
       const newLimitedContextIssues = isNodeInScanContext(existing.element, limitedContext)
         ? getIssuesForElement(existing, updatedElementsFromLimitedContext)
-        : existing.issues.value.filter((issue) => !descendantDependantRules.has(issue.id));
+        : existing.issues.value.filter((issue) => !descendantDependentRules.has(issue.id));
 
       const newFullContextIssues = getIssuesForElement(existing, updatedElementsFromFullContext);
 

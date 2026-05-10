@@ -1,5 +1,5 @@
 import axe from 'axe-core';
-import { descendantDependantRules, getAccentedElementNames, issuesUrl } from './constants.js';
+import { descendantDependentRules, getAccentedElementNames, issuesUrl } from './constants.js';
 import { logAndRethrow } from './log-and-rethrow.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import { TaskQueue } from './task-queue.js';
@@ -26,7 +26,7 @@ export function createScanner(
    * against only the nodes affected by the current mutation.
    */
   const limitedContextRules = new Set(
-    [...allRules].filter((rule) => !descendantDependantRules.has(rule)),
+    [...allRules].filter((rule) => !descendantDependentRules.has(rule)),
   );
 
   /**
@@ -35,7 +35,7 @@ export function createScanner(
    * so these must always run against the full scan context.
    */
   const fullContextRules = new Set(
-    [...allRules].filter((rule) => descendantDependantRules.has(rule)),
+    [...allRules].filter((rule) => descendantDependentRules.has(rule)),
   );
 
   /**
