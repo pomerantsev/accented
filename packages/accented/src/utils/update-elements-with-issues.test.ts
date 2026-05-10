@@ -77,6 +77,11 @@ const node3: AxeNode = {
   element: element3,
 };
 
+const htmlNode: AxeNode = {
+  ...commonNodeProps,
+  element: document.documentElement,
+};
+
 const commonViolationProps = {
   help: 'help',
   helpUrl: 'http://example.com',
@@ -109,6 +114,18 @@ const violation4: Violation = {
   nodes: [node3],
 };
 
+const headingViolation: Violation = {
+  ...commonViolationProps,
+  id: 'page-has-heading-one',
+  nodes: [htmlNode],
+};
+
+const langViolation: Violation = {
+  ...commonViolationProps,
+  id: 'html-has-lang',
+  nodes: [htmlNode],
+};
+
 const commonIssueProps = {
   title: 'help',
   description: 'description',
@@ -131,43 +148,56 @@ const issue3: Issue = {
   ...commonIssueProps,
 };
 
-const scanContext = {
+const headingIssue: Issue = {
+  id: 'page-has-heading-one',
+  ...commonIssueProps,
+};
+
+const langIssue: Issue = {
+  id: 'html-has-lang',
+  ...commonIssueProps,
+};
+
+const fullDocumentContext = {
   include: [document],
   exclude: [],
 };
 
+const narrowContext = {
+  include: [element1],
+  exclude: [],
+};
+
+function createElementsWithIssues(
+  items: Array<{ id: number; element: HTMLElement; issues: Array<Issue> }>,
+): Signal<Array<ExtendedElementWithIssues>> {
+  return signal(
+    items.map(({ id, element, issues }) => ({
+      id,
+      element,
+      rootNode,
+      skipRender: false,
+      position,
+      visible,
+      trigger,
+      anchorNameValue: 'none',
+      scrollableAncestors,
+      issues: signal(issues),
+    })),
+  );
+}
+
 suite('updateElementsWithIssues', () => {
   test('no changes', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2],
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [violation1, violation2],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -178,36 +208,15 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one issue added', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2, violation3],
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [violation1, violation2, violation3],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -218,36 +227,15 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one issue removed', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2, issue3]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2, issue3] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2],
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [violation1, violation2],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -258,24 +246,14 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one element added', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation2],
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [violation1, violation2],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 2);
@@ -286,24 +264,14 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one disconnected element added', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1, violation4],
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [violation1, violation4],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);
@@ -311,40 +279,156 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('one element removed', () => {
-    const extendedElementsWithIssues: Signal<Array<ExtendedElementWithIssues>> = signal([
-      {
-        id: 1,
-        element: element1,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue1]),
-      },
-      {
-        id: 2,
-        element: element2,
-        rootNode,
-        skipRender: false,
-        position,
-        visible,
-        trigger,
-        anchorNameValue: 'none',
-        scrollableAncestors,
-        issues: signal([issue2]),
-      },
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: element1, issues: [issue1] },
+      { id: 2, element: element2, issues: [issue2] },
     ]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
-      scanContext,
-      violations: [violation1],
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [violation1],
+      fullContextViolations: [],
       name: 'accented',
     });
     assert.equal(extendedElementsWithIssues.value.length, 1);
     assert.equal(extendedElementsWithIssues.value[0]?.element, element1);
     assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+  });
+
+  test('strips descendant-dependent issue from element outside limited context when full context no longer reports it', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [headingIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 0);
+  });
+
+  test('keeps descendant-dependent issue on element outside limited context when full context still reports it', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [headingIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value[0]?.id, 'page-has-heading-one');
+  });
+
+  test('keeps non-descendant-dependent issue on element outside limited context', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value[0]?.id, 'html-has-lang');
+  });
+
+  test('adds a new element reported only by full context violations', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.issues.value[0]?.id, 'page-has-heading-one');
+  });
+
+  test('adds a new element with merged issues from limited and full context violations', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [langViolation],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang', 'page-has-heading-one'],
+    );
+  });
+
+  test('merges limited and full context violations onto an existing element', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: fullDocumentContext,
+      limitedContextViolations: [langViolation],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang', 'page-has-heading-one'],
+    );
+  });
+
+  test('strips only descendant-dependent issues from an element outside limited context with mixed issues', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue, headingIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang'],
+    );
+  });
+
+  test('keeps existing issue on element outside limited context and adds a new full context issue', () => {
+    const extendedElementsWithIssues = createElementsWithIssues([
+      { id: 1, element: document.documentElement, issues: [langIssue] },
+    ]);
+    updateElementsWithIssues({
+      extendedElementsWithIssues,
+      limitedContext: narrowContext,
+      limitedContextViolations: [],
+      fullContextViolations: [headingViolation],
+      name: 'accented',
+    });
+    assert.equal(extendedElementsWithIssues.value.length, 1);
+    assert.equal(extendedElementsWithIssues.value[0]?.element, document.documentElement);
+    assert.deepEqual(
+      extendedElementsWithIssues.value[0]?.issues.value.map((issue) => issue.id),
+      ['html-has-lang', 'page-has-heading-one'],
+    );
   });
 });

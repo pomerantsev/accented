@@ -1,0 +1,19 @@
+<!-- biome-ignore-all lint/a11y: test file with intentional accessibility issues -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="module" src="./axe-direct.ts"></script>
+  </head>
+  <body>
+    <!-- color-contrast (AA): #aaa on white ≈ 2.32:1, fails 4.5:1 threshold -->
+    <p style="color: #aaaaaa; background-color: white;">Low contrast AA</p>
+    <!-- color-contrast-enhanced (AAA): #767676 on white ≈ 4.54:1, passes AA but fails 7:1 threshold -->
+    <p style="color: #767676; background-color: white;">Low contrast AAA</p>
+    <!-- button-name: no accessible name -->
+    <button></button>
+    <!-- target-size: below 24×24 px minimum -->
+    <button aria-label="small" style="width: 10px; height: 10px; display: block;"></button>
+  </body>
+</html>

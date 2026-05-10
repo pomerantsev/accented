@@ -61,8 +61,14 @@ It accepts a single `params` object with the following properties:
     It’s further divided into the `scan` and `domUpdate` phases.
   - `scan`: how long scanning (the execution of `axe.run()`) took, in milliseconds.
   - `domUpdate`: how long the DOM update (adding / removing outlines and dialog trigger buttons) took, in milliseconds.
-- `scanContext`: nodes that got scanned. Either an array of nodes,
-  or an object with `include` and `exclude` properties (if any nodes were excluded).
+- `scanContext`: nodes that got scanned (a subset of the full context that was passed as an option to Accented).
+  The value can be either an array of nodes, or an object with `include` and `exclude` properties (if any nodes were excluded).
+  <br/>
+  **Note:** for a small number of rules whose success or failure depends on the element’s descendants (not just direct children),
+  Accented always scans the full context to ensure its output is accurate.
+  So technically, up to two scans may be run each time: one over `scanContext` (limited to the elements that recently changed),
+  and the other over the full context passed to Accented (with a limited number of specific axe-core rules).
+  `callback` will be called only once for these two scans (which Accented treats as a single pass).
 
 **Example:**
 

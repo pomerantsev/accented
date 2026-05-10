@@ -5,3 +5,37 @@ export const issuesUrl = 'https://github.com/pomerantsev/accented/issues';
 export const getAccentedElementNames = (name: string) => [`${name}-trigger`, `${name}-dialog`];
 
 export const orderedImpacts: Array<Issue['impact']> = ['minor', 'moderate', 'serious', 'critical'];
+
+/**
+ * axe-core rules whose pass/fail depends on the presence or absence of specific descendants
+ * (not just direct children). When any DOM mutation occurs, these rules must be re-evaluated
+ * against the full scan context, because the mutated node may be deep inside the element
+ * that the violation is reported on — and therefore outside the limited scan context.
+ */
+export const descendantDependentRules = new Set([
+  'aria-hidden-focus',
+  'aria-required-children',
+  'aria-text',
+  'document-title',
+  'landmark-no-duplicate-banner',
+  'landmark-no-duplicate-contentinfo',
+  'landmark-no-duplicate-main',
+  'landmark-one-main',
+  'nested-interactive',
+  'page-has-heading-one',
+  'scrollable-region-focusable',
+]);
+
+/**
+ * axe-core violations (their ids) that may be flagged by axe-core
+ * as false positives if an Accented trigger is a descendant of the element with the issue.
+ */
+export const violationsAffectedByAccentedTriggers = new Set([
+  'aria-hidden-focus',
+  'aria-text',
+  'definition-list',
+  'label-content-name-mismatch',
+  'list',
+  'nested-interactive',
+  'scrollable-region-focusable', // The Accented trigger might make the content grow such that scrolling is required.
+]);
