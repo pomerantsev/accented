@@ -1,10 +1,9 @@
 packages:
   - packages/*
 
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - "@tailwindcss/oxide"
-  - esbuild
-  - netlify-cli
-  - sharp
-  - unix-dgram
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  netlify-cli: true
+  sharp: true
+  unix-dgram: true

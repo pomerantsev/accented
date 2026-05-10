@@ -18,6 +18,7 @@ updates:
         dependency-type: "development"
         exclude-patterns:
           - "@biomejs/biome"
+          - "typescript"
       website-dependencies:
         patterns:
           - "*astro*"
