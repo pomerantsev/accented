@@ -24,3 +24,17 @@ export const descendantDependentRules = new Set([
   'nested-interactive',
   'page-has-heading-one',
 ]);
+
+/**
+ * axe-core violations (their ids) that may be flagged by axe-core
+ * as false positives if an Accented trigger is a descendant of the element with the issue.
+ */
+export const violationsAffectedByAccentedTriggers = new Set([
+  'aria-hidden-focus',
+  'aria-text',
+  'definition-list',
+  'label-content-name-mismatch',
+  'list',
+  'nested-interactive',
+  'scrollable-region-focusable', // The Accented trigger might make the content grow such that scrolling is required.
+]);

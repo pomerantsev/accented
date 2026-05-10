@@ -1,22 +1,10 @@
 import type { AxeResults } from 'axe-core';
-import { issuesUrl, orderedImpacts } from '../constants.js';
+import { issuesUrl, orderedImpacts, violationsAffectedByAccentedTriggers } from '../constants.js';
 import type { ElementWithIssues, Issue } from '../types.ts';
-
-// This is a list of axe-core violations (their ids) that may be flagged by axe-core
-// as false positives if an Accented trigger is a descendant of the element with the issue.
-const violationsAffectedByAccentedTriggers = [
-  'aria-hidden-focus',
-  'aria-text',
-  'definition-list',
-  'label-content-name-mismatch',
-  'list',
-  'nested-interactive',
-  'scrollable-region-focusable', // The Accented trigger might make the content grow such that scrolling is required.
-];
 
 function maybeCausedByAccented(violationId: string, element: HTMLElement, name: string) {
   return (
-    violationsAffectedByAccentedTriggers.includes(violationId) &&
+    violationsAffectedByAccentedTriggers.has(violationId) &&
     Boolean(element.querySelector(`${name}-trigger`))
   );
 }
