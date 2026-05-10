@@ -15,23 +15,26 @@ import { createExtendedElementWithIssues } from './create-extended-element-with-
 import { isNodeInScanContext } from './is-node-in-scan-context.js';
 import { transformViolations } from './transform-violations.js';
 
-function issuesInList(
+function getIssuesForElement(
   element: BaseElementWithIssues,
   list: Array<ElementWithIssues>,
 ): Array<Issue> {
-  return list.find((e) => areElementsWithIssuesEqual(e, element))?.issues ?? [];
+  return list.find((entry) => areElementsWithIssuesEqual(entry, element))?.issues ?? [];
 }
 
 function mergeLimitedContextAndFullContextViolations(
   elementsFromLimitedContext: Array<ElementWithIssues>,
   elementsFromFullContext: Array<ElementWithIssues>,
 ): Array<ElementWithIssues> {
-  const fromLimitedWithFullIssuesMerged = elementsFromLimitedContext.map((e) => {
-    const fromFull = elementsFromFullContext.find((f) => areElementsWithIssuesEqual(f, e));
-    return fromFull ? { ...e, issues: [...e.issues, ...fromFull.issues] } : e;
+  const fromLimitedWithFullIssuesMerged = elementsFromLimitedContext.map((limited) => {
+    const fullMatch = elementsFromFullContext.find((full) =>
+      areElementsWithIssuesEqual(full, limited),
+    );
+    return fullMatch ? { ...limited, issues: [...limited.issues, ...fullMatch.issues] } : limited;
   });
   const onlyInFullContext = elementsFromFullContext.filter(
-    (f) => !elementsFromLimitedContext.some((l) => areElementsWithIssuesEqual(l, f)),
+    (full) =>
+      !elementsFromLimitedContext.some((limited) => areElementsWithIssuesEqual(limited, full)),
   );
   return [...fromLimitedWithFullIssuesMerged, ...onlyInFullContext];
 }
@@ -64,10 +67,10 @@ export function updateElementsWithIssues({
       // existing issues, except descendant-dependent ones, which may have changed due
       // to mutations elsewhere; those get repopulated from the full-context scan below.
       const newLimitedIssues = isNodeInScanContext(existing.element, limitedContext)
-        ? issuesInList(existing, updatedElementsFromLimitedContext)
+        ? getIssuesForElement(existing, updatedElementsFromLimitedContext)
         : existing.issues.value.filter((issue) => !descendantDependantRules.has(issue.id));
 
-      const newFullIssues = issuesInList(existing, updatedElementsFromFullContext);
+      const newFullIssues = getIssuesForElement(existing, updatedElementsFromFullContext);
 
       const newIssues = [...newLimitedIssues, ...newFullIssues];
 
