@@ -66,13 +66,13 @@ export function updateElementsWithIssues({
       // it — replace its issues with whatever was reported. If it's outside, keep its
       // existing issues, except descendant-dependent ones, which may have changed due
       // to mutations elsewhere; those get repopulated from the full-context scan below.
-      const newLimitedIssues = isNodeInScanContext(existing.element, limitedContext)
+      const newLimitedContextIssues = isNodeInScanContext(existing.element, limitedContext)
         ? getIssuesForElement(existing, updatedElementsFromLimitedContext)
         : existing.issues.value.filter((issue) => !descendantDependantRules.has(issue.id));
 
-      const newFullIssues = getIssuesForElement(existing, updatedElementsFromFullContext);
+      const newFullContextIssues = getIssuesForElement(existing, updatedElementsFromFullContext);
 
-      const newIssues = [...newLimitedIssues, ...newFullIssues];
+      const newIssues = [...newLimitedContextIssues, ...newFullContextIssues];
 
       if (!areIssueSetsEqual(existing.issues.value, newIssues)) {
         existing.issues.value = newIssues;
