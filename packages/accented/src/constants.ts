@@ -23,6 +23,7 @@ export const descendantDependentRules = new Set([
   'landmark-one-main',
   'nested-interactive',
   'page-has-heading-one',
+  'scrollable-region-focusable',
 ]);
 
 /**
