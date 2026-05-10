@@ -65,6 +65,20 @@ test('with runOnly type rule, ignores rules.enabled: false', async ({ page }) =>
   expect(ruleIds).toHaveLength(1);
 });
 
+test("with runOnly type 'rules' (plural), behaves the same as 'rule'", async ({ page }) => {
+  const result = await page.evaluate(() =>
+    window.axe.run({
+      runOnly: { type: 'rules', values: ['button-name'] },
+      rules: { 'color-contrast': { enabled: true } },
+      resultTypes: ['violations'],
+    }),
+  );
+  const ruleIds = result.violations.map((v) => v.id);
+  expect(ruleIds).toContain('button-name');
+  expect(ruleIds).not.toContain('color-contrast'); // rules ignored, same as type 'rule'
+  expect(ruleIds).toHaveLength(1);
+});
+
 test('with runOnly type tag, runs rules matching those tags', async ({ page }) => {
   const result = await page.evaluate(() =>
     window.axe.run({
@@ -117,6 +131,20 @@ test('with runOnly type tag, rules.enabled: true adds a non-matching rule', asyn
   expect(ruleIds).toContain('page-has-heading-one');
   expect(ruleIds).toContain('color-contrast');
   expect(ruleIds).not.toContain('button-name'); // not in best-practice and not explicitly enabled
+});
+
+test("with runOnly type 'tags' (plural), behaves the same as 'tag'", async ({ page }) => {
+  const result = await page.evaluate(() =>
+    window.axe.run({
+      runOnly: { type: 'tags', values: ['best-practice'] },
+      rules: { 'color-contrast': { enabled: true } },
+      resultTypes: ['violations'],
+    }),
+  );
+  const ruleIds = result.violations.map((v) => v.id);
+  expect(ruleIds).toContain('page-has-heading-one');
+  expect(ruleIds).toContain('color-contrast'); // rules applied, same as type 'tag'
+  expect(ruleIds).not.toContain('button-name');
 });
 
 test('with no runOnly and rules overrides, still excludes disabled-by-default rules', async ({

@@ -53,6 +53,16 @@ suite('getAllRulesFromAxeOptions', () => {
     assert.ok(rules.has('color-contrast'));
   });
 
+  test("with runOnly type 'rules' (plural), behaves the same as 'rule'", () => {
+    const rules = getAllRulesFromAxeOptions({
+      runOnly: { type: 'rules', values: ['button-name'] },
+      rules: { 'color-contrast': { enabled: true } },
+    });
+    assert.equal(rules.size, 1);
+    assert.ok(rules.has('button-name'));
+    assert.equal(rules.has('color-contrast'), false); // rules ignored, same as type 'rule'
+  });
+
   test('with runOnly type tag, returns rules matching those tags', () => {
     const rules = getAllRulesFromAxeOptions({
       runOnly: { type: 'tag', values: ['best-practice'] },
@@ -87,6 +97,16 @@ suite('getAllRulesFromAxeOptions', () => {
     assert.ok(rules.has('page-has-heading-one'));
     assert.ok(rules.has('color-contrast'));
     assert.equal(rules.has('button-name'), false); // not in best-practice and not explicitly enabled
+  });
+
+  test("with runOnly type 'tags' (plural), behaves the same as 'tag'", () => {
+    const rules = getAllRulesFromAxeOptions({
+      runOnly: { type: 'tags', values: ['best-practice'] },
+      rules: { 'color-contrast': { enabled: true } },
+    });
+    assert.ok(rules.has('page-has-heading-one'));
+    assert.ok(rules.has('color-contrast')); // rules applied, same as type 'tag'
+    assert.equal(rules.has('button-name'), false);
   });
 
   test('with no runOnly and rules overrides, still excludes disabled-by-default rules', () => {
