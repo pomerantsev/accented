@@ -22,11 +22,11 @@ export function createScanner(
   const allRules = getAllRulesFromAxeOptions(axeOptions);
 
   /**
-   * Rules that only look at the element itself — safe to run incrementally
+   * Rules that only look at the element itself — safe to run
    * against only the nodes affected by the current mutation.
    */
   const limitedContextRules = new Set(
-    [...allRules].filter((r) => !descendantDependantRules.has(r)),
+    [...allRules].filter((rule) => !descendantDependantRules.has(rule)),
   );
 
   /**
@@ -34,7 +34,9 @@ export function createScanner(
    * A mutation deep inside an element can change the outcome for the ancestor,
    * so these must always run against the full scan context.
    */
-  const fullContextRules = new Set([...allRules].filter((r) => descendantDependantRules.has(r)));
+  const fullContextRules = new Set(
+    [...allRules].filter((rule) => descendantDependantRules.has(rule)),
+  );
 
   /**
    * Options shared by both axe.run() calls. The user's runOnly and rules are
@@ -98,7 +100,7 @@ export function createScanner(
       let fullContextResult: axe.AxeResults | undefined;
 
       try {
-        // Run the incremental scan against the limited context (only the mutated
+        // Run the scan against the limited context (only the mutated
         // nodes, filtered to those within the user-provided context). Skip if no
         // limited-context rules are active.
         limitedContextResult =

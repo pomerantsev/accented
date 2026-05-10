@@ -10,7 +10,7 @@ export const orderedImpacts: Array<Issue['impact']> = ['minor', 'moderate', 'ser
  * axe-core rules whose pass/fail depends on the presence or absence of specific descendants
  * (not just direct children). When any DOM mutation occurs, these rules must be re-evaluated
  * against the full scan context, because the mutated node may be deep inside the element
- * that the violation is reported on — and therefore outside the incremental scan context.
+ * that the violation is reported on — and therefore outside the limited scan context.
  */
 export const descendantDependantRules = new Set([
   'aria-hidden-focus',

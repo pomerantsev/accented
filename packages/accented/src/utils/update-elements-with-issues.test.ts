@@ -77,6 +77,11 @@ const node3: AxeNode = {
   element: element3,
 };
 
+const htmlNode: AxeNode = {
+  ...commonNodeProps,
+  element: document.documentElement,
+};
+
 const commonViolationProps = {
   help: 'help',
   helpUrl: 'http://example.com',
@@ -109,6 +114,18 @@ const violation4: Violation = {
   nodes: [node3],
 };
 
+const headingViolation: Violation = {
+  ...commonViolationProps,
+  id: 'page-has-heading-one',
+  nodes: [htmlNode],
+};
+
+const langViolation: Violation = {
+  ...commonViolationProps,
+  id: 'html-has-lang',
+  nodes: [htmlNode],
+};
+
 const commonIssueProps = {
   title: 'help',
   description: 'description',
@@ -131,8 +148,23 @@ const issue3: Issue = {
   ...commonIssueProps,
 };
 
+const headingIssue: Issue = {
+  id: 'page-has-heading-one',
+  ...commonIssueProps,
+};
+
+const langIssue: Issue = {
+  id: 'html-has-lang',
+  ...commonIssueProps,
+};
+
 const fullDocumentContext = {
   include: [document],
+  exclude: [],
+};
+
+const narrowContext = {
+  include: [element1],
   exclude: [],
 };
 
@@ -264,14 +296,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('strips descendant-dependent issue from element outside limited context when full context no longer reports it', () => {
-    const headingIssue: Issue = {
-      id: 'page-has-heading-one',
-      ...commonIssueProps,
-    };
-    const narrowContext = {
-      include: [element1],
-      exclude: [],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([
       { id: 1, element: document.documentElement, issues: [headingIssue] },
     ]);
@@ -286,23 +310,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('keeps descendant-dependent issue on element outside limited context when full context still reports it', () => {
-    const headingIssue: Issue = {
-      id: 'page-has-heading-one',
-      ...commonIssueProps,
-    };
-    const htmlNode: AxeNode = {
-      ...commonNodeProps,
-      element: document.documentElement,
-    };
-    const headingViolation: Violation = {
-      ...commonViolationProps,
-      id: 'page-has-heading-one',
-      nodes: [htmlNode],
-    };
-    const narrowContext = {
-      include: [element1],
-      exclude: [],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([
       { id: 1, element: document.documentElement, issues: [headingIssue] },
     ]);
@@ -320,14 +327,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('keeps non-descendant-dependent issue on element outside limited context', () => {
-    const langIssue: Issue = {
-      id: 'html-has-lang',
-      ...commonIssueProps,
-    };
-    const narrowContext = {
-      include: [element1],
-      exclude: [],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([
       { id: 1, element: document.documentElement, issues: [langIssue] },
     ]);
@@ -345,19 +344,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('adds a new element reported only by full context violations', () => {
-    const htmlNode: AxeNode = {
-      ...commonNodeProps,
-      element: document.documentElement,
-    };
-    const headingViolation: Violation = {
-      ...commonViolationProps,
-      id: 'page-has-heading-one',
-      nodes: [htmlNode],
-    };
-    const narrowContext = {
-      include: [element1],
-      exclude: [],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -373,20 +359,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('adds a new element with merged issues from limited and full context violations', () => {
-    const htmlNode: AxeNode = {
-      ...commonNodeProps,
-      element: document.documentElement,
-    };
-    const langViolation: Violation = {
-      ...commonViolationProps,
-      id: 'html-has-lang',
-      nodes: [htmlNode],
-    };
-    const headingViolation: Violation = {
-      ...commonViolationProps,
-      id: 'page-has-heading-one',
-      nodes: [htmlNode],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([]);
     updateElementsWithIssues({
       extendedElementsWithIssues,
@@ -404,24 +376,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('merges limited and full context violations onto an existing element', () => {
-    const langIssue: Issue = {
-      id: 'html-has-lang',
-      ...commonIssueProps,
-    };
-    const htmlNode: AxeNode = {
-      ...commonNodeProps,
-      element: document.documentElement,
-    };
-    const langViolation: Violation = {
-      ...commonViolationProps,
-      id: 'html-has-lang',
-      nodes: [htmlNode],
-    };
-    const headingViolation: Violation = {
-      ...commonViolationProps,
-      id: 'page-has-heading-one',
-      nodes: [htmlNode],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([
       { id: 1, element: document.documentElement, issues: [langIssue] },
     ]);
@@ -441,18 +395,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('strips only descendant-dependent issues from an element outside limited context with mixed issues', () => {
-    const langIssue: Issue = {
-      id: 'html-has-lang',
-      ...commonIssueProps,
-    };
-    const headingIssue: Issue = {
-      id: 'page-has-heading-one',
-      ...commonIssueProps,
-    };
-    const narrowContext = {
-      include: [element1],
-      exclude: [],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([
       { id: 1, element: document.documentElement, issues: [langIssue, headingIssue] },
     ]);
@@ -472,23 +414,6 @@ suite('updateElementsWithIssues', () => {
   });
 
   test('keeps existing issue on element outside limited context and adds a new full context issue', () => {
-    const langIssue: Issue = {
-      id: 'html-has-lang',
-      ...commonIssueProps,
-    };
-    const htmlNode: AxeNode = {
-      ...commonNodeProps,
-      element: document.documentElement,
-    };
-    const headingViolation: Violation = {
-      ...commonViolationProps,
-      id: 'page-has-heading-one',
-      nodes: [htmlNode],
-    };
-    const narrowContext = {
-      include: [element1],
-      exclude: [],
-    };
     const extendedElementsWithIssues = createElementsWithIssues([
       { id: 1, element: document.documentElement, issues: [langIssue] },
     ]);
