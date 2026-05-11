@@ -42,11 +42,6 @@ jobs:
           name: e2e-results
           path: packages/devapp/playwright
 
-      # https://pnpm.io/using-changesets
-      - name: Setup npmrc
-        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/snapshot')
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-
       - name: Create release PR or publish
         id: changesets
         if: github.ref == 'refs/heads/main'
