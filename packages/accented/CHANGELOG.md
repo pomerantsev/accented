@@ -1,5 +1,18 @@
 # accented
 
+## 1.3.0
+
+### Minor Changes
+
+- Fix false positives and false negatives for some axe-core rules ([#482](https://github.com/pomerantsev/accented/pull/482))
+  **Important:** this fix _might_ lead to a slight decrease in runtime performance on complex pages.
+
+### Patch Changes
+
+- Bump axe-core to 4.11.3 ([#491](https://github.com/pomerantsev/accented/pull/491))
+
+- Bump typescript to 6.0.3 (no functional changes) ([#480](https://github.com/pomerantsev/accented/pull/480))
+
 ## 1.2.6
 
 ### Patch Changes
