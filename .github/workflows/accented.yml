@@ -89,7 +89,7 @@ jobs:
           echo "Extracted version: $VERSION"
 
       - name: Update playground dependency
-        run: pnpm -F playground add -D accented@^${{ steps.version.outputs.version }}
+        run: pnpm -F playground add -D accented@${{ steps.version.outputs.version }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -98,7 +98,7 @@ jobs:
           commit-message: "Bump accented to ${{ steps.version.outputs.version }}"
           title: "Bump accented to ${{ steps.version.outputs.version }}"
           body: |
-            Automated update of `accented` dependency in playground to version `^${{ steps.version.outputs.version }}`.
+            Automated update of `accented` dependency in playground to version `${{ steps.version.outputs.version }}`.
 
             This PR was automatically created after publishing accented@${{ steps.version.outputs.version }}.
           branch: update-playground-accented-${{ steps.version.outputs.version }}
