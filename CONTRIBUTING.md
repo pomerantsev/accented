@@ -176,6 +176,11 @@ That's even true for cases where the specificity of a host app selector is highe
   - Font family: Noto Sans
   - Font variant: Regular 400 Normal
   - Font size: 110
+- package.json: pin versions for most dependencies
+  - For contributors, the source of truth is the lockfile anyway, so for most dependencies it doesn’t matter how they're specified in the package.json.
+  - Pinning dependencies in the playground gives maintainers more confidence that a non-major upgrade in one of them doesn’t break the playground for a visitor.
+  - The only exception is the runtime dependencies of Accented itself. This will allow consumers to deduplicate their deps and receive patch or minor upgrades
+    without waiting for a new Accented version. Caret ranges for runtime dependencies are standard practice for published NPM packages.
 
 ## Known issues / limitations
 
