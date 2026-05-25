@@ -45,7 +45,7 @@ importers:
         specifier: ^1.14.2
         version: 1.14.2
       axe-core:
-        specifier: ^4.11.3
+        specifier: ^4.11.4
         version: 4.11.4
     devDependencies:
       '@types/jsdom':
