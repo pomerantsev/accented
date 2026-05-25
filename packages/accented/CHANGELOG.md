@@ -7,27 +7,31 @@
 - Fix false positives and false negatives for some axe-core rules ([#482](https://github.com/pomerantsev/accented/pull/482))
   **Important:** this fix _might_ lead to a slight decrease in runtime performance on complex pages.
 
-### Patch Changes
+### Dependencies
 
-- Bump axe-core to 4.11.3 ([#491](https://github.com/pomerantsev/accented/pull/491))
+- axe-core 4.11.3 ([#491](https://github.com/pomerantsev/accented/pull/491))
 
-- Bump typescript to 6.0.3 (no functional changes) ([#480](https://github.com/pomerantsev/accented/pull/480))
+### Build
+
+- typescript 6.0.3 ([#480](https://github.com/pomerantsev/accented/pull/480))
 
 ## 1.2.6
 
-### Patch Changes
+### Dependencies
 
-- Bump axe-core to 4.11.2 ([#469](https://github.com/pomerantsev/accented/pull/469))
+- axe-core 4.11.2 ([#469](https://github.com/pomerantsev/accented/pull/469))
 
-- Bump @preact/signals-core to 1.14.1 (no functional changes) ([#471](https://github.com/pomerantsev/accented/pull/471))
+- @preact/signals-core 1.14.1 ([#471](https://github.com/pomerantsev/accented/pull/471))
 
-- Bump typescript to 6.0.2 (no functional changes) ([#474](https://github.com/pomerantsev/accented/pull/474))
+### Build
+
+- typescript 6.0.2 ([#474](https://github.com/pomerantsev/accented/pull/474))
 
 ## 1.2.5
 
-### Patch Changes
+### Dependencies
 
-- Bump @preact/signals-core to 1.14.0 (no functional changes) ([#451](https://github.com/pomerantsev/accented/pull/451), [#461](https://github.com/pomerantsev/accented/pull/461))
+- @preact/signals-core 1.14.0 ([#451](https://github.com/pomerantsev/accented/pull/451), [#461](https://github.com/pomerantsev/accented/pull/461))
 
 ## 1.2.4
 
@@ -35,13 +39,15 @@
 
 - Fix positioning of Accented triggers on transformed elements in Chrome 144+ ([#443](https://github.com/pomerantsev/accented/pull/443), [#445](https://github.com/pomerantsev/accented/pull/445))
 
-- Bump @preact/signals-core to 1.12.2 (no functional changes) ([#436](https://github.com/pomerantsev/accented/pull/436))
+### Dependencies
+
+- @preact/signals-core 1.12.2 ([#436](https://github.com/pomerantsev/accented/pull/436))
 
 ## 1.2.3
 
-### Patch Changes
+### Dependencies
 
-- Bump axe-core from 4.11.0 to 4.11.1 ([#416](https://github.com/pomerantsev/accented/pull/416))
+- axe-core 4.11.1 ([#416](https://github.com/pomerantsev/accented/pull/416))
 
 ## 1.2.2
 
@@ -55,17 +61,19 @@
 
 - Fix: passing a `context` object with missing `include` led to unexpected and incorrect scan context ([#361](https://github.com/pomerantsev/accented/pull/361))
 
-- Bump TS target to ES 2024 (no functional changes) ([#362](https://github.com/pomerantsev/accented/pull/362))
+### Build
+
+- TypeScript target: ES 2024 ([#362](https://github.com/pomerantsev/accented/pull/362))
 
 ## 1.2.0
 
-### Minor Changes
+### Dependencies
 
-- Bump axe-core from 4.10.3 to 4.11.0 ([#347](https://github.com/pomerantsev/accented/pull/347))
+- axe-core 4.11.0 (minor upgrade) ([#347](https://github.com/pomerantsev/accented/pull/347))
 
-### Patch Changes
+### Build
 
-- Bump typescript from 5.9.2 to 5.9.3 (no functional changes) ([#331](https://github.com/pomerantsev/accented/pull/331))
+- typescript 5.9.3 ([#331](https://github.com/pomerantsev/accented/pull/331))
 
 ## 1.1.2
 
@@ -73,7 +81,9 @@
 
 - Fix some edge cases in ShadowDOMAwareMutationObserver ([#300](https://github.com/pomerantsev/accented/pull/300))
 
-- Bump @preact/signals-core from 1.11.0 to 1.12.1 (no functional changes) ([#301](https://github.com/pomerantsev/accented/pull/301))
+### Dependencies
+
+- @preact/signals-core 1.12.1 ([#301](https://github.com/pomerantsev/accented/pull/301))
 
 ## 1.1.1
 
@@ -89,9 +99,9 @@
 
 - Add `output.page` option to support console-only mode ([#268](https://github.com/pomerantsev/accented/pull/268))
 
-### Patch Changes
+### Build
 
-- Bump typescript from 5.8.3 to 5.9.2 (no functional changes) ([#252](https://github.com/pomerantsev/accented/pull/252))
+- typescript 5.9.2 ([#252](https://github.com/pomerantsev/accented/pull/252))
 
 ## 1.0.1
 
@@ -99,7 +109,9 @@
 
 - Fix trigger positioning in Safari Technology Preview ([`f503408`](https://github.com/pomerantsev/accented/commit/f503408d59f47d5b2f9737d058ad7a61213dea1a))
 
-- Bump @preact/signals-core to 1.11.0 (no functional changes) ([#214](https://github.com/pomerantsev/accented/pull/214))
+### Dependencies
+
+- @preact/signals-core 1.11.0 ([#214](https://github.com/pomerantsev/accented/pull/214))
 
 ## 1.0.0
 
@@ -171,7 +183,13 @@
 
 - Fix trigger visibility in Chrome when overflowing overflow: visible containers ([#160](https://github.com/pomerantsev/accented/pull/160))
 
-- Upgrade axe-core and typescript ([#147](https://github.com/pomerantsev/accented/pull/147))
+### Dependencies
+
+- axe-core 4.10.3 ([#147](https://github.com/pomerantsev/accented/pull/147))
+
+### Build
+
+- typescript 5.8.3 ([#147](https://github.com/pomerantsev/accented/pull/147))
 
 ## 0.0.2
 
