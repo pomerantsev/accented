@@ -4,11 +4,13 @@
 
 ### Patch Changes
 
-- [#507](https://github.com/pomerantsev/accented/pull/507) [`fb8f080`](https://github.com/pomerantsev/accented/commit/fb8f080a06e8cc5a24a09416c30caed7ec203a2a) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Fix positioning of triggers on transformed elements in Safari TP
+- Fix positioning of triggers on transformed elements in Safari TP ([#507](https://github.com/pomerantsev/accented/pull/507))
 
-- [#500](https://github.com/pomerantsev/accented/pull/500) [`27d5471`](https://github.com/pomerantsev/accented/commit/27d547103c791829f0ed8661400b4afb1ecf6b56) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.14.2
+### Dependencies
 
-- [#509](https://github.com/pomerantsev/accented/pull/509) [`8c6b383`](https://github.com/pomerantsev/accented/commit/8c6b383c1a82c54baf85b10c34b3389b42725e4f) Thanks [@pomerantsev](https://github.com/pomerantsev)! - Bump axe-core to 4.11.4
+- axe-core 4.11.4 ([#509](https://github.com/pomerantsev/accented/pull/509))
+
+- @preact/signals-core 1.14.2 ([#500](https://github.com/pomerantsev/accented/pull/500))
 
 ## 1.3.0
 
