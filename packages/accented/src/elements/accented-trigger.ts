@@ -242,7 +242,7 @@ export const getAccentedTrigger = (name: string): CustomElementConstructor => {
     }
 
     #setTransform() {
-      if (cssTransformsAffectAnchorPositioning()) {
+      if (supportsAnchorPositioning() && cssTransformsAffectAnchorPositioning()) {
         return;
       }
       // We read and write values in separate animation frames to avoid layout thrashing.
