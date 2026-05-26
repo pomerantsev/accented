@@ -7,3 +7,6 @@ allowBuilds:
   netlify-cli: true
   sharp: true
   unix-dgram: true
+
+minimumReleaseAgeExclude:
+  - accented@1.3.1
