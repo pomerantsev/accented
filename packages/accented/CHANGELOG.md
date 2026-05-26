@@ -1,5 +1,17 @@
 # accented
 
+## 1.3.1
+
+### Patch Changes
+
+- Fix positioning of triggers on transformed elements in Safari TP ([#507](https://github.com/pomerantsev/accented/pull/507))
+
+### Dependencies
+
+- axe-core 4.11.4 ([#509](https://github.com/pomerantsev/accented/pull/509))
+
+- @preact/signals-core 1.14.2 ([#500](https://github.com/pomerantsev/accented/pull/500))
+
 ## 1.3.0
 
 ### Minor Changes
