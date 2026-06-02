@@ -1168,6 +1168,18 @@ test.describe('Accented', () => {
         await expect(countWithinSectionAfterExclude).toBeGreaterThan(0);
         await expect(countWithinSectionAfterExclude).toBeLessThan(countWithinSection);
       });
+
+      test('mutations outside the scoped context don’t cause new issues to be reported', async ({
+        page,
+      }) => {
+        await page.goto('?axe-context-selector=%23fixed-position&throttle-wait=0');
+        await page.locator(accentedSelector).first().waitFor();
+        const initialCount = await page.locator(accentedSelector).count();
+        await page.getByRole('button', { name: 'Add text to button' }).click();
+        await page.waitForTimeout(500);
+        const finalCount = await page.locator(accentedSelector).count();
+        expect(finalCount).toBe(initialCount);
+      });
     });
   });
 

@@ -102,16 +102,16 @@ export function createScanner(
       try {
         // Run the scan against the limited context (only the mutated
         // nodes, filtered to those within the user-provided context). Skip if no
-        // limited-context rules are active.
+        // limited-context rules are active or if there's nothing to scan.
         limitedContextResult =
-          limitedContextRules.size > 0
+          limitedContextRules.size > 0 && limitedContext.include.length > 0
             ? await axe.run(limitedContext, {
                 ...baseAxeOptions,
                 runOnly: { type: 'rule', values: [...limitedContextRules] },
               })
             : undefined;
 
-        // Run the supplemental scan against the full context so that ancestor-
+        // Run the scan against the full context so that ancestor-
         // dependent rules always see the complete DOM. Skip if none are active.
         fullContextResult =
           fullContextRules.size > 0
