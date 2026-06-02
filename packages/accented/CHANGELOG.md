@@ -1,5 +1,11 @@
 # accented
 
+## 1.3.2
+
+### Patch Changes
+
+- Fix: scan would run on the full document if a mutation happened outside of context ([#514](https://github.com/pomerantsev/accented/pull/514))
+
 ## 1.3.1
 
 ### Patch Changes
