@@ -15,15 +15,15 @@
     "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "dependencies": {
-    "@astrojs/mdx": "5.0.6",
-    "@astrojs/netlify": "7.0.10",
+    "@astrojs/mdx": "6.0.1",
+    "@astrojs/netlify": "7.0.12",
     "@astrojs/rss": "4.0.18",
     "@astrojs/sitemap": "3.7.3",
     "@cloudfour/image-compare": "1.0.5",
     "@fontsource-variable/ibm-plex-sans": "5.2.8",
     "@fontsource-variable/lora": "5.2.8",
     "@fontsource/ibm-plex-mono": "5.2.7",
-    "astro": "6.3.8",
+    "astro": "6.4.2",
     "common": "workspace:*",
     "drizzle-orm": "0.45.2",
     "postgres": "3.4.9",
@@ -32,7 +32,7 @@
     "shiki": "4.1.0",
     "ua-parser-js": "2.0.10",
     "unist-util-visit": "5.1.0",
-    "web-vitals": "5.2.0"
+    "web-vitals": "5.3.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.9",
