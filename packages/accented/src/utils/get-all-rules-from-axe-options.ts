@@ -40,10 +40,8 @@ export function getAllRulesFromAxeOptions(axeOptions: AxeOptions): Set<string> {
 
   if (runOnly === undefined) {
     // axe.getRules() includes rules disabled by default; axe skips them via rule.enabled !== false.
-    // Replicate that here using the internal _audit.rules, which exposes the enabled flag.
-    // @ts-expect-error: _audit is an undocumented internal axe-core API not present in its type definitions
-    for (const rule of axe._audit.rules) {
-      if (rule.enabled === false) allRuleIds.delete(rule.id);
+    for (const rule of axe.getRules()) {
+      if (rule.enabled === false) allRuleIds.delete(rule.ruleId);
     }
     return applyOverrides(allRuleIds, rules);
   }
