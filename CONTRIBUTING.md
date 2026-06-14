@@ -213,7 +213,9 @@ The library version is **not** bumped at this time.
 - A change in the business logic / UI / API (obviously).
 - A bug fix / performance improvement.
 - A dependency version bump.
-  - For runtime dependencies, we’ll definitely bump the version, even if nothing is changing for consumers.
+  - For runtime dependencies, always add a changeset, even if nothing changes for consumers —
+  `minor` if it changes Accented’s behavior (see the [versioning policy](https://accented.dev/about#versioning)),
+  `patch` otherwise.
   - For build dependencies that may affect the generated code (for example, typescript), create a patch change.
   - For other development dependencies, don't add a changeset (this bump shouldn’t affect consumers at all).
 - A development dependency version bump (if it may potentially change the compiled code).
