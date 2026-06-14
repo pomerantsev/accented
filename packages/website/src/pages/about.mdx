@@ -64,8 +64,9 @@ In practice, here’s how we decide whether a release should be major, minor, or
 **Minor:**
 
 - A non-breaking (additive) API change.
-- A behavioral change that isn’t a bug fix (for example, when Accented starts reporting a new class of issues).
-- A minor or major runtime dependency bump (as long as it doesn’t break the Accented API).
+- A behavioral change that isn’t a bug fix and doesn’t break the Accented API
+  (for example, when Accented starts reporting a new class of issues).
+  This applies whether the change originates in Accented itself or in a runtime dependency bump.
 
 **Patch:**
 
