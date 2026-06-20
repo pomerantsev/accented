@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "6.0.3",
-    "@astrojs/netlify": "7.0.12",
+    "@astrojs/netlify": "7.0.13",
     "@astrojs/rss": "4.0.18",
     "@astrojs/sitemap": "3.7.3",
     "@cloudfour/image-compare": "1.0.5",
