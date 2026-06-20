@@ -10,7 +10,7 @@
     "test-buildless": "playwright test test/buildless.spec.ts"
   },
   "devDependencies": {
-    "axe-core": "4.12.0",
+    "axe-core": "4.12.1",
     "vite": "8.0.16"
   },
   "dependencies": {
