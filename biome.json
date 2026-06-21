@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -18,7 +18,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "correctness": {
         "noUnusedFunctionParameters": "error",
         "noUnusedImports": "error",
@@ -26,16 +26,15 @@
         "noUnusedVariables": "error",
         "useParseIntRadix": "error"
       },
-      "nursery": {
-        "noShadow": "error"
-      },
+      "nursery": {},
       "style": {
         "noNonNullAssertion": "off",
         "useImportType": "error"
       },
       "suspicious": {
         "noDoubleEquals": { "level": "error", "options": { "ignoreNull": false } },
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noShadow": "error"
       }
     }
   },
