@@ -1,5 +1,17 @@
 # accented
 
+## 1.4.0
+
+### Minor Changes
+
+- [#524](https://github.com/pomerantsev/accented/pull/524) [`6cc6023`](https://github.com/pomerantsev/accented/commit/6cc6023627ccd4fa040355366bc1a17b64b4d766) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axe-core to 4.12.0
+
+### Patch Changes
+
+- [#531](https://github.com/pomerantsev/accented/pull/531) [`69ed450`](https://github.com/pomerantsev/accented/commit/69ed450f5182136350c7c72984304c4bb55ebfa5) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axe-core to 4.12.1
+
+- [#532](https://github.com/pomerantsev/accented/pull/532) [`f80a5a4`](https://github.com/pomerantsev/accented/commit/f80a5a4c2a13eb739d2765938eb7704202083502) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.14.3
+
 ## 1.3.2
 
 ### Patch Changes
