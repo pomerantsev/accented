@@ -18,7 +18,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "correctness": {
         "noUnusedFunctionParameters": "error",
         "noUnusedImports": "error",
@@ -26,16 +26,15 @@
         "noUnusedVariables": "error",
         "useParseIntRadix": "error"
       },
-      "nursery": {
-        "noShadow": "error"
-      },
+      "nursery": {},
       "style": {
         "noNonNullAssertion": "off",
         "useImportType": "error"
       },
       "suspicious": {
         "noDoubleEquals": { "level": "error", "options": { "ignoreNull": false } },
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noShadow": "error"
       }
     }
   },
