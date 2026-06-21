@@ -1,5 +1,22 @@
 # accented
 
+## 1.4.0
+
+### Minor Changes
+
+- Bump axe-core to 4.12.1 ([#524](https://github.com/pomerantsev/accented/pull/524), [#531](https://github.com/pomerantsev/accented/pull/531))
+  (warrants a minor change since [at least one new rule is introduced](https://github.com/dequelabs/axe-core/blob/e841a337ab53859a0b0b6638cce5bd1c2c901b52/CHANGELOG.md#4120-2026-06-01), affecting audits)
+
+### Patch Changes
+
+- Fix: remove usage of the undocumented axe-core `axe._audit` API ([#524](https://github.com/pomerantsev/accented/pull/524))
+
+### Dependencies
+
+- axe-core 4.12.1 (see Minor Changes)
+
+- @preact/signals-core 1.14.3 ([#532](https://github.com/pomerantsev/accented/pull/532))
+
 ## 1.3.2
 
 ### Patch Changes
