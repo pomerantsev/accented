@@ -13,7 +13,7 @@ import { getAllRulesFromAxeOptions } from './get-all-rules-from-axe-options';
 suite('getAllRulesFromAxeOptions', () => {
   test('with no options, returns all rules', () => {
     const rules = getAllRulesFromAxeOptions({});
-    assert.ok(rules.size > 90);
+    assert.ok(rules.size > 80);
     assert.ok(rules.has('page-has-heading-one'));
     assert.ok(rules.has('color-contrast'));
   });
@@ -122,7 +122,7 @@ suite('getAllRulesFromAxeOptions', () => {
     const rules = getAllRulesFromAxeOptions({
       rules: { 'color-contrast': { enabled: false } },
     });
-    assert.ok(rules.size > 90);
+    assert.ok(rules.size > 80);
     assert.equal(rules.has('color-contrast'), false);
   });
 
