@@ -13,3 +13,7 @@ tsconfig.test.tsbuildinfo
 
 .claude
 .playwright-mcp
+
+# @astrojs/netlify likely generates a deno.lock.
+# I don't think we need to commit this file.
+deno.lock
