@@ -8,5 +8,12 @@ allowBuilds:
   sharp: true
   unix-dgram: true
 
+# Set explicitly (not just relying on pnpm's default) so that Dependabot's
+# bundled pnpm — which at the time of writing (version 10.16)
+# supports minimumReleaseAge but defaults it to 0.
+# Without this explicit setting, Dependabot's PNPM (with an older version) may install
+# a transitive dependency that fails the check in CI install (that uses a newer PNPM version)
+minimumReleaseAge: 4320 # 4_320 minutes == 3 days (matches Dependabot's patch-level cooldown period)
+minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
   - accented
