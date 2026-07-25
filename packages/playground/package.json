@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit --project tsconfig.app.json"
   },
   "dependencies": {
-    "react": "19.2.7",
-    "react-dom": "19.2.7",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "react-icons": "5.7.0"
   },
   "devDependencies": {
