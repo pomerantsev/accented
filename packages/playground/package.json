@@ -23,7 +23,7 @@
     "accented": "1.4.0",
     "autoprefixer": "10.5.4",
     "globals": "17.7.0",
-    "postcss": "8.5.22",
+    "postcss": "8.5.23",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "vite": "8.1.5"
