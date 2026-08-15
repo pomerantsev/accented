@@ -15,24 +15,24 @@
     "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "dependencies": {
-    "@astrojs/mdx": "7.0.3",
-    "@astrojs/netlify": "8.1.2",
+    "@astrojs/mdx": "7.0.5",
+    "@astrojs/netlify": "8.2.0",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
     "@cloudfour/image-compare": "1.0.5",
-    "@fontsource-variable/ibm-plex-sans": "5.2.8",
-    "@fontsource-variable/lora": "5.2.8",
-    "@fontsource/ibm-plex-mono": "5.2.7",
-    "astro": "7.1.1",
+    "@fontsource-variable/ibm-plex-sans": "5.3.0",
+    "@fontsource-variable/lora": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "astro": "7.2.0",
     "common": "workspace:*",
     "drizzle-orm": "0.45.2",
     "postgres": "3.4.9",
     "rehype-slug": "6.0.0",
     "sharp": "0.35.3",
-    "shiki": "4.3.1",
+    "shiki": "4.4.2",
     "ua-parser-js": "2.0.10",
     "unist-util-visit": "5.1.0",
-    "web-vitals": "5.3.0"
+    "web-vitals": "6.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
