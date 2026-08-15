@@ -42,7 +42,7 @@
     "axe-core": "^4.12.1"
   },
   "devDependencies": {
-    "@types/jsdom": "28.0.3",
-    "jsdom": "29.1.1"
+    "@types/jsdom": "30.0.0",
+    "jsdom": "30.0.1"
   }
 }
