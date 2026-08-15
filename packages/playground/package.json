@@ -17,15 +17,15 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
-    "@types/react": "19.2.17",
-    "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.4",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
     "accented": "1.4.0",
     "autoprefixer": "10.5.4",
-    "globals": "17.7.0",
-    "postcss": "8.5.22",
+    "globals": "17.9.0",
+    "postcss": "8.5.26",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
-    "vite": "8.1.5"
+    "vite": "8.2.1"
   }
 }

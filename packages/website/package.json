@@ -35,9 +35,9 @@
     "web-vitals": "5.3.0"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.9",
+    "@astrojs/check": "0.9.10",
     "accented": "workspace:*",
     "drizzle-kit": "0.31.10",
-    "netlify-cli": "26.2.0"
+    "netlify-cli": "27.1.1"
   }
 }
