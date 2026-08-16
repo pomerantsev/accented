@@ -20,7 +20,7 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "@vitejs/plugin-react": "6.0.5",
-    "accented": "1.4.0",
+    "accented": "1.4.1",
     "autoprefixer": "10.5.4",
     "globals": "17.9.0",
     "postcss": "8.5.26",
