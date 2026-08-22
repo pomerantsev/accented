@@ -45,7 +45,7 @@ jobs:
       - name: Create release PR or publish
         id: changesets
         if: github.ref == 'refs/heads/main'
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: pnpm changeset-version
           publish: pnpm changeset publish
