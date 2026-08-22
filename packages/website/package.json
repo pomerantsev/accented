@@ -15,7 +15,7 @@
     "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "dependencies": {
-    "@astrojs/mdx": "7.0.3",
+    "@astrojs/mdx": "7.0.6",
     "@astrojs/netlify": "8.1.2",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
