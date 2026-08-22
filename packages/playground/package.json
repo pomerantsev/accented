@@ -22,7 +22,7 @@
     "@vitejs/plugin-react": "6.0.5",
     "accented": "1.4.0",
     "autoprefixer": "10.5.4",
-    "globals": "17.9.0",
+    "globals": "17.11.0",
     "postcss": "8.5.26",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
