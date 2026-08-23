@@ -1,5 +1,11 @@
 # accented
 
+## 1.4.1
+
+### Patch Changes
+
+- [#544](https://github.com/pomerantsev/accented/pull/544) [`2d5c381`](https://github.com/pomerantsev/accented/commit/2d5c3817fc2160ca449f376020f95187fe683750) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump @preact/signals-core to 1.14.4
+
 ## 1.4.0
 
 ### Minor Changes
