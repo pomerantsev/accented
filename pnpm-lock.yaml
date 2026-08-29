@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.5.8
-        version: 2.5.8
+        specifier: 2.5.10
+        version: 2.5.10
       '@changesets/changelog-github':
         specifier: 1.0.0
         version: 1.0.0
@@ -120,10 +120,10 @@ importers:
     dependencies:
       '@astrojs/mdx':
         specifier: 7.0.7
-        version: 7.0.7(@astrojs/markdown-satteri@0.3.4)(astro@7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))
+        version: 7.0.7(@astrojs/markdown-satteri@0.3.4)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))(supports-color@10.2.2)
       '@astrojs/netlify':
         specifier: 8.1.2
-        version: 8.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
+        version: 8.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))(jiti@2.7.0)(rollup@4.62.2)(supports-color@10.2.2)(tsx@4.23.12)(yaml@2.9.0)
       '@astrojs/rss':
         specifier: 4.0.19
         version: 4.0.19
@@ -144,7 +144,7 @@ importers:
         version: 5.2.7
       astro:
         specifier: 7.1.1
-        version: 7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
+        version: 7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
       common:
         specifier: workspace:*
         version: link:../common
@@ -184,7 +184,7 @@ importers:
         version: 0.31.10
       netlify-cli:
         specifier: 27.1.2
-        version: 27.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(picomatch@4.0.5)(rollup@4.62.2)
+        version: 27.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(picomatch@4.0.5)(rollup@4.62.2)(supports-color@10.2.2)
 
 packages:
 
@@ -366,59 +366,59 @@ packages:
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
 
-  '@biomejs/biome@2.5.8':
-    resolution: {integrity: sha512-aeAeeJB9fSDc7Gq+2GqpQxA0qBj6gj1k2R6L1cYqGePKP/baIq1WX8y6B+D+nRsO5ViQL22K/8IwbqERW0q1nw==}
+  '@biomejs/biome@2.5.10':
+    resolution: {integrity: sha512-WRKXARA3kTuiV5sxqTpobJ/I0MVd4vk3pOL6wnp5az4LntFIhWTj1RWZq3DI9PCEN3lXcqy7p5aqUHzvq8AXyQ==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/cli-darwin-arm64@2.5.8':
-    resolution: {integrity: sha512-mk1QON9PHllvvLN5gU3f4rMxeh4syK5p9OvKyWH6/W8ueh04uaC8TUXXByhGufWf/y5mQc03ZLM45zU+cmqMjA==}
+  '@biomejs/cli-darwin-arm64@2.5.10':
+    resolution: {integrity: sha512-ItCrxKK6SXVT6flYs0qIuBd4AA3TTTl4d66Re6YI2FuGZnN85NmuYNzkiTJUyYw8qBLv69L5zTUB6uyWd++h3Q==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.5.8':
-    resolution: {integrity: sha512-bsGwFMBNyHPyiLSsQcZJxdoRrg1V4JL+d7wEsvUBczlP9U9lwM+7mzQHxI4o1mhBsTmdOBbAb6fHU3Z3snN45w==}
+  '@biomejs/cli-darwin-x64@2.5.10':
+    resolution: {integrity: sha512-yLsPU9pAmtChXDu8vhKAzErqe+LeeYuwuUB2FZMkRitsmdodxsYRa9KHrFispsUHzzOu+9HB3nP/TQxyia+Sjw==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-linux-arm64-musl@2.5.8':
-    resolution: {integrity: sha512-VcJNbstduTHx83NGAdhp78/JOcP45BZHXL7yNsfI1uGzdUgegAz2s+mSoT7wK6PBNzLoqG0zDOXaz/RQYVtSiw==}
+  '@biomejs/cli-linux-arm64-musl@2.5.10':
+    resolution: {integrity: sha512-t1QAKZwQJRB4dvgJSgFiQ4BNfNPChg69BNonz854qLVxnjT3UvDzQg9mbkTJRu35ZqU0Rw10A73J8Urgbg2RPw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-arm64@2.5.8':
-    resolution: {integrity: sha512-XmFiA0WPYFC+uiUDC8WRFzAIH9bo7vwQLav38Uoq4ETC+T/+uBi0TsYGJECkugY3r8USl3jc+Ae2/irAF6F2lQ==}
+  '@biomejs/cli-linux-arm64@2.5.10':
+    resolution: {integrity: sha512-VG8uQW/86a1roLaIFvtIbEigxIdzdJ190oGyg1tV7VYeQtOS+x10sflk7WbuXgw91EtZX5DlIIIej1YqkNLlcg==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-linux-x64-musl@2.5.8':
-    resolution: {integrity: sha512-kKmiyokeISRGq2FLwvr+TzsgBusfxaZ0FZNLcOYOpCK/78tRrEjeEBLvq3xLZMpqbANgJdRPI7vZX8ZL37u9/w==}
+  '@biomejs/cli-linux-x64-musl@2.5.10':
+    resolution: {integrity: sha512-pgDDqp9JybHm2I0KRgzN6i4+lt8xu4iqxUwLzglUMmOmyRTU1AYBGKzh9sNMOtIjah7xoWvKHlLVetvyifzoiQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-x64@2.5.8':
-    resolution: {integrity: sha512-S5wcm9OBDvLHodD4PUaN488hCpco9QD/9ZxuYJiw4euWtr/oQvLR72z2ixItH8Wd5BCm6FZaeb+YNvOoM1xHtQ==}
+  '@biomejs/cli-linux-x64@2.5.10':
+    resolution: {integrity: sha512-4O6T0eq2heoHZN0a9UX+rWQoxXEBaKf+lRi2hbsGlHneUz9BWXM76nEWMK7Eeq8gzMxR1khQB6BFpAASpeXqGg==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-win32-arm64@2.5.8':
-    resolution: {integrity: sha512-nILH0mzm3Hi3iEdd7o7GpB8kBR/mSQwfQG/tyBqyNrY2GFtcgwfV9nV8xLmbtUpMNY/Oi0Ml1XgfR4flOdq+AA==}
+  '@biomejs/cli-win32-arm64@2.5.10':
+    resolution: {integrity: sha512-pxAbxduPO4xq/Cvgaa2lOrs9BB0hEXmmDqfMNP4ZOffGOkUrD1/QGw9UAMpFQpX2P8MqTIIRuQKcmetum4Oa6A==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.5.8':
-    resolution: {integrity: sha512-I2czzXTY61f3nFJxXoMDq80t7MivxDEnCjE+8sDKoFfcKMaoQdkqhIFQ3KyY0XLzeSpUBYeNAXgD+iOV/BU0VA==}
+  '@biomejs/cli-win32-x64@2.5.10':
+    resolution: {integrity: sha512-M+2dgBsl3lXRiTfgPVc2p3anS4Tocojke4rzFLScZ2Y/wmF+36dRb1iHCLiyGqOzQGyTplZH1HnEYviiAqi3nA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -7829,11 +7829,11 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.5
       '@types/mdast': 4.0.4
-      js-yaml: 4.3.0
+      js-yaml: 4.3.1
       picomatch: 4.0.5
       retext-smartypants: 6.2.0
       shiki: 4.3.1
-      smol-toml: 1.7.0
+      smol-toml: 1.8.0
       unified: 11.0.5
 
   '@astrojs/internal-helpers@0.10.4':
@@ -7872,7 +7872,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@astrojs/markdown-remark@7.2.1':
+  '@astrojs/markdown-remark@7.2.1(supports-color@10.2.2)':
     dependencies:
       '@astrojs/internal-helpers': 0.10.1
       '@astrojs/prism': 4.0.2
@@ -7882,8 +7882,8 @@ snapshots:
       mdast-util-definitions: 6.0.0
       rehype-raw: 7.0.0
       rehype-stringify: 10.0.1
-      remark-gfm: 4.0.1
-      remark-parse: 11.0.0
+      remark-gfm: 4.0.1(supports-color@10.2.2)
+      remark-parse: 11.0.0(supports-color@10.2.2)
       remark-rehype: 11.1.2
       remark-smartypants: 3.0.3
       unified: 11.0.5
@@ -7895,7 +7895,7 @@ snapshots:
       - supports-color
     optional: true
 
-  '@astrojs/markdown-remark@7.2.4':
+  '@astrojs/markdown-remark@7.2.4(supports-color@10.2.2)':
     dependencies:
       '@astrojs/internal-helpers': 0.10.4
       '@astrojs/prism': 4.0.2
@@ -7905,8 +7905,8 @@ snapshots:
       mdast-util-definitions: 6.0.0
       rehype-raw: 7.0.0
       rehype-stringify: 10.0.1
-      remark-gfm: 4.0.1
-      remark-parse: 11.0.0
+      remark-gfm: 4.0.1(supports-color@10.2.2)
+      remark-parse: 11.0.0(supports-color@10.2.2)
       remark-rehype: 11.1.2
       remark-smartypants: 3.0.3
       unified: 11.0.5
@@ -7925,19 +7925,19 @@ snapshots:
       hast-util-from-html: 2.0.3
       satteri: 0.9.5
 
-  '@astrojs/mdx@7.0.7(@astrojs/markdown-satteri@0.3.4)(astro@7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))':
+  '@astrojs/mdx@7.0.7(@astrojs/markdown-satteri@0.3.4)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))(supports-color@10.2.2)':
     dependencies:
       '@astrojs/internal-helpers': 0.10.4
-      '@astrojs/markdown-remark': 7.2.4
-      '@mdx-js/mdx': 3.1.1
+      '@astrojs/markdown-remark': 7.2.4(supports-color@10.2.2)
+      '@mdx-js/mdx': 3.1.1(supports-color@10.2.2)
       acorn: 8.18.0
-      astro: 7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
+      astro: 7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
       es-module-lexer: 2.3.2
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
       piccolore: 0.1.3
       rehype-raw: 7.0.0
-      remark-gfm: 4.0.1
+      remark-gfm: 4.0.1(supports-color@10.2.2)
       remark-smartypants: 3.0.3
       source-map: 0.7.6
       unist-util-visit: 5.1.0
@@ -7947,15 +7947,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/netlify@8.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)':
+  '@astrojs/netlify@8.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0))(jiti@2.7.0)(rollup@4.62.2)(supports-color@10.2.2)(tsx@4.23.12)(yaml@2.9.0)':
     dependencies:
       '@astrojs/internal-helpers': 0.10.1
       '@astrojs/underscore-redirects': 1.0.3
-      '@netlify/blobs': 10.7.9
+      '@netlify/blobs': 10.7.9(supports-color@10.2.2)
       '@netlify/functions': 5.3.0
-      '@netlify/vite-plugin': 2.12.8(@parcel/watcher@2.5.6)(rollup@4.62.2)(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
-      '@vercel/nft': 1.10.2(rollup@4.62.2)
-      astro: 7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
+      '@netlify/vite-plugin': 2.12.8(@parcel/watcher@2.5.6)(rollup@4.62.2)(supports-color@10.2.2)(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
+      '@vercel/nft': 1.10.2(rollup@4.62.2)(supports-color@10.2.2)
+      astro: 7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0)
       esbuild: 0.28.1
       tinyglobby: 0.2.17
       vite: 8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)
@@ -8056,39 +8056,39 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@biomejs/biome@2.5.8':
+  '@biomejs/biome@2.5.10':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.5.8
-      '@biomejs/cli-darwin-x64': 2.5.8
-      '@biomejs/cli-linux-arm64': 2.5.8
-      '@biomejs/cli-linux-arm64-musl': 2.5.8
-      '@biomejs/cli-linux-x64': 2.5.8
-      '@biomejs/cli-linux-x64-musl': 2.5.8
-      '@biomejs/cli-win32-arm64': 2.5.8
-      '@biomejs/cli-win32-x64': 2.5.8
+      '@biomejs/cli-darwin-arm64': 2.5.10
+      '@biomejs/cli-darwin-x64': 2.5.10
+      '@biomejs/cli-linux-arm64': 2.5.10
+      '@biomejs/cli-linux-arm64-musl': 2.5.10
+      '@biomejs/cli-linux-x64': 2.5.10
+      '@biomejs/cli-linux-x64-musl': 2.5.10
+      '@biomejs/cli-win32-arm64': 2.5.10
+      '@biomejs/cli-win32-x64': 2.5.10
 
-  '@biomejs/cli-darwin-arm64@2.5.8':
+  '@biomejs/cli-darwin-arm64@2.5.10':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.5.8':
+  '@biomejs/cli-darwin-x64@2.5.10':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.5.8':
+  '@biomejs/cli-linux-arm64-musl@2.5.10':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.5.8':
+  '@biomejs/cli-linux-arm64@2.5.10':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.5.8':
+  '@biomejs/cli-linux-x64-musl@2.5.10':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.5.8':
+  '@biomejs/cli-linux-x64@2.5.10':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.5.8':
+  '@biomejs/cli-win32-arm64@2.5.10':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.5.8':
+  '@biomejs/cli-win32-x64@2.5.10':
     optional: true
 
   '@bramus/specificity@2.4.2':
@@ -9102,7 +9102,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@mdx-js/mdx@3.1.1':
+  '@mdx-js/mdx@3.1.1(supports-color@10.2.2)':
     dependencies:
       '@types/estree': 1.0.9
       '@types/estree-jsx': 1.0.5
@@ -9114,14 +9114,14 @@ snapshots:
       estree-util-is-identifier-name: 3.0.0
       estree-util-scope: 1.0.0
       estree-walker: 3.0.3
-      hast-util-to-jsx-runtime: 2.3.6
+      hast-util-to-jsx-runtime: 2.3.6(supports-color@10.2.2)
       markdown-extensions: 2.0.0
       recma-build-jsx: 1.0.0
       recma-jsx: 1.0.1(acorn@8.18.0)
       recma-stringify: 1.0.0
-      rehype-recma: 1.0.0
-      remark-mdx: 3.1.1
-      remark-parse: 11.0.0
+      rehype-recma: 1.0.0(supports-color@10.2.2)
+      remark-mdx: 3.1.1(supports-color@10.2.2)
+      remark-parse: 11.0.0(supports-color@10.2.2)
       remark-rehype: 11.1.2
       source-map: 0.7.6
       unified: 11.0.5
@@ -9174,10 +9174,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@netlify/blobs@10.7.9':
+  '@netlify/blobs@10.7.9(supports-color@10.2.2)':
     dependencies:
       '@netlify/dev-utils': 4.4.6
-      '@netlify/otel': 6.0.3
+      '@netlify/otel': 6.0.3(supports-color@10.2.2)
       '@netlify/runtime-utils': 2.3.0
     transitivePeerDependencies:
       - supports-color
@@ -9384,7 +9384,7 @@ snapshots:
       parse-gitignore: 2.0.0
       semver: 7.8.5
 
-  '@netlify/dev@4.18.13(@parcel/watcher@2.5.6)(rollup@4.62.2)':
+  '@netlify/dev@4.18.13(@parcel/watcher@2.5.6)(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
       '@netlify/ai': 0.4.4
       '@netlify/blobs': 10.7.13(supports-color@10.2.2)
@@ -9392,11 +9392,11 @@ snapshots:
       '@netlify/database-dev': 0.10.1
       '@netlify/dev-utils': 5.0.0
       '@netlify/edge-functions-dev': 1.0.24
-      '@netlify/functions-dev': 1.3.5(rollup@4.62.2)
+      '@netlify/functions-dev': 1.3.5(rollup@4.62.2)(supports-color@10.2.2)
       '@netlify/headers': 2.1.13
-      '@netlify/images': 1.3.12(@netlify/blobs@10.7.13)(@parcel/watcher@2.5.6)
+      '@netlify/images': 1.3.12(@netlify/blobs@10.7.13(supports-color@10.2.2))(@parcel/watcher@2.5.6)
       '@netlify/redirects': 3.1.15
-      '@netlify/runtime': 4.1.29
+      '@netlify/runtime': 4.1.29(supports-color@10.2.2)
       '@netlify/static': 3.1.12
       ulid: 3.0.2
     transitivePeerDependencies:
@@ -9427,19 +9427,19 @@ snapshots:
       - supports-color
       - uploadthing
 
-  '@netlify/dev@4.18.7(@parcel/watcher@2.5.6)(rollup@4.62.2)':
+  '@netlify/dev@4.18.7(@parcel/watcher@2.5.6)(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
       '@netlify/ai': 0.4.4
-      '@netlify/blobs': 10.7.9
+      '@netlify/blobs': 10.7.9(supports-color@10.2.2)
       '@netlify/config': 24.6.0
       '@netlify/database-dev': 0.10.1
       '@netlify/dev-utils': 4.4.6
       '@netlify/edge-functions-dev': 1.0.20
-      '@netlify/functions-dev': 1.3.0(rollup@4.62.2)
+      '@netlify/functions-dev': 1.3.0(rollup@4.62.2)(supports-color@10.2.2)
       '@netlify/headers': 2.1.11
-      '@netlify/images': 1.3.10(@netlify/blobs@10.7.9)(@parcel/watcher@2.5.6)
+      '@netlify/images': 1.3.10(@netlify/blobs@10.7.9(supports-color@10.2.2))(@parcel/watcher@2.5.6)
       '@netlify/redirects': 3.1.13
-      '@netlify/runtime': 4.1.25
+      '@netlify/runtime': 4.1.25(supports-color@10.2.2)
       '@netlify/static': 3.1.10
       ulid: 3.0.2
     transitivePeerDependencies:
@@ -9564,15 +9564,15 @@ snapshots:
     dependencies:
       '@netlify/types': 2.8.0
 
-  '@netlify/functions-dev@1.3.0(rollup@4.62.2)':
+  '@netlify/functions-dev@1.3.0(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
-      '@netlify/blobs': 10.7.9
+      '@netlify/blobs': 10.7.9(supports-color@10.2.2)
       '@netlify/dev-utils': 4.4.6
       '@netlify/functions': 5.3.0
-      '@netlify/zip-it-and-ship-it': 14.7.1(rollup@4.62.2)
+      '@netlify/zip-it-and-ship-it': 14.7.1(rollup@4.62.2)(supports-color@10.2.2)
       cron-parser: 4.9.0
       decache: 4.6.2
-      extract-zip: 2.0.1
+      extract-zip: 2.0.1(supports-color@10.2.2)
       is-stream: 4.0.1
       jwt-decode: 4.0.0
       lambda-local: 2.2.0
@@ -9587,7 +9587,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@netlify/functions-dev@1.3.5(rollup@4.62.2)':
+  '@netlify/functions-dev@1.3.5(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
       '@netlify/blobs': 10.7.13(supports-color@10.2.2)
       '@netlify/dev-utils': 5.0.0
@@ -9595,7 +9595,7 @@ snapshots:
       '@netlify/zip-it-and-ship-it': 15.3.4(rollup@4.62.2)(supports-color@10.2.2)
       cron-parser: 4.9.0
       decache: 4.6.2
-      extract-zip: 2.0.1
+      extract-zip: 2.0.1(supports-color@10.2.2)
       is-stream: 4.0.1
       jwt-decode: 4.0.0
       lambda-local: 2.2.0
@@ -9656,9 +9656,9 @@ snapshots:
     dependencies:
       '@netlify/headers-parser': 10.1.1
 
-  '@netlify/images@1.3.10(@netlify/blobs@10.7.9)(@parcel/watcher@2.5.6)':
+  '@netlify/images@1.3.10(@netlify/blobs@10.7.9(supports-color@10.2.2))(@parcel/watcher@2.5.6)':
     dependencies:
-      ipx: 3.1.1(@netlify/blobs@10.7.9)(@parcel/watcher@2.5.6)
+      ipx: 3.1.1(@netlify/blobs@10.7.9(supports-color@10.2.2))(@parcel/watcher@2.5.6)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -9682,9 +9682,9 @@ snapshots:
       - srvx
       - uploadthing
 
-  '@netlify/images@1.3.12(@netlify/blobs@10.7.13)(@parcel/watcher@2.5.6)':
+  '@netlify/images@1.3.12(@netlify/blobs@10.7.13(supports-color@10.2.2))(@parcel/watcher@2.5.6)':
     dependencies:
-      ipx: 3.1.1(@netlify/blobs@10.7.13)(@parcel/watcher@2.5.6)
+      ipx: 3.1.1(@netlify/blobs@10.7.13(supports-color@10.2.2))(@parcel/watcher@2.5.6)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -9765,11 +9765,11 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
 
-  '@netlify/otel@6.0.3':
+  '@netlify/otel@6.0.3(supports-color@10.2.2)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.217.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.217.0(@opentelemetry/api@1.9.0)(supports-color@10.2.2)
       '@opentelemetry/resources': 2.7.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.7.1(@opentelemetry/api@1.9.0)
     transitivePeerDependencies:
@@ -9823,7 +9823,7 @@ snapshots:
 
   '@netlify/runtime-utils@2.3.0': {}
 
-  '@netlify/runtime@4.1.25':
+  '@netlify/runtime@4.1.25(supports-color@10.2.2)':
     dependencies:
       '@netlify/blobs': 10.7.13(supports-color@10.2.2)
       '@netlify/cache': 3.4.8
@@ -9832,7 +9832,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@netlify/runtime@4.1.29':
+  '@netlify/runtime@4.1.29(supports-color@10.2.2)':
     dependencies:
       '@netlify/blobs': 10.7.13(supports-color@10.2.2)
       '@netlify/cache': 3.4.10
@@ -9859,9 +9859,9 @@ snapshots:
 
   '@netlify/types@2.8.0': {}
 
-  '@netlify/vite-plugin@2.12.8(@parcel/watcher@2.5.6)(rollup@4.62.2)(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))':
+  '@netlify/vite-plugin@2.12.8(@parcel/watcher@2.5.6)(rollup@4.62.2)(supports-color@10.2.2)(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))':
     dependencies:
-      '@netlify/dev': 4.18.7(@parcel/watcher@2.5.6)(rollup@4.62.2)
+      '@netlify/dev': 4.18.7(@parcel/watcher@2.5.6)(rollup@4.62.2)(supports-color@10.2.2)
       '@netlify/dev-utils': 4.4.7
       dedent: 1.7.2
       vite: 8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)
@@ -9894,7 +9894,7 @@ snapshots:
       - supports-color
       - uploadthing
 
-  '@netlify/zip-it-and-ship-it@14.7.1(rollup@4.62.2)':
+  '@netlify/zip-it-and-ship-it@14.7.1(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
       '@babel/parser': 7.29.8
       '@babel/types': 7.29.8
@@ -10099,7 +10099,7 @@ snapshots:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/semantic-conventions': 1.43.0
 
-  '@opentelemetry/instrumentation@0.217.0(@opentelemetry/api@1.9.0)':
+  '@opentelemetry/instrumentation@0.217.0(@opentelemetry/api@1.9.0)(supports-color@10.2.2)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.217.0
@@ -10260,7 +10260,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@pnpm/tabtab@0.5.4':
+  '@pnpm/tabtab@0.5.4(supports-color@10.2.2)':
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       enquirer: 2.4.1
@@ -10676,7 +10676,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vercel/nft@1.10.2(rollup@4.62.2)':
+  '@vercel/nft@1.10.2(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
       '@mapbox/node-pre-gyp': 2.0.3(supports-color@10.2.2)
       '@rollup/pluginutils': 5.4.0(rollup@4.62.2)
@@ -10999,7 +10999,7 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro@7.1.1(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13)(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0):
+  astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.13(supports-color@10.2.2))(@types/node@26.2.0)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.23.12)(yaml@2.9.0):
     dependencies:
       '@astrojs/compiler-rs': 0.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
       '@astrojs/internal-helpers': 0.10.1
@@ -11048,14 +11048,14 @@ snapshots:
       tinyglobby: 0.2.17
       ultrahtml: 1.7.0
       unifont: 0.7.4
-      unstorage: 1.17.5(@netlify/blobs@10.7.13)
+      unstorage: 1.17.5(@netlify/blobs@10.7.13(supports-color@10.2.2))
       vite: 8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)
       vitefu: 1.1.3(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
       xxhash-wasm: 1.1.0
       yargs-parser: 22.0.0
       zod: 4.4.3
     optionalDependencies:
-      '@astrojs/markdown-remark': 7.2.1
+      '@astrojs/markdown-remark': 7.2.1(supports-color@10.2.2)
       sharp: 0.35.3(@types/node@26.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -11197,7 +11197,7 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
 
-  body-parser@2.3.0:
+  body-parser@2.3.0(supports-color@10.2.2):
     dependencies:
       bytes: 3.1.2
       content-type: 2.1.0
@@ -12177,10 +12177,10 @@ snapshots:
     dependencies:
       on-headers: 1.1.0
 
-  express@5.2.1:
+  express@5.2.1(supports-color@10.2.2):
     dependencies:
       accepts: 2.0.0
-      body-parser: 2.3.0
+      body-parser: 2.3.0(supports-color@10.2.2)
       content-disposition: 1.1.0
       content-type: 1.0.5
       cookie: 0.7.2
@@ -12190,7 +12190,7 @@ snapshots:
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
-      finalhandler: 2.1.1
+      finalhandler: 2.1.1(supports-color@10.2.2)
       fresh: 2.0.0
       http-errors: 2.0.1
       merge-descriptors: 2.0.0
@@ -12201,9 +12201,9 @@ snapshots:
       proxy-addr: 2.0.7
       qs: 6.15.3
       range-parser: 1.3.0
-      router: 2.2.0
-      send: 1.2.1
-      serve-static: 2.2.1
+      router: 2.2.0(supports-color@10.2.2)
+      send: 1.2.1(supports-color@10.2.2)
+      serve-static: 2.2.1(supports-color@10.2.2)
       statuses: 2.0.2
       type-is: 2.1.0
       vary: 1.1.2
@@ -12212,7 +12212,7 @@ snapshots:
 
   extend@3.0.2: {}
 
-  extract-zip@2.0.1:
+  extract-zip@2.0.1(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       get-stream: 5.2.0
@@ -12340,7 +12340,7 @@ snapshots:
 
   filter-obj@6.1.0: {}
 
-  finalhandler@2.1.1:
+  finalhandler@2.1.1(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       encodeurl: 2.0.0
@@ -12378,7 +12378,7 @@ snapshots:
     dependencies:
       from2: 2.3.0
 
-  follow-redirects@1.16.0(debug@4.4.3):
+  follow-redirects@1.16.0(debug@4.4.3(supports-color@10.2.2)):
     optionalDependencies:
       debug: 4.4.3(supports-color@10.2.2)
 
@@ -12641,7 +12641,7 @@ snapshots:
       web-namespaces: 2.0.1
       zwitch: 2.0.4
 
-  hast-util-to-estree@3.1.3:
+  hast-util-to-estree@3.1.3(supports-color@10.2.2):
     dependencies:
       '@types/estree': 1.0.9
       '@types/estree-jsx': 1.0.5
@@ -12651,9 +12651,9 @@ snapshots:
       estree-util-attach-comments: 3.0.0
       estree-util-is-identifier-name: 3.0.0
       hast-util-whitespace: 3.0.0
-      mdast-util-mdx-expression: 2.0.1
-      mdast-util-mdx-jsx: 3.2.0
-      mdast-util-mdxjs-esm: 2.0.1
+      mdast-util-mdx-expression: 2.0.1(supports-color@10.2.2)
+      mdast-util-mdx-jsx: 3.2.0(supports-color@10.2.2)
+      mdast-util-mdxjs-esm: 2.0.1(supports-color@10.2.2)
       property-information: 7.2.0
       space-separated-tokens: 2.0.2
       style-to-js: 1.1.21
@@ -12676,7 +12676,7 @@ snapshots:
       stringify-entities: 4.0.4
       zwitch: 2.0.4
 
-  hast-util-to-jsx-runtime@2.3.6:
+  hast-util-to-jsx-runtime@2.3.6(supports-color@10.2.2):
     dependencies:
       '@types/estree': 1.0.9
       '@types/hast': 3.0.5
@@ -12685,9 +12685,9 @@ snapshots:
       devlop: 1.1.0
       estree-util-is-identifier-name: 3.0.0
       hast-util-whitespace: 3.0.0
-      mdast-util-mdx-expression: 2.0.1
-      mdast-util-mdx-jsx: 3.2.0
-      mdast-util-mdxjs-esm: 2.0.1
+      mdast-util-mdx-expression: 2.0.1(supports-color@10.2.2)
+      mdast-util-mdx-jsx: 3.2.0(supports-color@10.2.2)
+      mdast-util-mdxjs-esm: 2.0.1(supports-color@10.2.2)
       property-information: 7.2.0
       space-separated-tokens: 2.0.2
       style-to-js: 1.1.21
@@ -12773,21 +12773,21 @@ snapshots:
       statuses: 2.0.2
       toidentifier: 1.0.1
 
-  http-proxy-middleware@3.0.7:
+  http-proxy-middleware@3.0.7(supports-color@10.2.2):
     dependencies:
       '@types/http-proxy': 1.17.17
       debug: 4.4.3(supports-color@10.2.2)
-      http-proxy: 1.18.1(debug@4.4.3)
+      http-proxy: 1.18.1(debug@4.4.3(supports-color@10.2.2))
       is-glob: 4.0.3
       is-plain-object: 5.0.0
       micromatch: 4.0.8
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy@1.18.1(debug@4.4.3):
+  http-proxy@1.18.1(debug@4.4.3(supports-color@10.2.2)):
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.16.0(debug@4.4.3)
+      follow-redirects: 1.16.0(debug@4.4.3(supports-color@10.2.2))
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -12801,7 +12801,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  https-proxy-agent@8.0.0:
+  https-proxy-agent@8.0.0(supports-color@10.2.2):
     dependencies:
       agent-base: 8.0.0
       debug: 4.4.3(supports-color@10.2.2)
@@ -12895,7 +12895,7 @@ snapshots:
 
   ipaddr.js@2.5.0: {}
 
-  ipx@3.1.1(@netlify/blobs@10.7.13)(@parcel/watcher@2.5.6):
+  ipx@3.1.1(@netlify/blobs@10.7.13(supports-color@10.2.2))(@parcel/watcher@2.5.6):
     dependencies:
       '@fastify/accept-negotiator': 2.1.0
       citty: 0.1.6
@@ -12911,7 +12911,7 @@ snapshots:
       sharp: 0.34.5
       svgo: 4.0.2
       ufo: 1.6.4
-      unstorage: 1.17.5(@netlify/blobs@10.7.13)
+      unstorage: 1.17.5(@netlify/blobs@10.7.13(supports-color@10.2.2))
       xss: 1.0.15
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -12936,7 +12936,7 @@ snapshots:
       - srvx
       - uploadthing
 
-  ipx@3.1.1(@netlify/blobs@10.7.9)(@parcel/watcher@2.5.6):
+  ipx@3.1.1(@netlify/blobs@10.7.9(supports-color@10.2.2))(@parcel/watcher@2.5.6):
     dependencies:
       '@fastify/accept-negotiator': 2.1.0
       citty: 0.1.6
@@ -12952,7 +12952,7 @@ snapshots:
       sharp: 0.34.5
       svgo: 4.0.2
       ufo: 1.6.4
-      unstorage: 1.17.5(@netlify/blobs@10.7.9)
+      unstorage: 1.17.5(@netlify/blobs@10.7.9(supports-color@10.2.2))
       xss: 1.0.15
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -13549,14 +13549,14 @@ snapshots:
       unist-util-is: 6.0.1
       unist-util-visit-parents: 6.0.2
 
-  mdast-util-from-markdown@2.0.3:
+  mdast-util-from-markdown@2.0.3(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
       '@types/unist': 3.0.3
       decode-named-character-reference: 1.3.0
       devlop: 1.1.0
       mdast-util-to-string: 4.0.0
-      micromark: 4.0.2
+      micromark: 4.0.2(supports-color@10.2.2)
       micromark-util-decode-numeric-character-reference: 2.0.2
       micromark-util-decode-string: 2.0.1
       micromark-util-normalize-identifier: 2.0.1
@@ -13574,67 +13574,67 @@ snapshots:
       mdast-util-find-and-replace: 3.0.2
       micromark-util-character: 2.1.1
 
-  mdast-util-gfm-footnote@2.1.0:
+  mdast-util-gfm-footnote@2.1.0(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
       micromark-util-normalize-identifier: 2.0.1
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-gfm-strikethrough@2.0.0:
+  mdast-util-gfm-strikethrough@2.0.0(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-gfm-table@2.0.0:
+  mdast-util-gfm-table@2.0.0(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       markdown-table: 3.0.4
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-gfm-task-list-item@2.0.0:
+  mdast-util-gfm-task-list-item@2.0.0(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-gfm@3.1.0:
+  mdast-util-gfm@3.1.0(supports-color@10.2.2):
     dependencies:
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-gfm-autolink-literal: 2.0.1
-      mdast-util-gfm-footnote: 2.1.0
-      mdast-util-gfm-strikethrough: 2.0.0
-      mdast-util-gfm-table: 2.0.0
-      mdast-util-gfm-task-list-item: 2.0.0
+      mdast-util-gfm-footnote: 2.1.0(supports-color@10.2.2)
+      mdast-util-gfm-strikethrough: 2.0.0(supports-color@10.2.2)
+      mdast-util-gfm-table: 2.0.0(supports-color@10.2.2)
+      mdast-util-gfm-task-list-item: 2.0.0(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-mdx-expression@2.0.1:
+  mdast-util-mdx-expression@2.0.1(supports-color@10.2.2):
     dependencies:
       '@types/estree-jsx': 1.0.5
       '@types/hast': 3.0.5
       '@types/mdast': 4.0.4
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-mdx-jsx@3.2.0:
+  mdast-util-mdx-jsx@3.2.0(supports-color@10.2.2):
     dependencies:
       '@types/estree-jsx': 1.0.5
       '@types/hast': 3.0.5
@@ -13642,7 +13642,7 @@ snapshots:
       '@types/unist': 3.0.3
       ccount: 2.0.1
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
       parse-entities: 4.0.2
       stringify-entities: 4.0.4
@@ -13651,23 +13651,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-mdx@3.0.0:
+  mdast-util-mdx@3.0.0(supports-color@10.2.2):
     dependencies:
-      mdast-util-from-markdown: 2.0.3
-      mdast-util-mdx-expression: 2.0.1
-      mdast-util-mdx-jsx: 3.2.0
-      mdast-util-mdxjs-esm: 2.0.1
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
+      mdast-util-mdx-expression: 2.0.1(supports-color@10.2.2)
+      mdast-util-mdx-jsx: 3.2.0(supports-color@10.2.2)
+      mdast-util-mdxjs-esm: 2.0.1(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-mdxjs-esm@2.0.1:
+  mdast-util-mdxjs-esm@2.0.1(supports-color@10.2.2):
     dependencies:
       '@types/estree-jsx': 1.0.5
       '@types/hast': 3.0.5
       '@types/mdast': 4.0.4
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
@@ -13970,7 +13970,7 @@ snapshots:
 
   micromark-util-types@2.0.2: {}
 
-  micromark@4.0.2:
+  micromark@4.0.2(supports-color@10.2.2):
     dependencies:
       '@types/debug': 4.1.13
       debug: 4.4.3(supports-color@10.2.2)
@@ -14075,7 +14075,7 @@ snapshots:
 
   neotraverse@0.6.18: {}
 
-  netlify-cli@27.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(picomatch@4.0.5)(rollup@4.62.2):
+  netlify-cli@27.1.2(@parcel/watcher@2.5.6)(@types/node@26.2.0)(picomatch@4.0.5)(rollup@4.62.2)(supports-color@10.2.2):
     dependencies:
       '@fastify/static': 10.1.3
       '@netlify/ai': 0.4.4
@@ -14084,19 +14084,19 @@ snapshots:
       '@netlify/build': 36.3.5(@opentelemetry/api@1.9.1)(@types/node@26.2.0)(picomatch@4.0.5)(rollup@4.62.2)
       '@netlify/build-info': 11.3.0
       '@netlify/config': 25.2.2
-      '@netlify/dev': 4.18.13(@parcel/watcher@2.5.6)(rollup@4.62.2)
+      '@netlify/dev': 4.18.13(@parcel/watcher@2.5.6)(rollup@4.62.2)(supports-color@10.2.2)
       '@netlify/dev-utils': 5.0.0
       '@netlify/edge-bundler': 16.0.3
       '@netlify/edge-functions': 3.0.8
       '@netlify/edge-functions-bootstrap': 3.2.0
       '@netlify/headers-parser': 10.1.1
-      '@netlify/images': 1.3.12(@netlify/blobs@10.7.13)(@parcel/watcher@2.5.6)
+      '@netlify/images': 1.3.12(@netlify/blobs@10.7.13(supports-color@10.2.2))(@parcel/watcher@2.5.6)
       '@netlify/local-functions-proxy': 2.0.3
       '@netlify/redirect-parser': 16.1.0
       '@netlify/zip-it-and-ship-it': 15.3.4(rollup@4.62.2)(supports-color@10.2.2)
       '@octokit/rest': 22.0.1
       '@opentelemetry/api': 1.9.1
-      '@pnpm/tabtab': 0.5.4
+      '@pnpm/tabtab': 0.5.4(supports-color@10.2.2)
       ansi-escapes: 7.3.0
       ansi-to-html: 0.7.2
       ascii-table: 0.0.9
@@ -14119,7 +14119,7 @@ snapshots:
       envinfo: 7.21.0
       etag: 1.8.1
       execa: 5.1.1
-      express: 5.2.1
+      express: 5.2.1(supports-color@10.2.2)
       express-logging: 1.1.1
       fastest-levenshtein: 1.0.16
       fastify: 5.12.1
@@ -14129,9 +14129,9 @@ snapshots:
       get-port: 5.1.1
       git-repo-info: 2.1.1
       gitconfiglocal: 2.1.0
-      http-proxy: 1.18.1(debug@4.4.3)
-      http-proxy-middleware: 3.0.7
-      https-proxy-agent: 8.0.0
+      http-proxy: 1.18.1(debug@4.4.3(supports-color@10.2.2))
+      http-proxy-middleware: 3.0.7(supports-color@10.2.2)
+      https-proxy-agent: 8.0.0(supports-color@10.2.2)
       inquirer: 8.2.7(@types/node@26.2.0)
       inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@26.2.0))
       is-docker: 4.0.0
@@ -14906,11 +14906,11 @@ snapshots:
       hast-util-raw: 9.1.0
       vfile: 6.0.3
 
-  rehype-recma@1.0.0:
+  rehype-recma@1.0.0(supports-color@10.2.2):
     dependencies:
       '@types/estree': 1.0.9
       '@types/hast': 3.0.5
-      hast-util-to-estree: 3.1.3
+      hast-util-to-estree: 3.1.3(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -14928,28 +14928,28 @@ snapshots:
       hast-util-to-html: 9.0.5
       unified: 11.0.5
 
-  remark-gfm@4.0.1:
+  remark-gfm@4.0.1(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-gfm: 3.1.0
+      mdast-util-gfm: 3.1.0(supports-color@10.2.2)
       micromark-extension-gfm: 3.0.0
-      remark-parse: 11.0.0
+      remark-parse: 11.0.0(supports-color@10.2.2)
       remark-stringify: 11.0.0
       unified: 11.0.5
     transitivePeerDependencies:
       - supports-color
 
-  remark-mdx@3.1.1:
+  remark-mdx@3.1.1(supports-color@10.2.2):
     dependencies:
-      mdast-util-mdx: 3.0.0
+      mdast-util-mdx: 3.0.0(supports-color@10.2.2)
       micromark-extension-mdxjs: 3.0.0
     transitivePeerDependencies:
       - supports-color
 
-  remark-parse@11.0.0:
+  remark-parse@11.0.0(supports-color@10.2.2):
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
       micromark-util-types: 2.0.2
       unified: 11.0.5
     transitivePeerDependencies:
@@ -15110,7 +15110,7 @@ snapshots:
       fsevents: 2.3.3
     optional: true
 
-  router@2.2.0:
+  router@2.2.0(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       depd: 2.0.0
@@ -15200,7 +15200,7 @@ snapshots:
 
   semver@7.8.5: {}
 
-  send@1.2.1:
+  send@1.2.1(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       encodeurl: 2.0.0
@@ -15216,12 +15216,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  serve-static@2.2.1:
+  serve-static@2.2.1(supports-color@10.2.2):
     dependencies:
       encodeurl: 2.0.0
       escape-html: 1.0.3
       parseurl: 1.3.3
-      send: 1.2.1
+      send: 1.2.1(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -15903,7 +15903,7 @@ snapshots:
 
   unpipe@1.0.0: {}
 
-  unstorage@1.17.5(@netlify/blobs@10.7.13):
+  unstorage@1.17.5(@netlify/blobs@10.7.13(supports-color@10.2.2)):
     dependencies:
       anymatch: 3.1.3
       chokidar: 5.0.0
@@ -15916,7 +15916,7 @@ snapshots:
     optionalDependencies:
       '@netlify/blobs': 10.7.13(supports-color@10.2.2)
 
-  unstorage@1.17.5(@netlify/blobs@10.7.9):
+  unstorage@1.17.5(@netlify/blobs@10.7.9(supports-color@10.2.2)):
     dependencies:
       anymatch: 3.1.3
       chokidar: 5.0.0
@@ -15927,7 +15927,7 @@ snapshots:
       ofetch: 1.5.1
       ufo: 1.6.4
     optionalDependencies:
-      '@netlify/blobs': 10.7.9
+      '@netlify/blobs': 10.7.9(supports-color@10.2.2)
 
   untildify@4.0.0: {}
 
