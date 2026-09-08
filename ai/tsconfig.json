@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    // Root sets composite: true, which writes a .tsbuildinfo into outDir even
+    // under noEmit. Without this, typechecking ai/ litters dist/ at the repo root.
+    "composite": false,
+    "types": ["node"]
+  }
+}
