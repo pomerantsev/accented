@@ -1,0 +1,553 @@
+﻿2026-06-21T14:22:31.2198585Z Current runner version: '2.335.1'
+2026-06-21T14:22:31.2222712Z ##[group]Runner Image Provisioner
+2026-06-21T14:22:31.2223771Z Hosted Compute Agent
+2026-06-21T14:22:31.2224414Z Version: 20260611.554
+2026-06-21T14:22:31.2225204Z Commit: 5e0782fdc9014723d3be820dd114dd31555c2bd1
+2026-06-21T14:22:31.2225981Z Build Date: 2026-06-11T21:40:46Z
+2026-06-21T14:22:31.2226675Z Worker ID: {c3c6b441-b177-4971-aae2-67d8629d8859}
+2026-06-21T14:22:31.2227482Z Azure Region: westus
+2026-06-21T14:22:31.2228089Z ##[endgroup]
+2026-06-21T14:22:31.2229900Z ##[group]Operating System
+2026-06-21T14:22:31.2230633Z Ubuntu
+2026-06-21T14:22:31.2231195Z 24.04.4
+2026-06-21T14:22:31.2232152Z LTS
+2026-06-21T14:22:31.2232734Z ##[endgroup]
+2026-06-21T14:22:31.2233355Z ##[group]Runner Image
+2026-06-21T14:22:31.2234094Z Image: ubuntu-24.04
+2026-06-21T14:22:31.2234691Z Version: 20260615.205.1
+2026-06-21T14:22:31.2236007Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260615.205/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-21T14:22:31.2237628Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260615.205
+2026-06-21T14:22:31.2239053Z ##[endgroup]
+2026-06-21T14:22:31.2240402Z ##[group]GITHUB_TOKEN Permissions
+2026-06-21T14:22:31.2242428Z Contents: write
+2026-06-21T14:22:31.2243129Z Metadata: read
+2026-06-21T14:22:31.2243905Z PullRequests: write
+2026-06-21T14:22:31.2244536Z ##[endgroup]
+2026-06-21T14:22:31.2246655Z Secret source: Dependabot
+2026-06-21T14:22:31.2247606Z Prepare workflow directory
+2026-06-21T14:22:31.2635005Z Prepare all required actions
+2026-06-21T14:22:31.2681766Z Getting action download info
+2026-06-21T14:22:31.6972558Z Download action repository 'actions/checkout@v7' (SHA:9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0)
+2026-06-21T14:22:32.1147991Z Download action repository 'actions/upload-artifact@v7' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-06-21T14:22:32.1886727Z Download action repository 'changesets/action@v1' (SHA:a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d)
+2026-06-21T14:22:32.6093124Z Complete job name: build-test-publish
+2026-06-21T14:22:32.6883970Z ##[group]Run actions/checkout@v7
+2026-06-21T14:22:32.6885043Z with:
+2026-06-21T14:22:32.6885541Z   repository: pomerantsev/accented
+2026-06-21T14:22:32.6890923Z   token: ***
+2026-06-21T14:22:32.6891423Z   ssh-strict: true
+2026-06-21T14:22:32.6891898Z   ssh-user: git
+2026-06-21T14:22:32.6892370Z   persist-credentials: true
+2026-06-21T14:22:32.6892896Z   clean: true
+2026-06-21T14:22:32.6893381Z   sparse-checkout-cone-mode: true
+2026-06-21T14:22:32.6893943Z   fetch-depth: 1
+2026-06-21T14:22:32.6894410Z   fetch-tags: false
+2026-06-21T14:22:32.6894889Z   show-progress: true
+2026-06-21T14:22:32.6895364Z   lfs: false
+2026-06-21T14:22:32.6895848Z   submodules: false
+2026-06-21T14:22:32.6896349Z   set-safe-directory: true
+2026-06-21T14:22:32.6896888Z   allow-unsafe-pr-checkout: false
+2026-06-21T14:22:32.6897783Z ##[endgroup]
+2026-06-21T14:22:32.7859030Z Syncing repository: pomerantsev/accented
+2026-06-21T14:22:32.7860983Z ##[group]Getting Git version info
+2026-06-21T14:22:32.7861872Z Working directory is '/home/runner/work/accented/accented'
+2026-06-21T14:22:32.7862996Z [command]/usr/bin/git version
+2026-06-21T14:22:32.7915935Z git version 2.54.0
+2026-06-21T14:22:32.7936535Z ##[endgroup]
+2026-06-21T14:22:32.7947641Z Temporarily overriding HOME='/home/runner/work/_temp/c1ab9d93-d26d-43b4-85e0-757dc6af7c0f' before making global git config changes
+2026-06-21T14:22:32.7960149Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-21T14:22:32.7961793Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-06-21T14:22:32.8007534Z Deleting the contents of '/home/runner/work/accented/accented'
+2026-06-21T14:22:32.8011524Z ##[group]Determining repository object format
+2026-06-21T14:22:32.8013131Z ##[endgroup]
+2026-06-21T14:22:32.8013996Z ##[group]Initializing the repository
+2026-06-21T14:22:32.8017227Z [command]/usr/bin/git init /home/runner/work/accented/accented
+2026-06-21T14:22:32.8103164Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-21T14:22:32.8105181Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-21T14:22:32.8106716Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-21T14:22:32.8107877Z hint: call:
+2026-06-21T14:22:32.8108782Z hint:
+2026-06-21T14:22:32.8109705Z hint: 	git config --global init.defaultBranch <name>
+2026-06-21T14:22:32.8110823Z hint:
+2026-06-21T14:22:32.8112480Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-21T14:22:32.8114706Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-21T14:22:32.8116022Z hint:
+2026-06-21T14:22:32.8116863Z hint: 	git branch -m <name>
+2026-06-21T14:22:32.8118546Z hint:
+2026-06-21T14:22:32.8119921Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-21T14:22:32.8121326Z Initialized empty Git repository in /home/runner/work/accented/accented/.git/
+2026-06-21T14:22:32.8124055Z [command]/usr/bin/git remote add origin https://github.com/pomerantsev/accented
+2026-06-21T14:22:32.8195471Z ##[endgroup]
+2026-06-21T14:22:32.8196345Z ##[group]Disabling automatic garbage collection
+2026-06-21T14:22:32.8198052Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-21T14:22:32.8227901Z ##[endgroup]
+2026-06-21T14:22:32.8229672Z ##[group]Setting up auth
+2026-06-21T14:22:32.8230373Z Removing SSH command configuration
+2026-06-21T14:22:32.8234153Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-21T14:22:32.8267442Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-21T14:22:32.8585843Z Removing HTTP extra header
+2026-06-21T14:22:32.8590578Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-21T14:22:32.8621817Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-21T14:22:32.8832040Z Removing includeIf entries pointing to credentials config files
+2026-06-21T14:22:32.8836287Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-21T14:22:32.8864664Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-21T14:22:32.9087981Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-21T14:22:32.9123879Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git.path /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:22:32.9153251Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:22:32.9188178Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:22:32.9219323Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:22:32.9246061Z ##[endgroup]
+2026-06-21T14:22:32.9246866Z ##[group]Fetching the repository
+2026-06-21T14:22:32.9254910Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +17a93daba8890e91761a700b71a198b1a36bf120:refs/remotes/origin/dependabot/npm_and_yarn/axe-core-4.12.1
+2026-06-21T14:22:33.6364655Z From https://github.com/pomerantsev/accented
+2026-06-21T14:22:33.6368786Z  * [new ref]         17a93daba8890e91761a700b71a198b1a36bf120 -> origin/dependabot/npm_and_yarn/axe-core-4.12.1
+2026-06-21T14:22:33.6416342Z [command]/usr/bin/git branch --list --remote origin/dependabot/npm_and_yarn/axe-core-4.12.1
+2026-06-21T14:22:33.6449206Z   origin/dependabot/npm_and_yarn/axe-core-4.12.1
+2026-06-21T14:22:33.6465643Z [command]/usr/bin/git rev-parse refs/remotes/origin/dependabot/npm_and_yarn/axe-core-4.12.1
+2026-06-21T14:22:33.6484591Z 17a93daba8890e91761a700b71a198b1a36bf120
+2026-06-21T14:22:33.6490525Z ##[endgroup]
+2026-06-21T14:22:33.6492074Z ##[group]Determining the checkout info
+2026-06-21T14:22:33.6493891Z ##[endgroup]
+2026-06-21T14:22:33.6495056Z [command]/usr/bin/git sparse-checkout disable
+2026-06-21T14:22:33.6544266Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-21T14:22:33.6574407Z ##[group]Checking out the ref
+2026-06-21T14:22:33.6579840Z [command]/usr/bin/git checkout --progress --force -B dependabot/npm_and_yarn/axe-core-4.12.1 refs/remotes/origin/dependabot/npm_and_yarn/axe-core-4.12.1
+2026-06-21T14:22:33.6846181Z Switched to a new branch 'dependabot/npm_and_yarn/axe-core-4.12.1'
+2026-06-21T14:22:33.6850517Z branch 'dependabot/npm_and_yarn/axe-core-4.12.1' set up to track 'origin/dependabot/npm_and_yarn/axe-core-4.12.1'.
+2026-06-21T14:22:33.6859108Z ##[endgroup]
+2026-06-21T14:22:33.6897234Z [command]/usr/bin/git log -1 --format=%H
+2026-06-21T14:22:33.6921225Z 17a93daba8890e91761a700b71a198b1a36bf120
+2026-06-21T14:22:33.7263969Z Prepare all required actions
+2026-06-21T14:22:33.7265380Z Getting action download info
+2026-06-21T14:22:33.8491050Z Download action repository 'actions/setup-node@v6' (SHA:48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e)
+2026-06-21T14:22:34.0053234Z ##[group]Run ./.github/actions/setup
+2026-06-21T14:22:34.0054372Z ##[endgroup]
+2026-06-21T14:22:34.0277835Z ##[group]Run actions/setup-node@v6
+2026-06-21T14:22:34.0279096Z with:
+2026-06-21T14:22:34.0279912Z   node-version: 24
+2026-06-21T14:22:34.0280927Z   registry-url: https://registry.npmjs.org
+2026-06-21T14:22:34.0282119Z   check-latest: false
+2026-06-21T14:22:34.0293264Z   token: ***
+2026-06-21T14:22:34.0294162Z   package-manager-cache: true
+2026-06-21T14:22:34.0295190Z ##[endgroup]
+2026-06-21T14:22:34.2187495Z Found in cache @ /opt/hostedtoolcache/node/24.16.0/x64
+2026-06-21T14:22:34.2191274Z ##[group]Environment details
+2026-06-21T14:22:36.6750238Z node: v24.16.0
+2026-06-21T14:22:36.6750801Z npm: 11.13.0
+2026-06-21T14:22:36.6751316Z yarn: 1.22.22
+2026-06-21T14:22:36.6760600Z ##[endgroup]
+2026-06-21T14:22:36.6900115Z ##[group]Run npm install -g pnpm
+2026-06-21T14:22:36.6900517Z [36;1mnpm install -g pnpm[0m
+2026-06-21T14:22:36.7120755Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-06-21T14:22:36.7121251Z env:
+2026-06-21T14:22:36.7121603Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-21T14:22:36.7122068Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-21T14:22:36.7122460Z ##[endgroup]
+2026-06-21T14:22:38.9235187Z 
+2026-06-21T14:22:38.9243586Z added 1 package in 2s
+2026-06-21T14:22:38.9244069Z 
+2026-06-21T14:22:38.9244570Z 1 package is looking for funding
+2026-06-21T14:22:38.9245303Z   run `npm fund` for details
+2026-06-21T14:22:38.9648725Z ##[group]Run pnpm install
+2026-06-21T14:22:38.9649046Z [36;1mpnpm install[0m
+2026-06-21T14:22:38.9681619Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-06-21T14:22:38.9681999Z env:
+2026-06-21T14:22:38.9682268Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-21T14:22:38.9682620Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-21T14:22:38.9682901Z ##[endgroup]
+2026-06-21T14:22:39.6588177Z Scope: all 6 workspace projects
+2026-06-21T14:22:39.8719428Z ? Verifying lockfile against supply-chain policies (1668 entries)...
+2026-06-21T14:22:39.8850353Z Lockfile is up to date, resolution step is skipped
+2026-06-21T14:22:40.0217087Z Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-06-21T14:22:40.1463424Z Packages: +1433
+2026-06-21T14:22:40.1464880Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-21T14:22:41.0410438Z Progress: resolved 1433, reused 0, downloaded 73, added 4
+2026-06-21T14:22:42.0500067Z Progress: resolved 1433, reused 0, downloaded 203, added 12
+2026-06-21T14:22:43.0592702Z Progress: resolved 1433, reused 0, downloaded 332, added 21
+2026-06-21T14:22:44.0940070Z Progress: resolved 1433, reused 0, downloaded 564, added 40
+2026-06-21T14:22:45.1180437Z Progress: resolved 1433, reused 0, downloaded 812, added 57
+2026-06-21T14:22:46.1189813Z Progress: resolved 1433, reused 0, downloaded 1088, added 78
+2026-06-21T14:22:46.3536377Z ✓ Lockfile passes supply-chain policies (1668 entries in 6.4s)
+2026-06-21T14:22:47.1182421Z Progress: resolved 1433, reused 0, downloaded 1432, added 215
+2026-06-21T14:22:47.8540042Z Progress: resolved 1433, reused 0, downloaded 1433, added 1433, done
+2026-06-21T14:22:48.8114101Z .../node_modules/unix-dgram install$ node-gyp rebuild
+2026-06-21T14:22:48.8130962Z .../node_modules/@parcel/watcher install$ node scripts/build-from-source.js
+2026-06-21T14:22:48.8524950Z .../esbuild@0.28.0/node_modules/esbuild postinstall$ node install.js
+2026-06-21T14:22:48.8549669Z .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+2026-06-21T14:22:48.8573951Z .../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js
+2026-06-21T14:22:48.9259572Z .../node_modules/unix-dgram install: gyp info it worked if it ends with ok
+2026-06-21T14:22:48.9290067Z .../node_modules/unix-dgram install: gyp info using node-gyp@12.4.0
+2026-06-21T14:22:48.9291772Z .../node_modules/unix-dgram install: gyp info using node@24.16.0 | linux | x64
+2026-06-21T14:22:48.9339192Z .../node_modules/@parcel/watcher install: Done
+2026-06-21T14:22:48.9782153Z .../sharp@0.34.5/node_modules/sharp install$ node install/check.js || npm run build
+2026-06-21T14:22:48.9849648Z .../esbuild@0.28.0/node_modules/esbuild postinstall: Done
+2026-06-21T14:22:49.0080047Z .../node_modules/unix-dgram install: gyp info find Python using Python version 3.12.3 found at "/usr/bin/python3"
+2026-06-21T14:22:49.0372843Z .../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+2026-06-21T14:22:49.0555404Z .../esbuild@0.18.20/node_modules/esbuild postinstall: Done
+2026-06-21T14:22:49.0919956Z .../esbuild@0.27.7/node_modules/esbuild postinstall$ node install.js
+2026-06-21T14:22:49.1502919Z .../node_modules/unix-dgram install: gyp http GET https://nodejs.org/download/release/v24.16.0/node-v24.16.0-headers.tar.gz
+2026-06-21T14:22:49.1842542Z .../esbuild@0.27.7/node_modules/esbuild postinstall: Done
+2026-06-21T14:22:49.2052217Z .../node_modules/unix-dgram install: gyp http 200 https://nodejs.org/download/release/v24.16.0/node-v24.16.0-headers.tar.gz
+2026-06-21T14:22:49.3365269Z .../sharp@0.34.5/node_modules/sharp install: Done
+2026-06-21T14:22:52.0142596Z .../node_modules/unix-dgram install: gyp http GET https://nodejs.org/download/release/v24.16.0/SHASUMS256.txt
+2026-06-21T14:22:52.0404171Z .../node_modules/unix-dgram install: gyp http 200 https://nodejs.org/download/release/v24.16.0/SHASUMS256.txt
+2026-06-21T14:22:52.7366435Z .../node_modules/unix-dgram install: gyp info spawn /usr/bin/python3
+2026-06-21T14:22:52.7369715Z .../node_modules/unix-dgram install: gyp info spawn args [
+2026-06-21T14:22:52.7372134Z .../node_modules/unix-dgram install: gyp info spawn args '/opt/hostedtoolcache/node/24.16.0/x64/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp_main.py',
+2026-06-21T14:22:52.7374083Z .../node_modules/unix-dgram install: gyp info spawn args 'binding.gyp',
+2026-06-21T14:22:52.7375402Z .../node_modules/unix-dgram install: gyp info spawn args '-f',
+2026-06-21T14:22:52.7376670Z .../node_modules/unix-dgram install: gyp info spawn args 'make',
+2026-06-21T14:22:52.7377952Z .../node_modules/unix-dgram install: gyp info spawn args '-I',
+2026-06-21T14:22:52.7380389Z .../node_modules/unix-dgram install: gyp info spawn args '/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram/build/config.gypi',
+2026-06-21T14:22:52.7382848Z .../node_modules/unix-dgram install: gyp info spawn args '-I',
+2026-06-21T14:22:52.7384845Z .../node_modules/unix-dgram install: gyp info spawn args '/opt/hostedtoolcache/node/24.16.0/x64/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi',
+2026-06-21T14:22:52.7386703Z .../node_modules/unix-dgram install: gyp info spawn args '-I',
+2026-06-21T14:22:52.7388479Z .../node_modules/unix-dgram install: gyp info spawn args '/home/runner/.cache/node-gyp/24.16.0/include/node/common.gypi',
+2026-06-21T14:22:52.7389544Z .../node_modules/unix-dgram install: gyp info spawn args '-Dlibrary=shared_library',
+2026-06-21T14:22:52.7390370Z .../node_modules/unix-dgram install: gyp info spawn args '-Dvisibility=default',
+2026-06-21T14:22:52.7391279Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_root_dir=/home/runner/.cache/node-gyp/24.16.0',
+2026-06-21T14:22:52.7392540Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_gyp_dir=/opt/hostedtoolcache/node/24.16.0/x64/lib/node_modules/pnpm/dist/node_modules/node-gyp',
+2026-06-21T14:22:52.7393847Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_lib_file=/home/runner/.cache/node-gyp/24.16.0/<(target_arch)/node.lib',
+2026-06-21T14:22:52.7395207Z .../node_modules/unix-dgram install: gyp info spawn args '-Dmodule_root_dir=/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram',
+2026-06-21T14:22:52.7396483Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_engine=v8',
+2026-06-21T14:22:52.7397237Z .../node_modules/unix-dgram install: gyp info spawn args '--depth=.',
+2026-06-21T14:22:52.7397925Z .../node_modules/unix-dgram install: gyp info spawn args '--no-parallel',
+2026-06-21T14:22:52.7399305Z .../node_modules/unix-dgram install: gyp info spawn args '--generator-output',
+2026-06-21T14:22:52.7400444Z .../node_modules/unix-dgram install: gyp info spawn args 'build',
+2026-06-21T14:22:52.7401430Z .../node_modules/unix-dgram install: gyp info spawn args '-Goutput_dir=.'
+2026-06-21T14:22:52.7401960Z .../node_modules/unix-dgram install: gyp info spawn args ]
+2026-06-21T14:22:52.9275179Z .../node_modules/unix-dgram install: gyp info spawn make
+2026-06-21T14:22:52.9276561Z .../node_modules/unix-dgram install: gyp info spawn args [ 'BUILDTYPE=Release', '-C', 'build' ]
+2026-06-21T14:22:52.9365513Z .../node_modules/unix-dgram install: make: Entering directory '/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram/build'
+2026-06-21T14:22:52.9454285Z .../node_modules/unix-dgram install:   CXX(target) Release/obj.target/unix_dgram/src/unix_dgram.o
+2026-06-21T14:22:55.6447949Z .../node_modules/unix-dgram install: In file included from ../../../../nan@2.27.0/node_modules/nan/nan.h:67,
+2026-06-21T14:22:55.6450290Z .../node_modules/unix-dgram install:                  from ../src/unix_dgram.cc:5:
+2026-06-21T14:22:55.6544605Z .../node_modules/unix-dgram install: /home/runner/.cache/node-gyp/24.16.0/include/node/node.h:1358:7: warning: cast between incompatible function types from ‘void (*)(v8::Local<v8::Object>)’ to ‘node::addon_register_func’ {aka ‘void (*)(v8::Local<v8::Object>, v8::Local<v8::Value>, void*)’} [-Wcast-function-type]
+2026-06-21T14:22:55.6547531Z .../node_modules/unix-dgram install:  1358 |       (node::addon_register_func) (regfunc),                          \
+2026-06-21T14:22:55.6549190Z .../node_modules/unix-dgram install:       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-06-21T14:22:55.6551130Z .../node_modules/unix-dgram install: /home/runner/.cache/node-gyp/24.16.0/include/node/node.h:1392:3: note: in expansion of macro ‘NODE_MODULE_X’
+2026-06-21T14:22:55.6552982Z .../node_modules/unix-dgram install:  1392 |   NODE_MODULE_X(modname, regfunc, NULL, 0)  // NOLINT (readability/null_usage)
+2026-06-21T14:22:55.6554220Z .../node_modules/unix-dgram install:       |   ^~~~~~~~~~~~~
+2026-06-21T14:22:55.6555634Z .../node_modules/unix-dgram install: ../src/unix_dgram.cc:404:1: note: in expansion of macro ‘NODE_MODULE’
+2026-06-21T14:22:55.6557167Z .../node_modules/unix-dgram install:   404 | NODE_MODULE(unix_dgram, Initialize)
+2026-06-21T14:22:55.6557710Z .../node_modules/unix-dgram install:       | ^~~~~~~~~~~
+2026-06-21T14:22:56.5276713Z .../node_modules/unix-dgram install:   SOLINK_MODULE(target) Release/obj.target/unix_dgram.node
+2026-06-21T14:22:56.6804908Z .../node_modules/unix-dgram install:   COPY Release/unix_dgram.node
+2026-06-21T14:22:56.6845317Z .../node_modules/unix-dgram install: make: Leaving directory '/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram/build'
+2026-06-21T14:22:56.6853808Z .../node_modules/unix-dgram install: gyp info ok 
+2026-06-21T14:22:56.6998103Z .../node_modules/unix-dgram install: Done
+2026-06-21T14:22:56.7100491Z .../node_modules/netlify-cli postinstall$ node ./scripts/postinstall.js
+2026-06-21T14:22:57.3581342Z .../node_modules/netlify-cli postinstall: ╭───────────────────────────────────── ⬥  ─────────────────────────────────────╮
+2026-06-21T14:22:57.3583343Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-21T14:22:57.3585378Z .../node_modules/netlify-cli postinstall: │                   Success! Netlify CLI has been installed!                   │
+2026-06-21T14:22:57.3587275Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-21T14:22:57.3590101Z .../node_modules/netlify-cli postinstall: │   You can now use Netlify CLI to develop, deploy, and manage your Netlify    │
+2026-06-21T14:22:57.3612698Z .../node_modules/netlify-cli postinstall: │                                  projects.                                   │
+2026-06-21T14:22:57.3630421Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-21T14:22:57.3632394Z .../node_modules/netlify-cli postinstall: │                             🚀 Now get building!                             │
+2026-06-21T14:22:57.3634323Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-21T14:22:57.3636342Z .../node_modules/netlify-cli postinstall: ╰──────────────────────────────────────────────────────────────────────────────╯
+2026-06-21T14:22:57.3637595Z .../node_modules/netlify-cli postinstall: Next steps:
+2026-06-21T14:22:57.3639060Z .../node_modules/netlify-cli postinstall:   netlify login    Log in to your Netlify account
+2026-06-21T14:22:57.3640815Z .../node_modules/netlify-cli postinstall:   netlify init     Connect or create a Netlify project from the current directory
+2026-06-21T14:22:57.3642649Z .../node_modules/netlify-cli postinstall:   netlify deploy   Deploy the latest changes to your Netlify project
+2026-06-21T14:22:57.3644540Z .../node_modules/netlify-cli postinstall:   netlify help     Find out what else you can do 👀
+2026-06-21T14:22:57.3646237Z .../node_modules/netlify-cli postinstall: For more help with the CLI, visit https://developers.netlify.com/cli
+2026-06-21T14:22:57.3647991Z .../node_modules/netlify-cli postinstall: For help with Netlify, visit https://docs.netlify.com
+2026-06-21T14:22:57.3712122Z .../node_modules/netlify-cli postinstall: Done
+2026-06-21T14:22:57.6374463Z 
+2026-06-21T14:22:57.6375031Z devDependencies:
+2026-06-21T14:22:57.6375384Z + @biomejs/biome 2.5.0
+2026-06-21T14:22:57.6375727Z + @changesets/changelog-github 0.7.0
+2026-06-21T14:22:57.6376094Z + @changesets/cli 2.31.0
+2026-06-21T14:22:57.6376405Z + @playwright/test 1.60.0
+2026-06-21T14:22:57.6376681Z + @types/node 25.9.2
+2026-06-21T14:22:57.6376915Z + husky 9.1.7
+2026-06-21T14:22:57.6377159Z + lint-staged 17.0.7
+2026-06-21T14:22:57.6377419Z + rimraf 6.1.3
+2026-06-21T14:22:57.6377655Z + tsx 4.22.4
+2026-06-21T14:22:57.6377899Z + typescript 6.0.3
+2026-06-21T14:22:57.6378055Z 
+2026-06-21T14:22:57.6406510Z packages/accented prepare$ node ./scripts/copy-notice.ts
+2026-06-21T14:22:57.6674116Z . prepare$ husky
+2026-06-21T14:22:57.7193645Z packages/accented prepare: Done
+2026-06-21T14:22:57.7256208Z . prepare: Done
+2026-06-21T14:22:57.7779225Z Done in 18.7s using pnpm v11.8.0
+2026-06-21T14:22:57.8848105Z ##[group]Run pnpm biome check
+2026-06-21T14:22:57.8848879Z [36;1mpnpm biome check[0m
+2026-06-21T14:22:57.8896202Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-06-21T14:22:57.8896812Z env:
+2026-06-21T14:22:57.8897257Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-21T14:22:57.8897898Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-21T14:22:57.8898822Z ##[endgroup]
+2026-06-21T14:22:58.5535200Z packages/website/src/assets/styles/global.css:368:7 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━
+2026-06-21T14:22:58.5535933Z 
+2026-06-21T14:22:58.5536623Z   ! Descending specificity selector found. This selector specificity is (0, 2, 0)
+2026-06-21T14:22:58.5537249Z   
+2026-06-21T14:22:58.5537993Z     366 │     text-decoration-line: none;
+2026-06-21T14:22:58.5538869Z     367 │     @media (hover: hover) {
+2026-06-21T14:22:58.5539429Z   > 368 │       &:hover {
+2026-06-21T14:22:58.5539859Z         │       ^^^^^^^
+2026-06-21T14:22:58.5540430Z     369 │         text-decoration-line: underline;
+2026-06-21T14:22:58.5541158Z     370 │         text-decoration-color: currentColor;
+2026-06-21T14:22:58.5541640Z   
+2026-06-21T14:22:58.5542018Z   i This selector specificity is (0, 2, 2)
+2026-06-21T14:22:58.5542451Z   
+2026-06-21T14:22:58.5542878Z     324 │     @media (hover: hover) {
+2026-06-21T14:22:58.5543831Z   > 325 │       &:hover {
+2026-06-21T14:22:58.5544283Z         │       ^^^^^^^
+2026-06-21T14:22:58.5544882Z     326 │         outline: 2px dashed var(--color-primary);
+2026-06-21T14:22:58.5545519Z     327 │         outline-offset: 0.3ex;
+2026-06-21T14:22:58.5545924Z   
+2026-06-21T14:22:58.5546914Z   i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+2026-06-21T14:22:58.5547930Z   
+2026-06-21T14:22:58.5548105Z 
+2026-06-21T14:22:58.5548741Z Checked 164 files in 171ms. No fixes applied.
+2026-06-21T14:22:58.5549260Z Found 1 warning.
+2026-06-21T14:22:58.5784683Z ##[group]Run pnpm build
+2026-06-21T14:22:58.5784966Z [36;1mpnpm build[0m
+2026-06-21T14:22:58.5817942Z shell: /usr/bin/bash -e {0}
+2026-06-21T14:22:58.5818510Z env:
+2026-06-21T14:22:58.5818785Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-21T14:22:58.5819160Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-21T14:22:58.5819456Z ##[endgroup]
+2026-06-21T14:22:59.0322964Z $ pnpm clean-tsbuildinfo && pnpm --filter accented build && pnpm --filter accented typecheckTests && pnpm --filter devapp typecheck && pnpm --filter accented checkBuiltFiles && pnpm --filter accented checkImportsInBuiltFiles
+2026-06-21T14:22:59.4560844Z $ rimraf packages/accented/tsconfig.tsbuildinfo tsconfig.test.tsbuildinfo
+2026-06-21T14:22:59.9640111Z $ pnpm copyCommon && tsc
+2026-06-21T14:23:00.3915668Z $ node ./scripts/copy-common.ts
+2026-06-21T14:23:02.1724851Z $ tsc -p ./tsconfig.test.json
+2026-06-21T14:23:04.1958921Z $ tsc
+2026-06-21T14:23:05.9313634Z $ node ./scripts/check-built-files.ts
+2026-06-21T14:23:06.0101411Z All output files generated correctly.
+2026-06-21T14:23:06.4691468Z $ node ./dist/accented.js
+2026-06-21T14:23:06.5957562Z ##[group]Run pnpm test:unit
+2026-06-21T14:23:06.5957863Z [36;1mpnpm test:unit[0m
+2026-06-21T14:23:06.5991258Z shell: /usr/bin/bash -e {0}
+2026-06-21T14:23:06.5991506Z env:
+2026-06-21T14:23:06.5991754Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-21T14:23:06.5992110Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-21T14:23:06.5992386Z ##[endgroup]
+2026-06-21T14:23:07.0359425Z $ pnpm --filter accented test
+2026-06-21T14:23:07.4852253Z $ node --test --import tsx "./**/*.test.ts"
+2026-06-21T14:23:08.0677570Z ▶ Accented
+2026-06-21T14:23:08.0678584Z   ✔ runs without errors in NodeJS and issues a warning and a trace (it’s meant to be a no-op on the server side) (1.086648ms)
+2026-06-21T14:23:08.0692396Z   ✔ argument validation (0.110888ms)
+2026-06-21T14:23:08.0707807Z ✔ Accented (2.331351ms)
+2026-06-21T14:23:08.4970231Z ▶ TaskQueue
+2026-06-21T14:23:08.4971995Z   ✔ callback is not called after a TaskQueue is created, even after a timeout (101.200818ms)
+2026-06-21T14:23:08.4977113Z   ✔ callback is not called if addMultiple is called with an empty array (101.177302ms)
+2026-06-21T14:23:08.4979290Z   ✔ callback is called once if multiple items are added before the first delay has elapsed (151.485295ms)
+2026-06-21T14:23:08.4981010Z   ✔ callback is called according to expected schedule (401.223224ms)
+2026-06-21T14:23:08.8496076Z   ✔ callback is called according to expected schedule when second task is added before the first callback completes (353.062333ms)
+2026-06-21T14:23:09.1000847Z   ✔ callback is called according to expected schedule with leading: true (250.063984ms)
+2026-06-21T14:23:09.1002058Z ✔ TaskQueue (1360.549966ms)
+2026-06-21T14:23:09.2729882Z ▶ areIssueSetsEqual
+2026-06-21T14:23:09.2731041Z   ✔ returns true when both sets are empty (1.101425ms)
+2026-06-21T14:23:09.2740009Z   ✔ returns true when both sets have equal elements, even when the order in the arrays doesn’t match (0.232666ms)
+2026-06-21T14:23:09.2741689Z   ✔ returns false when sets have different length (0.232396ms)
+2026-06-21T14:23:09.2743011Z   ✔ returns false when sets have the same length, but one element differs (0.177583ms)
+2026-06-21T14:23:09.2744132Z ✔ areIssueSetsEqual (3.276183ms)
+2026-06-21T14:23:10.1750093Z ▶ contains
+2026-06-21T14:23:10.1799625Z   ✔ an element contains itself (151.397297ms)
+2026-06-21T14:23:10.1811197Z   ✔ an element does not contain its sibling (15.702814ms)
+2026-06-21T14:23:10.1812373Z   ✔ an element contain its descendant (15.532103ms)
+2026-06-21T14:23:10.1814502Z   ✔ an element contain its descendant (12.320442ms)
+2026-06-21T14:23:10.1816056Z   ✔ an element contain its descendant if the descendant is in a shadow DOM (17.719304ms)
+2026-06-21T14:23:10.1818557Z ✔ contains (214.440526ms)
+2026-06-21T14:23:10.2542231Z ▶ deepMerge
+2026-06-21T14:23:10.2545578Z   ✔ merges two objects with overlapping keys (1.446712ms)
+2026-06-21T14:23:10.2546861Z   ✔ deeply merges nested objects (0.19208ms)
+2026-06-21T14:23:10.2548126Z   ✔ handles null values in a logical way (0.142037ms)
+2026-06-21T14:23:10.2549509Z   ✔ doesn’t turn arrays into objects (0.228589ms)
+2026-06-21T14:23:10.2551174Z   ✔ handles merging an object into a string in a logical way (0.153117ms)
+2026-06-21T14:23:10.2552797Z ✔ deepMerge (3.517695ms)
+2026-06-21T14:23:10.2553804Z ▶ getAllRulesFromAxeOptions
+2026-06-21T14:23:10.2555140Z   ✖ with no options, returns all rules (7.511394ms)
+2026-06-21T14:23:10.2556506Z   ✔ with no options, excludes disabled-by-default rules (0.34117ms)
+2026-06-21T14:23:10.2558052Z   ✔ with runOnly type rule, returns exactly the specified rules (0.273794ms)
+2026-06-21T14:23:10.2560322Z   ✔ with runOnly type rule, ignores rules.enabled: true for a rule not in runOnly (0.244448ms)
+2026-06-21T14:23:10.2562207Z   ✔ with runOnly type rule, ignores rules.enabled: false (0.311234ms)
+2026-06-21T14:23:10.2563646Z   ✔ with runOnly type 'rules' (plural), behaves the same as 'rule' (0.193323ms)
+2026-06-21T14:23:10.2565342Z   ✔ with runOnly type tag, returns rules matching those tags (0.332304ms)
+2026-06-21T14:23:10.2568097Z   ✔ with runOnly type tag and multiple tags, returns rules from all specified tags (0.298519ms)
+2026-06-21T14:23:10.2570187Z   ✔ with runOnly type tag, rules.enabled: false removes a matching rule (0.261179ms)
+2026-06-21T14:23:10.2572120Z   ✔ with runOnly type tag, rules.enabled: true adds a non-matching rule (0.4373ms)
+2026-06-21T14:23:10.2573824Z   ✔ with runOnly type 'tags' (plural), behaves the same as 'tag' (0.365525ms)
+2026-06-21T14:23:10.2576073Z   ✔ with no runOnly and rules overrides, still excludes disabled-by-default rules (0.318867ms)
+2026-06-21T14:23:10.2577879Z   ✖ with no runOnly, rules.enabled: false removes a rule (0.573095ms)
+2026-06-21T14:23:10.2579882Z   ✔ with runOnly as a tag array shorthand, treats it as tag values (0.310713ms)
+2026-06-21T14:23:10.2582125Z   ✔ with runOnly as a single tag string, treats it as a tag value (0.317145ms)
+2026-06-21T14:23:10.2583744Z   ✔ with runOnly as a rule ID string shorthand, returns that rule (0.180018ms)
+2026-06-21T14:23:10.2585645Z   ✔ with runOnly as a rule ID array shorthand, returns exactly those rules (0.202891ms)
+2026-06-21T14:23:10.2587396Z   ✔ with runOnly as a rule ID array shorthand, ignores rules overrides (0.22414ms)
+2026-06-21T14:23:10.2589380Z   ✔ with runOnly as a mixed shorthand array (tag + rule ID), throws (0.366798ms)
+2026-06-21T14:23:10.2591126Z ✖ getAllRulesFromAxeOptions (15.056722ms)
+2026-06-21T14:23:11.2993964Z ▶ getScanContext
+2026-06-21T14:23:11.2998885Z   ✔ when context doesn’t overlap with nodes, the result is empty (165.252272ms)
+2026-06-21T14:23:11.3001606Z   ✔ when context is within the mutated node, the result is the context (15.137471ms)
+2026-06-21T14:23:11.3019555Z   ✔ when mutated node is within context, the mutated node and the context nodes within it are correctly included / excluded (13.415792ms)
+2026-06-21T14:23:11.3039762Z   ✔ when mutated node is within exclude, context elements within it are still included (11.169569ms)
+2026-06-21T14:23:11.3059315Z ✔ getScanContext (206.586143ms)
+2026-06-21T14:23:11.7946439Z ▶ isNodeInScanContext
+2026-06-21T14:23:11.7979747Z   ✔ doesn’t include an element if scan context is empty (140.508061ms)
+2026-06-21T14:23:11.7982341Z   ✔ includes an element whose ancestor is included (12.091178ms)
+2026-06-21T14:23:11.8027143Z   ✔ does not include an element whose closest ancestor is excluded (17.51726ms)
+2026-06-21T14:23:11.8128349Z   ✔ includes an element if it itself is included (11.476026ms)
+2026-06-21T14:23:11.8236831Z   ✔ doesn’t include an element if it itself is excluded (12.158354ms)
+2026-06-21T14:23:11.8278846Z   ✔ includes an element if it’s both included and excluded (include takes precedence) (12.119251ms)
+2026-06-21T14:23:11.8279919Z ✔ isNodeInScanContext (207.760275ms)
+2026-06-21T14:23:12.7700006Z ▶ normalizeContext
+2026-06-21T14:23:12.7734273Z   ✔ when document is passed, only document is returned in include (156.518318ms)
+2026-06-21T14:23:12.7735809Z   ✔ when an element is passed, only that element is returned in include (22.917806ms)
+2026-06-21T14:23:12.7737544Z   ✔ when a selector is passed and elements matching that selector exist, all those elements are included (20.281521ms)
+2026-06-21T14:23:12.7739724Z   ✔ when a selector is passed and no elements matching that selector exist, `include` is empty (12.313266ms)
+2026-06-21T14:23:12.7741233Z   ✔ when a node list is passed, all the nodes from the list are included (13.514416ms)
+2026-06-21T14:23:12.7742831Z   ✔ when an object with `include` and `exclude` is passed, the matched elements are returned in respective arrays (11.010913ms)
+2026-06-21T14:23:12.7744491Z   ✔ when an object with only `exclude` is passed, `include` is implicitly set to `document` (12.215689ms)
+2026-06-21T14:23:12.7746025Z   ✔ when an object with `fromShadowDom` is passed, all the matching nodes are included (13.361551ms)
+2026-06-21T14:23:12.7747154Z ✔ normalizeContext (263.794287ms)
+2026-06-21T14:23:13.6261974Z ▶ ShadowDOMAwareMutationObserver
+2026-06-21T14:23:13.6265350Z   ▶ inserting elements
+2026-06-21T14:23:13.6266654Z     ✔ fires when a node is inserted in an observed node (112.403922ms)
+2026-06-21T14:23:13.6267888Z     ✔ fires when a node is inserted in a shadow root of an observed element (18.680943ms)
+2026-06-21T14:23:13.6894552Z     ✔ does not fire when a node is inserted in a shadow root created after observer starts (66.250284ms)
+2026-06-21T14:23:13.7185044Z     ✔ discovers shadow roots when descendants with shadow roots are added (27.85943ms)
+2026-06-21T14:23:13.7439701Z     ✔ discovers shadow roots on directly added elements (29.410558ms)
+2026-06-21T14:23:13.7834421Z     ✔ discovers and observes nested shadow roots (two levels deep) (35.448318ms)
+2026-06-21T14:23:13.7836134Z   ✔ inserting elements (291.293521ms)
+2026-06-21T14:23:13.8249245Z   ▶ removing elements
+2026-06-21T14:23:13.8250317Z     ✔ does not fire when elements are added to removed elements (39.356444ms)
+2026-06-21T14:23:13.8575397Z     ✔ does not fire when elements are added to shadow roots of removed hosts (52.898244ms)
+2026-06-21T14:23:13.8576355Z   ✔ removing elements (92.668213ms)
+2026-06-21T14:23:13.8578842Z ✔ ShadowDOMAwareMutationObserver (384.571777ms)
+2026-06-21T14:23:13.9027571Z ▶ transformViolations
+2026-06-21T14:23:13.9027990Z   ✔ one violation, one element (0.895439ms)
+2026-06-21T14:23:13.9029018Z   ✔ two violations, two elements each (11.997833ms)
+2026-06-21T14:23:13.9029463Z   ✔ a violation in an iframe (0.227496ms)
+2026-06-21T14:23:13.9029861Z   ✔ a violation in shadow DOM (0.233318ms)
+2026-06-21T14:23:13.9030260Z ✔ transformViolations (14.586216ms)
+2026-06-21T14:23:14.2505621Z ▶ updateElementsWithIssues
+2026-06-21T14:23:14.2506709Z   ✔ no changes (1.795216ms)
+2026-06-21T14:23:14.2507444Z   ✔ one issue added (7.526259ms)
+2026-06-21T14:23:14.2512466Z   ✔ one issue removed (0.253826ms)
+2026-06-21T14:23:14.2519674Z   ✔ one element added (91.330765ms)
+2026-06-21T14:23:14.2529908Z   ✔ one disconnected element added (0.268032ms)
+2026-06-21T14:23:14.2532251Z   ✔ one element removed (0.277861ms)
+2026-06-21T14:23:14.2533725Z   ✔ strips descendant-dependent issue from element outside limited context when full context no longer reports it (0.33047ms)
+2026-06-21T14:23:14.2535735Z   ✔ keeps descendant-dependent issue on element outside limited context when full context still reports it (0.255639ms)
+2026-06-21T14:23:14.2537470Z   ✔ keeps non-descendant-dependent issue on element outside limited context (0.257403ms)
+2026-06-21T14:23:14.2543077Z   ✔ adds a new element reported only by full context violations (0.8156ms)
+2026-06-21T14:23:14.2544033Z   ✔ adds a new element with merged issues from limited and full context violations (1.346424ms)
+2026-06-21T14:23:14.2550465Z   ✔ merges limited and full context violations onto an existing element (0.210976ms)
+2026-06-21T14:23:14.2551353Z   ✔ strips only descendant-dependent issues from an element outside limited context with mixed issues (0.197229ms)
+2026-06-21T14:23:14.2558448Z   ✔ keeps existing issue on element outside limited context and adds a new full context issue (0.209223ms)
+2026-06-21T14:23:14.2561337Z ✔ updateElementsWithIssues (106.693867ms)
+2026-06-21T14:23:14.2943312Z ℹ tests 84
+2026-06-21T14:23:14.2943723Z ℹ suites 15
+2026-06-21T14:23:14.2944062Z ℹ pass 82
+2026-06-21T14:23:14.2944416Z ℹ fail 2
+2026-06-21T14:23:14.2944752Z ℹ cancelled 0
+2026-06-21T14:23:14.2945128Z ℹ skipped 0
+2026-06-21T14:23:14.2945463Z ℹ todo 0
+2026-06-21T14:23:14.2945857Z ℹ duration_ms 6774.699934
+2026-06-21T14:23:14.2946111Z 
+2026-06-21T14:23:14.2946295Z ✖ failing tests:
+2026-06-21T14:23:14.2946489Z 
+2026-06-21T14:23:14.2946916Z test at src/utils/get-all-rules-from-axe-options.test.ts:1:185
+2026-06-21T14:23:14.2947735Z ✖ with no options, returns all rules (7.511394ms)
+2026-06-21T14:23:14.2948891Z   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+2026-06-21T14:23:14.2949535Z   
+2026-06-21T14:23:14.2949915Z     assert.ok(rules.size > 90)
+2026-06-21T14:23:14.2950293Z   
+2026-06-21T14:23:14.2951337Z       at TestContext.<anonymous> (/home/runner/work/accented/accented/packages/accented/src/utils/get-all-rules-from-axe-options.test.ts:16:12)
+2026-06-21T14:23:14.2952895Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+2026-06-21T14:23:14.2953544Z       at Test.run (node:internal/test_runner/test:1306:25)
+2026-06-21T14:23:14.2954183Z       at Test.start (node:internal/test_runner/test:1177:17)
+2026-06-21T14:23:14.2954855Z       at node:internal/test_runner/test:1769:71
+2026-06-21T14:23:14.2955494Z       at node:internal/per_context/primordials:466:82
+2026-06-21T14:23:14.2956071Z       at new Promise (<anonymous>)
+2026-06-21T14:23:14.2956808Z       at new SafePromise (node:internal/per_context/primordials:435:3)
+2026-06-21T14:23:14.2957619Z       at node:internal/per_context/primordials:466:9
+2026-06-21T14:23:14.2958401Z       at Array.map (<anonymous>) {
+2026-06-21T14:23:14.2958902Z     generatedMessage: true,
+2026-06-21T14:23:14.2959877Z     code: 'ERR_ASSERTION',
+2026-06-21T14:23:14.2960282Z     actual: false,
+2026-06-21T14:23:14.2960659Z     expected: true,
+2026-06-21T14:23:14.2961052Z     operator: '==',
+2026-06-21T14:23:14.2961421Z     diff: 'simple'
+2026-06-21T14:23:14.2961775Z   }
+2026-06-21T14:23:14.2961966Z 
+2026-06-21T14:23:14.2962413Z test at src/utils/get-all-rules-from-axe-options.test.ts:1:3666
+2026-06-21T14:23:14.2963508Z ✖ with no runOnly, rules.enabled: false removes a rule (0.573095ms)
+2026-06-21T14:23:14.2964444Z   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+2026-06-21T14:23:14.2965142Z   
+2026-06-21T14:23:14.2965529Z     assert.ok(rules.size > 90)
+2026-06-21T14:23:14.2965929Z   
+2026-06-21T14:23:14.2967128Z       at TestContext.<anonymous> (/home/runner/work/accented/accented/packages/accented/src/utils/get-all-rules-from-axe-options.test.ts:125:12)
+2026-06-21T14:23:14.2968865Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+2026-06-21T14:23:14.2969609Z       at Test.run (node:internal/test_runner/test:1306:25)
+2026-06-21T14:23:14.2970515Z       at Suite.processPendingSubtests (node:internal/test_runner/test:897:18)
+2026-06-21T14:23:14.2971445Z       at Test.postRun (node:internal/test_runner/test:1447:19)
+2026-06-21T14:23:14.2972159Z       at Test.run (node:internal/test_runner/test:1372:12)
+2026-06-21T14:23:14.2973038Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:897:7) {
+2026-06-21T14:23:14.2973788Z     generatedMessage: true,
+2026-06-21T14:23:14.2974201Z     code: 'ERR_ASSERTION',
+2026-06-21T14:23:14.2974598Z     actual: false,
+2026-06-21T14:23:14.2974969Z     expected: true,
+2026-06-21T14:23:14.2975444Z     operator: '==',
+2026-06-21T14:23:14.2975839Z     diff: 'simple'
+2026-06-21T14:23:14.2976167Z   }
+2026-06-21T14:23:14.3224466Z /home/runner/work/accented/accented/packages/accented:
+2026-06-21T14:23:14.3228098Z [ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] accented@1.3.2 test: `node --test --import tsx "./**/*.test.ts"`
+2026-06-21T14:23:14.3229704Z Exit status 1
+2026-06-21T14:23:14.3750511Z [ELIFECYCLE] Command failed with exit code 1.
+2026-06-21T14:23:14.4020294Z ##[error]Process completed with exit code 1.
+2026-06-21T14:23:14.4114452Z ##[group]Run actions/upload-artifact@v7
+2026-06-21T14:23:14.4114764Z with:
+2026-06-21T14:23:14.4114960Z   name: e2e-results
+2026-06-21T14:23:14.4115190Z   path: packages/devapp/playwright
+2026-06-21T14:23:14.4115461Z   if-no-files-found: warn
+2026-06-21T14:23:14.4115693Z   compression-level: 6
+2026-06-21T14:23:14.4115911Z   overwrite: false
+2026-06-21T14:23:14.4116139Z   include-hidden-files: false
+2026-06-21T14:23:14.4116378Z   archive: true
+2026-06-21T14:23:14.4116631Z env:
+2026-06-21T14:23:14.4116985Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-21T14:23:14.4117334Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-21T14:23:14.4117611Z ##[endgroup]
+2026-06-21T14:23:14.5592939Z ##[warning]No files were found with the provided path: packages/devapp/playwright. No artifacts will be uploaded.
+2026-06-21T14:23:14.5768609Z Post job cleanup.
+2026-06-21T14:23:14.5854214Z Post job cleanup.
+2026-06-21T14:23:14.6745588Z [command]/usr/bin/git version
+2026-06-21T14:23:14.6785315Z git version 2.54.0
+2026-06-21T14:23:14.6823862Z Temporarily overriding HOME='/home/runner/work/_temp/e64148b1-8ed1-44af-bed3-17ab495bfbfa' before making global git config changes
+2026-06-21T14:23:14.6825158Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-21T14:23:14.6830886Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-06-21T14:23:14.7555631Z Removing SSH command configuration
+2026-06-21T14:23:14.7562522Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-21T14:23:14.7603087Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-21T14:23:14.7831357Z Removing HTTP extra header
+2026-06-21T14:23:14.7836608Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-21T14:23:14.7872242Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-21T14:23:14.8093761Z Removing includeIf entries pointing to credentials config files
+2026-06-21T14:23:14.8099674Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-21T14:23:14.8702250Z includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-06-21T14:23:14.8703984Z includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-06-21T14:23:14.8705321Z includeif.gitdir:/github/workspace/.git.path
+2026-06-21T14:23:14.8706154Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-06-21T14:23:14.8713851Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-06-21T14:23:14.8737553Z /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.8748458Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git.path /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9137898Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-06-21T14:23:14.9162551Z /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9174018Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9217896Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-06-21T14:23:14.9246746Z /github/runner_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9249954Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9282057Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-06-21T14:23:14.9304606Z /github/runner_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9318035Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config
+2026-06-21T14:23:14.9347504Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-21T14:23:14.9564344Z Removing credentials config '/home/runner/work/_temp/git-credentials-01437160-bb2b-477d-a88d-fba0bbcdd6b0.config'
+2026-06-21T14:23:14.9721667Z Evaluate and set job outputs
+2026-06-21T14:23:14.9727448Z Cleaning up orphan processes

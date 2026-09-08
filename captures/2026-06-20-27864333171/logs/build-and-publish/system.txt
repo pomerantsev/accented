@@ -1,0 +1,8 @@
+2026-06-20T07:31:15.7590000Z Evaluating build-and-publish.if
+2026-06-20T07:31:15.7590000Z Evaluating: success()
+2026-06-20T07:31:15.7590000Z Result: true
+2026-06-20T07:31:15.7590000Z Requested labels: ubuntu-latest
+2026-06-20T07:31:15.7590000Z Job defined at: pomerantsev/accented/.github/workflows/website.yml@refs/heads/dependabot/npm_and_yarn/astro-6.4.6
+2026-06-20T07:31:15.7590000Z Waiting for a runner to pick up this job...
+2026-06-20T07:31:16.2610000Z Job is about to start running on the hosted runner: GitHub Actions 1000004133
+2026-06-20T07:31:16.2610000Z Job is waiting for a hosted runner to come online.

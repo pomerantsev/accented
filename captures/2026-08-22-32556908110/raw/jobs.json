@@ -1,0 +1,89 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 96992450043,
+      "run_id": 32556908110,
+      "workflow_name": "Update Biome schema",
+      "head_branch": "dependabot/npm_and_yarn/biomejs/biome-2.5.9",
+      "run_url": "https://api.github.com/repos/pomerantsev/accented/actions/runs/32556908110",
+      "run_attempt": 1,
+      "node_id": "CR_kwDONNLPJs8AAAAWlTNV-w",
+      "head_sha": "a0e258e833b3a2f61e93dc536ea2156317d35f51",
+      "url": "https://api.github.com/repos/pomerantsev/accented/actions/jobs/96992450043",
+      "html_url": "https://github.com/pomerantsev/accented/actions/runs/32556908110/job/96992450043",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-08-22T06:24:58Z",
+      "started_at": "2026-08-22T06:25:02Z",
+      "completed_at": "2026-08-22T06:25:33Z",
+      "name": "update-biome-schema",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-08-22T06:25:04Z",
+          "completed_at": "2026-08-22T06:25:04Z"
+        },
+        {
+          "name": "Checkout PR branch",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 2,
+          "started_at": "2026-08-22T06:25:04Z",
+          "completed_at": "2026-08-22T06:25:30Z"
+        },
+        {
+          "name": "Extract new biome version",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3,
+          "started_at": "2026-08-22T06:25:30Z",
+          "completed_at": "2026-08-22T06:25:30Z"
+        },
+        {
+          "name": "Update biome.json schema URL",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-08-22T06:25:30Z",
+          "completed_at": "2026-08-22T06:25:30Z"
+        },
+        {
+          "name": "Commit and push if changed",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-08-22T06:25:30Z",
+          "completed_at": "2026-08-22T06:25:30Z"
+        },
+        {
+          "name": "Post Checkout PR branch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-08-22T06:25:30Z",
+          "completed_at": "2026-08-22T06:25:30Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-08-22T06:25:30Z",
+          "completed_at": "2026-08-22T06:25:30Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/pomerantsev/accented/check-runs/96992450043",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000004600,
+      "runner_name": "GitHub Actions 1000004600",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

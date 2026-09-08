@@ -1,0 +1,8 @@
+2026-06-21T14:43:03.0010000Z Requested labels: ubuntu-latest
+2026-06-21T14:43:03.0010000Z Job defined at: pomerantsev/accented/.github/workflows/accented.yml@refs/heads/main
+2026-06-21T14:43:03.0010000Z Waiting for a runner to pick up this job...
+2026-06-21T14:43:03.0000000Z Evaluating build-test-publish.if
+2026-06-21T14:43:03.0000000Z Evaluating: success()
+2026-06-21T14:43:03.0000000Z Result: true
+2026-06-21T14:43:03.4990000Z Job is about to start running on the hosted runner: GitHub Actions 1000004187
+2026-06-21T14:43:03.4990000Z Job is waiting for a hosted runner to come online.

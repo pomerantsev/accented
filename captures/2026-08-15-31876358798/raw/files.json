@@ -1,0 +1,25 @@
+[
+  {
+    "sha": "bd91291aa0002369c0843fa35762849b3f1320d1",
+    "filename": "packages/website/package.json",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 8,
+    "changes": 16,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/b5f7f8b1f7893d6aba77285c83a6d9127ada6c0c/packages%2Fwebsite%2Fpackage.json",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/b5f7f8b1f7893d6aba77285c83a6d9127ada6c0c/packages%2Fwebsite%2Fpackage.json",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Fwebsite%2Fpackage.json?ref=b5f7f8b1f7893d6aba77285c83a6d9127ada6c0c",
+    "patch": "@@ -15,24 +15,24 @@\n     \"db:studio\": \"netlify dev:exec drizzle-kit studio\"\n   },\n   \"dependencies\": {\n-    \"@astrojs/mdx\": \"7.0.3\",\n-    \"@astrojs/netlify\": \"8.1.2\",\n+    \"@astrojs/mdx\": \"7.0.5\",\n+    \"@astrojs/netlify\": \"8.2.0\",\n     \"@astrojs/rss\": \"4.0.19\",\n     \"@astrojs/sitemap\": \"3.7.3\",\n     \"@cloudfour/image-compare\": \"1.0.5\",\n-    \"@fontsource-variable/ibm-plex-sans\": \"5.2.8\",\n-    \"@fontsource-variable/lora\": \"5.2.8\",\n-    \"@fontsource/ibm-plex-mono\": \"5.2.7\",\n-    \"astro\": \"7.1.1\",\n+    \"@fontsource-variable/ibm-plex-sans\": \"5.3.0\",\n+    \"@fontsource-variable/lora\": \"5.3.0\",\n+    \"@fontsource/ibm-plex-mono\": \"5.3.0\",\n+    \"astro\": \"7.2.0\",\n     \"common\": \"workspace:*\",\n     \"drizzle-orm\": \"0.45.2\",\n     \"postgres\": \"3.4.9\",\n     \"rehype-slug\": \"6.0.0\",\n     \"sharp\": \"0.35.3\",\n-    \"shiki\": \"4.3.1\",\n+    \"shiki\": \"4.4.2\",\n     \"ua-parser-js\": \"2.0.10\",\n     \"unist-util-visit\": \"5.1.0\",\n-    \"web-vitals\": \"5.3.0\"\n+    \"web-vitals\": \"6.1.0\"\n   },\n   \"devDependencies\": {\n     \"@astrojs/check\": \"0.9.10\","
+  },
+  {
+    "sha": "8659c38045b6901895d320ba08cc010585c97d8b",
+    "filename": "pnpm-lock.yaml",
+    "status": "modified",
+    "additions": 243,
+    "deletions": 1164,
+    "changes": 1407,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/b5f7f8b1f7893d6aba77285c83a6d9127ada6c0c/pnpm-lock.yaml",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/b5f7f8b1f7893d6aba77285c83a6d9127ada6c0c/pnpm-lock.yaml",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/pnpm-lock.yaml?ref=b5f7f8b1f7893d6aba77285c83a6d9127ada6c0c"
+  }
+]

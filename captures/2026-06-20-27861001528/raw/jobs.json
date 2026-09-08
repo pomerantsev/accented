@@ -1,0 +1,121 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 82456887323,
+      "run_id": 27861001528,
+      "workflow_name": "Website",
+      "head_branch": "dependabot/npm_and_yarn/packages/website/astrojs/netlify-7.0.13",
+      "run_url": "https://api.github.com/repos/pomerantsev/accented/actions/runs/27861001528",
+      "run_attempt": 1,
+      "node_id": "CR_kwDONNLPJs8AAAATMtBAGw",
+      "head_sha": "858d95ced62dcd3ee277c6099060f62c79364bf6",
+      "url": "https://api.github.com/repos/pomerantsev/accented/actions/jobs/82456887323",
+      "html_url": "https://github.com/pomerantsev/accented/actions/runs/27861001528/job/82456887323",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T05:05:03Z",
+      "started_at": "2026-06-20T05:05:05Z",
+      "completed_at": "2026-06-20T05:05:15Z",
+      "name": "build-and-publish",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-06-20T05:05:06Z",
+          "completed_at": "2026-06-20T05:05:06Z"
+        },
+        {
+          "name": "Checkout code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-06-20T05:05:06Z",
+          "completed_at": "2026-06-20T05:05:07Z"
+        },
+        {
+          "name": "Setup",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 3,
+          "started_at": "2026-06-20T05:05:07Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Build Accented",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Build website",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Run database migrations",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Deploy website",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Post Setup",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Post Checkout code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-06-20T05:05:14Z",
+          "completed_at": "2026-06-20T05:05:14Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/pomerantsev/accented/check-runs/82456887323",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000004101,
+      "runner_name": "GitHub Actions 1000004101",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

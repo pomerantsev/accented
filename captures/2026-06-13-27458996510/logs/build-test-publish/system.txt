@@ -1,0 +1,8 @@
+2026-06-13T06:24:11.3270000Z Requested labels: ubuntu-latest
+2026-06-13T06:24:11.3270000Z Job defined at: pomerantsev/accented/.github/workflows/accented.yml@refs/heads/dependabot/npm_and_yarn/dev-dependencies-81566b7271
+2026-06-13T06:24:11.3270000Z Waiting for a runner to pick up this job...
+2026-06-13T06:24:11.3240000Z Evaluating build-test-publish.if
+2026-06-13T06:24:11.3240000Z Evaluating: success()
+2026-06-13T06:24:11.3240000Z Result: true
+2026-06-13T06:24:11.8250000Z Job is waiting for a hosted runner to come online.
+2026-06-13T06:24:11.8250000Z Job is about to start running on the hosted runner: GitHub Actions 1000004058

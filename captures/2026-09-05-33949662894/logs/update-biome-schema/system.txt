@@ -1,0 +1,9 @@
+2026-09-05T06:23:06.7290000Z Evaluating update-biome-schema.if
+2026-09-05T06:23:06.7290000Z Evaluating: (success() && (((github.actor == 'dependabot[bot]') && contains(github.head_ref, 'biomejs/biome'))))
+2026-09-05T06:23:06.7290000Z Expanded: (true && (('dependabot[bot]' == 'dependabot[bot]') && contains('dependabot/npm_and_yarn/biomejs/biome-2.5.11', 'biomejs/biome')))
+2026-09-05T06:23:06.7290000Z Result: true
+2026-09-05T06:23:06.7290000Z Requested labels: ubuntu-latest
+2026-09-05T06:23:06.7290000Z Job defined at: pomerantsev/accented/.github/workflows/update-biome-schema.yml@refs/pull/577/merge
+2026-09-05T06:23:06.7290000Z Waiting for a runner to pick up this job...
+2026-09-05T06:23:07.2290000Z Job is about to start running on the hosted runner: GitHub Actions 1000004667
+2026-09-05T06:23:07.2290000Z Job is waiting for a hosted runner to come online.

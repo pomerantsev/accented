@@ -1,0 +1,8 @@
+2026-06-20T08:03:06.6440000Z Requested labels: ubuntu-latest
+2026-06-20T08:03:06.6440000Z Job defined at: pomerantsev/accented/.github/workflows/playground.yml@refs/heads/dependabot/npm_and_yarn/packages/website/astro-6.4.6
+2026-06-20T08:03:06.6440000Z Waiting for a runner to pick up this job...
+2026-06-20T08:03:06.6440000Z Evaluating test-playground.if
+2026-06-20T08:03:06.6440000Z Evaluating: success()
+2026-06-20T08:03:06.6440000Z Result: true
+2026-06-20T08:03:06.6510000Z Job is waiting for a hosted runner to come online.
+2026-06-20T08:03:06.6510000Z Job is about to start running on the hosted runner: GitHub Actions 1000004138

@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "62cd74e5347523daab38d3f55347a1228ffd9245",
+    "filename": "packages/website/package.json",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/858d95ced62dcd3ee277c6099060f62c79364bf6/packages%2Fwebsite%2Fpackage.json",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/858d95ced62dcd3ee277c6099060f62c79364bf6/packages%2Fwebsite%2Fpackage.json",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Fwebsite%2Fpackage.json?ref=858d95ced62dcd3ee277c6099060f62c79364bf6",
+    "patch": "@@ -16,7 +16,7 @@\n   },\n   \"dependencies\": {\n     \"@astrojs/mdx\": \"6.0.3\",\n-    \"@astrojs/netlify\": \"7.0.12\",\n+    \"@astrojs/netlify\": \"7.0.13\",\n     \"@astrojs/rss\": \"4.0.18\",\n     \"@astrojs/sitemap\": \"3.7.3\",\n     \"@cloudfour/image-compare\": \"1.0.5\","
+  }
+]

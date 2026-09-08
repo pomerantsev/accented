@@ -12,7 +12,7 @@
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { type CaptureOutcome, capture, ghPaginate } from './capture.mts';
+import { type CaptureOutcome, capture, ghPaginate, type PrSource } from './capture.mts';
 
 // ── Scope choices ───────────────────────────────────────────────────────────
 
@@ -70,6 +70,7 @@ interface ManifestEntry {
   decision: CaptureOutcome | 'skipped';
   reason: string;
   prNumber?: number | null;
+  prSource?: PrSource;
 }
 
 // ── Run ─────────────────────────────────────────────────────────────────────
@@ -126,6 +127,7 @@ for (const run of sorted) {
     decision: result.outcome,
     reason: result.reason ?? scope.reason,
     prNumber: result.prNumber ?? null,
+    prSource: result.prSource ?? null,
   });
   tally[result.outcome] = (tally[result.outcome] ?? 0) + 1;
 

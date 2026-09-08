@@ -1,0 +1,8 @@
+2026-07-12T16:15:39.5730000Z Requested labels: ubuntu-latest
+2026-07-12T16:15:39.5730000Z Job defined at: pomerantsev/accented/.github/workflows/playground.yml@refs/heads/dependabot/npm_and_yarn/website-dependencies-325e419392
+2026-07-12T16:15:39.5730000Z Waiting for a runner to pick up this job...
+2026-07-12T16:15:39.5730000Z Evaluating test-playground.if
+2026-07-12T16:15:39.5730000Z Evaluating: success()
+2026-07-12T16:15:39.5730000Z Result: true
+2026-07-12T16:15:40.0830000Z Job is about to start running on the hosted runner: GitHub Actions 1000004261
+2026-07-12T16:15:40.0830000Z Job is waiting for a hosted runner to come online.

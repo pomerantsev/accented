@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "192496d373569864e2140e71ce98af280d8842a2",
+    "filename": ".github/workflows/accented.yml",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/d774c2965a6eefb8577ab6c1ef450667b35a4262/.github%2Fworkflows%2Faccented.yml",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/d774c2965a6eefb8577ab6c1ef450667b35a4262/.github%2Fworkflows%2Faccented.yml",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/.github%2Fworkflows%2Faccented.yml?ref=d774c2965a6eefb8577ab6c1ef450667b35a4262",
+    "patch": "@@ -45,7 +45,7 @@ jobs:\n       - name: Create release PR or publish\n         id: changesets\n         if: github.ref == 'refs/heads/main'\n-        uses: changesets/action@v1\n+        uses: changesets/action@v2\n         with:\n           version: pnpm changeset-version\n           publish: pnpm changeset publish"
+  }
+]

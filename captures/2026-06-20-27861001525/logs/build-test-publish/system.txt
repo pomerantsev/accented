@@ -1,0 +1,8 @@
+2026-06-20T05:05:03.7310000Z Requested labels: ubuntu-latest
+2026-06-20T05:05:03.7310000Z Job defined at: pomerantsev/accented/.github/workflows/accented.yml@refs/heads/dependabot/npm_and_yarn/packages/website/astrojs/netlify-7.0.13
+2026-06-20T05:05:03.7310000Z Waiting for a runner to pick up this job...
+2026-06-20T05:05:03.7300000Z Evaluating build-test-publish.if
+2026-06-20T05:05:03.7300000Z Evaluating: success()
+2026-06-20T05:05:03.7300000Z Result: true
+2026-06-20T05:05:04.2410000Z Job is about to start running on the hosted runner: GitHub Actions 1000004102
+2026-06-20T05:05:04.2370000Z Job is waiting for a hosted runner to come online.

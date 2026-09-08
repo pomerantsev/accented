@@ -1,0 +1,62 @@
+[
+  {
+    "sha": "fb030aa20d99013f0556261b247e284f3ed2debb",
+    "filename": ".changeset/eager-lands-cross.md",
+    "status": "added",
+    "additions": 5,
+    "deletions": 0,
+    "changes": 5,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/86805091014faaa6f088d5a44fd7f327c9a30886/.changeset%2Feager-lands-cross.md",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/86805091014faaa6f088d5a44fd7f327c9a30886/.changeset%2Feager-lands-cross.md",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/.changeset%2Feager-lands-cross.md?ref=86805091014faaa6f088d5a44fd7f327c9a30886",
+    "patch": "@@ -0,0 +1,5 @@\n+---\n+\"accented\": patch\n+---\n+\n+Bump axe-core to 4.12.1"
+  },
+  {
+    "sha": "9d51df47bfa6adf18a7c94983789452943076055",
+    "filename": "packages/accented/package.json",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/86805091014faaa6f088d5a44fd7f327c9a30886/packages%2Faccented%2Fpackage.json",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/86805091014faaa6f088d5a44fd7f327c9a30886/packages%2Faccented%2Fpackage.json",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Faccented%2Fpackage.json?ref=86805091014faaa6f088d5a44fd7f327c9a30886",
+    "patch": "@@ -39,7 +39,7 @@\n   \"homepage\": \"https://accented.dev\",\n   \"dependencies\": {\n     \"@preact/signals-core\": \"^1.14.3\",\n-    \"axe-core\": \"^4.12.0\"\n+    \"axe-core\": \"^4.12.1\"\n   },\n   \"devDependencies\": {\n     \"@types/jsdom\": \"28.0.3\","
+  },
+  {
+    "sha": "f1dc669f635e7a9705b5a88076501fbf2ad1b453",
+    "filename": "packages/accented/src/utils/get-all-rules-from-axe-options.test.ts",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/86805091014faaa6f088d5a44fd7f327c9a30886/packages%2Faccented%2Fsrc%2Futils%2Fget-all-rules-from-axe-options.test.ts",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/86805091014faaa6f088d5a44fd7f327c9a30886/packages%2Faccented%2Fsrc%2Futils%2Fget-all-rules-from-axe-options.test.ts",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Faccented%2Fsrc%2Futils%2Fget-all-rules-from-axe-options.test.ts?ref=86805091014faaa6f088d5a44fd7f327c9a30886",
+    "patch": "@@ -13,7 +13,7 @@ import { getAllRulesFromAxeOptions } from './get-all-rules-from-axe-options';\n suite('getAllRulesFromAxeOptions', () => {\n   test('with no options, returns all rules', () => {\n     const rules = getAllRulesFromAxeOptions({});\n-    assert.ok(rules.size > 90);\n+    assert.ok(rules.size > 80);\n     assert.ok(rules.has('page-has-heading-one'));\n     assert.ok(rules.has('color-contrast'));\n   });\n@@ -122,7 +122,7 @@ suite('getAllRulesFromAxeOptions', () => {\n     const rules = getAllRulesFromAxeOptions({\n       rules: { 'color-contrast': { enabled: false } },\n     });\n-    assert.ok(rules.size > 90);\n+    assert.ok(rules.size > 80);\n     assert.equal(rules.has('color-contrast'), false);\n   });\n "
+  },
+  {
+    "sha": "7e5e3980a6196c577a1c7168f63d7c987707834a",
+    "filename": "packages/devapp/package.json",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/86805091014faaa6f088d5a44fd7f327c9a30886/packages%2Fdevapp%2Fpackage.json",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/86805091014faaa6f088d5a44fd7f327c9a30886/packages%2Fdevapp%2Fpackage.json",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Fdevapp%2Fpackage.json?ref=86805091014faaa6f088d5a44fd7f327c9a30886",
+    "patch": "@@ -10,7 +10,7 @@\n     \"test-buildless\": \"playwright test test/buildless.spec.ts\"\n   },\n   \"devDependencies\": {\n-    \"axe-core\": \"4.12.0\",\n+    \"axe-core\": \"4.12.1\",\n     \"vite\": \"8.0.16\"\n   },\n   \"dependencies\": {"
+  },
+  {
+    "sha": "eed9b7f99633b228ab6721fda6d4049bab45e4a5",
+    "filename": "pnpm-lock.yaml",
+    "status": "modified",
+    "additions": 8,
+    "deletions": 8,
+    "changes": 16,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/86805091014faaa6f088d5a44fd7f327c9a30886/pnpm-lock.yaml",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/86805091014faaa6f088d5a44fd7f327c9a30886/pnpm-lock.yaml",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/pnpm-lock.yaml?ref=86805091014faaa6f088d5a44fd7f327c9a30886",
+    "patch": "@@ -45,8 +45,8 @@ importers:\n         specifier: ^1.14.3\n         version: 1.14.3\n       axe-core:\n-        specifier: ^4.12.0\n-        version: 4.12.0\n+        specifier: ^4.12.1\n+        version: 4.12.1\n     devDependencies:\n       '@types/jsdom':\n         specifier: 28.0.3\n@@ -64,8 +64,8 @@ importers:\n         version: link:../accented\n     devDependencies:\n       axe-core:\n-        specifier: 4.12.0\n-        version: 4.12.0\n+        specifier: 4.12.1\n+        version: 4.12.1\n       vite:\n         specifier: 8.0.16\n         version: 8.0.16(@types/node@26.0.0)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0)\n@@ -2806,8 +2806,8 @@ packages:\n   avvio@9.2.0:\n     resolution: {integrity: sha512-2t/sy01ArdHHE0vRH5Hsay+RtCZt3dLPji7W7/MMOCEgze5b7SNDC4j5H6FnVgPkI1MTNFGzHdHrVXDDl7QSSQ==}\n \n-  axe-core@4.12.0:\n-    resolution: {integrity: sha512-FTavr/7Ba0IptwGOPxnQvdyW2tAsdLBMTBXz7rKH6xJ2skpyxpBxyHkDdBs4lf69yRqYpkqCdfhnwS8YULGOmg==}\n+  axe-core@4.12.1:\n+    resolution: {integrity: sha512-s7iGf5GaVMxEG0ENN9x+xTr7GFZCb1ZP/1uATUpCEK2X78nDB3RwbtFCo9pGAf9ru+VwoQ464DkaLEeRM08wJA==}\n     engines: {node: '>=4'}\n \n   axobject-query@4.1.0:\n@@ -9791,7 +9791,7 @@ snapshots:\n   accented@1.3.2:\n     dependencies:\n       '@preact/signals-core': 1.14.3\n-      axe-core: 4.12.0\n+      axe-core: 4.12.1\n \n   accepts@2.0.0:\n     dependencies:\n@@ -10064,7 +10064,7 @@ snapshots:\n       '@fastify/error': 4.2.0\n       fastq: 1.20.1\n \n-  axe-core@4.12.0: {}\n+  axe-core@4.12.1: {}\n \n   axobject-query@4.1.0: {}\n "
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "1c9d808f05f6dd8c1b62efc1391108171efb86b4",
+    "filename": "packages/playground/package.json",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/979732aad0c5ef54a9a796af1c80e3ce88c0651f/packages%2Fplayground%2Fpackage.json",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/979732aad0c5ef54a9a796af1c80e3ce88c0651f/packages%2Fplayground%2Fpackage.json",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Fplayground%2Fpackage.json?ref=979732aad0c5ef54a9a796af1c80e3ce88c0651f",
+    "patch": "@@ -23,7 +23,7 @@\n     \"accented\": \"1.4.0\",\n     \"autoprefixer\": \"10.5.4\",\n     \"globals\": \"17.7.0\",\n-    \"postcss\": \"8.5.22\",\n+    \"postcss\": \"8.5.23\",\n     \"tailwindcss\": \"4.3.3\",\n     \"typescript\": \"6.0.3\",\n     \"vite\": \"8.1.5\""
+  }
+]

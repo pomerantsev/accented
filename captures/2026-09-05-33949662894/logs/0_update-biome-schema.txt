@@ -1,0 +1,142 @@
+﻿2026-09-05T06:23:10.2371945Z Current runner version: '2.337.0'
+2026-09-05T06:23:10.2390543Z ##[group]Runner Image Provisioner
+2026-09-05T06:23:10.2391455Z Hosted Compute Agent
+2026-09-05T06:23:10.2392085Z Version: 20260828.587
+2026-09-05T06:23:10.2392625Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-05T06:23:10.2393293Z Build Date: 2026-08-28T16:44:25Z
+2026-09-05T06:23:10.2393833Z Worker ID: {3496a5ee-c6cf-4c3a-abe5-595cb794f985}
+2026-09-05T06:23:10.2394389Z Azure Region: centralus
+2026-09-05T06:23:10.2394880Z ##[endgroup]
+2026-09-05T06:23:10.2396005Z ##[group]Operating System
+2026-09-05T06:23:10.2396553Z Ubuntu
+2026-09-05T06:23:10.2396964Z 24.04.4
+2026-09-05T06:23:10.2397449Z LTS
+2026-09-05T06:23:10.2397904Z ##[endgroup]
+2026-09-05T06:23:10.2398352Z ##[group]Runner Image
+2026-09-05T06:23:10.2398850Z Image: ubuntu-24.04
+2026-09-05T06:23:10.2399349Z Version: 20260831.293.1
+2026-09-05T06:23:10.2400361Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260831.293/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-05T06:23:10.2401799Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260831.293
+2026-09-05T06:23:10.2402597Z ##[endgroup]
+2026-09-05T06:23:10.2403462Z ##[group]GITHUB_TOKEN Permissions
+2026-09-05T06:23:10.2405255Z Contents: write
+2026-09-05T06:23:10.2405707Z Metadata: read
+2026-09-05T06:23:10.2406151Z ##[endgroup]
+2026-09-05T06:23:10.2407754Z Secret source: Dependabot
+2026-09-05T06:23:10.2408557Z Prepare workflow directory
+2026-09-05T06:23:10.2679606Z Prepare all required actions
+2026-09-05T06:23:10.2719736Z Getting action download info
+2026-09-05T06:23:10.4846330Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-09-05T06:23:10.8360459Z Complete job name: update-biome-schema
+2026-09-05T06:23:10.8949238Z ##[group]Run actions/checkout@v7
+2026-09-05T06:23:10.8949995Z with:
+2026-09-05T06:23:10.8950598Z   ref: dependabot/npm_and_yarn/biomejs/biome-2.5.11
+2026-09-05T06:23:10.8952317Z   token: ***
+2026-09-05T06:23:10.8952837Z   repository: pomerantsev/accented
+2026-09-05T06:23:10.8953468Z   ssh-strict: true
+2026-09-05T06:23:10.8953974Z   ssh-user: git
+2026-09-05T06:23:10.8954465Z   persist-credentials: true
+2026-09-05T06:23:10.8954976Z   clean: true
+2026-09-05T06:23:10.8955470Z   sparse-checkout-cone-mode: true
+2026-09-05T06:23:10.8956043Z   fetch-depth: 1
+2026-09-05T06:23:10.8956508Z   fetch-tags: false
+2026-09-05T06:23:10.8957044Z   show-progress: true
+2026-09-05T06:23:10.8957535Z   lfs: false
+2026-09-05T06:23:10.8958002Z   submodules: false
+2026-09-05T06:23:10.8958513Z   set-safe-directory: true
+2026-09-05T06:23:10.8959043Z   allow-unsafe-pr-checkout: false
+2026-09-05T06:23:10.8959817Z ##[endgroup]
+2026-09-05T06:23:10.9809246Z Syncing repository: pomerantsev/accented
+2026-09-05T06:23:10.9811521Z ##[group]Getting Git version info
+2026-09-05T06:23:10.9812400Z Working directory is '/home/runner/work/accented/accented'
+2026-09-05T06:23:10.9813430Z [command]/usr/bin/git version
+2026-09-05T06:23:10.9902585Z git version 2.55.0
+2026-09-05T06:23:10.9918397Z ##[endgroup]
+2026-09-05T06:23:10.9927779Z Temporarily overriding HOME='/home/runner/work/_temp/66e10b6b-b3e8-4db0-ae0e-9a2eb78692b3' before making global git config changes
+2026-09-05T06:23:10.9929588Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-05T06:23:10.9933845Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-09-05T06:23:10.9975783Z Deleting the contents of '/home/runner/work/accented/accented'
+2026-09-05T06:23:10.9979414Z ##[group]Determining repository object format
+2026-09-05T06:23:11.1077124Z ##[endgroup]
+2026-09-05T06:23:11.1085634Z ##[group]Initializing the repository
+2026-09-05T06:23:11.1086493Z [command]/usr/bin/git init /home/runner/work/accented/accented
+2026-09-05T06:23:11.1594781Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-05T06:23:11.1596237Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-05T06:23:11.1597496Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-05T06:23:11.1598596Z hint: call:
+2026-09-05T06:23:11.1599251Z hint:
+2026-09-05T06:23:11.1599969Z hint: 	git config --global init.defaultBranch <name>
+2026-09-05T06:23:11.1600804Z hint:
+2026-09-05T06:23:11.1601835Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-05T06:23:11.1602952Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-05T06:23:11.1603731Z hint:
+2026-09-05T06:23:11.1604182Z hint: 	git branch -m <name>
+2026-09-05T06:23:11.1604707Z hint:
+2026-09-05T06:23:11.1605378Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-05T06:23:11.1606544Z Initialized empty Git repository in /home/runner/work/accented/accented/.git/
+2026-09-05T06:23:11.1608716Z [command]/usr/bin/git remote add origin https://github.com/pomerantsev/accented
+2026-09-05T06:23:11.1683385Z ##[endgroup]
+2026-09-05T06:23:11.1684542Z ##[group]Disabling automatic garbage collection
+2026-09-05T06:23:11.1685417Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-05T06:23:11.1687291Z ##[endgroup]
+2026-09-05T06:23:11.1688256Z ##[group]Setting up auth
+2026-09-05T06:23:11.1688740Z Removing SSH command configuration
+2026-09-05T06:23:11.1689481Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-05T06:23:11.1725848Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-05T06:23:11.2669059Z Removing HTTP extra header
+2026-09-05T06:23:11.2673444Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-05T06:23:11.2698648Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-05T06:23:11.2855340Z Removing includeIf entries pointing to credentials config files
+2026-09-05T06:23:11.2859881Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-05T06:23:11.2884041Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-05T06:23:11.3048213Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-05T06:23:11.3077010Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git.path /home/runner/work/_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:11.3099429Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:11.3124344Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:11.3147684Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:11.3242972Z ##[endgroup]
+2026-09-05T06:23:11.3243776Z ##[group]Fetching the repository
+2026-09-05T06:23:11.3249825Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/heads/dependabot/npm_and_yarn/biomejs/biome-2.5.11*:refs/remotes/origin/dependabot/npm_and_yarn/biomejs/biome-2.5.11* +refs/tags/dependabot/npm_and_yarn/biomejs/biome-2.5.11*:refs/tags/dependabot/npm_and_yarn/biomejs/biome-2.5.11*
+2026-09-05T06:23:11.5994398Z ##[error]fatal: could not read Username for 'https://github.com': terminal prompts disabled
+2026-09-05T06:23:11.6001965Z The process '/usr/bin/git' failed with exit code 128
+2026-09-05T06:23:11.6002679Z Waiting 19 seconds before trying again
+2026-09-05T06:23:30.6036666Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/heads/dependabot/npm_and_yarn/biomejs/biome-2.5.11*:refs/remotes/origin/dependabot/npm_and_yarn/biomejs/biome-2.5.11* +refs/tags/dependabot/npm_and_yarn/biomejs/biome-2.5.11*:refs/tags/dependabot/npm_and_yarn/biomejs/biome-2.5.11*
+2026-09-05T06:23:30.7356312Z ##[error]fatal: could not read Username for 'https://github.com': terminal prompts disabled
+2026-09-05T06:23:30.7365613Z The process '/usr/bin/git' failed with exit code 128
+2026-09-05T06:23:30.7366262Z Waiting 19 seconds before trying again
+2026-09-05T06:23:49.7443770Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/heads/dependabot/npm_and_yarn/biomejs/biome-2.5.11*:refs/remotes/origin/dependabot/npm_and_yarn/biomejs/biome-2.5.11* +refs/tags/dependabot/npm_and_yarn/biomejs/biome-2.5.11*:refs/tags/dependabot/npm_and_yarn/biomejs/biome-2.5.11*
+2026-09-05T06:23:49.8646375Z ##[error]fatal: could not read Username for 'https://github.com': terminal prompts disabled
+2026-09-05T06:23:49.8678038Z ##[error]The process '/usr/bin/git' failed with exit code 128
+2026-09-05T06:23:49.8925273Z Post job cleanup.
+2026-09-05T06:23:49.9566279Z [command]/usr/bin/git version
+2026-09-05T06:23:49.9596404Z git version 2.55.0
+2026-09-05T06:23:49.9624489Z Temporarily overriding HOME='/home/runner/work/_temp/e20f31dc-5170-4496-8908-cbcdc59de2bb' before making global git config changes
+2026-09-05T06:23:49.9625406Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-05T06:23:49.9628784Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-09-05T06:23:49.9650910Z Removing SSH command configuration
+2026-09-05T06:23:49.9656135Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-05T06:23:49.9680301Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-05T06:23:49.9841917Z Removing HTTP extra header
+2026-09-05T06:23:49.9845467Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-05T06:23:49.9866854Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-05T06:23:50.0036961Z Removing includeIf entries pointing to credentials config files
+2026-09-05T06:23:50.0041615Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-05T06:23:50.0059323Z includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-09-05T06:23:50.0059989Z includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-09-05T06:23:50.0060606Z includeif.gitdir:/github/workspace/.git.path
+2026-09-05T06:23:50.0061104Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-05T06:23:50.0066316Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-09-05T06:23:50.0080377Z /home/runner/work/_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:50.0087726Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-823dc9dc\-13ae\-4aff\-98f1\-8e9f1a9a0a90\.config
+2026-09-05T06:23:50.0122197Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-09-05T06:23:50.0138728Z /home/runner/work/_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:50.0145410Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-823dc9dc\-13ae\-4aff\-98f1\-8e9f1a9a0a90\.config
+2026-09-05T06:23:50.0187658Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-09-05T06:23:50.0188618Z /github/runner_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:50.0191388Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-823dc9dc\-13ae\-4aff\-98f1\-8e9f1a9a0a90\.config
+2026-09-05T06:23:50.0213437Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-05T06:23:50.0227961Z /github/runner_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config
+2026-09-05T06:23:50.0233694Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-823dc9dc\-13ae\-4aff\-98f1\-8e9f1a9a0a90\.config
+2026-09-05T06:23:50.0255954Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-05T06:23:50.0393514Z Removing credentials config '/home/runner/work/_temp/git-credentials-823dc9dc-13ae-4aff-98f1-8e9f1a9a0a90.config'
+2026-09-05T06:23:50.0497990Z Cleaning up orphan processes

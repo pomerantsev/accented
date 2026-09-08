@@ -1,0 +1,214 @@
+﻿2026-07-21T10:34:40.5862801Z Current runner version: '2.335.1'
+2026-07-21T10:34:40.5889775Z ##[group]Runner Image Provisioner
+2026-07-21T10:34:40.5890822Z Hosted Compute Agent
+2026-07-21T10:34:40.5891638Z Version: 20260707.563
+2026-07-21T10:34:40.5892269Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+2026-07-21T10:34:40.5893063Z Build Date: 2026-07-07T19:33:50Z
+2026-07-21T10:34:40.5893741Z Worker ID: {a7561a89-167a-4cc9-adf2-cf6fc46c6063}
+2026-07-21T10:34:40.5894525Z Azure Region: northcentralus
+2026-07-21T10:34:40.5895145Z ##[endgroup]
+2026-07-21T10:34:40.5897059Z ##[group]Operating System
+2026-07-21T10:34:40.5897801Z Ubuntu
+2026-07-21T10:34:40.5898332Z 24.04.4
+2026-07-21T10:34:40.5898863Z LTS
+2026-07-21T10:34:40.5899441Z ##[endgroup]
+2026-07-21T10:34:40.5899986Z ##[group]Runner Image
+2026-07-21T10:34:40.5900647Z Image: ubuntu-24.04
+2026-07-21T10:34:40.5901222Z Version: 20260714.240.1
+2026-07-21T10:34:40.5903134Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260714.240/images/ubuntu/Ubuntu2404-Readme.md
+2026-07-21T10:34:40.5904658Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260714.240
+2026-07-21T10:34:40.5905969Z ##[endgroup]
+2026-07-21T10:34:40.5907298Z ##[group]GITHUB_TOKEN Permissions
+2026-07-21T10:34:40.5909636Z Contents: read
+2026-07-21T10:34:40.5910264Z Metadata: read
+2026-07-21T10:34:40.5910862Z Packages: read
+2026-07-21T10:34:40.5911830Z ##[endgroup]
+2026-07-21T10:34:40.5914187Z Secret source: Dependabot
+2026-07-21T10:34:40.5915189Z Prepare workflow directory
+2026-07-21T10:34:40.6275714Z Prepare all required actions
+2026-07-21T10:34:40.6317816Z Getting action download info
+2026-07-21T10:34:40.8675692Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-07-21T10:34:41.2792654Z Complete job name: build-and-publish
+2026-07-21T10:34:41.3574493Z ##[group]Run actions/checkout@v7
+2026-07-21T10:34:41.3575528Z with:
+2026-07-21T10:34:41.3576081Z   repository: pomerantsev/accented
+2026-07-21T10:34:41.3579903Z   token: ***
+2026-07-21T10:34:41.3580368Z   ssh-strict: true
+2026-07-21T10:34:41.3580803Z   ssh-user: git
+2026-07-21T10:34:41.3581244Z   persist-credentials: true
+2026-07-21T10:34:41.3581932Z   clean: true
+2026-07-21T10:34:41.3582376Z   sparse-checkout-cone-mode: true
+2026-07-21T10:34:41.3582888Z   fetch-depth: 1
+2026-07-21T10:34:41.3583305Z   fetch-tags: false
+2026-07-21T10:34:41.3583747Z   show-progress: true
+2026-07-21T10:34:41.3584183Z   lfs: false
+2026-07-21T10:34:41.3584588Z   submodules: false
+2026-07-21T10:34:41.3585028Z   set-safe-directory: true
+2026-07-21T10:34:41.3585528Z   allow-unsafe-pr-checkout: false
+2026-07-21T10:34:41.3586324Z ##[endgroup]
+2026-07-21T10:34:41.4623604Z Syncing repository: pomerantsev/accented
+2026-07-21T10:34:41.4625794Z ##[group]Getting Git version info
+2026-07-21T10:34:41.4626639Z Working directory is '/home/runner/work/accented/accented'
+2026-07-21T10:34:41.4627794Z [command]/usr/bin/git version
+2026-07-21T10:34:41.4707641Z git version 2.54.0
+2026-07-21T10:34:41.4730535Z ##[endgroup]
+2026-07-21T10:34:41.4742600Z Temporarily overriding HOME='/home/runner/work/_temp/6e11224f-9127-4896-bae4-049424ce60b1' before making global git config changes
+2026-07-21T10:34:41.4744925Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-21T10:34:41.4748449Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-07-21T10:34:41.4799673Z Deleting the contents of '/home/runner/work/accented/accented'
+2026-07-21T10:34:41.4804508Z ##[group]Determining repository object format
+2026-07-21T10:34:41.4806177Z ##[endgroup]
+2026-07-21T10:34:41.4807439Z ##[group]Initializing the repository
+2026-07-21T10:34:41.4811794Z [command]/usr/bin/git init /home/runner/work/accented/accented
+2026-07-21T10:34:41.4954816Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-07-21T10:34:41.4956453Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-07-21T10:34:41.4958148Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-07-21T10:34:41.4959404Z hint: call:
+2026-07-21T10:34:41.4959811Z hint:
+2026-07-21T10:34:41.4960468Z hint: 	git config --global init.defaultBranch <name>
+2026-07-21T10:34:41.4961897Z hint:
+2026-07-21T10:34:41.4962985Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-07-21T10:34:41.4964108Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-07-21T10:34:41.4964862Z hint:
+2026-07-21T10:34:41.4965290Z hint: 	git branch -m <name>
+2026-07-21T10:34:41.4965761Z hint:
+2026-07-21T10:34:41.4966375Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-07-21T10:34:41.4967376Z Initialized empty Git repository in /home/runner/work/accented/accented/.git/
+2026-07-21T10:34:41.4975149Z [command]/usr/bin/git remote add origin https://github.com/pomerantsev/accented
+2026-07-21T10:34:41.5025302Z ##[endgroup]
+2026-07-21T10:34:41.5026084Z ##[group]Disabling automatic garbage collection
+2026-07-21T10:34:41.5030412Z [command]/usr/bin/git config --local gc.auto 0
+2026-07-21T10:34:41.5066725Z ##[endgroup]
+2026-07-21T10:34:41.5068003Z ##[group]Setting up auth
+2026-07-21T10:34:41.5068995Z Removing SSH command configuration
+2026-07-21T10:34:41.5074301Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-21T10:34:41.5113124Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-21T10:34:41.5480516Z Removing HTTP extra header
+2026-07-21T10:34:41.5505394Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-21T10:34:41.5527732Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-21T10:34:41.5777436Z Removing includeIf entries pointing to credentials config files
+2026-07-21T10:34:41.5783724Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-21T10:34:41.5818594Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-21T10:34:41.6057654Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-07-21T10:34:41.6103195Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git.path /home/runner/work/_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:41.6136590Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:41.6174398Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:41.6211863Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:41.6240109Z ##[endgroup]
+2026-07-21T10:34:41.6241723Z ##[group]Fetching the repository
+2026-07-21T10:34:41.6248527Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4ce50a3a26fc2233e7fe8ac0bdd028ebd13017bc:refs/remotes/origin/dependabot/npm_and_yarn/astro-7.1.0
+2026-07-21T10:34:42.2514990Z From https://github.com/pomerantsev/accented
+2026-07-21T10:34:42.2517875Z  * [new ref]         4ce50a3a26fc2233e7fe8ac0bdd028ebd13017bc -> origin/dependabot/npm_and_yarn/astro-7.1.0
+2026-07-21T10:34:42.2565313Z [command]/usr/bin/git branch --list --remote origin/dependabot/npm_and_yarn/astro-7.1.0
+2026-07-21T10:34:42.2599166Z   origin/dependabot/npm_and_yarn/astro-7.1.0
+2026-07-21T10:34:42.2610162Z [command]/usr/bin/git rev-parse refs/remotes/origin/dependabot/npm_and_yarn/astro-7.1.0
+2026-07-21T10:34:42.2636683Z 4ce50a3a26fc2233e7fe8ac0bdd028ebd13017bc
+2026-07-21T10:34:42.2650561Z ##[endgroup]
+2026-07-21T10:34:42.2652281Z ##[group]Determining the checkout info
+2026-07-21T10:34:42.2653802Z ##[endgroup]
+2026-07-21T10:34:42.2665058Z [command]/usr/bin/git sparse-checkout disable
+2026-07-21T10:34:42.2709811Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-07-21T10:34:42.2743833Z ##[group]Checking out the ref
+2026-07-21T10:34:42.2748720Z [command]/usr/bin/git checkout --progress --force -B dependabot/npm_and_yarn/astro-7.1.0 refs/remotes/origin/dependabot/npm_and_yarn/astro-7.1.0
+2026-07-21T10:34:42.3026402Z Switched to a new branch 'dependabot/npm_and_yarn/astro-7.1.0'
+2026-07-21T10:34:42.3031873Z branch 'dependabot/npm_and_yarn/astro-7.1.0' set up to track 'origin/dependabot/npm_and_yarn/astro-7.1.0'.
+2026-07-21T10:34:42.3037023Z ##[endgroup]
+2026-07-21T10:34:42.3084044Z [command]/usr/bin/git log -1 --format=%H
+2026-07-21T10:34:42.3109675Z 4ce50a3a26fc2233e7fe8ac0bdd028ebd13017bc
+2026-07-21T10:34:42.3458045Z Prepare all required actions
+2026-07-21T10:34:42.3459248Z Getting action download info
+2026-07-21T10:34:42.4422942Z Download action repository 'actions/setup-node@v6' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+2026-07-21T10:34:42.8932841Z ##[group]Run ./.github/actions/setup
+2026-07-21T10:34:42.8933823Z ##[endgroup]
+2026-07-21T10:34:42.9203049Z ##[group]Run actions/setup-node@v6
+2026-07-21T10:34:42.9203948Z with:
+2026-07-21T10:34:42.9204693Z   node-version: 24
+2026-07-21T10:34:42.9205552Z   registry-url: https://registry.npmjs.org
+2026-07-21T10:34:42.9206458Z   check-latest: false
+2026-07-21T10:34:42.9210166Z   token: ***
+2026-07-21T10:34:42.9210985Z   package-manager-cache: true
+2026-07-21T10:34:42.9212036Z ##[endgroup]
+2026-07-21T10:34:43.0698592Z Found in cache @ /opt/hostedtoolcache/node/24.18.0/x64
+2026-07-21T10:34:43.0702354Z ##[group]Environment details
+2026-07-21T10:34:43.5237831Z node: v24.18.0
+2026-07-21T10:34:43.5239784Z npm: 11.16.0
+2026-07-21T10:34:43.5241783Z yarn: 1.22.22
+2026-07-21T10:34:43.5244657Z ##[endgroup]
+2026-07-21T10:34:43.5405592Z ##[group]Run npm install -g pnpm
+2026-07-21T10:34:43.5406597Z [36;1mnpm install -g pnpm[0m
+2026-07-21T10:34:43.5498924Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-07-21T10:34:43.5499912Z env:
+2026-07-21T10:34:43.5500754Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-07-21T10:34:43.5502003Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-07-21T10:34:43.5502876Z ##[endgroup]
+2026-07-21T10:34:46.2053541Z 
+2026-07-21T10:34:46.2063898Z added 1 package in 3s
+2026-07-21T10:34:46.2064459Z 
+2026-07-21T10:34:46.2064889Z 1 package is looking for funding
+2026-07-21T10:34:46.2065514Z   run `npm fund` for details
+2026-07-21T10:34:46.2508328Z ##[group]Run pnpm install
+2026-07-21T10:34:46.2508630Z [36;1mpnpm install[0m
+2026-07-21T10:34:46.2569339Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-07-21T10:34:46.2569692Z env:
+2026-07-21T10:34:46.2569961Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-07-21T10:34:46.2570311Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-07-21T10:34:46.2570588Z ##[endgroup]
+2026-07-21T10:34:46.8875302Z Scope: all 6 workspace projects
+2026-07-21T10:34:47.0539662Z ? Verifying lockfile against supply-chain policies (1692 entries)...
+2026-07-21T10:34:47.0656774Z Lockfile is up to date, resolution step is skipped
+2026-07-21T10:34:47.2132310Z Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-07-21T10:34:47.3685859Z Packages: +1437
+2026-07-21T10:34:47.3686740Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-07-21T10:34:48.2236466Z Progress: resolved 1437, reused 0, downloaded 0, added 0
+2026-07-21T10:34:49.8797710Z Progress: resolved 1437, reused 0, downloaded 1, added 0
+2026-07-21T10:34:50.8798230Z Progress: resolved 1437, reused 0, downloaded 85, added 4
+2026-07-21T10:34:51.8813207Z Progress: resolved 1437, reused 0, downloaded 196, added 12
+2026-07-21T10:34:52.8813490Z Progress: resolved 1437, reused 0, downloaded 443, added 32
+2026-07-21T10:34:53.8896801Z Progress: resolved 1437, reused 0, downloaded 656, added 48
+2026-07-21T10:34:54.1223485Z ✗ Lockfile failed supply-chain policy check (1692 entries in 7s)
+2026-07-21T10:34:54.8909568Z Progress: resolved 1437, reused 0, downloaded 1064, added 82
+2026-07-21T10:34:55.8922948Z Progress: resolved 1437, reused 0, downloaded 1436, added 177
+2026-07-21T10:34:56.8935006Z Progress: resolved 1437, reused 0, downloaded 1437, added 1434
+2026-07-21T10:34:56.9783685Z Progress: resolved 1437, reused 0, downloaded 1437, added 1437, done
+2026-07-21T10:34:57.0485092Z [ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION] 4 lockfile entries failed verification:
+2026-07-21T10:34:57.0486486Z   devalue@5.8.2 was published at 2026-07-20T15:16:14.000Z, within the minimumReleaseAge cutoff (2026-07-18T10:34:46.913Z)
+2026-07-21T10:34:57.0487976Z   p-limit@7.3.1 was published at 2026-07-20T20:18:51.305Z, within the minimumReleaseAge cutoff (2026-07-18T10:34:46.913Z)
+2026-07-21T10:34:57.0490001Z   p-queue@9.3.2 was published at 2026-07-20T22:32:09.141Z, within the minimumReleaseAge cutoff (2026-07-18T10:34:46.913Z)
+2026-07-21T10:34:57.0491837Z   package-manager-detector@1.8.0 was published at 2026-07-21T10:02:49.000Z, within the minimumReleaseAge cutoff (2026-07-18T10:34:46.913Z)
+2026-07-21T10:34:57.0492729Z 
+2026-07-21T10:34:57.0496539Z The lockfile contains entries that the active policies reject. This can mean the lockfile is stale, or that someone committed a lockfile that bypassed the policy locally — inspect recent changes to pnpm-lock.yaml before trusting it. If the changes look expected, run "pnpm clean --lockfile" and then "pnpm install" to rebuild from a fresh resolution. Alternatively, relax the policy that flagged them.
+2026-07-21T10:34:57.2564385Z ##[error]Process completed with exit code 1.
+2026-07-21T10:34:57.2717144Z Post job cleanup.
+2026-07-21T10:34:57.2805028Z Post job cleanup.
+2026-07-21T10:34:57.3659660Z [command]/usr/bin/git version
+2026-07-21T10:34:57.3700946Z git version 2.54.0
+2026-07-21T10:34:57.3739330Z Temporarily overriding HOME='/home/runner/work/_temp/bdf8ac83-3fa9-433d-a393-00e668a5f7f1' before making global git config changes
+2026-07-21T10:34:57.3741028Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-21T10:34:57.3745362Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-07-21T10:34:57.3780212Z Removing SSH command configuration
+2026-07-21T10:34:57.3786547Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-21T10:34:57.3832339Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-21T10:34:57.4062926Z Removing HTTP extra header
+2026-07-21T10:34:57.4068423Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-21T10:34:57.4104326Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-21T10:34:57.4334203Z Removing includeIf entries pointing to credentials config files
+2026-07-21T10:34:57.4340536Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-21T10:34:57.4368073Z includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-07-21T10:34:57.4369232Z includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-07-21T10:34:57.4370198Z includeif.gitdir:/github/workspace/.git.path
+2026-07-21T10:34:57.4371046Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-07-21T10:34:57.4377783Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-07-21T10:34:57.4400236Z /home/runner/work/_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:57.4410718Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-c100e7d2\-2d5a\-45d0\-b028\-7dec45f89a27\.config
+2026-07-21T10:34:57.4446389Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-07-21T10:34:57.4468607Z /home/runner/work/_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:57.4477950Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-c100e7d2\-2d5a\-45d0\-b028\-7dec45f89a27\.config
+2026-07-21T10:34:57.4509598Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-07-21T10:34:57.4535702Z /github/runner_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:57.4542980Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-c100e7d2\-2d5a\-45d0\-b028\-7dec45f89a27\.config
+2026-07-21T10:34:57.4577404Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-07-21T10:34:57.4599322Z /github/runner_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config
+2026-07-21T10:34:57.4607994Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-c100e7d2\-2d5a\-45d0\-b028\-7dec45f89a27\.config
+2026-07-21T10:34:57.4639305Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-21T10:34:57.4866873Z Removing credentials config '/home/runner/work/_temp/git-credentials-c100e7d2-2d5a-45d0-b028-7dec45f89a27.config'
+2026-07-21T10:34:57.5008322Z Cleaning up orphan processes

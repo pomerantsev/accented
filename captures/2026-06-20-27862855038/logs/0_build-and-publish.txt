@@ -1,0 +1,439 @@
+﻿2026-06-20T06:26:34.1009530Z Current runner version: '2.335.1'
+2026-06-20T06:26:34.1036327Z ##[group]Runner Image Provisioner
+2026-06-20T06:26:34.1037417Z Hosted Compute Agent
+2026-06-20T06:26:34.1038074Z Version: 20260611.554
+2026-06-20T06:26:34.1038796Z Commit: 5e0782fdc9014723d3be820dd114dd31555c2bd1
+2026-06-20T06:26:34.1039568Z Build Date: 2026-06-11T21:40:46Z
+2026-06-20T06:26:34.1040459Z Worker ID: {3b99229b-37d8-4276-bf97-4958626400c1}
+2026-06-20T06:26:34.1041309Z Azure Region: eastus
+2026-06-20T06:26:34.1041913Z ##[endgroup]
+2026-06-20T06:26:34.1043423Z ##[group]Operating System
+2026-06-20T06:26:34.1044102Z Ubuntu
+2026-06-20T06:26:34.1044669Z 24.04.4
+2026-06-20T06:26:34.1045309Z LTS
+2026-06-20T06:26:34.1045942Z ##[endgroup]
+2026-06-20T06:26:34.1046512Z ##[group]Runner Image
+2026-06-20T06:26:34.1047209Z Image: ubuntu-24.04
+2026-06-20T06:26:34.1047892Z Version: 20260615.205.1
+2026-06-20T06:26:34.1049639Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260615.205/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-20T06:26:34.1051362Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260615.205
+2026-06-20T06:26:34.1052492Z ##[endgroup]
+2026-06-20T06:26:34.1053735Z ##[group]GITHUB_TOKEN Permissions
+2026-06-20T06:26:34.1056048Z Contents: read
+2026-06-20T06:26:34.1056694Z Metadata: read
+2026-06-20T06:26:34.1057382Z Packages: read
+2026-06-20T06:26:34.1057977Z ##[endgroup]
+2026-06-20T06:26:34.1060796Z Secret source: Actions
+2026-06-20T06:26:34.1062003Z Prepare workflow directory
+2026-06-20T06:26:34.1387989Z Prepare all required actions
+2026-06-20T06:26:34.1426008Z Getting action download info
+2026-06-20T06:26:34.3724832Z Download action repository 'actions/checkout@v6' (SHA:df4cb1c069e1874edd31b4311f1884172cec0e10)
+2026-06-20T06:26:34.5294421Z Complete job name: build-and-publish
+2026-06-20T06:26:34.6141629Z ##[group]Run actions/checkout@v6
+2026-06-20T06:26:34.6142453Z with:
+2026-06-20T06:26:34.6142916Z   repository: pomerantsev/accented
+2026-06-20T06:26:34.6147502Z   token: ***
+2026-06-20T06:26:34.6147974Z   ssh-strict: true
+2026-06-20T06:26:34.6148426Z   ssh-user: git
+2026-06-20T06:26:34.6148882Z   persist-credentials: true
+2026-06-20T06:26:34.6149379Z   clean: true
+2026-06-20T06:26:34.6149836Z   sparse-checkout-cone-mode: true
+2026-06-20T06:26:34.6150527Z   fetch-depth: 1
+2026-06-20T06:26:34.6150973Z   fetch-tags: false
+2026-06-20T06:26:34.6151423Z   show-progress: true
+2026-06-20T06:26:34.6151883Z   lfs: false
+2026-06-20T06:26:34.6152306Z   submodules: false
+2026-06-20T06:26:34.6152763Z   set-safe-directory: true
+2026-06-20T06:26:34.6153451Z ##[endgroup]
+2026-06-20T06:26:34.7139897Z Syncing repository: pomerantsev/accented
+2026-06-20T06:26:34.7142144Z ##[group]Getting Git version info
+2026-06-20T06:26:34.7142890Z Working directory is '/home/runner/work/accented/accented'
+2026-06-20T06:26:34.7144043Z [command]/usr/bin/git version
+2026-06-20T06:26:34.7186527Z git version 2.54.0
+2026-06-20T06:26:34.7239667Z ##[endgroup]
+2026-06-20T06:26:34.7253757Z Temporarily overriding HOME='/home/runner/work/_temp/2511df93-25c6-4e08-b15a-9d1880d3fb42' before making global git config changes
+2026-06-20T06:26:34.7255943Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-20T06:26:34.7259070Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-06-20T06:26:34.7303273Z Deleting the contents of '/home/runner/work/accented/accented'
+2026-06-20T06:26:34.7307335Z ##[group]Determining repository object format
+2026-06-20T06:26:34.7309509Z ##[endgroup]
+2026-06-20T06:26:34.7310803Z ##[group]Initializing the repository
+2026-06-20T06:26:34.7314917Z [command]/usr/bin/git init /home/runner/work/accented/accented
+2026-06-20T06:26:34.7391603Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-20T06:26:34.7393135Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-20T06:26:34.7394114Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-20T06:26:34.7395554Z hint: call:
+2026-06-20T06:26:34.7395984Z hint:
+2026-06-20T06:26:34.7396509Z hint: 	git config --global init.defaultBranch <name>
+2026-06-20T06:26:34.7397480Z hint:
+2026-06-20T06:26:34.7398308Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-20T06:26:34.7399782Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-20T06:26:34.7401045Z hint:
+2026-06-20T06:26:34.7401714Z hint: 	git branch -m <name>
+2026-06-20T06:26:34.7402300Z hint:
+2026-06-20T06:26:34.7402938Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-20T06:26:34.7403999Z Initialized empty Git repository in /home/runner/work/accented/accented/.git/
+2026-06-20T06:26:34.7406386Z [command]/usr/bin/git remote add origin https://github.com/pomerantsev/accented
+2026-06-20T06:26:34.7443514Z ##[endgroup]
+2026-06-20T06:26:34.7444309Z ##[group]Disabling automatic garbage collection
+2026-06-20T06:26:34.7447575Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-20T06:26:34.7477899Z ##[endgroup]
+2026-06-20T06:26:34.7478846Z ##[group]Setting up auth
+2026-06-20T06:26:34.7479499Z Removing SSH command configuration
+2026-06-20T06:26:34.7486307Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-20T06:26:34.7521193Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-20T06:26:34.7830825Z Removing HTTP extra header
+2026-06-20T06:26:34.7836072Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-20T06:26:34.7867943Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-20T06:26:34.8089372Z Removing includeIf entries pointing to credentials config files
+2026-06-20T06:26:34.8094881Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-20T06:26:34.8125349Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-20T06:26:34.8358898Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-20T06:26:34.8394700Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git.path /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:34.8425079Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:34.8459665Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:34.8491818Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:34.8519002Z ##[endgroup]
+2026-06-20T06:26:34.8520373Z ##[group]Fetching the repository
+2026-06-20T06:26:34.8529425Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a76f957f16ae28a09a77616e2b24e387b59eade0:refs/remotes/origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+2026-06-20T06:26:35.1039447Z From https://github.com/pomerantsev/accented
+2026-06-20T06:26:35.1042039Z  * [new ref]         a76f957f16ae28a09a77616e2b24e387b59eade0 -> origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+2026-06-20T06:26:35.1081898Z [command]/usr/bin/git branch --list --remote origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+2026-06-20T06:26:35.1121415Z   origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+2026-06-20T06:26:35.1130313Z [command]/usr/bin/git rev-parse refs/remotes/origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+2026-06-20T06:26:35.1155704Z a76f957f16ae28a09a77616e2b24e387b59eade0
+2026-06-20T06:26:35.1161161Z ##[endgroup]
+2026-06-20T06:26:35.1162448Z ##[group]Determining the checkout info
+2026-06-20T06:26:35.1163729Z ##[endgroup]
+2026-06-20T06:26:35.1167936Z [command]/usr/bin/git sparse-checkout disable
+2026-06-20T06:26:35.1216469Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-20T06:26:35.1245837Z ##[group]Checking out the ref
+2026-06-20T06:26:35.1252510Z [command]/usr/bin/git checkout --progress --force -B dependabot/npm_and_yarn/biomejs/biome-2.5.0 refs/remotes/origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+2026-06-20T06:26:35.1545740Z Switched to a new branch 'dependabot/npm_and_yarn/biomejs/biome-2.5.0'
+2026-06-20T06:26:35.1547763Z branch 'dependabot/npm_and_yarn/biomejs/biome-2.5.0' set up to track 'origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0'.
+2026-06-20T06:26:35.1557220Z ##[endgroup]
+2026-06-20T06:26:35.1599411Z [command]/usr/bin/git log -1 --format=%H
+2026-06-20T06:26:35.1624994Z a76f957f16ae28a09a77616e2b24e387b59eade0
+2026-06-20T06:26:35.1943512Z Prepare all required actions
+2026-06-20T06:26:35.1944338Z Getting action download info
+2026-06-20T06:26:35.2414357Z Download action repository 'actions/setup-node@v6' (SHA:48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e)
+2026-06-20T06:26:35.3421318Z ##[group]Run ./.github/actions/setup
+2026-06-20T06:26:35.3421948Z ##[endgroup]
+2026-06-20T06:26:35.3670565Z ##[group]Run actions/setup-node@v6
+2026-06-20T06:26:35.3671207Z with:
+2026-06-20T06:26:35.3671663Z   node-version: 24
+2026-06-20T06:26:35.3672212Z   registry-url: https://registry.npmjs.org
+2026-06-20T06:26:35.3672839Z   check-latest: false
+2026-06-20T06:26:35.3677686Z   token: ***
+2026-06-20T06:26:35.3678211Z   package-manager-cache: true
+2026-06-20T06:26:35.3678802Z ##[endgroup]
+2026-06-20T06:26:35.5235748Z Found in cache @ /opt/hostedtoolcache/node/24.16.0/x64
+2026-06-20T06:26:35.5239989Z ##[group]Environment details
+2026-06-20T06:26:35.8717438Z node: v24.16.0
+2026-06-20T06:26:35.8718983Z npm: 11.13.0
+2026-06-20T06:26:35.8720899Z yarn: 1.22.22
+2026-06-20T06:26:35.8722704Z ##[endgroup]
+2026-06-20T06:26:35.8907283Z ##[group]Run npm install -g pnpm
+2026-06-20T06:26:35.8908790Z [36;1mnpm install -g pnpm[0m
+2026-06-20T06:26:35.9061674Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-06-20T06:26:35.9063372Z env:
+2026-06-20T06:26:35.9064632Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-20T06:26:35.9066323Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-20T06:26:35.9067692Z ##[endgroup]
+2026-06-20T06:26:37.0563514Z 
+2026-06-20T06:26:37.0569376Z added 1 package in 1s
+2026-06-20T06:26:37.0570019Z 
+2026-06-20T06:26:37.0570824Z 1 package is looking for funding
+2026-06-20T06:26:37.0571272Z   run `npm fund` for details
+2026-06-20T06:26:37.1004231Z ##[group]Run pnpm install
+2026-06-20T06:26:37.1004606Z [36;1mpnpm install[0m
+2026-06-20T06:26:37.1042427Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-06-20T06:26:37.1042841Z env:
+2026-06-20T06:26:37.1043196Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-20T06:26:37.1043610Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-20T06:26:37.1043946Z ##[endgroup]
+2026-06-20T06:26:37.6911322Z Scope: all 6 workspace projects
+2026-06-20T06:26:37.8472131Z ? Verifying lockfile against supply-chain policies (1639 entries)...
+2026-06-20T06:26:37.8603377Z Lockfile is up to date, resolution step is skipped
+2026-06-20T06:26:37.9855094Z Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-06-20T06:26:38.0939853Z Packages: +1427
+2026-06-20T06:26:38.0940738Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-20T06:26:39.0028485Z Progress: resolved 1427, reused 0, downloaded 27, added 0
+2026-06-20T06:26:40.0032466Z Progress: resolved 1427, reused 0, downloaded 169, added 11
+2026-06-20T06:26:41.0195397Z Progress: resolved 1427, reused 0, downloaded 257, added 16
+2026-06-20T06:26:42.0197506Z Progress: resolved 1427, reused 0, downloaded 419, added 28
+2026-06-20T06:26:43.0208438Z Progress: resolved 1427, reused 0, downloaded 580, added 40
+2026-06-20T06:26:44.0322153Z Progress: resolved 1427, reused 0, downloaded 841, added 60
+2026-06-20T06:26:45.0348196Z Progress: resolved 1427, reused 0, downloaded 1133, added 84
+2026-06-20T06:26:45.4789506Z ✓ Lockfile passes supply-chain policies (1639 entries in 7.6s)
+2026-06-20T06:26:46.0348691Z Progress: resolved 1427, reused 0, downloaded 1427, added 566
+2026-06-20T06:26:46.6257923Z Progress: resolved 1427, reused 0, downloaded 1427, added 1427, done
+2026-06-20T06:26:47.5020364Z .../node_modules/unix-dgram install$ node-gyp rebuild
+2026-06-20T06:26:47.5033450Z .../node_modules/@parcel/watcher install$ node scripts/build-from-source.js
+2026-06-20T06:26:47.5398858Z .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+2026-06-20T06:26:47.5411378Z .../esbuild@0.28.0/node_modules/esbuild postinstall$ node install.js
+2026-06-20T06:26:47.5421907Z .../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js
+2026-06-20T06:26:47.5986058Z .../node_modules/unix-dgram install: gyp info it worked if it ends with ok
+2026-06-20T06:26:47.6001372Z .../node_modules/unix-dgram install: gyp info using node-gyp@12.4.0
+2026-06-20T06:26:47.6052701Z .../node_modules/unix-dgram install: gyp info using node@24.16.0 | linux | x64
+2026-06-20T06:26:47.6080949Z .../node_modules/@parcel/watcher install: Done
+2026-06-20T06:26:47.6271202Z .../sharp@0.34.5/node_modules/sharp install$ node install/check.js || npm run build
+2026-06-20T06:26:47.6646767Z .../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+2026-06-20T06:26:47.6777038Z .../esbuild@0.28.0/node_modules/esbuild postinstall: Done
+2026-06-20T06:26:47.6971050Z .../node_modules/unix-dgram install: gyp info find Python using Python version 3.12.3 found at "/usr/bin/python3"
+2026-06-20T06:26:47.7060653Z .../esbuild@0.18.20/node_modules/esbuild postinstall: Done
+2026-06-20T06:26:47.7341581Z .../esbuild@0.27.7/node_modules/esbuild postinstall$ node install.js
+2026-06-20T06:26:47.7857312Z .../sharp@0.34.5/node_modules/sharp install: Done
+2026-06-20T06:26:47.8282865Z .../node_modules/unix-dgram install: gyp http GET https://nodejs.org/download/release/v24.16.0/node-v24.16.0-headers.tar.gz
+2026-06-20T06:26:47.8433050Z .../esbuild@0.27.7/node_modules/esbuild postinstall: Done
+2026-06-20T06:26:47.8889879Z .../node_modules/unix-dgram install: gyp http 200 https://nodejs.org/download/release/v24.16.0/node-v24.16.0-headers.tar.gz
+2026-06-20T06:26:50.0696911Z .../node_modules/unix-dgram install: gyp http GET https://nodejs.org/download/release/v24.16.0/SHASUMS256.txt
+2026-06-20T06:26:50.1018845Z .../node_modules/unix-dgram install: gyp http 200 https://nodejs.org/download/release/v24.16.0/SHASUMS256.txt
+2026-06-20T06:26:50.7033875Z .../node_modules/unix-dgram install: gyp info spawn /usr/bin/python3
+2026-06-20T06:26:50.7041083Z .../node_modules/unix-dgram install: gyp info spawn args [
+2026-06-20T06:26:50.7042846Z .../node_modules/unix-dgram install: gyp info spawn args '/opt/hostedtoolcache/node/24.16.0/x64/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp_main.py',
+2026-06-20T06:26:50.7044459Z .../node_modules/unix-dgram install: gyp info spawn args 'binding.gyp',
+2026-06-20T06:26:50.7045437Z .../node_modules/unix-dgram install: gyp info spawn args '-f',
+2026-06-20T06:26:50.7046305Z .../node_modules/unix-dgram install: gyp info spawn args 'make',
+2026-06-20T06:26:50.7047207Z .../node_modules/unix-dgram install: gyp info spawn args '-I',
+2026-06-20T06:26:50.7049214Z .../node_modules/unix-dgram install: gyp info spawn args '/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram/build/config.gypi',
+2026-06-20T06:26:50.7051673Z .../node_modules/unix-dgram install: gyp info spawn args '-I',
+2026-06-20T06:26:50.7053283Z .../node_modules/unix-dgram install: gyp info spawn args '/opt/hostedtoolcache/node/24.16.0/x64/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi',
+2026-06-20T06:26:50.7055153Z .../node_modules/unix-dgram install: gyp info spawn args '-I',
+2026-06-20T06:26:50.7056477Z .../node_modules/unix-dgram install: gyp info spawn args '/home/runner/.cache/node-gyp/24.16.0/include/node/common.gypi',
+2026-06-20T06:26:50.7057877Z .../node_modules/unix-dgram install: gyp info spawn args '-Dlibrary=shared_library',
+2026-06-20T06:26:50.7059139Z .../node_modules/unix-dgram install: gyp info spawn args '-Dvisibility=default',
+2026-06-20T06:26:50.7060856Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_root_dir=/home/runner/.cache/node-gyp/24.16.0',
+2026-06-20T06:26:50.7062934Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_gyp_dir=/opt/hostedtoolcache/node/24.16.0/x64/lib/node_modules/pnpm/dist/node_modules/node-gyp',
+2026-06-20T06:26:50.7065056Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_lib_file=/home/runner/.cache/node-gyp/24.16.0/<(target_arch)/node.lib',
+2026-06-20T06:26:50.7067690Z .../node_modules/unix-dgram install: gyp info spawn args '-Dmodule_root_dir=/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram',
+2026-06-20T06:26:50.7069505Z .../node_modules/unix-dgram install: gyp info spawn args '-Dnode_engine=v8',
+2026-06-20T06:26:50.7070862Z .../node_modules/unix-dgram install: gyp info spawn args '--depth=.',
+2026-06-20T06:26:50.7071999Z .../node_modules/unix-dgram install: gyp info spawn args '--no-parallel',
+2026-06-20T06:26:50.7073180Z .../node_modules/unix-dgram install: gyp info spawn args '--generator-output',
+2026-06-20T06:26:50.7074432Z .../node_modules/unix-dgram install: gyp info spawn args 'build',
+2026-06-20T06:26:50.7075557Z .../node_modules/unix-dgram install: gyp info spawn args '-Goutput_dir=.'
+2026-06-20T06:26:50.7076667Z .../node_modules/unix-dgram install: gyp info spawn args ]
+2026-06-20T06:26:50.8885814Z .../node_modules/unix-dgram install: gyp info spawn make
+2026-06-20T06:26:50.8886958Z .../node_modules/unix-dgram install: gyp info spawn args [ 'BUILDTYPE=Release', '-C', 'build' ]
+2026-06-20T06:26:50.8897552Z .../node_modules/unix-dgram install: make: Entering directory '/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram/build'
+2026-06-20T06:26:50.8920452Z .../node_modules/unix-dgram install:   CXX(target) Release/obj.target/unix_dgram/src/unix_dgram.o
+2026-06-20T06:26:51.9124705Z .../node_modules/unix-dgram install: In file included from ../../../../nan@2.27.0/node_modules/nan/nan.h:67,
+2026-06-20T06:26:51.9126062Z .../node_modules/unix-dgram install:                  from ../src/unix_dgram.cc:5:
+2026-06-20T06:26:51.9272237Z .../node_modules/unix-dgram install: /home/runner/.cache/node-gyp/24.16.0/include/node/node.h:1358:7: warning: cast between incompatible function types from ‘void (*)(v8::Local<v8::Object>)’ to ‘node::addon_register_func’ {aka ‘void (*)(v8::Local<v8::Object>, v8::Local<v8::Value>, void*)’} [-Wcast-function-type]
+2026-06-20T06:26:51.9274887Z .../node_modules/unix-dgram install:  1358 |       (node::addon_register_func) (regfunc),                          \
+2026-06-20T06:26:51.9276066Z .../node_modules/unix-dgram install:       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-06-20T06:26:51.9277782Z .../node_modules/unix-dgram install: /home/runner/.cache/node-gyp/24.16.0/include/node/node.h:1392:3: note: in expansion of macro ‘NODE_MODULE_X’
+2026-06-20T06:26:51.9279457Z .../node_modules/unix-dgram install:  1392 |   NODE_MODULE_X(modname, regfunc, NULL, 0)  // NOLINT (readability/null_usage)
+2026-06-20T06:26:51.9280691Z .../node_modules/unix-dgram install:       |   ^~~~~~~~~~~~~
+2026-06-20T06:26:51.9281930Z .../node_modules/unix-dgram install: ../src/unix_dgram.cc:404:1: note: in expansion of macro ‘NODE_MODULE’
+2026-06-20T06:26:51.9283075Z .../node_modules/unix-dgram install:   404 | NODE_MODULE(unix_dgram, Initialize)
+2026-06-20T06:26:51.9283911Z .../node_modules/unix-dgram install:       | ^~~~~~~~~~~
+2026-06-20T06:26:52.3643851Z .../node_modules/unix-dgram install:   SOLINK_MODULE(target) Release/obj.target/unix_dgram.node
+2026-06-20T06:26:52.4195927Z .../node_modules/unix-dgram install:   COPY Release/unix_dgram.node
+2026-06-20T06:26:52.4237929Z .../node_modules/unix-dgram install: make: Leaving directory '/home/runner/work/accented/accented/node_modules/.pnpm/unix-dgram@2.0.7/node_modules/unix-dgram/build'
+2026-06-20T06:26:52.4246909Z .../node_modules/unix-dgram install: gyp info ok 
+2026-06-20T06:26:52.4417648Z .../node_modules/unix-dgram install: Done
+2026-06-20T06:26:52.4511386Z .../node_modules/netlify-cli postinstall$ node ./scripts/postinstall.js
+2026-06-20T06:26:53.0964424Z .../node_modules/netlify-cli postinstall: ╭───────────────────────────────────── ⬥  ─────────────────────────────────────╮
+2026-06-20T06:26:53.0990017Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-20T06:26:53.0992385Z .../node_modules/netlify-cli postinstall: │                   Success! Netlify CLI has been installed!                   │
+2026-06-20T06:26:53.0995067Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-20T06:26:53.0997150Z .../node_modules/netlify-cli postinstall: │   You can now use Netlify CLI to develop, deploy, and manage your Netlify    │
+2026-06-20T06:26:53.0999317Z .../node_modules/netlify-cli postinstall: │                                  projects.                                   │
+2026-06-20T06:26:53.1001298Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-20T06:26:53.1003317Z .../node_modules/netlify-cli postinstall: │                             🚀 Now get building!                             │
+2026-06-20T06:26:53.1005276Z .../node_modules/netlify-cli postinstall: │                                                                              │
+2026-06-20T06:26:53.1007414Z .../node_modules/netlify-cli postinstall: ╰──────────────────────────────────────────────────────────────────────────────╯
+2026-06-20T06:26:53.1008831Z .../node_modules/netlify-cli postinstall: Next steps:
+2026-06-20T06:26:53.1010493Z .../node_modules/netlify-cli postinstall:   netlify login    Log in to your Netlify account
+2026-06-20T06:26:53.1011786Z .../node_modules/netlify-cli postinstall:   netlify init     Connect or create a Netlify project from the current directory
+2026-06-20T06:26:53.1013242Z .../node_modules/netlify-cli postinstall:   netlify deploy   Deploy the latest changes to your Netlify project
+2026-06-20T06:26:53.1014499Z .../node_modules/netlify-cli postinstall:   netlify help     Find out what else you can do 👀
+2026-06-20T06:26:53.1015909Z .../node_modules/netlify-cli postinstall: For more help with the CLI, visit https://developers.netlify.com/cli
+2026-06-20T06:26:53.1017051Z .../node_modules/netlify-cli postinstall: For help with Netlify, visit https://docs.netlify.com
+2026-06-20T06:26:53.1097973Z .../node_modules/netlify-cli postinstall: Done
+2026-06-20T06:26:53.3592434Z 
+2026-06-20T06:26:53.3592983Z devDependencies:
+2026-06-20T06:26:53.3593453Z + @biomejs/biome 2.5.0
+2026-06-20T06:26:53.3594009Z + @changesets/changelog-github 0.7.0
+2026-06-20T06:26:53.3594500Z + @changesets/cli 2.31.0
+2026-06-20T06:26:53.3594917Z + @playwright/test 1.60.0
+2026-06-20T06:26:53.3595303Z + @types/node 25.9.2
+2026-06-20T06:26:53.3595630Z + husky 9.1.7
+2026-06-20T06:26:53.3595977Z + lint-staged 17.0.7
+2026-06-20T06:26:53.3596321Z + rimraf 6.1.3
+2026-06-20T06:26:53.3596629Z + tsx 4.22.4
+2026-06-20T06:26:53.3596940Z + typescript 6.0.3
+2026-06-20T06:26:53.3597132Z 
+2026-06-20T06:26:53.3647370Z packages/accented prepare$ node ./scripts/copy-notice.ts
+2026-06-20T06:26:53.3927530Z . prepare$ husky
+2026-06-20T06:26:53.4458255Z packages/accented prepare: Done
+2026-06-20T06:26:53.4571066Z . prepare: Done
+2026-06-20T06:26:53.5111257Z Done in 16.3s using pnpm v11.8.0
+2026-06-20T06:26:53.6303410Z ##[group]Run pnpm biome check
+2026-06-20T06:26:53.6303720Z [36;1mpnpm biome check[0m
+2026-06-20T06:26:53.6338482Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-06-20T06:26:53.6338840Z env:
+2026-06-20T06:26:53.6339135Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+2026-06-20T06:26:53.6339485Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+2026-06-20T06:26:53.6339769Z ##[endgroup]
+2026-06-20T06:26:54.1056681Z /home/runner/work/accented/accented/biome.json:30:9 deserialize ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-06-20T06:26:54.1057385Z 
+2026-06-20T06:26:54.1057691Z   × Found an unknown key `noShadow`.
+2026-06-20T06:26:54.1058119Z   
+2026-06-20T06:26:54.1058463Z     28 │       },
+2026-06-20T06:26:54.1058883Z     29 │       "nursery": {
+2026-06-20T06:26:54.1059372Z   > 30 │         "noShadow": "error"
+2026-06-20T06:26:54.1059816Z        │         ^^^^^^^^^^
+2026-06-20T06:26:54.1060417Z     31 │       },
+2026-06-20T06:26:54.1060794Z     32 │       "style": {
+2026-06-20T06:26:54.1061194Z   
+2026-06-20T06:26:54.1061491Z   i Known keys:
+2026-06-20T06:26:54.1061794Z   
+2026-06-20T06:26:54.1062085Z   - recommended
+2026-06-20T06:26:54.1062462Z   - preset
+2026-06-20T06:26:54.1062780Z   - noBaseToString
+2026-06-20T06:26:54.1063531Z   - noComponentHookFactories
+2026-06-20T06:26:54.1063974Z   - noConditionalExpect
+2026-06-20T06:26:54.1064396Z   - noDrizzleDeleteWithoutWhere
+2026-06-20T06:26:54.1064858Z   - noDrizzleUpdateWithoutWhere
+2026-06-20T06:26:54.1065312Z   - noDuplicateFieldDefinitionNames
+2026-06-20T06:26:54.1065746Z   - noDuplicateSelectors
+2026-06-20T06:26:54.1066122Z   - noEmptyObjectKeys
+2026-06-20T06:26:54.1066537Z   - noExcessiveNestedCallbacks
+2026-06-20T06:26:54.1066981Z   - noExcessiveSelectorClasses
+2026-06-20T06:26:54.1067367Z   - noFloatingPromises
+2026-06-20T06:26:54.1067718Z   - noIdenticalTestTitle
+2026-06-20T06:26:54.1068077Z   - noImpliedEval
+2026-06-20T06:26:54.1068400Z   - noInlineStyles
+2026-06-20T06:26:54.1068729Z   - noJsxLeakedDollar
+2026-06-20T06:26:54.1069074Z   - noJsxNamespace
+2026-06-20T06:26:54.1069404Z   - noLoopFunc
+2026-06-20T06:26:54.1069750Z   - noMisleadingReturnType
+2026-06-20T06:26:54.1070299Z   - noMisusedPromises
+2026-06-20T06:26:54.1070672Z   - noPlaywrightElementHandle
+2026-06-20T06:26:54.1071084Z   - noPlaywrightEval
+2026-06-20T06:26:54.1071446Z   - noPlaywrightForceOption
+2026-06-20T06:26:54.1071849Z   - noPlaywrightMissingAwait
+2026-06-20T06:26:54.1072246Z   - noPlaywrightNetworkidle
+2026-06-20T06:26:54.1072631Z   - noPlaywrightPagePause
+2026-06-20T06:26:54.1073012Z   - noPlaywrightUselessAwait
+2026-06-20T06:26:54.1073450Z   - noPlaywrightWaitForNavigation
+2026-06-20T06:26:54.1073923Z   - noPlaywrightWaitForSelector
+2026-06-20T06:26:54.1074361Z   - noPlaywrightWaitForTimeout
+2026-06-20T06:26:54.1074768Z   - noReactNativeDeepImports
+2026-06-20T06:26:54.1075195Z   - noReactNativeLiteralColors
+2026-06-20T06:26:54.1075586Z   - noReactNativeRawText
+2026-06-20T06:26:54.1075956Z   - noReactStringRefs
+2026-06-20T06:26:54.1076312Z   - noRestrictedDependencies
+2026-06-20T06:26:54.1076698Z   - noTopLevelLiterals
+2026-06-20T06:26:54.1077053Z   - noUndeclaredClasses
+2026-06-20T06:26:54.1077469Z   - noUnnecessaryTemplateExpression
+2026-06-20T06:26:54.1077909Z   - noUnsafePlusOperands
+2026-06-20T06:26:54.1078285Z   - noUntrustedLicenses
+2026-06-20T06:26:54.1078659Z   - noUnusedClasses
+2026-06-20T06:26:54.1079007Z   - noUselessTypeConversion
+2026-06-20T06:26:54.1079402Z   - noVueImportCompilerMacros
+2026-06-20T06:26:54.1079802Z   - noVueRefAsOperand
+2026-06-20T06:26:54.1085721Z   - noVueVOnNumberValues
+2026-06-20T06:26:54.1086199Z   - useArraySome
+2026-06-20T06:26:54.1086549Z   - useAwaitThenable
+2026-06-20T06:26:54.1086911Z   - useBaseline
+2026-06-20T06:26:54.1087237Z   - useConsistentTestIt
+2026-06-20T06:26:54.1087602Z   - useDisposables
+2026-06-20T06:26:54.1087942Z   - useDomNodeTextContent
+2026-06-20T06:26:54.1088319Z   - useDomQuerySelector
+2026-06-20T06:26:54.1088720Z   - useExhaustiveSwitchCases
+2026-06-20T06:26:54.1089222Z   - useExpect
+2026-06-20T06:26:54.1089834Z   - useExplicitReturnType
+2026-06-20T06:26:54.1090513Z   - useExplicitType
+2026-06-20T06:26:54.1090855Z   - useIframeSandbox
+2026-06-20T06:26:54.1091191Z   - useImportsFirst
+2026-06-20T06:26:54.1091511Z   - useIncludes
+2026-06-20T06:26:54.1091833Z   - useMathMinMax
+2026-06-20T06:26:54.1092168Z   - useNamedCaptureGroup
+2026-06-20T06:26:54.1092543Z   - useNullishCoalescing
+2026-06-20T06:26:54.1092971Z   - usePlaywrightValidDescribeCallback
+2026-06-20T06:26:54.1093414Z   - useQwikLoaderLocation
+2026-06-20T06:26:54.1093838Z   - useReactAsyncServerFunction
+2026-06-20T06:26:54.1094298Z   - useReactFunctionComponentDefinition
+2026-06-20T06:26:54.1094806Z   - useReactNativePlatformComponents
+2026-06-20T06:26:54.1095282Z   - useReduceTypeParameter
+2026-06-20T06:26:54.1095637Z   - useRegexpExec
+2026-06-20T06:26:54.1095975Z   - useRegexpTest
+2026-06-20T06:26:54.1096272Z   - useScopedStyles
+2026-06-20T06:26:54.1096595Z   - useSortedClasses
+2026-06-20T06:26:54.1096969Z   - useStringStartsEndsWith
+2026-06-20T06:26:54.1097329Z   - useSvelteRequireEachKey
+2026-06-20T06:26:54.1097680Z   - useTestHooksInOrder
+2026-06-20T06:26:54.1098002Z   - useTestHooksOnTop
+2026-06-20T06:26:54.1098334Z   - useThisInClassMethods
+2026-06-20T06:26:54.1098980Z   - useUnicodeRegex
+2026-06-20T06:26:54.1099308Z   - useVarsOnTop
+2026-06-20T06:26:54.1099741Z   - useVueConsistentDefinePropsDeclaration
+2026-06-20T06:26:54.1100474Z   - useVueNextTickPromise
+2026-06-20T06:26:54.1100811Z   - useVueValidVFor
+2026-06-20T06:26:54.1101141Z   
+2026-06-20T06:26:54.1101298Z 
+2026-06-20T06:26:54.1102232Z /home/runner/work/accented/accented/biome.json:18:13 deserialize  DEPRECATED  ━━━━━━━━━━━━━━━━━━━━━━
+2026-06-20T06:26:54.1102891Z 
+2026-06-20T06:26:54.1103632Z   i The use of the recommended field has been deprecated, and will removed in the next major version of Biome. Use preset instead.
+2026-06-20T06:26:54.1104557Z   
+2026-06-20T06:26:54.1104958Z     16 │   },
+2026-06-20T06:26:54.1105626Z     17 │   "assist": { "actions": { "source": { "organizeImports": "on" } } },
+2026-06-20T06:26:54.1106298Z   > 18 │   "linter": {
+2026-06-20T06:26:54.1106682Z        │             ^
+2026-06-20T06:26:54.1107091Z   > 19 │     "enabled": true,
+2026-06-20T06:26:54.1107480Z         ...
+2026-06-20T06:26:54.1107835Z   > 40 │     }
+2026-06-20T06:26:54.1108189Z   > 41 │   },
+2026-06-20T06:26:54.1108538Z        │   ^
+2026-06-20T06:26:54.1108924Z     42 │   "javascript": {
+2026-06-20T06:26:54.1109356Z     43 │     "formatter": {
+2026-06-20T06:26:54.1109724Z   
+2026-06-20T06:26:54.1110396Z   i Migrate the configuration with the proper command
+2026-06-20T06:26:54.1110895Z   
+2026-06-20T06:26:54.1111179Z   $ biome migrate
+2026-06-20T06:26:54.1111483Z   
+2026-06-20T06:26:54.1111639Z 
+2026-06-20T06:26:54.1112390Z configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-06-20T06:26:54.1112921Z 
+2026-06-20T06:26:54.1113448Z   × Biome exited because the configuration resulted in errors. Please fix them.
+2026-06-20T06:26:54.1114163Z   
+2026-06-20T06:26:54.1114352Z 
+2026-06-20T06:26:54.1326466Z ##[error]Process completed with exit code 1.
+2026-06-20T06:26:54.1489152Z Post job cleanup.
+2026-06-20T06:26:54.1574333Z Post job cleanup.
+2026-06-20T06:26:54.2451409Z [command]/usr/bin/git version
+2026-06-20T06:26:54.2489277Z git version 2.54.0
+2026-06-20T06:26:54.2525821Z Temporarily overriding HOME='/home/runner/work/_temp/2736e950-8a04-4fc6-83c4-96ce304526af' before making global git config changes
+2026-06-20T06:26:54.2527207Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-20T06:26:54.2531184Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/accented/accented
+2026-06-20T06:26:54.2563955Z Removing SSH command configuration
+2026-06-20T06:26:54.2570500Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-20T06:26:54.2605780Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-20T06:26:54.2839006Z Removing HTTP extra header
+2026-06-20T06:26:54.2844380Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-20T06:26:54.2877425Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-20T06:26:54.3105829Z Removing includeIf entries pointing to credentials config files
+2026-06-20T06:26:54.3112153Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-20T06:26:54.3138653Z includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-06-20T06:26:54.3139619Z includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-06-20T06:26:54.3140827Z includeif.gitdir:/github/workspace/.git.path
+2026-06-20T06:26:54.3141557Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-06-20T06:26:54.3148804Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git.path
+2026-06-20T06:26:54.3171920Z /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3181968Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git.path /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3217539Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path
+2026-06-20T06:26:54.3240299Z /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3249027Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/accented/accented/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3281228Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-06-20T06:26:54.3303000Z /github/runner_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3310642Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3344142Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-06-20T06:26:54.3367352Z /github/runner_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3377756Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config
+2026-06-20T06:26:54.3418374Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-20T06:26:54.3660970Z Removing credentials config '/home/runner/work/_temp/git-credentials-6b930071-1c74-4735-a6a5-86a7301d351c.config'
+2026-06-20T06:26:54.3834489Z Cleaning up orphan processes

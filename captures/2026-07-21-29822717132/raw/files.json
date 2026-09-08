@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "25f36b6c28b97c28ae04a775af04486c42586434",
+    "filename": "packages/website/package.json",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/pomerantsev/accented/blob/fc23e83466136421bbfacaca716a7ae2cbe3311c/packages%2Fwebsite%2Fpackage.json",
+    "raw_url": "https://github.com/pomerantsev/accented/raw/fc23e83466136421bbfacaca716a7ae2cbe3311c/packages%2Fwebsite%2Fpackage.json",
+    "contents_url": "https://api.github.com/repos/pomerantsev/accented/contents/packages%2Fwebsite%2Fpackage.json?ref=fc23e83466136421bbfacaca716a7ae2cbe3311c",
+    "patch": "@@ -23,7 +23,7 @@\n     \"@fontsource-variable/ibm-plex-sans\": \"5.2.8\",\n     \"@fontsource-variable/lora\": \"5.2.8\",\n     \"@fontsource/ibm-plex-mono\": \"5.2.7\",\n-    \"astro\": \"7.0.9\",\n+    \"astro\": \"7.1.0\",\n     \"common\": \"workspace:*\",\n     \"drizzle-orm\": \"0.45.2\",\n     \"postgres\": \"3.4.9\","
+  }
+]

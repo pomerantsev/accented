@@ -52,15 +52,34 @@ export type CaptureOutcome =
   | 'expired' // logs past retention; nothing recoverable
   | 'failed'; // we did not get the artifact at all
 
+/**
+ * How the PR was found. Not cosmetic — the two mean different things.
+ * `head-branch`: the PR this run was testing (a Dependabot PR).
+ * `commit`: the PR that introduced the commit, for a run on `main` after merge.
+ */
+export type PrSource = 'head-branch' | 'commit' | null;
+
+interface PrRef {
+  number: number;
+  created_at: string;
+}
+
+/** Branch names get reused across reopens; take the most recent match. */
+function newestPr(refs: Array<PrRef>): number | null {
+  const newest = [...refs].sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+  return newest ? newest.number : null;
+}
+
 export interface CaptureResult {
   runId: number;
   outcome: CaptureOutcome;
   dir?: string;
   /** Present for 'failed' and 'expired'. */
   reason?: string;
-  /** How many open/closed PRs matched the branch. >1 means the branch was reused. */
+  /** How many open/closed PRs matched. >1 means the branch was reused. */
   prCandidates?: number;
   prNumber?: number | null;
+  prSource?: PrSource;
 }
 
 interface WorkflowRun {
@@ -82,28 +101,63 @@ class GhError extends Error {
   }
 }
 
+/**
+ * Retried once per doubling, up to ~30s total. Only for conditions that can
+ * plausibly succeed on a second attempt: rate limiting (primary or secondary)
+ * and 5xx. A 404 or 410 is definitive and returns immediately — retrying an
+ * expired log archive would multiply the backfill's runtime for no gain.
+ */
+const RETRY_DELAYS_MS = [2_000, 4_000, 8_000, 16_000];
+
+function isRetryable(error: GhError): boolean {
+  const text = error.stderr + error.message;
+  if (/HTTP 404|HTTP 410/i.test(text)) {
+    return false;
+  }
+  return /rate limit|secondary rate|HTTP 403|HTTP 429|HTTP 5\d\d|abuse/i.test(text);
+}
+
+function sleepSync(ms: number): void {
+  // Deliberately blocking: capture() is synchronous throughout, and the backfill
+  // is a sequential one-shot where simplicity beats concurrency.
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function runGh<T>(exec: () => T): T {
+  let lastError: GhError | undefined;
+  for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
+    try {
+      return exec();
+    } catch (error) {
+      const err = error as { stderr?: Buffer | string; message: string };
+      lastError = new GhError(err.message, String(err.stderr ?? ''));
+      const delay = RETRY_DELAYS_MS[attempt];
+      if (delay === undefined || !isRetryable(lastError)) {
+        throw lastError;
+      }
+      console.error(
+        `  retrying in ${delay / 1000}s: ${lastError.stderr.trim() || lastError.message}`,
+      );
+      sleepSync(delay);
+    }
+  }
+  throw lastError;
+}
+
 /** All gh calls run from the repo root so `{owner}/{repo}` resolves from the remote. */
 function gh(args: Array<string>): string {
-  try {
-    return execFileSync('gh', args, {
+  return runGh(() =>
+    execFileSync('gh', args, {
       cwd: REPO_ROOT,
       encoding: 'utf8',
       maxBuffer: 64 * 1024 * 1024,
-    });
-  } catch (error) {
-    const err = error as { stderr?: Buffer | string; message: string };
-    throw new GhError(err.message, String(err.stderr ?? ''));
-  }
+    }),
+  );
 }
 
 /** Binary variant, for the log archive. */
 function ghBinary(args: Array<string>): Buffer {
-  try {
-    return execFileSync('gh', args, { cwd: REPO_ROOT, maxBuffer: 256 * 1024 * 1024 });
-  } catch (error) {
-    const err = error as { stderr?: Buffer | string; message: string };
-    throw new GhError(err.message, String(err.stderr ?? ''));
-  }
+  return runGh(() => execFileSync('gh', args, { cwd: REPO_ROOT, maxBuffer: 256 * 1024 * 1024 }));
 }
 
 function ghJson<T>(path: string): T {
@@ -222,22 +276,37 @@ export function capture(runId: number): CaptureResult {
   );
 
   // Runs triggered by `push` carry an empty `pull_requests`, so the PR has to be
-  // resolved from the branch name. A branch that has since been deleted, or a run
-  // that was never on a PR, simply yields no pr.json / files.json.
-  const owner = run.head_branch ? repoOwner() : '';
+  // resolved indirectly. Two strategies, and which one worked is recorded, because
+  // they mean different things: 'head-branch' is the PR this run was testing;
+  // 'commit' is the PR that introduced the commit this run tested afterwards.
   let prNumber: number | null = null;
   let prCandidates = 0;
+  let prSource: PrSource = null;
 
-  if (run.head_branch && owner) {
-    const head = `${owner}:${run.head_branch}`;
-    const matches = ghPaginate<Array<{ number: number; created_at: string }>>(
+  if (run.head_branch) {
+    const head = `${repoOwner()}:${run.head_branch}`;
+    const matches = ghPaginate<Array<PrRef>>(
       `repos/{owner}/{repo}/pulls?state=all&head=${encodeURIComponent(head)}`,
     );
     prCandidates = matches.length;
-    if (matches.length > 0) {
-      // Branch names get reused across reopens; take the most recent.
-      const newest = [...matches].sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
-      prNumber = newest ? newest.number : null;
+    prNumber = newestPr(matches);
+    if (prNumber !== null) {
+      prSource = 'head-branch';
+    }
+  }
+
+  // A run on a long-lived branch (`main`) is not "on" a PR at all, so the head
+  // filter correctly finds nothing — but the PR that merged the commit still
+  // carries the changed-file list, and changed files are what make a failure
+  // labelable. Without this, own-commit captures have no record of what changed.
+  if (prNumber === null && run.head_sha) {
+    const viaCommit = ghPaginate<Array<PrRef>>(
+      `repos/{owner}/{repo}/commits/${run.head_sha}/pulls`,
+    );
+    prCandidates = viaCommit.length;
+    prNumber = newestPr(viaCommit);
+    if (prNumber !== null) {
+      prSource = 'commit';
     }
   }
 
@@ -246,7 +315,7 @@ export function capture(runId: number): CaptureResult {
     writeJson(join(rawDir, RAW_FILES), ghPaginate(`repos/{owner}/{repo}/pulls/${prNumber}/files`));
   }
 
-  return { runId, outcome: 'captured', dir, prNumber, prCandidates };
+  return { runId, outcome: 'captured', dir, prNumber, prCandidates, prSource };
 }
 
 /** Unpacks the log archive, preserving its internal structure. */

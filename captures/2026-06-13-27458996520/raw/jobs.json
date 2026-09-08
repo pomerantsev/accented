@@ -1,0 +1,97 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 81168902163,
+      "run_id": 27458996520,
+      "workflow_name": "Playground",
+      "head_branch": "dependabot/npm_and_yarn/dev-dependencies-81566b7271",
+      "run_url": "https://api.github.com/repos/pomerantsev/accented/actions/runs/27458996520",
+      "run_attempt": 1,
+      "node_id": "CR_kwDONNLPJs8AAAAS5gsoEw",
+      "head_sha": "f7f462d89ecfb344ddd29349e828587397a22e46",
+      "url": "https://api.github.com/repos/pomerantsev/accented/actions/jobs/81168902163",
+      "html_url": "https://github.com/pomerantsev/accented/actions/runs/27458996520/job/81168902163",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-13T06:24:11Z",
+      "started_at": "2026-06-13T06:24:15Z",
+      "completed_at": "2026-06-13T06:24:27Z",
+      "name": "test-playground",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-06-13T06:24:16Z",
+          "completed_at": "2026-06-13T06:24:16Z"
+        },
+        {
+          "name": "Checkout code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-06-13T06:24:16Z",
+          "completed_at": "2026-06-13T06:24:17Z"
+        },
+        {
+          "name": "Setup",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 3,
+          "started_at": "2026-06-13T06:24:17Z",
+          "completed_at": "2026-06-13T06:24:24Z"
+        },
+        {
+          "name": "Install Playwright browsers",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-06-13T06:24:24Z",
+          "completed_at": "2026-06-13T06:24:24Z"
+        },
+        {
+          "name": "Run playground tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-06-13T06:24:24Z",
+          "completed_at": "2026-06-13T06:24:24Z"
+        },
+        {
+          "name": "Post Setup",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-06-13T06:24:24Z",
+          "completed_at": "2026-06-13T06:24:24Z"
+        },
+        {
+          "name": "Post Checkout code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-06-13T06:24:24Z",
+          "completed_at": "2026-06-13T06:24:24Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-06-13T06:24:24Z",
+          "completed_at": "2026-06-13T06:24:24Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/pomerantsev/accented/check-runs/81168902163",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000004060,
+      "runner_name": "GitHub Actions 1000004060",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

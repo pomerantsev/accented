@@ -134,7 +134,7 @@ event rate justifies, and it's strictly additive later.
   three times — which is the number that matters for a classifier meant to run unattended.
   A task passing 1-of-3 is not a pass; it's a coin flip that landed well.
 - **No nightly cron.** The usual justification is catching silent model drift, which only
-  applies if the pinned model ID is an alias that can be repointed (see open question 8).
+  applies if the pinned model ID is an alias that can be repointed (see open question 6).
   If it's an immutable snapshot, a cron buys nothing but a monthly bill and run-to-run
   variance that's easy to misread as drift. If it *is* an alias, monthly is cheap
   insurance — nightly still isn't.
@@ -243,32 +243,32 @@ cheap to amend, and make updating it part of shipping any future AI workflow.
 
 ### Needs a decision before building
 
-1. **Confirm `/ai/` at the repo root.** Proposed and reasoned through (see appendix), but
-   never explicitly agreed. The alternative considered and rejected was `tools/ai/` — the
-   `tools/` level would have had exactly one occupant, since every existing script in this
-   repo is package-scoped and belongs where it is.
-2. **Are the five categories right?** `flaky` / `upstream-blocked` / `infra-config` /
-   `genuine-breakage` / `unknown` were derived from three examples. Years of real failure
-   history may say otherwise — a wrong or incomplete category set poisons every label made
-   against it, and relabelling later is the expensive kind of rework.
-3. **Sequencing: archiver before labelling?** The dataset shrank from ~25 to ~15 distinct
-   incidents in a week. That inverts the earlier suggestion to label immediately: landing
-   the archiver first and letting the set grow may beat labelling a thin one now.
-4. **Capture non-Dependabot failures too?** Capture is cheap and reversible; labelling is
-   the expensive part. Capturing everything now preserves the option to widen scope later
-   without waiting out another 90 days.
-5. **Do the changeset script first?** #567 has been open since 15 August needing only a
+1. **What are the categories?** Not "confirm the five" any more — the labels-first decision
+   means the set gets *derived* from the labelling rather than imposed on it. The existing
+   five (`flaky` / `upstream-blocked` / `infra-config` / `genuine-breakage` / `unknown`) are
+   a hypothesis from three examples, and the very first capture examined already broke it:
+   a `minimumReleaseAge` policy rejection is deterministic (not `flaky`), nothing upstream
+   is broken (not `upstream-blocked`), the config is working as designed (not
+   `infra-config`), and nothing is broken (not `genuine-breakage`). Its fix — wait a day and
+   re-run — matches no other category's action.
+2. **Do the changeset script first?** #567 has been open since 15 August needing only a
    changeset. The deterministic script is an afternoon's work and unblocks it immediately.
    It is not AI work, but it is the thing currently costing time.
-_(Resolved: the disclosure's scope — see the Disclosure section. It covers AI-assisted
-authoring of library code, not only the CI automation.)_
+3. **Which branch do captures ultimately live on?** Deferred, not resolved: they are
+   committed to the `agent-tasks` working branch for now, which is not `main`, so the real
+   decision can wait until this is ready to merge. See "What happens to the captures".
+
+_Resolved along the way: **`/ai/` placement** (committed in `daf12ae`); **archiver before
+labelling** and **capturing non-Dependabot failures** (both answered by the backfill having
+run — 61 captures, 30 distinct commits, four own-commit runs included); **the disclosure's
+scope** (covers AI-assisted authoring of library code, not only the CI automation)._
 
 ### Settle later, on evidence
 
-6. **Haiku 4.5 vs Sonnet 5** — decide on the eval set, not by guessing.
-7. **Should the eval score ever gate a PR?** Start informational; a non-deterministic
+4. **Haiku 4.5 vs Sonnet 5** — decide on the eval set, not by guessing.
+5. **Should the eval score ever gate a PR?** Start informational; a non-deterministic
    required check is just another flaky job.
-8. **Is the pinned model ID an immutable snapshot or a moving alias?** Verify against the
+6. **Is the pinned model ID an immutable snapshot or a moving alias?** Verify against the
    API docs before deciding whether a low-frequency scheduled eval run has any purpose. If
    snapshots, there is no drift to catch and the answer is no cron at all. If aliases, a
    monthly run is worth its cost. Cheap to check; don't guess.
@@ -328,6 +328,31 @@ Three workflows (Accented, Website, Playground) fail together on a single push. 
 **one incident**, not three. Key captures by triggering commit SHA, and keep the log of
 each distinct failing job.
 
+## The manifest
+
+`captures/manifest.json`, written by `backfill.mts`: one entry per failed run **the API
+knows about**, not per capture. Run ID, timestamp, workflow, branch, commit, URL, PR
+number, and a `decision` of `captured` / `skipped-existing` / `expired` / `failed` /
+`skipped`, with a reason.
+
+A directory listing only says what is present. It cannot distinguish four situations that
+are identical as an absence:
+
+- deliberately out of scope (the ~83 `Scheduled` link-checker runs, the ~83
+  `Dependabot Updates` runs),
+- logs past retention, so nothing was ever recoverable,
+- a genuine failure of the capture script,
+- never considered at all.
+
+Without the manifest, "why is there no `Scheduled` data?" has no answer in the repo three
+months from now. With it, the scope decisions are auditable rather than implicit in which
+directories happen to exist, and a systematic bug shows up as a suspicious count of
+`failed` instead of needing to be hunted.
+
+It also documents runs whose logs are already gone. Run *metadata* reaches back to July
+2025 even though logs do not, so for those the manifest is the only record they existed.
+And it is the natural input to the captured-but-unlabelled backlog report below.
+
 ## Order of work
 
 1. A backfill script that walks retained failure runs, dedupes by commit, writes captures,
@@ -365,12 +390,76 @@ Priority order, because it inverts what the manual testing covered:
 Verified manually against real data, so not the priority: live capture, `expired` on 410,
 idempotent skip, PR resolution by branch, log extraction, `files.json` contents.
 
+## What happens to the captures
+
+**`raw/` and `logs/` are kept indefinitely.** They are the only irreplaceable artifact
+here: `meta.json` is a *projection* of them and can be regenerated at will, but a log past
+retention cannot be re-fetched at any price. That asymmetry is the whole argument — keep
+the inputs, regenerate the derivations. It is also why the fetch is permissive and the
+derivation is strict: be lenient where you cannot retry, fussy where it is free.
+
+Nothing is pruned. 61 captures is 8.5 MB; the archiver adds maybe a dozen a month.
+
+### Which branch — deferred
+
+Committed to the `agent-tasks` working branch, which is not `main`, so the real decision
+waits until this is ready to merge. Two options:
+
+- **On `main`.** Simple, one source of truth, eval fixtures sit beside their captures, no
+  second checkout anywhere. Costs every clone 8.5 MB growing indefinitely, and puts bulk
+  generated data in the history of a library repo.
+- **Orphan `ci-captures` branch.** Keeps `main` clean and never triggers CI. Costs a second
+  checkout in the archiver workflow and in any promote script, and splits the data in two.
+
+The reasoning that got us here: the orphan branch earns its keep against the **archiver**,
+which runs forever and grows without bound — not against the one-time backfill, which is
+finite and already done. So a defensible order is to land the backfill wherever is simplest
+now and introduce `ci-captures` when the archiver ships and the growth is real. That defers
+the decision to a point where it can be made with numbers instead of guesses.
+
+### How `meta.json` gets derived — deliberately still open
+
+Not written yet, and that was on purpose: the schema should be written against real data
+rather than imagination. That data now exists — 61 captures — so this is the immediate next
+piece of work. What is already settled about it:
+
+- It is a **projection** of `raw/`, never hand-authored, regenerable at any time.
+- It is the **only** file with a schema. `raw/` is GitHub's shape — evidence, not an
+  interface — and validating it would mean pinning a third party's API and breaking
+  whenever they add a field.
+- **Absence is recorded, not implied.** `"pr": null` rather than a missing key, so "we
+  looked and there was nothing" is distinguishable from "we never fetched this."
+- Log-archive variation between old and new runs is **data in `meta.json`** (which log
+  files exist), not a validation problem in `raw/`.
+- The projection **fails loudly** on a missing field it depends on. Cheap to fix by
+  re-deriving; the alternative is a silently empty `changed_files` and a classifier that
+  quietly gets more things wrong.
+- Validation via a JSON Schema plus `ajv`, a `$schema` key for editor feedback, run in
+  `lint-staged` and in CI.
+
 ## Current state
 
-As of 2026-09-07: **36 Dependabot failure runs** still within retention (down from 52 a
-week earlier), roughly 15 distinct incidents after deduplication. That's below the 20–50
-range worth aiming for, which is an argument for landing the archiver promptly and letting
-the set grow rather than waiting to start.
+Backfill run on 2026-09-07. Results:
+
+| | |
+|---|---|
+| Captured | **61 runs**, 30 distinct commits |
+| Expired (past retention) | 97 |
+| Skipped (out of scope) | 572 |
+| Failed | **0** |
+| Total size | 8.5 MB |
+| API calls used | ~245 of 5000/hr |
+
+Spread: 24 `Accented`, 18 `Website`, 15 `Playground`, 4 `Update Biome schema`. The
+retention cliff was measured rather than assumed — newest expired run is 2026-06-06,
+oldest captured is 2026-06-13, so it sits right around 90 days.
+
+Redaction scan came back clean. The only hits were a lockfile integrity-hash fragment
+(false positive for a JWT pattern) and a `Co-authored-by:` email that already appears 1459
+times in this repo's own git history.
+
+30 distinct commits is inside the 20–50 range worth aiming for, so there is no longer an
+argument for waiting to accumulate more before labelling.
 
 ---
 
