@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
@@ -30,18 +31,17 @@ export default defineConfig({
       theme,
       wrap: true,
     },
-  },
-
-  integrations: [
-    mdx({
+    // MDX inherits these plugins from the processor.
+    processor: unified({
       rehypePlugins: [
         rehypeSlug, // Ensure IDs are added first
         rehypeWrapHeadings, // Then wrap with anchors
         rehypeWrapCodeBlocks, // Wrap code blocks in custom element
       ],
     }),
-    sitemap(),
-  ],
+  },
+
+  integrations: [mdx(), sitemap()],
 
   vite: {
     define: {
