@@ -30,6 +30,7 @@
     "@biomejs/biome": "2.5.8",
     "@changesets/changelog-github": "1.0.1",
     "@changesets/cli": "3.0.2",
+    "@changesets/config": "4.0.0",
     "@playwright/test": "1.63.0",
     "@types/node": "26.4.1",
     "husky": "9.1.7",

@@ -1,6 +1,9 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.0.5/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "pomerantsev/accented" }],
+  "$schema": "../node_modules/@changesets/config/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "pomerantsev/accented", "template": "\n\n- {summary} {ref}" }
+  ],
   "commit": false,
   "fixed": [],
   "linked": [],
