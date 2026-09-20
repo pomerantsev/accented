@@ -30,6 +30,8 @@ This document contains:
 
 - Unit tests: `pnpm test:unit`.
 - End-to-end tests: `pnpm dev`, followed by `pnpm test:e2e` in a different terminal instance.
+- The playground and the website have their own end-to-end suites
+  (`pnpm --filter playground test` and `pnpm --filter website test`).
 
 ### Editor configuration
 

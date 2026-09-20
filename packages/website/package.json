@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "netlify dev",
+    "dev:astro": "astro dev",
     "build": "astro build",
     "postbuild": "./scripts/generateRobots.mts",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "playwright test",
     "website:deploy": "netlify deploy --dir=packages/website/dist --no-build --prod",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "netlify dev:exec drizzle-kit migrate",

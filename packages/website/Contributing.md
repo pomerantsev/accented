@@ -57,6 +57,12 @@ This runs `netlify dev`, which:
 - Automatically provides database environment variables
 - Connects to your staging database
 
+### Running end-to-end tests
+
+```bash
+pnpm --filter website test
+```
+
 ### Working with the database
 
 **View data:**

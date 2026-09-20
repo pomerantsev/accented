@@ -26,6 +26,19 @@ jobs:
         env:
           STAGE: ${{ github.ref == 'refs/heads/stage' }}
 
+      - name: Install Playwright browsers
+        uses: ./.github/actions/installPlaywright
+
+      - name: Run end-to-end tests
+        run: pnpm --filter website test
+
+      - name: Archive end-to-end test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: website-e2e-results
+          path: packages/website/playwright
+
       # - name: Install lychee
       #   if: github.ref != 'refs/heads/stage'
       #   uses: ./.github/actions/installLychee
