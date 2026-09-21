@@ -4,3 +4,6 @@ dist
 
 # Local Netlify folder
 .netlify
+
+# Playwright
+/playwright/
