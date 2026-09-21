@@ -4,6 +4,9 @@ class CopyCodeElement extends HTMLElement {
   connectedCallback() {
     this.style.position = 'relative';
     this.style.display = 'block';
+    // Group the code and its copy button, so they're announced as belonging together
+    this.setAttribute('role', 'group');
+    this.setAttribute('aria-label', 'Code block');
     // Create the button element
     const button = document.createElement('button');
     button.className = 'copy';
