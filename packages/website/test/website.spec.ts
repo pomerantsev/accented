@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures/test';
+import { getSentBeacons } from './helpers/analytics';
 import { readClipboard } from './helpers/clipboard';
 import { getPageUrls, getPageUrlsWithTableOfContents } from './helpers/pages';
 
@@ -13,23 +14,23 @@ test.describe('Home page', () => {
 });
 
 test.describe('Analytics', () => {
-  test('reports page performance metrics', async ({ page, browserName }) => {
+  test('reports page performance metrics', async ({ page }) => {
     await page.goto('/');
 
-    // Fails the test if the metrics are never sent.
-    const beacon = page.waitForRequest('**/_actions/collectMetrics');
-    // Largest Contentful Paint is only reported once the visitor interacts with the page.
-    await page.getByRole('heading', { level: 1 }).click();
-    const request = await beacon;
-
-    if (browserName !== 'webkit') {
-      // WebKit doesn't expose sendBeacon payloads to Playwright, so only the other
-      // browsers can check what's being sent.
-      expect(request.postDataJSON()).toMatchObject({
-        lcp: expect.any(Number),
-        commitSha: expect.any(String),
-      });
-    }
+    // Largest Contentful Paint is reported on the first interaction with the page, and the
+    // dev server serves the script that subscribes to it separately from the page itself.
+    // Clicking on every attempt avoids interacting before that script has arrived.
+    await expect
+      .poll(async () => {
+        await page.getByRole('heading', { level: 1 }).click();
+        return getSentBeacons(page);
+      })
+      .toMatchObject([
+        {
+          url: expect.stringContaining('/_actions/collectMetrics'),
+          body: { lcp: expect.any(Number), commitSha: expect.any(String) },
+        },
+      ]);
   });
 });
 
