@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './fixtures/test';
 import { readClipboard } from './helpers/clipboard';
 import { getPageUrls, getPageUrlsWithTableOfContents } from './helpers/pages';
 
@@ -11,8 +12,29 @@ test.describe('Home page', () => {
   });
 });
 
+test.describe('Analytics', () => {
+  test('reports page performance metrics', async ({ page, browserName }) => {
+    await page.goto('/');
+
+    // Fails the test if the metrics are never sent.
+    const beacon = page.waitForRequest('**/_actions/collectMetrics');
+    // Largest Contentful Paint is only reported once the visitor interacts with the page.
+    await page.getByRole('heading', { level: 1 }).click();
+    const request = await beacon;
+
+    if (browserName !== 'webkit') {
+      // WebKit doesn't expose sendBeacon payloads to Playwright, so only the other
+      // browsers can check what's being sent.
+      expect(request.postDataJSON()).toMatchObject({
+        lcp: expect.any(Number),
+        commitSha: expect.any(String),
+      });
+    }
+  });
+});
+
 test.describe('Every page', () => {
-  // Pages have been served as 500s for months without anyone noticing (see #561),
+  // Pages have been served as 500s without anyone noticing (see https://github.com/pomerantsev/accented/pull/561),
   // so every page gets opened here. The assertions are deliberately generic:
   // they hold for any page, and don't need updating when content changes.
 
@@ -39,7 +61,7 @@ test.describe('Every page', () => {
 
 test.describe('Table of contents', () => {
   // The component collects the page's headings itself, so it can end up empty
-  // while the page still renders fine (see #561).
+  // while the page still renders fine.
 
   for (const url of getPageUrlsWithTableOfContents()) {
     test(`${url} lists its headings`, async ({ page }) => {

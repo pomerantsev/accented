@@ -64,7 +64,12 @@ export default defineConfig({
     },
   },
 
-  adapter: netlify(),
+  adapter: netlify({
+    // This project has no edge functions, and emulating them in `astro dev` requires Deno,
+    // which fails in CI. The resulting unhandled rejection is shown as a Vite error overlay
+    // that covers the page, making it unclickable for the end-to-end tests.
+    devFeatures: { edgeFunctions: false },
+  }),
 
   security: {
     checkOrigin: false,
