@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readClipboard } from './helpers/clipboard';
+import { getPageUrls, getPageUrlsWithTableOfContents } from './helpers/pages';
 
 test.describe('Home page', () => {
   test('renders the site title and main heading', async ({ page }) => {
@@ -8,6 +9,47 @@ test.describe('Home page', () => {
     await expect(page).toHaveTitle('Accented');
     await expect(page.getByRole('heading', { level: 1, name: 'Accented' })).toBeVisible();
   });
+});
+
+test.describe('Every page', () => {
+  // Pages have been served as 500s for months without anyone noticing (see #561),
+  // so every page gets opened here. The assertions are deliberately generic:
+  // they hold for any page, and don't need updating when content changes.
+
+  for (const url of getPageUrls()) {
+    test(`${url} opens`, async ({ page }) => {
+      const response = await page.goto(url);
+
+      expect(response?.status()).toBe(200);
+      await expect(page).toHaveTitle(/Accented$/);
+
+      const heading = page.getByRole('heading', { level: 1 });
+      await expect(heading).toHaveCount(1);
+      await expect(heading).not.toBeEmpty();
+    });
+  }
+
+  test('an unknown URL renders the 404 page', async ({ page }) => {
+    const response = await page.goto('/no-such-page');
+
+    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  });
+});
+
+test.describe('Table of contents', () => {
+  // The component collects the page's headings itself, so it can end up empty
+  // while the page still renders fine (see #561).
+
+  for (const url of getPageUrlsWithTableOfContents()) {
+    test(`${url} lists its headings`, async ({ page }) => {
+      await page.goto(url);
+
+      const tableOfContents = page.getByRole('navigation', { name: 'Table of contents' });
+
+      await expect(tableOfContents.getByRole('link').first()).toBeVisible();
+    });
+  }
 });
 
 test.describe('Documentation pages', () => {
