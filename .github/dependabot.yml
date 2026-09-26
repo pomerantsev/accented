@@ -13,6 +13,13 @@ updates:
     cooldown:
       default-days: 7
       semver-patch-days: 3 # pnpm-workspace.yaml has a matching `minimumReleaseAge` setting — keep them in sync
+    ignore:
+      # `astro check` refuses to run on TypeScript 7.0 and tells us to stay on TypeScript 6.
+      # It's deprecated anyway: type-checking Astro files on TypeScript 7.1+ is supposed to work
+      # through the experimental @astrojs/ts-content-mapper, so we skip 7.0 only and revisit on 7.1.
+      # https://github.com/withastro/astro/tree/main/packages/language-tools/ts-content-mapper#usage
+      - dependency-name: "typescript"
+        versions: ["7.0.x"]
     groups:
       dev-dependencies:
         dependency-type: "development"
