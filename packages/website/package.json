@@ -40,7 +40,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "accented": "workspace:*",
-    "drizzle-kit": "0.31.10",
-    "netlify-cli": "27.5.2"
+    "drizzle-kit": "0.31.11",
+    "netlify-cli": "27.8.0"
   }
 }
