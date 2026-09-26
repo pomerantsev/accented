@@ -85,8 +85,10 @@ export function createPlaywrightConfig({ port, webServerCommand, projects }: Opt
       /**
        * Stop the dev server with SIGTERM instead of Playwright's default SIGKILL.
        *
-       * Every command above is a pnpm script, and since pnpm 12.6.0 a script pnpm runs
-       * without a terminal gets a process group of its own (pnpm/pnpm#15555). Playwright
+       * `command` comes from each package's own playwright.config.ts, and all three of them
+       * start their dev server through a pnpm script (`pnpm dev`, `pnpm dev:astro`). Since
+       * pnpm 12.6.0 a script pnpm runs without a terminal gets a process group of its own
+       * (https://github.com/pnpm/pnpm/issues/15555), which is what makes the default shutdown unsafe here. Playwright
        * tears the server down by signalling the group it spawned — pnpm's group, not the
        * script's. SIGKILL can't be caught, so pnpm dies instantly and the dev server lives
        * on, holding the stdout/stderr pipes Playwright is waiting to see closed. Playwright
@@ -101,9 +103,8 @@ export function createPlaywrightConfig({ port, webServerCommand, projects }: Opt
        * Expect one bit of noise wherever Playwright owns the server — always in CI, and
        * locally only when no dev server is already running for it to reuse:
        *
-       *   [WebServer] [ELIFECYCLE] Command failed with exit code 143.
+       *   WebServer] [ELIFECYCLE] Command failed.
        *
-       * That is pnpm reporting the SIGTERM it was just asked to deliver (143 = 128 + 15).
        * It is not a failure; the run still exits 0.
        *
        * The signal is what matters here; `timeout` is required by the type and only bounds
