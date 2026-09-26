@@ -54,7 +54,12 @@ export function createPlaywrightConfig({ port, webServerCommand, projects }: Opt
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
+    /* TEMPORARY: retries disabled to diagnose the CI hangs that started on 2026-09-24.
+       Retrying is what enables `trace: 'on-first-retry'` below, and a trace with snapshots
+       never settles on an unresponsive page (microsoft/playwright#42903) — not even the test
+       timeout interrupts it, which is why the jobs go silent instead of failing. Without a
+       retry, the failure from the first attempt gets reported. Revert once diagnosed. */
+    retries: 0,
     /* Opt out of parallel tests on CI.
        I tried using 2 or 4 workers, but that leads to many flakes,
        without any noticeable gain in speed. */
