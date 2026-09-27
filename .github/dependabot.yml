@@ -25,6 +25,7 @@ updates:
         dependency-type: "development"
         exclude-patterns:
           - "@biomejs/biome"
+          - "@playwright/test"
           - "typescript"
       website-dependencies:
         patterns:
