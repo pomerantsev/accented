@@ -1,5 +1,23 @@
 # accented
 
+## 1.5.0
+
+### Minor Changes
+
+- Bump axe-core to 4.13.0 ([#567](https://github.com/pomerantsev/accented/pull/567))
+  (minor bump due to changed behavior: [ElementInternals support is enabled by default and several rules change what they flag](https://github.com/dequelabs/axe-core/blob/1cc54b900413660610180d631feb73c9e74f4dc9/CHANGELOG.md#4130-2026-08-05))
+
+### Patch Changes
+
+- Narrow the axe-core dependency range from `^` to `~` ([#567](https://github.com/pomerantsev/accented/pull/567))
+  (axe-core minor upgrades now only reach consumers through an Accented release)
+
+### Dependencies
+
+- axe-core 4.13.0 (see Minor Changes)
+
+- @preact/signals-core 1.14.4 ([#544](https://github.com/pomerantsev/accented/pull/544))
+
 ## 1.4.0
 
 ### Minor Changes
