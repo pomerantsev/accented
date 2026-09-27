@@ -181,8 +181,21 @@ That's even true for cases where the specificity of a host app selector is highe
 - package.json: pin versions for most dependencies
   - For contributors, the source of truth is the lockfile anyway, so for most dependencies it doesn’t matter how they're specified in the package.json.
   - Pinning dependencies in the playground gives maintainers more confidence that a non-major upgrade in one of them doesn’t break the playground for a visitor.
-  - The only exception is the runtime dependencies of Accented itself. This will allow consumers to deduplicate their deps and receive patch or minor upgrades
-    without waiting for a new Accented version. Caret ranges for runtime dependencies are standard practice for published NPM packages.
+  - The exception is the runtime dependencies of Accented itself, which get a range rather than an exact version.
+    This lets consumers deduplicate their deps and receive upgrades without waiting for a new Accented version,
+    and ranges for runtime dependencies are standard practice for published NPM packages.
+  - The two runtime dependencies get different ranges, because semver means something different for each of them:
+    - `@preact/signals-core` is an implementation detail, and its semver contract covers its API.
+      A minor release there adds API surface that Accented doesn’t use, so Accented’s behavior is unchanged.
+      A caret range (`^`) is appropriate.
+    - `axe-core` is not an implementation detail — it produces Accented’s output.
+      Its semver contract covers its JS API, but a minor release may add rules and change rule results,
+      which is a change in what Accented reports (a minor change for Accented — see the
+      [versioning policy](https://accented.dev/about#versioning)).
+      Accented also hardcodes axe-core rule ids in `packages/accented/src/constants.ts`,
+      which have to be maintained in lockstep with axe-core’s rule set.
+      So axe-core gets a tilde range (`~`): consumers get minor upgrades only through a new Accented release,
+      while they can still get rule bug fixes without waiting for one.
 
 ## Known issues / limitations
 
@@ -216,7 +229,8 @@ The library version is **not** bumped at this time.
 - A bug fix / performance improvement.
 - A dependency version bump.
   - For runtime dependencies, always add a changeset, even if nothing changes for consumers —
-  `minor` if it changes Accented’s behavior (see the [versioning policy](https://accented.dev/about#versioning)),
+  `minor` if it changes Accented’s behavior other than by fixing a bug
+  (for example, a minor `axe-core` bump; see the [versioning policy](https://accented.dev/about#versioning)),
   `patch` otherwise.
   - For build dependencies that may affect the generated code (for example, typescript), create a patch change.
   - For other development dependencies, don't add a changeset (this bump shouldn’t affect consumers at all).

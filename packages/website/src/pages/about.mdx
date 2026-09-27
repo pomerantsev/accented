@@ -64,16 +64,18 @@ In practice, here’s how we decide whether a release should be major, minor, or
 **Minor:**
 
 - A non-breaking (additive) API change.
-- A behavioral change that isn’t a bug fix and doesn’t break the Accented API
-  (for example, when Accented starts reporting a new class of issues).
-  This applies whether the change originates in Accented itself or in a runtime dependency bump.
+- A behavioral change that isn’t a bug fix and doesn’t break the Accented API.
+  This includes any change in what Accented reports — issues that are newly reported,
+  no longer reported, or reported differently (for example, a minor `axe-core` bump).
+  It applies whether the change originates in Accented itself or in a runtime dependency bump.
 
 **Patch:**
 
 - A bug fix.
 - A performance improvement.
 - A non-breaking UI improvement.
-- A runtime dependency update that isn’t supposed to change behavior.
+- A runtime dependency update that isn’t supposed to change Accented’s behavior or output other than by fixing a bug
+  (for example, a patch `axe-core` bump or any `@preact/signals-core` bump).
 - A build-time dependency update that may affect the build output (for example, a TypeScript version upgrade).
 - A README fix that’s visible on the NPM package page.
 
