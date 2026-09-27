@@ -1,5 +1,17 @@
 # accented
 
+## 1.5.0
+
+### Minor Changes
+
+- Bump axe-core to 4.13.0 ([#567](https://github.com/pomerantsev/accented/pull/567))
+
+### Patch Changes
+
+- Bump @preact/signals-core to 1.14.4 ([#544](https://github.com/pomerantsev/accented/pull/544))
+
+- Narrow the axe-core dependency range from `^` to `~` ([#567](https://github.com/pomerantsev/accented/pull/567))
+
 ## 1.4.0
 
 ### Minor Changes
