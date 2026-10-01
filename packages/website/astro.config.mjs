@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import netlify from '@astrojs/netlify';
@@ -13,8 +13,9 @@ import { theme } from './src/components/starterCodeUtils';
 const commitSha = execSync('git rev-parse HEAD').toString().trim();
 
 // Absolute path to our custom image service (see the file for why it exists).
-const webpImageServiceEntrypoint = fileURLToPath(
-  new URL('./src/webp-netlify-image-service.ts', import.meta.url),
+const webpImageServiceEntrypoint = resolve(
+  import.meta.dirname,
+  './src/webp-netlify-image-service.ts',
 );
 
 // The Netlify adapter forcibly sets `image.service.entrypoint` to its own
