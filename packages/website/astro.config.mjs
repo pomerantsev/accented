@@ -69,6 +69,10 @@ export default defineConfig({
     // which fails in CI. The resulting unhandled rejection is shown as a Vite error overlay
     // that covers the page, making it unclickable for the end-to-end tests.
     devFeatures: { edgeFunctions: false },
+    // By default, the adapter replaces Astro's image service with Netlify Image CDN,
+    // which transforms images at request time. We want images optimized at build time instead,
+    // so Astro's built-in Sharp service is used, which also converts images to WebP by default.
+    imageCDN: false,
   }),
 
   security: {
