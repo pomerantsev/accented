@@ -1,5 +1,4 @@
 import { execSync } from 'node:child_process';
-import { resolve } from 'node:path';
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import netlify from '@astrojs/netlify';
@@ -11,29 +10,6 @@ import { rehypeWrapHeadings } from './plugins/rehype-wrap-headings.mjs';
 import { theme } from './src/components/starterCodeUtils';
 
 const commitSha = execSync('git rev-parse HEAD').toString().trim();
-
-// Absolute path to our custom image service (see the file for why it exists).
-const webpImageServiceEntrypoint = resolve(
-  import.meta.dirname,
-  './src/webp-netlify-image-service.ts',
-);
-
-// The Netlify adapter forcibly sets `image.service.entrypoint` to its own
-// service during `astro:config:setup`. Adapter hooks run before the
-// integrations listed below, so this integration's `updateConfig` runs last
-// and wins, pointing the image service at our WebP-defaulting wrapper.
-const defaultToWebpImages = {
-  name: 'default-to-webp-images',
-  hooks: {
-    'astro:config:setup': ({ updateConfig }) => {
-      updateConfig({
-        image: {
-          service: { entrypoint: webpImageServiceEntrypoint },
-        },
-      });
-    },
-  },
-};
 
 export default defineConfig({
   srcDir: './src',
@@ -65,7 +41,7 @@ export default defineConfig({
     }),
   },
 
-  integrations: [mdx(), sitemap(), defaultToWebpImages],
+  integrations: [mdx(), sitemap()],
 
   vite: {
     define: {
@@ -93,6 +69,10 @@ export default defineConfig({
     // which fails in CI. The resulting unhandled rejection is shown as a Vite error overlay
     // that covers the page, making it unclickable for the end-to-end tests.
     devFeatures: { edgeFunctions: false },
+    // By default, the adapter replaces Astro's image service with Netlify Image CDN,
+    // which transforms images at request time. We want images optimized at build time instead,
+    // so Astro's built-in Sharp service is used, which also converts images to WebP by default.
+    imageCDN: false,
   }),
 
   security: {
