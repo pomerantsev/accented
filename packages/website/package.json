@@ -41,6 +41,6 @@
     "@astrojs/check": "0.9.10",
     "accented": "workspace:*",
     "drizzle-kit": "0.31.11",
-    "netlify-cli": "27.8.1"
+    "netlify-cli": "27.10.0"
   }
 }
