@@ -14,7 +14,7 @@ import {
 } from 'common/tokens';
 import favicon from '~/assets/favicon.ico';
 import ogImage from '~/assets/images/og-image.png?url';
-import globalCss from '~/assets/styles/global.css?url';
+import '~/assets/styles/global.css';
 import Accented from '~/components/Accented.astro';
 import MainMenu from '~/components/MainMenu.astro';
 
@@ -50,7 +50,6 @@ const isDev = import.meta.env.DEV;
         fontSystemMono,
       }}>
     </style>
-    <link rel="stylesheet" href={globalCss} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 

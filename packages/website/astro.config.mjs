@@ -23,6 +23,8 @@ export default defineConfig({
 
   build: {
     format: 'file',
+    // Our CSS is small, so inlining it all saves render-blocking requests.
+    inlineStylesheets: 'always',
   },
 
   image: {
