@@ -41,7 +41,7 @@ jobs:
       - name: Build website
         run: pnpm website:build
         env:
-          STAGE: ${{ github.ref == 'refs/heads/stage' }}
+          STAGE: ${{ github.ref != 'refs/heads/main' }}
 
       # - name: Install lychee
       #   if: github.ref != 'refs/heads/stage'
@@ -62,9 +62,12 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
+      # main deploys to production; every other branch deploys to the stage site.
+      # Tag pushes aren't deployed, and neither are Dependabot branches,
+      # since Dependabot runs can't read Actions secrets.
       - name: Deploy website
-        if: github.ref == 'refs/heads/stage' || github.ref == 'refs/heads/main'
+        if: ${{ startsWith(github.ref, 'refs/heads/') && !startsWith(github.ref, 'refs/heads/dependabot/') }}
         run: pnpm website:deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ github.ref == 'refs/heads/stage' && vars.NETLIFY_STAGE_SITE_ID || vars.NETLIFY_SITE_ID }}
+          NETLIFY_SITE_ID: ${{ github.ref == 'refs/heads/main' && vars.NETLIFY_SITE_ID || vars.NETLIFY_STAGE_SITE_ID }}
