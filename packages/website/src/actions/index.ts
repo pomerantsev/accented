@@ -10,6 +10,7 @@ export const server = {
     input: z.object({
       lcp: z.number(),
       commitSha: z.string(),
+      clientBuiltAt: z.iso.datetime(),
     }),
     handler: async (input, { request }) => {
       let pathname: string | null;
@@ -25,6 +26,8 @@ export const server = {
       await db.insert(metrics).values({
         lcp: input.lcp,
         commitSha: input.commitSha,
+        clientBuiltAt: new Date(input.clientBuiltAt),
+        serverBuiltAt: new Date(import.meta.env.BUILT_AT),
         pathname,
         browserName: browser.name,
         browserVersion: browser.version,

@@ -10,6 +10,9 @@ import { rehypeWrapHeadings } from './plugins/rehype-wrap-headings.mjs';
 import { theme } from './src/components/starterCodeUtils';
 
 const commitSha = execSync('git rev-parse HEAD').toString().trim();
+// Astro evaluates this config once per build, so the client bundle
+// and the server function end up with the exact same value.
+const builtAt = new Date().toISOString();
 
 export default defineConfig({
   srcDir: './src',
@@ -48,6 +51,9 @@ export default defineConfig({
       // We can use the commit SHA if / when we collect metrics / error reports,
       // to determine what version of the site those originated from.
       'import.meta.env.COMMIT_SHA': `"${commitSha}"`,
+      // Metrics report both the client's and the server's build time,
+      // which shows how many of them come from users still running an older version of the site.
+      'import.meta.env.BUILT_AT': `"${builtAt}"`,
     },
     build: {
       // We know that axe-core is larger than 500 KB,
