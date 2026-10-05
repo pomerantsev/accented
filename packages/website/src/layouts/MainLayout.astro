@@ -17,6 +17,7 @@ import ogImage from '~/assets/images/og-image.png?url';
 import '~/assets/styles/global.css';
 import Accented from '~/components/Accented.astro';
 import MainMenu from '~/components/MainMenu.astro';
+import { cssLayoutVars } from '~/layout-tokens';
 
 const { title, description } = Astro.props;
 
@@ -48,6 +49,7 @@ const isDev = import.meta.env.DEV;
         colorDark,
         fontSystemSans,
         fontSystemMono,
+        ...cssLayoutVars,
       }}>
     </style>
 

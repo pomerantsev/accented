@@ -4,6 +4,7 @@ description: Accented now includes a console-only mode. It does what @axe-core/r
 author: Pavel Pomerantsev
 ---
 import { Image } from 'astro:assets';
+import { contentImageSizes } from '~/layout-tokens';
 import withAccented from '~/assets/images/with-accented.png';
 import consoleBefore from '~/assets/images/accented-console-before.png';
 import consoleAfter from '~/assets/images/accented-console-after.png';
@@ -46,6 +47,7 @@ while Accented’s primary focus is on highlighting problematic elements directl
   src={withAccented}
   alt="Screenshot of a web application with the Accented library highlighting accessibility issues."
   layout="constrained"
+  sizes={contentImageSizes}
 />
 
 It’s easy for a developer to disregard console output: as a project grows,
@@ -78,6 +80,7 @@ Before (just a plain JavaScript object):
   src={consoleBefore}
   alt="A screenshot of the Google Chrome developer console with an array of elements with issues"
   layout="constrained"
+  sizes={contentImageSizes}
 />
 
 After (the issues are color-coded, and the information is grouped and easier to navigate):
@@ -86,6 +89,7 @@ After (the issues are color-coded, and the information is grouped and easier to 
   src={consoleAfter}
   alt="A screenshot of the Google Chrome developer console with collapsed groups. One of them (All by issue type (4)) is expanded, showing four different types of issues with their severities, some displaying the associated elements."
   layout="constrained"
+  sizes={contentImageSizes}
 />
 
 ## Migrating from @axe-core/react to Accented

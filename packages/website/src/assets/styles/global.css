@@ -19,8 +19,9 @@
     --color-toc-light: oklch(0.8 0.25 230);
     --color-toc: light-dark(var(--color-toc-dark), var(--color-toc-light));
 
-    /* Sizes for typography and spacing */
-    --base-size: 1rem;
+    /* Sizes for typography */
+    /* --base-size, the --space-* scale, --content-max-width and --page-padding-narrow
+       come from src/layout-tokens.ts (passed in via define:vars in MainLayout.astro) */
     --ratio: 1.25;
     --size-step-0: var(--base-size);
     --size-step-1: calc(var(--size-step-0) * var(--ratio));
@@ -28,16 +29,6 @@
     --size-step-3: calc(var(--size-step-2) * var(--ratio));
     --size-step-4: calc(var(--size-step-3) * var(--ratio));
     --size-step--1: calc(var(--size-step-0) / var(--ratio));
-
-    --space-3xs: calc(0.25 * var(--base-size));
-    --space-2xs: calc(0.5 * var(--base-size));
-    --space-xs: calc(0.75 * var(--base-size));
-    --space-s: var(--base-size);
-    --space-m: calc(1.5 * var(--base-size));
-    --space-l: calc(2 * var(--base-size));
-    --space-xl: calc(3 * var(--base-size));
-    --space-2xl: calc(4 * var(--base-size));
-    --space-3xl: calc(6 * var(--base-size));
 
     /* Font families */
     --font-sans: "IBM Plex Sans Variable", var(--fontSystemSans);
@@ -142,7 +133,10 @@
     max-inline-size: 60rem;
     margin-inline: auto;
     min-block-size: 100vh;
-    padding-inline: var(--space-l);
+    /* contentImageSizes in src/layout-tokens.ts assumes that, once this media query applies,
+       the content is already at its max width, which depends on the max-inline-size above
+       and the breakpoint and padding below (see the comment there) */
+    padding-inline: var(--page-padding-narrow);
     @media (min-width: 50em) {
       padding-inline: var(--space-2xl);
     }
@@ -158,7 +152,7 @@
   }
 
   main {
-    max-inline-size: 40rem;
+    max-inline-size: var(--content-max-width);
     margin-inline: auto;
   }
 

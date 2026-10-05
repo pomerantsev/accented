@@ -4,6 +4,7 @@ description: "Learn the basics of using Accented in your web application."
 ---
 
 import { Image } from 'astro:assets';
+import { contentImageSizes } from '~/layout-tokens';
 import ImageCompare from '~/components/ImageCompare.astro';
 import screenshotDefaultColor from '~/assets/images/screenshot-default-color.png';
 import screenshotGreen from '~/assets/images/screenshot-green.png';
@@ -313,11 +314,13 @@ Here’s what the updated styles would look like compared to the defaults:
     src={screenshotDefaultColor}
     alt="Screenshot of a web application, with highlights by Accented, having regular styles."
     layout="constrained"
+    sizes={contentImageSizes}
   />
   <Image
     src={screenshotGreen}
     alt="Screenshot of the same web application, also with highlights by Accented. The highlights are dark green instead of violet red, and the outlines are dashed instead of solid."
     layout="constrained"
+    sizes={contentImageSizes}
   />
 </ImageCompare>
 
