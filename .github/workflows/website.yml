@@ -21,14 +21,13 @@ jobs:
       - name: Check
         run: pnpm --filter website check
 
-      - name: Build website
-        run: pnpm website:build
-        env:
-          STAGE: ${{ github.ref == 'refs/heads/stage' }}
-
       - name: Install Playwright browsers
         uses: ./.github/actions/installPlaywright
 
+      # This has to run before "Build website": the tests start `astro dev`,
+      # which deletes the server function the build puts in .netlify/v1/functions,
+      # so the deploy would go out without it (and analytics requests would 404).
+      # See https://github.com/pomerantsev/accented/issues/614.
       - name: Run end-to-end tests
         run: pnpm --filter website test
 
@@ -38,6 +37,11 @@ jobs:
         with:
           name: website-e2e-results
           path: packages/website/playwright
+
+      - name: Build website
+        run: pnpm website:build
+        env:
+          STAGE: ${{ github.ref == 'refs/heads/stage' }}
 
       # - name: Install lychee
       #   if: github.ref != 'refs/heads/stage'
