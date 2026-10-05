@@ -4,6 +4,7 @@ layout: ~/layouts/HomeLayout.astro
 
 import ImageCompare from '~/components/ImageCompare.astro';
 import { Image } from 'astro:assets';
+import { contentImageSizes } from '~/layout-tokens';
 import withoutAccented from '~/assets/images/without-accented.png';
 import withAccented from '~/assets/images/with-accented.png';
 import { description } from 'common/strings';
@@ -27,11 +28,13 @@ An example of an application without Accented / with Accented:
     src={withoutAccented}
     alt="Screenshot of a web application without Accented."
     layout="constrained"
+    sizes={contentImageSizes}
   />
   <Image
     src={withAccented}
     alt="Screenshot of the same application with Accented highlighting accessibility issues."
     layout="constrained"
+    sizes={contentImageSizes}
   />
 </ImageCompare>
 
