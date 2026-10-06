@@ -5,6 +5,7 @@ description: This post goes into the details of how Accented uses shadow DOM to 
 author: Pavel Pomerantsev
 ---
 import { Image } from 'astro:assets';
+import { contentImageSizes } from '~/layout-tokens';
 import hostAppUi from '~/assets/images/host-app-ui.png';
 import accentedUi from '~/assets/images/accented-ui.png';
 
@@ -24,6 +25,7 @@ The “host app” is the application that the user of Accented is developing.
   src={hostAppUi}
   alt="A screenshot of a 'Recent orders' block in a web application. There are three pieces of low-contrast text, which all have violet-red outlines, and large violet-red square buttons are aligned with the top right corners of those pieces of text."
   layout="constrained"
+  sizes={contentImageSizes}
 />
 
 In this image, most of the elements come from the host app,
@@ -41,6 +43,7 @@ This is what the dialog may look like:
   src={accentedUi}
   alt="A screenshot of a dialog displaying accessibility issue information."
   layout="constrained"
+  sizes={contentImageSizes}
 />
 
 Here’s the challenge: Accented is supposed to work and look decent in any web app,

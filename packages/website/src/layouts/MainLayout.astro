@@ -2,7 +2,7 @@
 // More on importing fonts: https://fontsource.org/docs/getting-started/variable
 import '@fontsource/ibm-plex-mono';
 import '@fontsource-variable/ibm-plex-sans';
-import '@fontsource-variable/ibm-plex-sans/standard-italic.css';
+import '@fontsource-variable/ibm-plex-sans/wght-italic.css';
 import '@fontsource-variable/lora';
 import {
   colorDark,
@@ -14,9 +14,10 @@ import {
 } from 'common/tokens';
 import favicon from '~/assets/favicon.ico';
 import ogImage from '~/assets/images/og-image.png?url';
-import globalCss from '~/assets/styles/global.css?url';
+import '~/assets/styles/global.css';
 import Accented from '~/components/Accented.astro';
 import MainMenu from '~/components/MainMenu.astro';
+import { cssLayoutVars } from '~/layout-tokens';
 
 const { title, description } = Astro.props;
 
@@ -48,9 +49,9 @@ const isDev = import.meta.env.DEV;
         colorDark,
         fontSystemSans,
         fontSystemMono,
+        ...cssLayoutVars,
       }}>
     </style>
-    <link rel="stylesheet" href={globalCss} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 

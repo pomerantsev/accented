@@ -1,4 +1,6 @@
-export const theme = 'github-dark-high-contrast';
+// Imported as an object rather than referenced by name so that the client-side highlighter
+// bundles it instead of fetching it as a separate chunk.
+export { default as theme } from 'shiki/themes/github-dark-high-contrast.mjs';
 
 type Bundler = {
   name: string;

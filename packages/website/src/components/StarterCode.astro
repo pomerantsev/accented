@@ -54,12 +54,17 @@ import { getCodeSnippet, options, theme } from '~/components/starterCodeUtils';
   }
 </style>
 <script>
-  import { createHighlighter } from 'shiki';
+  // Fine-grained imports, so that everything is bundled into this script
+  // instead of being fetched as separate chunks (including a large WASM regex engine).
+  import { createHighlighterCore } from 'shiki/core';
+  import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
+  import js from 'shiki/langs/javascript.mjs';
   import { theme, options, getCodeSnippet } from './starterCodeUtils';
 
-  const highlighter = await createHighlighter({
-    langs: ['js'],
+  const highlighter = await createHighlighterCore({
+    langs: [js],
     themes: [theme],
+    engine: createJavaScriptRegexEngine(),
   });
 
   customElements.define('starter-code', class extends HTMLElement {

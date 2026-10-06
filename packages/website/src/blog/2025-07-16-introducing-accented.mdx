@@ -5,6 +5,7 @@ author: Pavel Pomerantsev
 ---
 import ImageCompare from '~/components/ImageCompare.astro';
 import { Image } from 'astro:assets';
+import { contentImageSizes } from '~/layout-tokens';
 import withoutAccented from '~/assets/images/without-accented.png';
 import withAccented from '~/assets/images/with-accented.png';
 import dialogImage from '~/assets/images/dialog.png';
@@ -31,12 +32,14 @@ Each element with at least one accessibility issue gets highlighted.
   <Image
     src={withoutAccented}
     alt="Screenshot of a web application without Accented."
-    layout="full-width"
+    layout="constrained"
+    sizes={contentImageSizes}
   />
   <Image
     src={withAccented}
     alt="Screenshot of the same application with Accented highlighting accessibility issues."
-    layout="full-width"
+    layout="constrained"
+    sizes={contentImageSizes}
   />
 </ImageCompare>
 
@@ -46,7 +49,8 @@ shows enough information to understand what the issue is and how to fix it.
 <Image
   src={dialogImage}
   alt="Screenshot of the same application with an open dialog displaying accessibility issue information."
-  layout="full-width"
+  layout="constrained"
+  sizes={contentImageSizes}
 />
 
 The issues are updated when page contents or styles change
