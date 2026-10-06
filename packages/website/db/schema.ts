@@ -4,6 +4,9 @@ export const metrics = pgTable('metrics', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   lcp: integer().notNull(),
   commitSha: varchar({ length: 64 }).notNull(),
+  // Nullable because rows collected before these columns were added don't have them.
+  clientBuiltAt: timestamp(),
+  serverBuiltAt: timestamp(),
   pathname: text(),
   browserName: varchar({ length: 100 }),
   browserVersion: varchar({ length: 50 }),

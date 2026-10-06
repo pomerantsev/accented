@@ -28,7 +28,11 @@ test.describe('Analytics', () => {
       .toMatchObject([
         {
           url: expect.stringContaining('/_actions/collectMetrics'),
-          body: { lcp: expect.any(Number), commitSha: expect.any(String) },
+          body: {
+            lcp: expect.any(Number),
+            commitSha: expect.any(String),
+            clientBuiltAt: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/),
+          },
         },
       ]);
   });

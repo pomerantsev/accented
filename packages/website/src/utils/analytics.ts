@@ -5,7 +5,8 @@ onLCP(async (event) => {
   type CollectMetricsParams = Parameters<typeof actions.collectMetrics>;
   const actionUrl = getActionPath(actions.collectMetrics);
   const commitSha = import.meta.env.COMMIT_SHA;
-  const input: CollectMetricsParams[0] = { lcp: event.value, commitSha };
+  const clientBuiltAt = import.meta.env.BUILT_AT;
+  const input: CollectMetricsParams[0] = { lcp: event.value, commitSha, clientBuiltAt };
   const body = JSON.stringify(input);
   navigator.sendBeacon(actionUrl, new Blob([body], { type: 'application/json' }));
 });
