@@ -32,7 +32,7 @@
     "@changesets/cli": "3.0.3",
     "@changesets/config": "4.0.1",
     "@playwright/test": "1.63.0",
-    "@types/node": "26.6.3",
+    "@types/node": "26.6.4",
     "husky": "9.1.7",
     "lint-staged": "17.6.0",
     "rimraf": "6.1.3",
