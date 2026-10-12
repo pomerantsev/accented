@@ -1,3 +1,9 @@
+# For `netlify serve` (the website's `preview` script), which builds the site and serves this folder.
+# CI builds the site itself and deploys with `--no-build --dir`, which ignores both of these.
+[build]
+  command = "pnpm website:build"
+  publish = "packages/website/dist"
+
 [[headers]]
   for = "/_astro/*"
   [headers.values]
