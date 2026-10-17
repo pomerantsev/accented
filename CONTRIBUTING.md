@@ -133,8 +133,8 @@ Known issues:
 **Decision 2:** use fixed positioning (as opposed to absolute positioning)
 as a fallback in browsers that don’t support anchor positioning.
 
-Note: this choice may not be as important,
-with anchor positioning hopefully coming to Safari and Firefox in 2025 / 2026.
+Note: anchor positioning is supported in all modern browsers now,
+and we should remove the fixed-positioning fallback once Safari 28 is released.
 
 Pros:
 
