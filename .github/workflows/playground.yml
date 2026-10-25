@@ -1,9 +1,8 @@
 name: Playground
 
+# Disabled on this throwaway investigation branch.
 on:
-  push:
-    branches-ignore:
-      - stage
+  workflow_dispatch:
 
 jobs:
   test-playground:

@@ -1,7 +1,8 @@
 name: Website
 
+# Disabled on this throwaway investigation branch.
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
   build-and-publish:

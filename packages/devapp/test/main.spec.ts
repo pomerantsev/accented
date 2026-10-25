@@ -1173,6 +1173,7 @@ test.describe('Accented', () => {
     ) {
       const consoleMessage = await page.waitForEvent('console');
       const perfObject = await consoleMessage.args()[1]?.jsonValue();
+      test.info().annotations.push({ type: 'perf', description: JSON.stringify(perfObject) });
       const scanDuration = perfObject.scan;
       const domUpdateDuration = perfObject.domUpdate;
       if (scan === 'short') {
