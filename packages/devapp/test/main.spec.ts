@@ -179,9 +179,12 @@ test.describe('Accented', () => {
     test('removing an issue from an element with one issue results in one fewer elements with issues displayed', async ({
       page,
     }) => {
+      const buttonWithIssue = page.locator('#button-with-single-issue');
+      await expect(buttonWithIssue).toHaveAttribute(accentedDataAttr);
       const initialCount = await page.locator(accentedSelector).count();
       const button = await page.getByRole('button', { name: 'Add text to button' });
       await button.click();
+      await expect(buttonWithIssue).not.toHaveAttribute(accentedDataAttr);
       const finalCount = await page.locator(accentedSelector).count();
       const finalTriggerCount = await page.locator(accentedTriggerElementName).count();
       expect(finalCount).toBe(initialCount - 1);
