@@ -101,13 +101,27 @@ test.describe('Accented', () => {
         page,
       }) => {
         await page.goto('/');
-        (
-          await page.getByRole('button', {
+        await page
+          .getByRole('button', {
             name: 'Move button to a container within a shadow root',
           })
-        ).click();
-        await page.waitForTimeout(1200);
-        const elementWithIssue = await page.locator(`#button-in-shadow-dom${accentedSelector}`);
+          .click();
+        const elementWithIssue = page.locator(`#button-in-shadow-dom${accentedSelector}`);
+        // Accented handles the move asynchronously (throttled scan). Until it does, the element
+        // still carries the id of its old trigger, which lives in the old shadow root and is
+        // removed by the next scan. Wait until the trigger for the element's current id is in
+        // the element's own root before reading that id.
+        await expect
+          .poll(
+            () =>
+              elementWithIssue.evaluate((element, attrName) => {
+                const id = element.getAttribute(attrName);
+                const root = element.getRootNode() as Document | ShadowRoot;
+                return root.querySelector(`accented-trigger[data-id="${id}"]`) !== null;
+              }, accentedDataAttr),
+            { timeout: 10000 },
+          )
+          .toBe(true);
         await elementWithIssue.scrollIntoViewIfNeeded();
         const triggerContainer = await getTriggerContainer(page, elementWithIssue);
         await expectElementAndTriggerToBeAligned(elementWithIssue, triggerContainer);

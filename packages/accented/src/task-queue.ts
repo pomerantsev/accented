@@ -20,7 +20,12 @@ export class TaskQueue<T> {
     }
     this.#inRunLoop = true;
 
-    if (!this.#throttle.leading) {
+    if (this.#throttle.leading) {
+      // Yield for one microtask so that items added synchronously in the same
+      // microtask checkpoint (e.g. by several MutationObserver callbacks, one per shadow root,
+      // all reporting a single DOM operation) are processed together in the leading run.
+      await Promise.resolve();
+    } else {
       await new Promise((resolve) => setTimeout(resolve, this.#throttle.wait));
     }
 
