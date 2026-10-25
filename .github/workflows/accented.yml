@@ -15,12 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         trace: ["off"]
-        rep: [1, 2, 3, 4, 5, 6, 7, 8]
-        include:
-          - { trace: "on", rep: 1 }
-          - { trace: "on", rep: 2 }
-          - { trace: "on", rep: 3 }
-          - { trace: "on", rep: 4 }
+        rep: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     steps:
       - name: Checkout code
@@ -48,7 +43,7 @@ jobs:
         env:
           CI: true
           PLAYWRIGHT_JSON_OUTPUT_NAME: playwright/results.json
-        run: pnpm exec playwright test --retries=0 --trace=${{ matrix.trace }} --reporter=json,dot
+        run: pnpm exec playwright test --retries=0 --trace=${{ matrix.trace }} --reporter=json,dot --project=chromium --project=firefox --project=webkit --repeat-each=5 -g "performance|console output"
 
       - name: Archive end-to-end test results
         if: ${{ always() }}
