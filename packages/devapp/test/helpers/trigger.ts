@@ -2,6 +2,9 @@ import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 
 export async function getTriggerContainer(page: Page, locator: Locator) {
+  // The element only gets its id once a scan has completed, so wait for it
+  // instead of reading a possibly missing attribute (which would make us look for data-id="null").
+  await expect(locator).toHaveAttribute('data-accented', /^\d+$/);
   const id = await locator.getAttribute('data-accented');
   return await page.locator(`accented-trigger[data-id="${id}"]`);
 }
