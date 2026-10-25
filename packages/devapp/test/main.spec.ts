@@ -458,9 +458,12 @@ test.describe('Accented', () => {
       page,
     }) => {
       // Start listening before navigating: the first scan may complete before `goto` resolves.
+      // Match only the summary with counts: Accented logs "No accessibility issues" on startup,
+      // before the first scan has completed.
       const consoleMessagePromise = page.waitForEvent('console', {
         predicate: (msg) =>
-          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+          /\d+ accessibility issues? in \d+ elements?/.test(msg.text()) &&
+          msg.text().includes('Accented'),
       });
       await page.goto('/');
 
@@ -1245,5 +1248,28 @@ test.describe('Accented', () => {
       await page.getByRole('button', { name: 'Add one element with an issue' }).click();
       await expectPerformance(page, { scan: 'short', domUpdate: 'short' });
     });
+
+    // TEMPORARY (flakiness investigation): records a sequence of scans within one page,
+    // without assertions, to evaluate relative thresholds offline.
+    for (const many of ['Add many elements with issues', 'Add many elements with no issues']) {
+      test(`EXPERIMENT sequence: ${many}`, async ({ page }) => {
+        const next = async (action: () => Promise<void>) => {
+          const messagePromise = page.waitForEvent('console', { timeout: 10000 });
+          await action();
+          return await (await messagePromise).args()[1]?.jsonValue();
+        };
+        const toggle = () => page.getByRole('button', { name: 'Toggle Accented' }).click();
+        const addOne = () =>
+          page.getByRole('button', { name: 'Add one element with an issue' }).click();
+        const seq: Record<string, unknown> = {};
+        seq.initial = await next(toggle);
+        seq.one = await next(addOne);
+        seq.many = await next(() => page.getByRole('button', { name: many }).click());
+        seq.oneToMany = await next(addOne);
+        await toggle();
+        seq.full = await next(toggle);
+        test.info().annotations.push({ type: 'perfseq', description: JSON.stringify(seq) });
+      });
+    }
   });
 });
