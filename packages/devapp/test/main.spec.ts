@@ -26,6 +26,7 @@ test.describe('Accented', () => {
         page,
       }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const count = await page.locator(accentedSelector).count();
         await expect(count).toBeGreaterThan(0);
 
@@ -35,6 +36,7 @@ test.describe('Accented', () => {
 
       test('triggers have meaningful accessible names', async ({ page }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const htmlTriggerCount = await page
           .getByRole('button', { name: 'Accessibility issues in html' })
           .count();
@@ -148,6 +150,7 @@ test.describe('Accented', () => {
   test.describe('mutations', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('?no-console&callback&throttle-wait=0');
+      await page.locator(accentedSelector).first().waitFor();
     });
 
     test('adding an element with an issue results in one more element with issues displayed', async ({
@@ -170,10 +173,10 @@ test.describe('Accented', () => {
       const initialCount = await page.locator(accentedSelector).count();
       const button = await page.getByRole('button', { name: 'Remove button' });
       await button.click();
-      const finalCount = await page.locator(accentedSelector).count();
-      const finalTriggerCount = await page.locator(accentedTriggerElementName).count();
-      expect(finalCount).toBe(initialCount - 1);
-      expect(finalTriggerCount).toBe(finalCount);
+      await expect(page.locator(accentedSelector)).toHaveCount(initialCount - 1);
+      // The removed element takes its attribute with it, but its trigger is a sibling
+      // that stays until the next scan.
+      await expect(page.locator(accentedTriggerElementName)).toHaveCount(initialCount - 1);
     });
 
     test('removing an issue from an element with one issue results in one fewer elements with issues displayed', async ({
@@ -709,6 +712,7 @@ test.describe('Accented', () => {
       await page.goto('/');
       const details = await page.locator('#details');
       const elementsWithIssues = await details.locator(accentedSelector);
+      await page.locator(accentedSelector).first().waitFor();
       await expect(await elementsWithIssues.count()).toBe(0);
       await details.locator('summary').click();
       await elementsWithIssues.first().waitFor();
@@ -778,13 +782,13 @@ test.describe('Accented', () => {
     test('an issue in a nested SVG is reported in the console, but an outline and trigger are not rendered for it', async ({
       page,
     }) => {
-      await page.goto('?axe-context-selector=%23nested-svg');
-
-      // Wait for the main Accented console message
-      await page.waitForEvent('console', {
-        predicate: (msg) =>
-          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      // Start listening before navigating, so that a scan that finishes before `load` isn’t missed.
+      // Match only the summary with counts: Accented logs “No accessibility issues” at startup.
+      const consoleMessage = page.waitForEvent('console', {
+        predicate: (msg) => /\d+ accessibility issues? in \d+ elements?/.test(msg.text()),
       });
+      await page.goto('?axe-context-selector=%23nested-svg');
+      await consoleMessage;
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
@@ -796,13 +800,13 @@ test.describe('Accented', () => {
     test('an issue inside <head> is reported in the console, but a trigger is not rendered for it', async ({
       page,
     }) => {
-      await page.goto('?axe-context-selector=head');
-
-      // Wait for the main Accented console message
-      await page.waitForEvent('console', {
-        predicate: (msg) =>
-          msg.text().includes('accessibility issue') && msg.text().includes('Accented'),
+      // Start listening before navigating, so that a scan that finishes before `load` isn’t missed.
+      // Match only the summary with counts: Accented logs “No accessibility issues” at startup.
+      const consoleMessage = page.waitForEvent('console', {
+        predicate: (msg) => /\d+ accessibility issues? in \d+ elements?/.test(msg.text()),
       });
+      await page.goto('?axe-context-selector=head');
+      await consoleMessage;
 
       const count = await page.locator(accentedSelector).count();
       await expect(count).toBe(0);
@@ -813,6 +817,7 @@ test.describe('Accented', () => {
 
     test('issues in table cells don’t break the table layout', async ({ page }) => {
       await page.goto('?axe-context-selector=%23table');
+      await page.locator(accentedSelector).first().waitFor();
 
       const tableSection = await page.locator('#table');
       await tableSection.scrollIntoViewIfNeeded();
@@ -1007,6 +1012,7 @@ test.describe('Accented', () => {
 
     test('name', async ({ page }) => {
       await page.goto('?name=my-name');
+      await page.locator('[data-my-name]').first().waitFor();
       const count = await page.locator('[data-my-name]').count();
       await expect(count).toBeGreaterThan(0);
     });
@@ -1054,6 +1060,7 @@ test.describe('Accented', () => {
 
     test('runOnly', async ({ page }) => {
       await page.goto('?run-only-tags=wcag21aa');
+      await page.locator(accentedSelector).first().waitFor();
       const count = await page.locator(accentedSelector).count();
       // We only added one element with a WCAG 2.1 AA issue.
       await expect(count).toBe(1);
@@ -1061,9 +1068,11 @@ test.describe('Accented', () => {
 
     test('rules', async ({ page }) => {
       await page.goto('/');
+      await page.locator(accentedSelector).first().waitFor();
       const totalCount = await page.locator(accentedSelector).count();
       await expect(totalCount).toBeGreaterThan(0);
       await page.goto('?disable-rules=button-name');
+      await page.locator(accentedSelector).first().waitFor();
       const countWithoutButtonName = await page.locator(accentedSelector).count();
       await expect(countWithoutButtonName).toBeGreaterThan(1);
       await expect(countWithoutButtonName).toBeLessThan(totalCount);
@@ -1072,9 +1081,11 @@ test.describe('Accented', () => {
     test.describe('context', () => {
       test('selector', async ({ page }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const totalCount = await page.locator(accentedSelector).count();
         await expect(totalCount).toBeGreaterThan(0);
         await page.goto('?axe-context-selector=button');
+        await page.locator(accentedSelector).first().waitFor();
         const countOnlyButtons = await page.locator(accentedSelector).count();
         await expect(countOnlyButtons).toBeGreaterThan(1);
         await expect(countOnlyButtons).toBeLessThan(totalCount);
@@ -1082,9 +1093,11 @@ test.describe('Accented', () => {
 
       test('element', async ({ page }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const totalCount = await page.locator(accentedSelector).count();
         await expect(totalCount).toBeGreaterThan(0);
         await page.goto('?axe-context-body');
+        await page.locator(accentedSelector).first().waitFor();
         const countOnlyBody = await page.locator(accentedSelector).count();
         await expect(countOnlyBody).toBeGreaterThan(1);
         await expect(countOnlyBody).toBeLessThan(totalCount);
@@ -1096,9 +1109,11 @@ test.describe('Accented', () => {
 
       test('shadow DOM selector', async ({ page }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const totalCount = await page.locator(accentedSelector).count();
         await expect(totalCount).toBeGreaterThan(0);
         await page.goto('?axe-context-shadow-dom');
+        await page.locator(accentedSelector).first().waitFor();
         const countOnlyShadowDom = await page.locator(accentedSelector).count();
         await expect(countOnlyShadowDom).toBeGreaterThan(0);
         await expect(countOnlyShadowDom).toBeLessThan(totalCount);
@@ -1106,6 +1121,7 @@ test.describe('Accented', () => {
 
       test('node list', async ({ page }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const totalCount = await page.locator(accentedSelector).count();
         await expect(totalCount).toBeGreaterThan(0);
         /**
@@ -1116,6 +1132,7 @@ test.describe('Accented', () => {
          * The axe-context-selector query param is used to pass a selector instead.
          */
         await page.goto('?axe-context-nodelist=button');
+        await page.locator(accentedSelector).first().waitFor();
         const countOnlyButtons = await page.locator(accentedSelector).count();
         await expect(countOnlyButtons).toBeGreaterThan(1);
         await expect(countOnlyButtons).toBeLessThan(totalCount);
@@ -1123,14 +1140,17 @@ test.describe('Accented', () => {
 
       test('selector array', async ({ page }) => {
         await page.goto('/');
+        await page.locator(accentedSelector).first().waitFor();
         const totalCount = await page.locator(accentedSelector).count();
         await expect(totalCount).toBeGreaterThan(0);
 
         await page.goto('?axe-context-selector=button');
+        await page.locator(accentedSelector).first().waitFor();
         const buttonCount = await page.locator(accentedSelector).count();
         await expect(buttonCount).toBeGreaterThan(0);
 
         await page.goto('?axe-context-selector-array=button,input');
+        await page.locator(accentedSelector).first().waitFor();
         const buttonAndInputCount = await page.locator(accentedSelector).count();
         await expect(buttonAndInputCount).toBeGreaterThan(buttonCount);
         await expect(buttonAndInputCount).toBeLessThan(totalCount);
@@ -1138,12 +1158,14 @@ test.describe('Accented', () => {
 
       test('include / exclude', async ({ page }) => {
         await page.goto('?axe-context-selector=%23non-initial-content-blocks');
+        await page.locator(accentedSelector).first().waitFor();
         const countWithinSection = await page.locator(accentedSelector).count();
         await expect(countWithinSection).toBeGreaterThan(0);
 
         await page.goto(
           '?axe-context-selector-include=%23non-initial-content-blocks&axe-context-selector-exclude=%23non-initial-content-blocks-contain',
         );
+        await page.locator(accentedSelector).first().waitFor();
         const countWithinSectionAfterExclude = await page.locator(accentedSelector).count();
         await expect(countWithinSectionAfterExclude).toBeGreaterThan(0);
         await expect(countWithinSectionAfterExclude).toBeLessThan(countWithinSection);
