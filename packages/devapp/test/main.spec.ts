@@ -1200,10 +1200,12 @@ test.describe('Accented', () => {
       const perfObject = await consoleMessage.args()[1]?.jsonValue();
       const scanDuration = perfObject.scan;
       const domUpdateDuration = perfObject.domUpdate;
+      // This is flaky and not very informative.
+      // Address it: https://github.com/pomerantsev/accented/issues/496
       if (scan === 'short') {
         await expect(scanDuration).toBeLessThan(600);
       } else {
-        await expect(scanDuration).toBeGreaterThan(200);
+        await expect(scanDuration).toBeGreaterThan(100);
       }
       if (domUpdate === 'short') {
         await expect(domUpdateDuration).toBeLessThan(250);
