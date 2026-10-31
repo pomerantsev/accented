@@ -1,7 +1,7 @@
 import { signal } from '@preact/signals-core';
-import type { AccentedDialog } from '../elements/accented-dialog.ts';
-import type { AccentedTrigger } from '../elements/accented-trigger.ts';
-import type { ElementWithIssues, ExtendedElementWithIssues } from '../types.ts';
+import type { AccentedDialog } from '../elements/accented-dialog.js';
+import type { AccentedTrigger } from '../elements/accented-trigger.js';
+import type { ElementWithIssues, ExtendedElementWithIssues } from '../types.js';
 import { isSvgElement } from './dom-helpers.js';
 import { getElementPosition } from './get-element-position.js';
 import { getParent } from './get-parent.js';

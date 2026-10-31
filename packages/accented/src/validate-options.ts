@@ -1,4 +1,3 @@
-import { allowedAxeOptions } from './types.js';
 import type {
   AccentedOptions,
   Context,
@@ -6,7 +5,8 @@ import type {
   ContextProp,
   Selector,
   SelectorList,
-} from './types.ts';
+} from './types.js';
+import { allowedAxeOptions } from './types.js';
 import { isNode, isNodeList } from './utils/dom-helpers.js';
 
 function isSelector(contextFragment: Context): contextFragment is Selector {

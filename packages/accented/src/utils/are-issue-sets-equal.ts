@@ -1,4 +1,4 @@
-import type { Issue } from '../types.ts';
+import type { Issue } from '../types.js';
 import { areIssuesEqual } from './are-issues-equal.js';
 
 export function areIssueSetsEqual(issues1: Array<Issue>, issues2: Array<Issue>) {

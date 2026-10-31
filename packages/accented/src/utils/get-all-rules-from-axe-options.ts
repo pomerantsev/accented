@@ -5,7 +5,7 @@
      omitting the rule.pageLevel check — axe applies that itself when we call axe.run):
      https://github.com/dequelabs/axe-core/blob/9261d074b60527a84f4dce5a64a6d5a5843a0772/lib/core/utils/rule-should-run.js */
 import axe from 'axe-core';
-import type { AxeOptions } from '../types.ts';
+import type { AxeOptions } from '../types.js';
 
 function getRuleIds(tags?: Array<string>): Set<string> {
   return new Set(axe.getRules(tags).map((r) => r.ruleId));

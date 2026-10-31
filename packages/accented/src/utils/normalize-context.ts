@@ -1,4 +1,4 @@
-import type { Context, ContextProp, ScanContext, Selector } from '../types.ts';
+import type { Context, ContextProp, ScanContext, Selector } from '../types.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
 import { isNode, isNodeList } from './dom-helpers.js';
 import { isNonEmpty } from './is-non-empty.js';

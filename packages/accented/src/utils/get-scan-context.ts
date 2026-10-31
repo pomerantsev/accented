@@ -1,4 +1,4 @@
-import type { Context, ScanContext } from '../types.ts';
+import type { Context, ScanContext } from '../types.js';
 import { contains } from './contains.js';
 import { deduplicateNodes } from './deduplicate-nodes.js';
 import { isNodeInScanContext } from './is-node-in-scan-context.js';

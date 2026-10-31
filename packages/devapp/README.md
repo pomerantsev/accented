@@ -9,4 +9,3 @@ The test suite runs in all major browsers.
 
 - Setup: `npm install -g pnpm && pnpm install`
 - Run from root folder: `pnpm dev`
-

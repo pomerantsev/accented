@@ -7,7 +7,6 @@ A frontend library for continuous accessibility testing and issue highlighting.
 **Website:** [accented.dev](https://accented.dev).
 
 **In this monorepo:**
-
 - The [Accented](/packages/accented) library itself.
 - [accented.dev website code](/packages/website).
 - The [Playground code](/packages/playground).

@@ -7,7 +7,7 @@ import {
 } from './common/tokens.js';
 import { accentedUrl, orderedImpacts } from './constants.js';
 import { elementsWithIssues, enabled } from './state.js';
-import type { ElementWithIssues, Issue } from './types.ts';
+import type { ElementWithIssues, Issue } from './types.js';
 import { areElementsWithIssuesEqual } from './utils/are-elements-with-issues-equal.js';
 import { areIssueSetsEqual } from './utils/are-issue-sets-equal.js';
 import { areIssuesEqual } from './utils/are-issues-equal.js';

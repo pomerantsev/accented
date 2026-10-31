@@ -1,4 +1,4 @@
-import type { Position } from '../types.ts';
+import type { Position } from '../types.js';
 import { createsContainingBlock } from './containing-blocks.js';
 import { isHtmlElement } from './dom-helpers.js';
 import { getParent } from './get-parent.js';

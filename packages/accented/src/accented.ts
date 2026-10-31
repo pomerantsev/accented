@@ -8,7 +8,7 @@ import { setupResizeListener } from './resize-listener.js';
 import { createScanner } from './scanner.js';
 import { setupScrollListeners } from './scroll-listeners.js';
 import { enabled, extendedElementsWithIssues } from './state.js';
-import type { AccentedOptions, DisableAccented } from './types.ts';
+import type { AccentedOptions, DisableAccented } from './types.js';
 import { initializeContainingBlockSupportSet } from './utils/containing-blocks.js';
 import { initializeCssTransformsCheck } from './utils/css-transforms.js';
 import { deepMerge } from './utils/deep-merge.js';

@@ -12,7 +12,7 @@ import {
 } from '../common/tokens.js';
 import { accentedUrl } from '../constants.js';
 import { logAndRethrow } from '../log-and-rethrow.js';
-import type { Issue } from '../types.ts';
+import type { Issue } from '../types.js';
 import { getElementHtml } from '../utils/get-element-html.js';
 import { isNonEmpty } from '../utils/is-non-empty.js';
 

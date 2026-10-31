@@ -1,4 +1,4 @@
-import type { Issue } from './types';
+import type { Issue } from './types.js';
 
 export const accentedUrl = 'https://accented.dev';
 export const issuesUrl = 'https://github.com/pomerantsev/accented/issues';

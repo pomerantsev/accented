@@ -19,7 +19,6 @@ Here’s a side-by-side comparison — without Accented vs. with it enabled:
 [Try it out at the Playground (StackBlitz).](https://stackblitz.com/fork/github/pomerantsev/accented/tree/main/packages/playground?file=src%2Fmain.tsx&title=Accented%20playground%20(React%20%2B%20TypeScript))
 
 Accented works well alongside other common accessibility tools:
-
 - **It can catch more problems than source code linters alone.**
   The popular [`eslint-plugin-jsx-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)
   or the [Biome a11y linter](https://biomejs.dev/linter/javascript/rules/#a11y) are great,
@@ -63,7 +62,6 @@ if (process.env.NODE_ENV === 'development') {
 ⚠️ Heads up: Accented is for development use only. Don’t expose it to end users.
 
 See the docs for your bundler or framework for how to run code only in the development environment.
-
 - [More detailed installation and usage guide](https://accented.dev/getting-started)
 - [Full API](https://accented.dev/api)
 
@@ -78,7 +76,6 @@ See the docs for your bundler or framework for how to run code only in the devel
 ## Contributing
 
 Contributions are welcome!
-
 - See [CONTRIBUTING.md](https://github.com/pomerantsev/accented/blob/main/CONTRIBUTING.md) for setup instructions and guidelines.
 - Feel free to open an [issue](https://github.com/pomerantsev/accented/issues) or pull request if you spot a bug or have a feature idea.
 
