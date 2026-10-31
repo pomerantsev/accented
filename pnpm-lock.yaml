@@ -189,8 +189,8 @@ importers:
         specifier: 0.31.11
         version: 0.31.11
       netlify-cli:
-        specifier: 27.14.2
-        version: 27.14.2(@types/node@26.6.5)(picomatch@4.0.7)(rollup@4.62.2)(supports-color@11.0.0)
+        specifier: 27.14.3
+        version: 27.14.3(@types/node@26.6.5)(picomatch@4.0.7)(rollup@4.62.2)(supports-color@11.0.0)
 
 packages:
 
@@ -5701,8 +5701,8 @@ packages:
     resolution: {integrity: sha512-WmmLty1YWwJl9yZi77v2dVIV6X2kuYV8YYBI/G3LWGKdGHmHUvL1z7FW0iDvEvGAwNEoc5x1tOOOyDnf5jJw/w==}
     engines: {node: '>= 10'}
 
-  netlify-cli@27.14.2:
-    resolution: {integrity: sha512-7eiZTn4cNofUJCRimfJjtt69LpVrBqaS4NBza11bq+vzkPEjUTWr2zPkZw9Veb2s2WryagHiz10X3Cs0w3pihw==}
+  netlify-cli@27.14.3:
+    resolution: {integrity: sha512-l2KyOppBqChEAh8fMO61FWtiuuS5c/HNtoj5Odi1MiF3vLwqiJk4STJRg5jH+Fl2kPHyycmcw4yEoYh/mF2jBA==}
     engines: {node: '>=22.13.0'}
     hasBin: true
 
@@ -6617,10 +6617,6 @@ packages:
   slashes@3.0.12:
     resolution: {integrity: sha512-Q9VME8WyGkc7pJf6QEkj3wE+2CnvZMI+XJhwdTPR8Z/kWQRXi7boAWLDibRPyHRTUTPx5FaU7MsyrjI3yLB4HA==}
 
-  slice-ansi@9.0.0:
-    resolution: {integrity: sha512-SO/3iYL5S3W57LLEniscOGPZgOqZUPCx6d3dB+52B80yJ0XstzsC/eV8gnA4tM3MHDrKz+OCFSLNjswdSC+/bA==}
-    engines: {node: '>=22'}
-
   slice-ansi@9.0.1:
     resolution: {integrity: sha512-aBY19bn/XA+hKOKX0qL7Z0UfdBsbQvc9hn993U8ALUjzxCvDcuZqLoRXjGJrUARWAlwMnsRVD9sw2AFNOYvalA==}
     engines: {node: '>=22'}
@@ -6966,10 +6962,6 @@ packages:
 
   type-fest@5.10.0:
     resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
-    engines: {node: '>=20'}
-
-  type-fest@5.9.0:
-    resolution: {integrity: sha512-yANm3Jr3GiJ1qgJlxGAVxTOIcEOk1rhQHamlXtnrCK7EHP4HeM9OGxtMg/W7HFdrVzw/ZWJKGVIJusVH85sLtw==}
     engines: {node: '>=20'}
 
   type-is@2.1.0:
@@ -7465,10 +7457,6 @@ packages:
   winston@3.19.0:
     resolution: {integrity: sha512-LZNJgPzfKR+/J3cHkxcpHKpKKvGfDZVPS4hfJCc4cCG0CgYzvlD6yE/S3CIL/Yt91ak327YCpiF/0MyeZHEHKA==}
     engines: {node: '>= 12.0.0'}
-
-  wrap-ansi@10.0.1:
-    resolution: {integrity: sha512-M0N4xzyzosiIok3svYlEo1sdLZts/8FPgYH/GPC3wvlmPoRvnoManGMrE54waYj3tISA8w6lsdesfVv67qSr8Q==}
-    engines: {node: '>=20'}
 
   wrap-ansi@10.0.2:
     resolution: {integrity: sha512-6OLRNZqRntVGBm26ghZ5eZhCuWWyOkRCSn8XsOIuq5stpCE/tjLbdozd93naILZig0lmD8ANfRwnhn0DLeXGlg==}
@@ -9088,7 +9076,7 @@ snapshots:
   '@netlify/build@37.6.1(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(picomatch@4.0.7)(rollup@4.62.2)':
     dependencies:
       '@bugsnag/js': 9.1.0
-      '@netlify/blobs': 11.1.4(supports-color@11.0.0)
+      '@netlify/blobs': 11.1.6(supports-color@11.0.0)
       '@netlify/cache-utils': 7.1.2
       '@netlify/config': 25.4.1
       '@netlify/edge-bundler': 16.1.3
@@ -10552,7 +10540,7 @@ snapshots:
       '@vue/shared': 3.5.42
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.31
+      postcss: 8.5.32
       source-map-js: 1.2.2
 
   '@vue/compiler-ssr@3.5.42':
@@ -11360,11 +11348,11 @@ snapshots:
     dependencies:
       node-source-walk: 7.0.2
 
-  detective-postcss@8.0.4(postcss@8.5.31):
+  detective-postcss@8.0.4(postcss@8.5.32):
     dependencies:
       is-url-superb: 4.0.0
-      postcss: 8.5.31
-      postcss-values-parser: 6.0.2(postcss@8.5.31)
+      postcss: 8.5.32
+      postcss-values-parser: 6.0.2(postcss@8.5.32)
 
   detective-sass@6.0.2:
     dependencies:
@@ -13011,10 +12999,10 @@ snapshots:
     dependencies:
       ansi-escapes: 7.3.0
       cli-cursor: 5.0.0
-      slice-ansi: 9.0.0
+      slice-ansi: 9.0.1
       string-width: 8.2.2
       strip-ansi: 7.2.0
-      wrap-ansi: 10.0.1
+      wrap-ansi: 10.0.2
 
   logform@2.7.0:
     dependencies:
@@ -13597,7 +13585,7 @@ snapshots:
 
   neotraverse@1.0.1: {}
 
-  netlify-cli@27.14.2(@types/node@26.6.5)(picomatch@4.0.7)(rollup@4.62.2)(supports-color@11.0.0):
+  netlify-cli@27.14.3(@types/node@26.6.5)(picomatch@4.0.7)(rollup@4.62.2)(supports-color@11.0.0):
     dependencies:
       '@fastify/static': 10.1.3
       '@inquirer/prompts': 8.7.3(@types/node@26.6.5)
@@ -13686,7 +13674,7 @@ snapshots:
       semver: 7.8.5
       source-map-support: 0.5.21
       terminal-link: 5.0.0
-      toml: 4.3.0
+      toml: 5.0.1
       tomlify-j0.4: 3.0.0
       ulid: 3.0.2
       update-notifier: 7.3.1
@@ -14094,11 +14082,11 @@ snapshots:
 
   postcss-value-parser@4.2.0: {}
 
-  postcss-values-parser@6.0.2(postcss@8.5.31):
+  postcss-values-parser@6.0.2(postcss@8.5.32):
     dependencies:
       color-name: 1.1.4
       is-url-superb: 4.0.0
-      postcss: 8.5.31
+      postcss: 8.5.32
       quote-unquote: 1.0.0
 
   postcss@8.5.31:
@@ -14136,7 +14124,7 @@ snapshots:
       detective-amd: 6.1.0
       detective-cjs: 6.1.1
       detective-es6: 5.0.2
-      detective-postcss: 8.0.4(postcss@8.5.31)
+      detective-postcss: 8.0.4(postcss@8.5.32)
       detective-sass: 6.0.2
       detective-scss: 5.0.2
       detective-stylus: 5.0.1
@@ -14144,7 +14132,7 @@ snapshots:
       detective-vue2: 2.3.0(supports-color@11.0.0)(typescript@5.9.3)
       module-definition: 6.0.2
       node-source-walk: 7.0.2
-      postcss: 8.5.31
+      postcss: 8.5.32
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -14256,14 +14244,14 @@ snapshots:
     dependencies:
       find-up-simple: 1.0.1
       read-pkg: 10.1.0
-      type-fest: 5.9.0
+      type-fest: 5.10.0
 
   read-pkg@10.1.0:
     dependencies:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 8.0.0
       parse-json: 8.3.0
-      type-fest: 5.9.0
+      type-fest: 5.10.0
       unicorn-magic: 0.4.0
 
   read-pkg@9.0.1:
@@ -14844,11 +14832,6 @@ snapshots:
 
   slashes@3.0.12: {}
 
-  slice-ansi@9.0.0:
-    dependencies:
-      ansi-styles: 6.2.3
-      is-fullwidth-code-point: 5.1.0
-
   slice-ansi@9.0.1:
     dependencies:
       ansi-styles: 6.2.3
@@ -15194,10 +15177,6 @@ snapshots:
   type-fest@4.41.0: {}
 
   type-fest@5.10.0:
-    dependencies:
-      tagged-tag: 1.0.0
-
-  type-fest@5.9.0:
     dependencies:
       tagged-tag: 1.0.0
 
@@ -15674,11 +15653,6 @@ snapshots:
       stack-trace: 0.0.10
       triple-beam: 1.4.1
       winston-transport: 4.9.0
-
-  wrap-ansi@10.0.1:
-    dependencies:
-      ansi-styles: 6.2.3
-      string-width: 8.2.2
 
   wrap-ansi@10.0.2:
     dependencies:
