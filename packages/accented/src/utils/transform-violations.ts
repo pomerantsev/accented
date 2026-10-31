@@ -1,6 +1,6 @@
 import type { AxeResults } from 'axe-core';
 import { issuesUrl, orderedImpacts, violationsAffectedByAccentedTriggers } from '../constants.js';
-import type { ElementWithIssues, Issue } from '../types.ts';
+import type { ElementWithIssues, Issue } from '../types.js';
 
 function maybeCausedByAccented(violationId: string, element: HTMLElement, name: string) {
   return (

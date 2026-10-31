@@ -1,7 +1,7 @@
 import { effect } from '@preact/signals-core';
 import { primaryColorDark } from './common/tokens.js';
 import { extendedElementsWithIssues, rootNodes } from './state.js';
-import type { ExtendedElementWithIssues } from './types.ts';
+import type { ExtendedElementWithIssues } from './types.js';
 import { areElementsWithIssuesEqual } from './utils/are-elements-with-issues-equal.js';
 import { isDocument, isDocumentFragment, isShadowRoot } from './utils/dom-helpers.js';
 import { getParent } from './utils/get-parent.js';

@@ -1,14 +1,12 @@
 # Contributing
 
 This document contains:
-
 - A [Getting started](#getting-started) section that makes it easy to start developing.
 - Assorted info for a developer that cannot be easily inferred from the codebase.
 
 ## Getting started
 
 **Prerequisites:**
-
 - Node JS >= 23.6.0. Some of the modern Node features that we rely on:
   - The globbing in the native Node test runner is only supported in NodeJS 21+: https://github.com/nodejs/node/issues/50658#issuecomment-1806581766
   - The `suite` method in the test runner was added in Node 22: https://nodejs.org/api/test.html#suitename-options-fn
@@ -16,18 +14,15 @@ This document contains:
     which is only available with no flags starting with Node 23.6.0.
 
 **Installation:**
-
 - Clone the repository.
 - Install the PNPM package manager globally (`npm install -g pnpm`).
 - Run `pnpm install`.
 
 **Starting the development environment:**
-
 - For Accented development: `pnpm dev`.
 - For website development: See [packages/website/Contributing.md](packages/website/Contributing.md) for setup instructions.
 
 **Running tests:**
-
 - Unit tests: `pnpm test:unit`.
 - End-to-end tests: `pnpm dev`, followed by `pnpm test:e2e` in a different terminal instance.
 - The playground and the website have their own end-to-end suites
@@ -48,12 +43,10 @@ Accented uses [Biome](https://biomejs.dev/) for linting and formatting most of t
 You can configure your editor to format and fix lint errors on save. This makes sure you see linting and formatting issues before they make CI fail.
 
 If you use VS Code:
-
 - install the [Biome extension](https://biomejs.dev/reference/vscode/);
 - create a .vscode/settings.json file in this repo (ignored by git) and copy the contents of [.vscode/settings.example.json](.vscode/settings.example.json) there.
 
 If your editor doesn’t have a Biome integration or you prefer to not format on save, you have other options:
-
 - invoke Biome manually via CLI (`pnpm biome check --fix`);
 - use a [pre-commit hook](https://biomejs.dev/recipes/git-hooks/).
 
@@ -91,7 +84,6 @@ it may not need explicit error handling.
 **Decision:** Place the triggers next to their respective elements (as opposed to placing them all in one HTML element).
 
 Pros:
-
 - The primary reason is it seems to be impossible to have an interactive popover for some content in a modal dialog,
   where the popover lives outside the dialog.
   See https://github.com/whatwg/html/issues/9936.
@@ -102,7 +94,6 @@ Pros:
 - It’s trivial to maintain correct focus order this way, and there’s no need in a skip link.
 
 Known issues:
-
 - It may lead to invalid HTML in some cases
   (like when the element with an issue is an `li`, leading to the parent `ul` having non-`li` children).
 - It may lead to toggling an element’s issue state,
@@ -114,12 +105,10 @@ Known issues:
 **Decision 1:** use anchor positioning in supporting browsers.
 
 Pros:
-
 - Positioning requires much less JS code and is mostly handled by the browser.
 - Better performance.
 
 Known issues:
-
 - We may not always be handling anchor-name property dynamic changes.
   We try to be the least disruptive, but I don’t think we can eliminate all possible issues.
 - If positioning of the element with issues includes CSS transforms,
@@ -137,13 +126,11 @@ Note: anchor positioning is supported in all modern browsers now,
 and we should remove the fixed-positioning fallback once Safari 28 is released.
 
 Pros:
-
 - Fixed positioning with updates on scroll may be the only way to support attaching triggers to elements that have `position: sticky`.
 - Positioning is slightly easier than for elements with absolute positioning:
   We don’t need to find the position within the nearest scrollable container, just on the screen.
 
 Known issues:
-
 - Scroll jank.
 - Scroll recomputations may become expensive if there are many elements with issues (although I haven’t noticed any performance degradation in testing).
 - There’s additional overhead with ensuring that multiple scrolling regions on the page are taken care of.
@@ -224,21 +211,19 @@ This will create a file that describes the change and its severity according to 
 The library version is **not** bumped at this time.
 
 **Examples of changes requiring changesets:**
-
 - A change in the business logic / UI / API (obviously).
 - A bug fix / performance improvement.
 - A dependency version bump.
   - For runtime dependencies, always add a changeset, even if nothing changes for consumers —
-  `minor` if it changes Accented’s behavior other than by fixing a bug
-  (for example, a minor `axe-core` bump; see the [versioning policy](https://accented.dev/about#versioning)),
-  `patch` otherwise.
+    `minor` if it changes Accented’s behavior other than by fixing a bug
+    (for example, a minor `axe-core` bump; see the [versioning policy](https://accented.dev/about#versioning)),
+    `patch` otherwise.
   - For build dependencies that may affect the generated code (for example, typescript), create a patch change.
   - For other development dependencies, don't add a changeset (this bump shouldn’t affect consumers at all).
 - A development dependency version bump (if it may potentially change the compiled code).
 - A Readme update (if that’s the Readme that gets published on NPM).
 
 **Examples of changes that don’t require changesets:**
-
 - A change in testing code.
 - A change in the devapp.
 - A CI config change.
@@ -254,13 +239,11 @@ There’s a pull request that’s kept up-to-date by a Changesets Github action,
 and a human’s only job is to merge it when the time comes to release the next version.
 
 **The pull request contains the following:**
-
 - An Accented version bump, based on all the changesets on the main branch so far.
 - A changelog update, also based on all the changesets.
 - The removal of all the changesets (we start clean after a version bump).
 
 **Merging the pull request performs the following actions:**
-
 - Publishing the new version to NPM.
 - Creating a tag and a release in Github that duplicates the changelog entry contents.
 

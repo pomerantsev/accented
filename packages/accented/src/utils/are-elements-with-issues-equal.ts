@@ -1,4 +1,4 @@
-import type { BaseElementWithIssues } from '../types.ts';
+import type { BaseElementWithIssues } from '../types.js';
 
 export function areElementsWithIssuesEqual(
   elementWithIssues1: BaseElementWithIssues,

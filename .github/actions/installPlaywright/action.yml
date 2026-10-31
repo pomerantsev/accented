@@ -2,7 +2,7 @@ name: Install Playwright browsers
 description: Cache and install Playwright browsers
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Cache Playwright browsers
       uses: actions/cache@v5

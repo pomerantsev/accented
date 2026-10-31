@@ -5,10 +5,10 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 10
     cooldown:
       default-days: 7
@@ -18,35 +18,35 @@ updates:
       # It's deprecated anyway: type-checking Astro files on TypeScript 7.1+ is supposed to work
       # through the experimental @astrojs/ts-content-mapper, so we skip 7.0 only and revisit on 7.1.
       # https://github.com/withastro/astro/tree/main/packages/language-tools/ts-content-mapper#usage
-      - dependency-name: "typescript"
-        versions: ["7.0.x"]
+      - dependency-name: 'typescript'
+        versions: ['7.0.x']
     groups:
       dev-dependencies:
-        dependency-type: "development"
+        dependency-type: 'development'
         exclude-patterns:
-          - "@biomejs/biome"
-          - "@playwright/test"
-          - "typescript"
+          - '@biomejs/biome'
+          - '@playwright/test'
+          - 'typescript'
       website-dependencies:
         patterns:
-          - "*astro*"
-          - "*cloudfour*"
-          - "*fontsource*"
-          - "*rehype*"
-          - "drizzle-orm"
-          - "postgres"
-          - "sharp"
-          - "shiki"
-          - "ua-parser-js"
-          - "unist-util-visit"
-          - "web-vitals"
+          - '*astro*'
+          - '*cloudfour*'
+          - '*fontsource*'
+          - '*rehype*'
+          - 'drizzle-orm'
+          - 'postgres'
+          - 'sharp'
+          - 'shiki'
+          - 'ua-parser-js'
+          - 'unist-util-visit'
+          - 'web-vitals'
       playground-dependencies:
         patterns:
-          - "react*"
-  - package-ecosystem: "github-actions"
+          - 'react*'
+  - package-ecosystem: 'github-actions'
     # Workflow files stored in the default location of `.github/workflows`
     # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
-    directory: "/"
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 10

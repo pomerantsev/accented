@@ -3,7 +3,7 @@ import { descendantDependentRules, getAccentedElementNames, issuesUrl } from './
 import { logAndRethrow } from './log-and-rethrow.js';
 import { elementsWithIssues, enabled, extendedElementsWithIssues } from './state.js';
 import { TaskQueue } from './task-queue.js';
-import type { AxeOptions, Callback, Context, Throttle } from './types.ts';
+import type { AxeOptions, Callback, Context, Throttle } from './types.js';
 import { getAllRulesFromAxeOptions } from './utils/get-all-rules-from-axe-options.js';
 import { getScanContext } from './utils/get-scan-context.js';
 import { recalculatePositions } from './utils/recalculate-positions.js';

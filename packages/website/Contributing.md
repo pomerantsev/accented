@@ -7,7 +7,6 @@ This guide covers setup and development for the Accented website package.
 ## Prerequisites
 
 The website uses Netlify DB (PostgreSQL) for analytics. To develop locally, you'll need:
-
 1. **A Netlify account** - Sign up at https://netlify.com
 2. **A staging Netlify site** - Create a new site for development/testing purposes
 3. **Netlify CLI** - Already included in dependencies
@@ -73,7 +72,6 @@ pnpm --filter website db:studio
 Opens a web UI to browse tables and data.
 
 **Making schema changes:**
-
 1. Edit `packages/website/db/schema.ts`
 2. Generate migration: `pnpm --filter website db:generate`
 3. Apply migration: `pnpm --filter website db:migrate`

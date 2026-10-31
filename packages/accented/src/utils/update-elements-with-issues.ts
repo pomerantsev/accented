@@ -8,7 +8,7 @@ import type {
   ExtendedElementWithIssues,
   Issue,
   ScanContext,
-} from '../types.ts';
+} from '../types.js';
 import { areElementsWithIssuesEqual } from './are-elements-with-issues-equal.js';
 import { areIssueSetsEqual } from './are-issue-sets-equal.js';
 import { createExtendedElementWithIssues } from './create-extended-element-with-issues.js';

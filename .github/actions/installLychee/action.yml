@@ -2,7 +2,7 @@ name: Install Lychee
 description: Lychee is used to check if all links on the website are working
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Install lychee
       # From the lychee installation guide: https://lychee.cli.rs/installation/

@@ -64,7 +64,7 @@ if (searchParams.has('remove-all-issues-on-timeout')) {
       buttonWithManyIssues.role = '';
       status.hidden = false;
       buttonWithManyIssues.removeAttribute('aria-checked');
-      buttonWithManyIssues.innerText = 'Click me';
+      buttonWithManyIssues.textContent = 'Click me';
     }
   }, 1000);
 }

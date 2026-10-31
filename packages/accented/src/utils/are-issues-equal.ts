@@ -1,4 +1,4 @@
-import type { Issue } from '../types.ts';
+import type { Issue } from '../types.js';
 
 const issueProps: Array<keyof Issue> = ['id', 'title', 'description', 'url', 'impact'];
 

@@ -6,7 +6,8 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": ["**", "!pnpm-lock.yaml"]
   },
   "formatter": {
     "enabled": true,
@@ -43,6 +44,11 @@
       "quoteStyle": "single"
     }
   },
+  "yaml": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "json": {
     "parser": {
       "allowComments": true
@@ -54,7 +60,14 @@
       "linter": {
         "rules": {
           "correctness": {
-            "useImportExtensions": "error"
+            "useImportExtensions": {
+              "level": "error",
+              "options": {
+                "extensionMappings": {
+                  "ts": "js"
+                }
+              }
+            }
           },
           "style": {
             "noNonNullAssertion": "error"
