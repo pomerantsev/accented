@@ -26,7 +26,7 @@
     "@fontsource-variable/ibm-plex-sans": "5.3.0",
     "@fontsource-variable/lora": "5.3.0",
     "@fontsource/ibm-plex-mono": "5.3.0",
-    "astro": "7.4.5",
+    "astro": "7.4.7",
     "common": "workspace:*",
     "drizzle-orm": "0.45.4",
     "postgres": "4.0.0",
