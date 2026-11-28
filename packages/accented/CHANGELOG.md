@@ -1,5 +1,11 @@
 # accented
 
+## 1.6.1
+
+### Patch Changes
+
+- Bump @preact/signals-core to 1.14.5 ([#646](https://github.com/pomerantsev/accented/pull/646))
+
 ## 1.6.0
 
 ### Minor Changes
